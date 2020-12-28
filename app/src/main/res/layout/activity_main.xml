@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="50dp"
+        app:cardBackgroundColor="@color/CartBlack">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/barberawhite"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"/>
+
+            <ImageView
+                android:id="@+id/cart"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cart"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:id="@+id/refer"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_refer"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_toLeftOf="@id/cart"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigation"
+        android:layout_below="@id/cardView">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.denzcoskun.imageslider.ImageSlider
+              android:id="@+id/slider_view"
+              android:layout_width="match_parent"
+              android:layout_height="250dp"
+              android:layout_marginTop="40dp"
+              app:auto_cycle="true"
+              app:delay="0"
+              app:placeholder="@drawable/logo"
+              app:period="2000"
+              android:layout_marginRight="10dp"
+              android:layout_marginLeft="10dp"
+              app:corner_radius="60"/>
+            <TextView
+                android:id="@+id/trend_in_men"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Trending in Men"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_below="@id/slider_view"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="10dp"/>
+            <RelativeLayout
+                android:id="@+id/explore_men_salon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/slider_view"
+                android:layout_alignParentRight="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorAccent"/>
+                <ImageView
+       android:id="@+id/arrow_vector_men"
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:src="@drawable/more_vector"
+                    android:layout_toRightOf="@id/more"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/view_for_men_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/trend_in_men"
+                android:layout_marginBottom="50dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/men_horizontal_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+                <ProgressBar
+                    android:id="@+id/bar_at_men_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible"/>
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/trend_in_women"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Trending in Women"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/view_for_men_list"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+        <RelativeLayout
+            android:id="@+id/explore_women_salon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_for_men_list"
+            android:layout_alignParentRight="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/more_in_women"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View All"
+                android:textSize="20sp"
+                android:textColor="@color/colorAccent"/>
+            <ImageView
+                android:id="@+id/arrow_vector_women"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/more_vector"
+                android:layout_toRightOf="@id/more_in_women"/>
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/trend_in_women"
+                android:layout_marginBottom="40dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/women_horizontal_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+                <ProgressBar
+                    android:id="@+id/bar_at_women_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottomNavigation"
+        android:background="@color/NavigationBlack"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_navigation"/>
+
+</RelativeLayout>

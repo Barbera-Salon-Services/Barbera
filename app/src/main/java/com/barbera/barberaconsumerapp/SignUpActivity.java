@@ -1,0 +1,323 @@
+package com.barbera.barberaconsumerapp;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SignUpActivity extends AppCompatActivity {
+    private EditText name;
+    private EditText email;
+    private EditText address;
+    private EditText password;
+    private CardView signup;
+    private FirebaseAuth firebaseAuth;
+    private String emailPattern="[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
+    private FirebaseFirestore fstore;
+    private String userID;
+    private DocumentReference documentReference;
+    private static int pressed=0;
+    private long haircutMinPrice;
+    private long shavingMinPrice;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+
+        name=(EditText)findViewById(R.id.name);
+        email=(EditText) findViewById(R.id.email);
+       // address=(EditText) findViewById(R.id.PostalAddress);
+        password=(EditText) findViewById(R.id.Password);
+        signup=(CardView) findViewById(R.id.signUp);
+        firebaseAuth=FirebaseAuth.getInstance();
+        fstore=FirebaseFirestore.getInstance();
+       // privacyPOLICY=(TextView)findViewById(R.id.privacyPolicyOnsignup);
+        final ImageView showpassword=(ImageView)findViewById(R.id.showPassword);
+
+        showpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressed%2==0) {
+                    pressed++;
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showpassword.setImageResource(R.drawable.show_password_blue);
+                }
+                else{
+                    pressed++;
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showpassword.setImageResource(R.drawable.show_password);
+                }
+            }
+        });
+
+
+
+
+
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkInputs()&&checkEmailAndPassword()){
+                    signup.setEnabled(false);
+                    saveUserData();
+                }
+            }
+        });
+
+       TextView already=(TextView)findViewById(R.id.Already_have_account);
+        already.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUpActivity.this,SecondScreen.class));
+            }
+        });
+    }
+
+    private void saveUserData() {
+
+        final ProgressDialog progressDialog=new ProgressDialog(SignUpActivity.this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        userID=firebaseAuth.getCurrentUser().getUid();
+        documentReference=fstore.collection("Users").document(userID);
+        AuthCredential credential= EmailAuthProvider.getCredential(email.getText().toString(),password.getText().toString());
+
+        firebaseAuth.getCurrentUser().linkWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                }
+                else{
+                    sendToastmsg(task.getException().getMessage());
+                }
+            }
+        });
+        Map<String,Object> user=new HashMap<>();
+        //user.put("Address",address.getText().toString());
+        user.put("Email Address",email.getText().toString());
+        user.put("Name",name.getText().toString());
+        user.put("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
+
+        documentReference.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Map<String, Object> myCart=new HashMap<>();
+                    myCart.put("cart_list_size",(long) 0);
+                    documentReference.collection("UserData").document("MyCart")
+                            .set(myCart).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Map<String, Object> myCoupons=new HashMap<>();
+                                myCoupons.put("coupons",(long) 0);
+                                documentReference.collection("UserData").document("MyCoupons")
+                                        .set(myCoupons).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            checkForReferal();
+                                            startActivity(new Intent(SignUpActivity.this,MainActivity.class));
+                                            finish();
+                                            progressDialog.dismiss();
+                                        }
+                                    }
+                                });
+                            }
+                            else{
+                                sendToastmsg(task.getException().getMessage());
+                                signup.setEnabled(true);
+                                progressDialog.dismiss();
+                            }
+                        }
+                    });
+                }
+                else {
+                    sendToastmsg(task.getException().getMessage());
+                    signup.setEnabled(true);
+                    progressDialog.dismiss();
+                }
+            }
+        });
+
+    }
+
+    private void checkForReferal() {
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        Uri deepLink=null;
+                        if(pendingDynamicLinkData!=null){
+                            deepLink=pendingDynamicLinkData.getLink();
+                            Log.e("main",deepLink.toString());
+                            //http://barbera.netlify.app/?custid=1d5ud2XDb5QBbwGyPFVUvQBSXEe2
+                            sendRewardToRefree(deepLink);
+                        }
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        sendToastmsg(e.toString());
+                    }
+                });
+    }
+
+    private void sendRewardToRefree(Uri deepLink) {
+        String referLink=deepLink.toString();
+        referLink=referLink.substring(referLink.lastIndexOf("=")+1);
+        final DocumentReference documentReference= fstore.collection("Users").document(referLink).collection("UserData").document("MyCoupons");
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    String hairCutImage="https://firebasestorage.googleapis.com/v0/b/barbera-592f4.appspot.com/o/MenSalonServices%2FWhatsApp%20Image%202020-10-14%20at%209.59.05%20PM%20(1).jpeg?alt=media&token=38fad5e7-46c3-46d7-9931-ea92c3299762";
+                    String shaveImage="https://firebasestorage.googleapis.com/v0/b/barbera-592f4.appspot.com/o/MenSalonServices%2FWhatsApp%20Image%202020-10-14%20at%209.59.09%20PM.jpeg?alt=media&token=5f26acff-a662-43b3-882d-29b976e4d505";
+                long numberOfCoupons=(long)documentSnapshot.get("coupons")+1;
+                String serviceName=numberOfCoupons%2==0?"Foam Shaving":"Haircut";
+                long price=numberOfCoupons%2==0?(long)(Math.random()*8+shavingMinPrice):(long)(Math.random()*8+haircutMinPrice);
+                String serviceIcon=numberOfCoupons%2==0?shaveImage:hairCutImage;
+                Map<String,Object> reward=new HashMap<>();
+                reward.put("coupons",(long)numberOfCoupons);
+                reward.put("service_"+numberOfCoupons,serviceName);
+                reward.put("service_"+numberOfCoupons+"_type","Men");
+                reward.put("service_"+numberOfCoupons+"_price",price);
+                reward.put("service_"+numberOfCoupons+"_icon",serviceIcon);
+                documentReference.update(reward).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+
+                        }
+                        else
+                            Log.e("Reward",task.getException().toString());
+                    }
+                });
+
+            }
+                else{
+
+                    String hairCutImage="https://firebasestorage.googleapis.com/v0/b/barbera-592f4.appspot.com/o/MenSalonServices%2FWhatsApp%20Image%202020-10-14%20at%209.59.05%20PM%20(1).jpeg?alt=media&token=38fad5e7-46c3-46d7-9931-ea92c3299762";
+                    long price=(long)(Math.random()*8+haircutMinPrice);
+                    Map<String,Object> reward=new HashMap<>();
+                    reward.put("coupons",(long) 1);
+                    reward.put("service_1","HairCut");
+                    reward.put("service_1_type","Men");
+                    reward.put("service_1_price",price);
+                    reward.put("service_1_icon",hairCutImage);
+                    documentReference.set(reward).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+
+                            }
+                            else
+                                Log.e("reward",task.getException().toString());
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private boolean checkInputs(){
+        if(!TextUtils.isEmpty(name.getText())){
+            if(!TextUtils.isEmpty(email.getText())){
+                if(!TextUtils.isEmpty(password.getText())){
+                              return true;
+                }
+                else {
+                    address.setError("Please enter a valid Password");
+                    address.requestFocus();
+                    return false;
+                }
+            }
+            else {
+                email.setError("Email Section Is Empty");
+                email.requestFocus();
+                //sendToastmsg("Email Section Is Empty");
+                return false;
+
+            }
+
+        }
+        else{
+            name.setError("Name Section Is Empty");
+            name.requestFocus();
+            //sendToastmsg("Name Section Is Empty");
+            return false;
+
+        }
+
+    }
+    private boolean checkEmailAndPassword(){
+        if(email.getText().toString().matches(emailPattern)){
+            if (password.length() >= 8) {
+                    return true;
+            }
+            else{
+                password.setError("Password Length Should be Greater Than or Equal to 8");
+                return false;
+            }
+        }
+        else{
+            email.setError("Email Pattern Is Invalid");
+            return false;
+
+        }
+    }
+    private void sendToastmsg(String text){
+        Toast msg=Toast.makeText(getApplicationContext(),text,Toast.LENGTH_LONG);
+        msg.show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseFirestore.getInstance().collection("AppData").document("CouponPricing").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    haircutMinPrice=(long)task.getResult().get("haircut_min");
+                    shavingMinPrice=(long)task.getResult().get("shaving_min");
+                }
+            }
+        });
+    }
+}

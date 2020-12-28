@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyCoupons">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewINMyCoupons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/CartBlack">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="My Coupons"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+    </androidx.cardview.widget.CardView>
+    <ProgressBar
+        android:id="@+id/progressBarOnMyCoupons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+    <RelativeLayout
+        android:id="@+id/empty_coupon_layout"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardViewINMyCoupons">
+
+        <ImageView
+            android:id="@+id/sad_emoji"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/empty_cart_vector"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"/>
+        <TextView
+            android:id="@+id/empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Coupons Yet"
+            android:layout_below="@id/sad_emoji"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:textSize="25sp"/>
+        <Button
+            android:id="@+id/add_a_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="get now"
+            android:background="@color/colorAccent"
+            android:textColor="@color/white"
+            android:layout_below="@id/empty_text"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="30dp"/>
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/coupons_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardViewINMyCoupons"/>
+</RelativeLayout>

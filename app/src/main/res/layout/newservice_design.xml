@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp"
+    android:padding="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/img_view"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:elevation="20dp"
+        app:cardCornerRadius="30dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/service_image"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                tools:src="@drawable/img_20200922_wa0008"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/service_title"
+        android:layout_below="@id/img_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Simple Hair Cut and shaving and itna kuchh ki maja hi aa jayega"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@id/add_to_cart"/>
+    <TextView
+        android:id="@+id/servicePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Rs 111"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/service_title"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/Service_cutPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/servicePrice"
+        android:layout_below="@id/service_title"
+        android:layout_marginTop="11dp"
+        tools:text="Rs 201"
+        android:textSize="15sp"
+        android:layout_marginLeft="10dp"/>
+    <view
+        android:id="@+id/line"
+        android:layout_width="80dp"
+        android:layout_height="2dp"
+        android:layout_toRightOf="@id/servicePrice"
+        class="android.widget.TextView"
+        android:background="#80000000"
+        android:layout_below="@id/service_title"
+        android:layout_marginTop="20dp"/>
+    <Button
+        android:id="@+id/add_to_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/img_view"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:layout_marginRight="30dp"
+        android:text="ADD"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:textColor="@color/white"
+        android:padding="15dp"/>
+
+</RelativeLayout>

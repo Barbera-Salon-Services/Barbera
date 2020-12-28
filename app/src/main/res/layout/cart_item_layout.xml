@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="20dp"
+    android:layout_width="match_parent"
+    android:elevation="10dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/cart_item_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        tools:src="@drawable/logo"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/cart_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/cart_item_logo"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:layout_marginLeft="10sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10sp"
+        tools:text="Simple Hair Cut"
+        android:padding="25sp"/>
+
+    <TextView
+        android:id="@+id/cart_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:layout_below="@id/cart_item_title"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="-14dp"
+        android:layout_toRightOf="@id/cart_item_logo"
+        android:textSize="20sp"
+        tools:text="Rs 111" />
+
+    <TextView
+        android:layout_marginTop="20sp"
+        android:id="@+id/cart_item_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1"
+        android:textSize="20sp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:padding="10sp"
+        android:layout_below="@id/cart_item_price"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:layout_marginTop="20sp"
+        android:id="@+id/increaseInCart"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:text="+"
+        android:layout_marginRight="50sp"
+        android:layout_toRightOf="@id/cart_item_quantity"
+        android:layout_below="@id/cart_item_price" />
+    <Button
+        android:layout_marginTop="20sp"
+        android:id="@+id/decreaseInCart"
+        android:layout_width="50dp"
+        android:text="-"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:layout_below="@id/cart_item_price"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/cart_item_quantity" />
+    <TextView
+        android:id="@+id/type_in_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Men"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:layout_marginLeft="20sp"/>
+
+
+</RelativeLayout>

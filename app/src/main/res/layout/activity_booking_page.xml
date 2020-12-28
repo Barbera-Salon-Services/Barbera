@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BookingPage">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="20dp"
+        app:cardBackgroundColor="@color/CartBlack">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:textColor="@color/white"
+                android:text="Booking Page"
+                android:textStyle="bold"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardView">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"
+                android:layout_centerHorizontal="true"
+                android:padding="40dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chooseDate"
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:layout_below="@id/logo"
+                app:cardBackgroundColor="@color/colorAccent"
+                android:layout_marginTop="60sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20sp"
+                app:cardCornerRadius="40sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Choose A Date"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="12 Aug 2020"
+                android:layout_below="@id/chooseDate"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="20sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chooseTime"
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:layout_below="@id/date"
+                app:cardBackgroundColor="@color/colorAccent"
+                android:layout_marginTop="60sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20sp"
+                app:cardCornerRadius="40sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Choose A Time"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"/>
+
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="8:40 PM"
+                android:layout_below="@id/chooseTime"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="20sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/currentAddress"
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:layout_below="@id/time"
+                app:cardBackgroundColor="@color/colorAccent"
+                android:layout_marginTop="60sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20sp"
+                app:cardCornerRadius="40sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Use Current Address"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <EditText
+                android:id="@+id/NewAddress"
+                style="@style/SignUpPage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/currentAddress"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Or Enter a new Address"
+                android:inputType="textPostalAddress" />
+
+         <!--   <TextView
+                android:id="@+id/covid_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Are You a Frontline COVID-19 Warrior?"
+                android:layout_below="@id/NewAddress"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="20sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <EditText
+                android:id="@+id/covidWarior"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/SignUpPage"
+                android:layout_marginTop="20sp"
+                android:hint="If Yes Enter Your Role"
+                android:ems="10"
+                android:inputType="textPostalAddress"
+                android:layout_below="@id/covid_question"/>-->
+
+            <TextView
+                android:id="@+id/booking_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Total Amount Rs 1100"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20sp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_below="@id/NewAddress"/>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/confirmBooking"
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:layout_below="@id/booking_amount"
+                app:cardBackgroundColor="@color/colorAccent"
+                android:layout_margin="30dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Book Your Service"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"/>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
