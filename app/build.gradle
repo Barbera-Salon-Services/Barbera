@@ -47,5 +47,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.10.2'
     implementation 'eu.dkaratzas:android-inapp-update:1.0.5'
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 }
