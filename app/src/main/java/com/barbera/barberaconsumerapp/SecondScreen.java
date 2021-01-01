@@ -23,7 +23,7 @@ public class SecondScreen extends AppCompatActivity {
         skipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
         });
         NewUser.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +35,7 @@ public class SecondScreen extends AppCompatActivity {
         MailLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             }
         });
         PhoneLogin.setOnClickListener(new View.OnClickListener() {

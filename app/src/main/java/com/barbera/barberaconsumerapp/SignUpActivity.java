@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -126,6 +127,11 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
+        sharedPreferences.edit().putString("Name",name.getText().toString());
+        sharedPreferences.edit().putString("Email",email.getText().toString());
+        sharedPreferences.edit().putString("Phoen",firebaseAuth.getCurrentUser().getPhoneNumber());
+        sharedPreferences.edit().commit();
         Map<String,Object> user=new HashMap<>();
         //user.put("Address",address.getText().toString());
         user.put("Email Address",email.getText().toString());
@@ -151,7 +157,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             checkForReferal();
-                                            startActivity(new Intent(SignUpActivity.this,MainActivity.class));
+                                            startActivity(new Intent(SignUpActivity.this,MapsActivity.class));
                                             finish();
                                             progressDialog.dismiss();
                                         }

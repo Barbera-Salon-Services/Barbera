@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        final SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
 
        // final TextView new_user=(TextView)findViewById(R.id.new_user);
        // final TextView login_using_phone=(TextView) findViewById(R.id.loginUsingPhone);
@@ -67,7 +69,11 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()){
                                         CartActivity.updateCartItemModelList();
-                                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                        sharedPreferences.edit().putString("Name",task.getResult().getUser().getDisplayName());
+                                        sharedPreferences.edit().putString("Email",task.getResult().getUser().getEmail());
+                                        sharedPreferences.edit().putString("Phone",task.getResult().getUser().getPhoneNumber());
+                                        sharedPreferences.edit().commit();
+                                        startActivity(new Intent(LoginActivity.this,MapsActivity.class));
                                         finish();
                                         progressDialog.dismiss();
                                     }

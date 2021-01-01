@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -132,6 +133,7 @@ public class ActivityPhoneVerification extends AppCompatActivity {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             final ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
+            final SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
             progressDialog.setMessage("Verification Completed...");
             progressDialog.show();
             progressDialog.setCancelable(false);
@@ -139,6 +141,10 @@ public class ActivityPhoneVerification extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+                        sharedPreferences.edit().putString("Name",task.getResult().getUser().getDisplayName());
+                        sharedPreferences.edit().putString("Email",task.getResult().getUser().getEmail());
+                        sharedPreferences.edit().putString("Phone",task.getResult().getUser().getPhoneNumber());
+                        sharedPreferences.edit().commit();
                         whetherNewOrOldUser();
                     }
                     else{
@@ -175,7 +181,7 @@ public class ActivityPhoneVerification extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
                     sendToastmsg("Welcome");
-                    sendToMainActivity();
+                    sendToMapsActivity();
                 }
                 else {
                     sendToSignUPActivity();
@@ -188,9 +194,9 @@ public class ActivityPhoneVerification extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    private void sendToMainActivity(){
+    private void sendToMapsActivity(){
         CartActivity.updateCartItemModelList();
-        Intent intent=new Intent(ActivityPhoneVerification.this,MainActivity.class);
+        Intent intent=new Intent(ActivityPhoneVerification.this,MapsActivity.class);
         startActivity(intent);
         finish();
 

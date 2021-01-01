@@ -6,8 +6,15 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +34,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
@@ -35,6 +46,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationRequest locationRequest;
     private LatLng center;
     private double radius;
+    private ProgressDialog progressDialog;
 
     private double Lat;
     private double Lon;
@@ -62,6 +74,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void getCurrentLocation() {
+        progressDialog = new ProgressDialog(MapsActivity.this);
+        progressDialog.setMessage("Fetching Your Current Location...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
         @SuppressLint("MissingPermission") Task<Location> task =client.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
@@ -98,17 +114,46 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         .radius(radius)
         .strokeColor(Color.BLUE));
 
-        checkWithinZone(mylocation);
+        try {
+            checkWithinZone(mylocation);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void checkWithinZone(LatLng location) {
+    private void checkWithinZone(LatLng location) throws IOException {
         double distanceInMeters =getdistanceinkm(location)*1000;
         if(distanceInMeters<= radius){
+            Geocoder geocoder =  new Geocoder(this, Locale.getDefault());
+            List<Address> addressList = geocoder.getFromLocation(Lat,Lon, 1);
+            final String address = addressList.get(0).getAddressLine(0);
+            progressDialog.dismiss();
+            final AlertDialog.Builder builder=new AlertDialog.Builder(MapsActivity.this);
+            builder.setMessage("Your location address is "+address+". Do you want to continue?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                @SuppressLint("ResourceAsColor")
+                public void onClick(DialogInterface dialog, int which) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
+                    sharedPreferences.edit().putString("Address",address);
+                    sharedPreferences.edit().commit();
+                    startActivity(new Intent(MapsActivity.this,MainActivity.class));
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            AlertDialog dialog=builder.create();
+            dialog.show();
             Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getApplicationContext(),"Outside Zone", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private double getdistanceinkm(LatLng location) {

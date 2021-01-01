@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "799959754313-34isusinnetvodfe8dvo629v2p623un3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.barbera.barberaconsumerapp",
+            "certificate_hash": "8da739c7486795dfb7df7461a9c9638708e95805"
+          }
+        },
+        {
+          "client_id": "799959754313-r044ou0vadipprdpibublmh8joec7saj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.barbera.barberaconsumerapp",
+            "certificate_hash": "e4e98eb49d193690f619826e3d064f9026f08ea0"
+          }
+        },
+        {
           "client_id": "799959754313-sv147vjltmrdms7tfceriu89c99ic0dc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
