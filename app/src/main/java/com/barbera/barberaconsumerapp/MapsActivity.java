@@ -31,12 +31,19 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
+import java.nio.file.FileStore;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -47,6 +54,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LatLng center;
     private double radius;
     private ProgressDialog progressDialog;
+    private DocumentReference documentReference;
+    private FirebaseFirestore fileStore;
+    private FirebaseAuth firebaseAuth;
 
     private double Lat;
     private double Lon;
@@ -59,6 +69,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setInterval(500);
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+
+        fileStore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         center =new LatLng(22.640268, 88.390115);
         radius =10000;
@@ -124,6 +137,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void checkWithinZone(LatLng location) throws IOException {
         double distanceInMeters =getdistanceinkm(location)*1000;
+        documentReference=fileStore.collection("Users").document(firebaseAuth.getCurrentUser().getUid());
+        final SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
+
         if(distanceInMeters<= radius){
             Geocoder geocoder =  new Geocoder(this, Locale.getDefault());
             List<Address> addressList = geocoder.getFromLocation(Lat,Lon, 1);
@@ -134,26 +150,45 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 @SuppressLint("ResourceAsColor")
-                public void onClick(DialogInterface dialog, int which) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
+                public void onClick(final DialogInterface dialog, int which) {
                     sharedPreferences.edit().putString("Address",address);
                     sharedPreferences.edit().commit();
-                    startActivity(new Intent(MapsActivity.this,MainActivity.class));
+
+                    Map<String,Object> user=new HashMap<>();
+                    user.put("Address",address);
+
+                    documentReference.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                dialog.dismiss();
+                                sendToMainActivity();
+                            }
+                        }
+                    });
                 }
             });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    dialog.dismiss();
+                    startActivity(new Intent(MapsActivity.this,MainActivity.class));
                 }
             });
             AlertDialog dialog=builder.create();
             dialog.show();
             Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(getApplicationContext(),"Outside Zone", Toast.LENGTH_SHORT).show();
+            sharedPreferences.edit().putString("Address","NA");
+            sharedPreferences.edit().commit();
+            Toast.makeText(getApplicationContext(),"We are extremely sorry that we currently do not provide our services in your location. Hope to reach you SOON", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(MapsActivity.this,MainActivity.class));
         }
 
+    }
+
+    private void sendToMainActivity() {
+        startActivity(new Intent(MapsActivity.this,MainActivity.class));
     }
 
     private double getdistanceinkm(LatLng location) {

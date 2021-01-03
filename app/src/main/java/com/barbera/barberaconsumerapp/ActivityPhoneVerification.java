@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class ActivityPhoneVerification extends AppCompatActivity {
     private EditText phoneNumber;
     private CardView get_code;
+    private ProgressDialog progressDialog;
     private EditText veri_code;
     private CardView continue_to_signup;
     private FirebaseAuth mauth;
@@ -40,6 +41,7 @@ public class ActivityPhoneVerification extends AppCompatActivity {
     private FirebaseFirestore fstore;
     private DocumentReference documentReference;
     private String phonePattern;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class ActivityPhoneVerification extends AppCompatActivity {
         fstore=FirebaseFirestore.getInstance();
         phonePattern="^[6789]\\d{9}$";
 
-
+        sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
 
         get_code.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,8 +134,7 @@ public class ActivityPhoneVerification extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-            final ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
-            final SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
+            progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
             progressDialog.setMessage("Verification Completed...");
             progressDialog.show();
             progressDialog.setCancelable(false);
@@ -141,10 +142,6 @@ public class ActivityPhoneVerification extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        sharedPreferences.edit().putString("Name",task.getResult().getUser().getDisplayName());
-                        sharedPreferences.edit().putString("Email",task.getResult().getUser().getEmail());
-                        sharedPreferences.edit().putString("Phone",task.getResult().getUser().getPhoneNumber());
-                        sharedPreferences.edit().commit();
                         whetherNewOrOldUser();
                     }
                     else{
@@ -181,9 +178,16 @@ public class ActivityPhoneVerification extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
                     sendToastmsg("Welcome");
-                    sendToMapsActivity();
+                    sharedPreferences.edit().putString("Name",documentSnapshot.get("Name").toString());
+                    sharedPreferences.edit().putString("Email",documentSnapshot.get("Email Address").toString());
+                    sharedPreferences.edit().putString("Phone",documentSnapshot.get("Phone").toString());
+                    sharedPreferences.edit().putString("Phone",documentSnapshot.get("Address").toString());
+                    sharedPreferences.edit().commit();
+                    progressDialog.dismiss();
+                    sendToMainActivity();
                 }
                 else {
+                    progressDialog.dismiss();
                     sendToSignUPActivity();
                 }
             }
@@ -194,9 +198,9 @@ public class ActivityPhoneVerification extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    private void sendToMapsActivity(){
+    private void sendToMainActivity(){
         CartActivity.updateCartItemModelList();
-        Intent intent=new Intent(ActivityPhoneVerification.this,MapsActivity.class);
+        Intent intent=new Intent(ActivityPhoneVerification.this,MainActivity.class);
         startActivity(intent);
         finish();
 

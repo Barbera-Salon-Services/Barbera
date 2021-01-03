@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                                         sharedPreferences.edit().putString("Email",task.getResult().getUser().getEmail());
                                         sharedPreferences.edit().putString("Phone",task.getResult().getUser().getPhoneNumber());
                                         sharedPreferences.edit().commit();
-                                        startActivity(new Intent(LoginActivity.this,MapsActivity.class));
+                                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                         finish();
                                         progressDialog.dismiss();
                                     }

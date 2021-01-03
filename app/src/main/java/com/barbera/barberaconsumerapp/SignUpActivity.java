@@ -130,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
         sharedPreferences.edit().putString("Name",name.getText().toString());
         sharedPreferences.edit().putString("Email",email.getText().toString());
-        sharedPreferences.edit().putString("Phoen",firebaseAuth.getCurrentUser().getPhoneNumber());
+        sharedPreferences.edit().putString("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
         sharedPreferences.edit().commit();
         Map<String,Object> user=new HashMap<>();
         //user.put("Address",address.getText().toString());
