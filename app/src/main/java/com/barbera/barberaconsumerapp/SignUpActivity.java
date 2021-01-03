@@ -128,10 +128,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
-        sharedPreferences.edit().putString("Name",name.getText().toString());
-        sharedPreferences.edit().putString("Email",email.getText().toString());
-        sharedPreferences.edit().putString("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
-        sharedPreferences.edit().commit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Name",name.getText().toString());
+        editor.putString("Email",email.getText().toString());
+        editor.putString("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
+        editor.commit();
         Map<String,Object> user=new HashMap<>();
         //user.put("Address",address.getText().toString());
         user.put("Email Address",email.getText().toString());

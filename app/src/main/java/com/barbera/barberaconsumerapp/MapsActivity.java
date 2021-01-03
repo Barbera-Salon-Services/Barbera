@@ -151,8 +151,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 @SuppressLint("ResourceAsColor")
                 public void onClick(final DialogInterface dialog, int which) {
-                    sharedPreferences.edit().putString("Address",address);
-                    sharedPreferences.edit().commit();
+                    SharedPreferences.Editor editor =sharedPreferences.edit();
+                    editor.putString("Address",address);
+                    editor.commit();
 
                     Map<String,Object> user=new HashMap<>();
                     user.put("Address",address);

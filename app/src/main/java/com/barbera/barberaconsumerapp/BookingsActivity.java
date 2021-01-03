@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,12 +34,14 @@ public class BookingsActivity extends AppCompatActivity {
     private ProgressBar progressBarONBookingActivity;
     private static RelativeLayout emptyLayout;
     public static boolean checked=false;
+    private SharedPreferences sharedPreferences;
     public static BookingActivityAdapter bookingActivityAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookings);
+        sharedPreferences=getSharedPreferences("UserInfo",MODE_PRIVATE);
 
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigation);
        // ImageView cart=(ImageView)findViewById(R.id.cartONBooking);

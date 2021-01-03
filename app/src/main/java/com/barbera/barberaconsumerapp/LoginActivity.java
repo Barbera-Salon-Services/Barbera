@@ -69,10 +69,11 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()){
                                         CartActivity.updateCartItemModelList();
-                                        sharedPreferences.edit().putString("Name",task.getResult().getUser().getDisplayName());
-                                        sharedPreferences.edit().putString("Email",task.getResult().getUser().getEmail());
-                                        sharedPreferences.edit().putString("Phone",task.getResult().getUser().getPhoneNumber());
-                                        sharedPreferences.edit().commit();
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("Name",task.getResult().getUser().getDisplayName());
+                                        editor.putString("Email",task.getResult().getUser().getEmail());
+                                        editor.putString("Phone",task.getResult().getUser().getPhoneNumber());
+                                        editor.commit();
                                         startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                         finish();
                                         progressDialog.dismiss();

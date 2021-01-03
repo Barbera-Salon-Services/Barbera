@@ -178,11 +178,12 @@ public class ActivityPhoneVerification extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
                     sendToastmsg("Welcome");
-                    sharedPreferences.edit().putString("Name",documentSnapshot.get("Name").toString());
-                    sharedPreferences.edit().putString("Email",documentSnapshot.get("Email Address").toString());
-                    sharedPreferences.edit().putString("Phone",documentSnapshot.get("Phone").toString());
-                    sharedPreferences.edit().putString("Phone",documentSnapshot.get("Address").toString());
-                    sharedPreferences.edit().commit();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("Name",documentSnapshot.get("Name").toString());
+                    editor.putString("Email",documentSnapshot.get("Email Address").toString());
+                    editor.putString("Phone",documentSnapshot.get("Phone").toString());
+                    editor.putString("Address",documentSnapshot.get("Address").toString());
+                    editor.commit();
                     progressDialog.dismiss();
                     sendToMainActivity();
                 }
