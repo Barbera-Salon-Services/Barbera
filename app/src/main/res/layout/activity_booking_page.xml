@@ -49,13 +49,25 @@
                 android:layout_centerHorizontal="true"
                 android:padding="40dp"/>
 
+            <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="12 Aug 2020"
+                    android:layout_below="@id/logo"
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="20sp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/chooseDate"
                 android:layout_width="match_parent"
                 android:layout_height="60sp"
-                android:layout_below="@id/logo"
+                android:layout_below="@id/date"
                 app:cardBackgroundColor="@color/colorAccent"
-                android:layout_marginTop="60sp"
+                android:layout_marginTop="20sp"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 app:cardCornerRadius="40sp">
@@ -72,24 +84,24 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="12 Aug 2020"
-                android:layout_below="@id/chooseDate"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="20sp"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="8:40 PM"
+                    android:layout_below="@id/chooseDate"
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="20sp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/chooseTime"
                 android:layout_width="match_parent"
                 android:layout_height="60sp"
-                android:layout_below="@id/date"
+                android:layout_below="@id/time"
                 app:cardBackgroundColor="@color/colorAccent"
-                android:layout_marginTop="60sp"
+                android:layout_marginTop="20sp"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 app:cardCornerRadius="40sp">
@@ -104,25 +116,27 @@
                     android:textColor="@color/white"/>
 
             </androidx.cardview.widget.CardView>
+
             <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="8:40 PM"
-                android:layout_below="@id/chooseTime"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="20sp"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    tools:text="Your address.."
+                    android:layout_below="@id/chooseTime"
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="20sp"
+                    android:textStyle="bold"
+                    android:textSize="14sp"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/currentAddress"
                 android:layout_width="match_parent"
                 android:layout_height="60sp"
-                android:layout_below="@id/time"
+                android:layout_below="@id/address"
                 app:cardBackgroundColor="@color/colorAccent"
-                android:layout_marginTop="60sp"
+                android:layout_marginTop="20sp"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 app:cardCornerRadius="40sp">
@@ -138,12 +152,47 @@
 
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                    android:id="@+id/or"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="OR"
+                    android:layout_below="@id/currentAddress"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/colorAccent"
+                    android:paddingTop="20sp"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/changeAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="60sp"
+                    android:layout_below="@id/or"
+                    app:cardBackgroundColor="@color/colorAccent"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginRight="20sp"
+                    app:cardCornerRadius="40sp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Change Address"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"/>
+
+            </androidx.cardview.widget.CardView>
+
+
             <EditText
                 android:id="@+id/NewAddress"
                 style="@style/SignUpPage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/currentAddress"
+                android:layout_below="@id/changeAddress"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:hint="Or Enter a new Address"

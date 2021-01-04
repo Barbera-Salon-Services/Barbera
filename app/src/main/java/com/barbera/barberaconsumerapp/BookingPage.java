@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -43,10 +44,14 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     private CardView chooseTime;
     private TextView time;
     private CardView usecurrentAddress;
+    private TextView address;
     private String userAddress;//Address string to be stored in database
     private EditText newAddress;
     private CardView ConfirmBooking;
     private TextView totalAmount;
+    private CardView changeLocation;
+    private TextView or;
+    private SharedPreferences sharedPreferences;
     public static String OrderSummary="";
     public static String finalDate;
     public static String finalTime;
@@ -64,20 +69,29 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         setContentView(R.layout.activity_booking_page);
 
         Intent intent=getIntent();
+        or =(TextView)findViewById(R.id.or);
         bookingType+=intent.getStringExtra("BookingType");
         listPosition=intent.getIntExtra("Position",-1);
         chooseDate=(CardView) findViewById(R.id.chooseDate);
+        address = (TextView) findViewById(R.id.address);
         date=(TextView)findViewById(R.id.date);
+        changeLocation =(CardView) findViewById(R.id.changeAddress);
         chooseTime=(CardView)findViewById(R.id.chooseTime);
         time=(TextView)findViewById(R.id.time);
         usecurrentAddress=(CardView)findViewById(R.id.currentAddress);
         newAddress=(EditText)findViewById(R.id.NewAddress);
         ConfirmBooking=(CardView)findViewById(R.id.confirmBooking);
         totalAmount=(TextView)findViewById(R.id.booking_amount);
+        sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
 
+        String addres=sharedPreferences.getString("Address","");
+
+        if(addres.equals("NA") || addres.equals("")){
+            finish();
+        }
         //Toast.makeText(getApplicationContext(),bookingType,Toast.LENGTH_LONG).show();
 
-
+        or.setText("OR");
         totalAmount.setText("Total Amount Rs " +BookingTotalAmount);
 
 
@@ -115,6 +129,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                     if(task.getResult().get("Address")!=null) {
                                         userAddress = task.getResult().get("Address").toString();
                                         newAddress.setText(userAddress);
+                                        address.setText(userAddress);
                                     }
                                     else{
                                         Toast.makeText(getApplicationContext(),"You don't have an address stored",Toast.LENGTH_LONG).show();
@@ -125,6 +140,13 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         });
+            }
+        });
+
+        changeLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BookingPage.this,MapSearchActivity.class));
             }
         });
 
@@ -195,6 +217,13 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                 }
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SharedPreferences sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
+        address.setText(sharedPreferences.getString("New_Address",""));
     }
 
     private void addtoDatabase() {
