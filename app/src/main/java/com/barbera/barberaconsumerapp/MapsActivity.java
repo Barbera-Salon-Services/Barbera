@@ -123,10 +123,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mylocation, 17));
 
         Circle circle = mMap.addCircle(new CircleOptions()
-        .center(center)
-        .radius(radius)
-        .strokeColor(Color.BLUE));
-
+                .center(center)
+                .radius(radius)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
         try {
             checkWithinZone(mylocation);
         } catch (IOException e) {

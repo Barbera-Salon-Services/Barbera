@@ -9,17 +9,21 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,6 +38,8 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     private Marker marker;
     private CardView cardView;
     private Address address;
+    private LatLng center;
+    private double radius;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,9 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
         searchView = findViewById(R.id.location);
         cardView = findViewById(R.id.continueToBooking);
+
+        center =new LatLng(22.640268, 88.390115);
+        radius =10000;
 
         if(ActivityCompat.checkSelfPermission(MapSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             startSearching();
@@ -61,6 +70,13 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         mMap =googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        Circle circle = mMap.addCircle(new CircleOptions()
+                .center(center)
+                .radius(radius)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @SuppressLint("MissingPermission")
             @Override
@@ -72,34 +88,33 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                     Geocoder geocoder = new Geocoder(MapSearchActivity.this);
                     try {
                         addressList = geocoder.getFromLocationName(location,1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (Exception e) {
+                        cardView.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getApplicationContext(),"Cannot Find location. Please re-enter!",Toast.LENGTH_SHORT).show();
                     }
-                    address = addressList.get(0);
+                    if(addressList.size()>0) {
+                        address = addressList.get(0);
+                        if(marker==null){
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+                            marker =mMap.addMarker(markerOptions);
+                        }else {
+                            marker.setPosition(new LatLng(address.getLatitude(),address.getLongitude()));
+                        }
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(),address.getLongitude()), 17));
+                        Toast.makeText(getApplicationContext(),address.getAddressLine(0),Toast.LENGTH_SHORT).show();
+                    }else{
+                        cardView.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getApplicationContext(),"Cannot Find location. Please re-enter!",Toast.LENGTH_SHORT).show();
+                    }
                     mMap.setMyLocationEnabled(true);
 
-                    if(marker==null){
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
-                    marker =mMap.addMarker(markerOptions);
-                    }else {
-                        marker.setPosition(new LatLng(address.getLatitude(),address.getLongitude()));
-                    }
-
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(),address.getLongitude()), 17));
                     cardView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Geocoder geocoder =  new Geocoder(MapSearchActivity.this, Locale.getDefault());
-                            List<Address> addressList1 = null;
-                            try {
-                                addressList1 = geocoder.getFromLocation(address.getLatitude(),address.getLatitude(), 1);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
                             SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("New_Address", addressList1.get(0).getAddressLine(0));
+                            editor.putString("New_Address", address.getAddressLine(0));
                             editor.commit();
                             finish();
                         }

@@ -188,14 +188,14 @@
 
 
             <EditText
-                android:id="@+id/NewAddress"
+                android:id="@+id/HouseAddress"
                 style="@style/SignUpPage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/changeAddress"
                 android:layout_marginTop="8dp"
                 android:ems="10"
-                android:hint="Or Enter a new Address"
+                android:hint="Enter Complete Building Address..."
                 android:inputType="textPostalAddress" />
 
          <!--   <TextView
@@ -229,7 +229,7 @@
                 android:layout_marginTop="20sp"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_below="@id/NewAddress"/>
+                android:layout_below="@id/HouseAddress"/>
 
 
             <androidx.cardview.widget.CardView

@@ -46,7 +46,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     private CardView usecurrentAddress;
     private TextView address;
     private String userAddress;//Address string to be stored in database
-    private EditText newAddress;
+    private EditText houseAddress;
     private CardView ConfirmBooking;
     private TextView totalAmount;
     private CardView changeLocation;
@@ -64,7 +64,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     private int selectedDay;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_page);
 
@@ -79,7 +79,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         chooseTime=(CardView)findViewById(R.id.chooseTime);
         time=(TextView)findViewById(R.id.time);
         usecurrentAddress=(CardView)findViewById(R.id.currentAddress);
-        newAddress=(EditText)findViewById(R.id.NewAddress);
+        houseAddress=(EditText)findViewById(R.id.HouseAddress);
         ConfirmBooking=(CardView)findViewById(R.id.confirmBooking);
         totalAmount=(TextView)findViewById(R.id.booking_amount);
         sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
@@ -127,9 +127,8 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                 if(task.isSuccessful()){
                                     progressDialog.dismiss();
                                     if(task.getResult().get("Address")!=null) {
-                                        userAddress = task.getResult().get("Address").toString();
-                                        newAddress.setText(userAddress);
-                                        address.setText(userAddress);
+                                        String location = task.getResult().get("Address").toString();
+                                        address.setText(location);
                                     }
                                     else{
                                         Toast.makeText(getApplicationContext(),"You don't have an address stored",Toast.LENGTH_LONG).show();
@@ -161,7 +160,8 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                     ConfirmBooking.setEnabled(false);
                     finalDate=date.getText().toString();
                     finalTime=time.getText().toString();
-                    userAddress=newAddress.getText().toString();
+                    userAddress="Building Address: "+houseAddress.getText().toString()+" location: "+ address.getText().toString();
+                    Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
                     addTosheet();
                     addtoDatabase();
                     if(bookingType.equals("Cart")) {
@@ -214,6 +214,10 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                     }
                                 });
                     }
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("New_Address","");
+                    editor.commit();
                 }
             }
         });
@@ -223,7 +227,9 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     protected void onRestart() {
         super.onRestart();
         SharedPreferences sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
-        address.setText(sharedPreferences.getString("New_Address",""));
+        if(!sharedPreferences.getString("New_Address","").equals("")) {
+            address.setText(sharedPreferences.getString("New_Address", ""));
+        }
     }
 
     private void addtoDatabase() {
@@ -239,7 +245,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Map<String,Object> addressMap=new HashMap<>();
-                    addressMap.put("Address",userAddress);
+                    addressMap.put("House_address",houseAddress.getText().toString());
                     FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .update(addressMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -315,11 +321,13 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
             Toast.makeText(getApplicationContext(),"Please Choose A Time",Toast.LENGTH_SHORT).show();
             return false;
         }
-        else if(newAddress.getText().toString().isEmpty()){
-            newAddress.setError("Please Enter an Address");
-            newAddress.requestFocus();
+        else if(houseAddress.getText().toString().isEmpty()){
+            houseAddress.setError("Please Enter an Address");
+            houseAddress.requestFocus();
             Toast.makeText(getApplicationContext(),"Please Choose An Address",Toast.LENGTH_SHORT).show();
             return false;
+        }else if(address.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(),"Select Address",Toast.LENGTH_SHORT).show();
         }
         return true;
 
