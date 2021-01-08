@@ -34,6 +34,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +63,8 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     private int listPosition;
     public static String BookingTotalAmount="";
     private int selectedDay;
+    private int selectedMonth;
+    private int selectedYear;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -341,35 +344,52 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         calendar.set(Calendar.MONTH,month);
         calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
         selectedDay= dayOfMonth;
+        selectedMonth=month;
+        selectedYear=year;
 
             String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
             date.setText(currentday);
-            if(time.getText().toString()!=null);
     }
 
     @Override
     public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
         Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.YEAR,selectedYear);
+        calendar.set(Calendar.MONTH,selectedMonth);
         calendar.set(Calendar.DAY_OF_MONTH,selectedDay);
         calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
         calendar.set(Calendar.MINUTE,minute);
        if((calendar.getTimeInMillis()>Calendar.getInstance().getTimeInMillis()&&calendar.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()<3600000)
-           ||(calendar.getTimeInMillis()<Calendar.getInstance().getTimeInMillis()))
-           Toast.makeText(getApplicationContext(),"Please Select a Time with 1 hour Gap",Toast.LENGTH_LONG).show();
-       else {
-           if (hourOfDay >= 12) {
-               hourOfDay = (hourOfDay >= 13 ? hourOfDay - 12 : hourOfDay);
-               if (hourOfDay > 7 || (hourOfDay == 7 && minute > 0))
-                   Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 8 AM to 7 PM", Toast.LENGTH_LONG).show();
-               else
+           ||(calendar.getTimeInMillis()<Calendar.getInstance().getTimeInMillis())) {
+           Toast.makeText(getApplicationContext(), "Please Select a Time with 1 hour Gap", Toast.LENGTH_LONG).show();
+       }
+       else{
+           if(hourOfDay>=19||hourOfDay<9){
+               Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
+           }
+           else {
+               if (hourOfDay >= 12) {
+                   hourOfDay = (hourOfDay >= 13 ? hourOfDay - 12 : hourOfDay);
                    time.setText(hourOfDay + ":" + minute + " PM");
-           } else {
-               if (hourOfDay < 8)
-                   Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 8 AM to 7 PM", Toast.LENGTH_LONG).show();
+               }
                else
                    time.setText(hourOfDay + ":" + minute + " AM");
            }
        }
+      /* else {
+           if (hourOfDay >= 12) {
+               hourOfDay = (hourOfDay >= 13 ? hourOfDay - 12 : hourOfDay);
+              // if (hourOfDay > 7 || (hourOfDay == 7 && minute > 0))
+                 //  Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
+              // else
+                   time.setText(hourOfDay + ":" + minute + " PM");
+           } else {
+               if (hourOfDay < 9)
+                   Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
+               else
+                   time.setText(hourOfDay + ":" + minute + " AM");
+           }
+       }*/
     }
 
     @Override
