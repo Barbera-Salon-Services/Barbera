@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
     private GoogleMap mMap;
     private SearchView searchView;
     private Marker marker;
@@ -65,6 +65,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         mapFragment.getMapAsync(MapSearchActivity.this);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap =googleMap;
@@ -76,6 +77,9 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                 .strokeWidth(5.0f)
                 .fillColor(0x1A0066FF)
                 .strokeColor(0xFF0066FF));
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMapLongClickListener(this);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @SuppressLint("MissingPermission")
@@ -107,16 +111,11 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                         cardView.setVisibility(View.INVISIBLE);
                         Toast.makeText(getApplicationContext(),"Cannot Find location. Please re-enter!",Toast.LENGTH_SHORT).show();
                     }
-                    mMap.setMyLocationEnabled(true);
 
                     cardView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("New_Address", address.getAddressLine(0));
-                            editor.commit();
-                            finish();
+                            addAddress();
                         }
                     });
 
@@ -130,11 +129,46 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
             }
         });
     }
+
+    private void addAddress() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("New_Address", address.getAddressLine(0));
+        editor.commit();
+        finish();
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==4){
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
                 startSearching();
         }
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(latLng.latitude,latLng.longitude));
+        markerOptions.draggable(true);
+        marker =mMap.addMarker(markerOptions);
+
+        Geocoder geocoder = new Geocoder(MapSearchActivity.this);
+        List<Address> addressList=null;
+        try {
+            addressList = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String address1 = addressList.get(0).getAddressLine(0);
+        Toast.makeText(getApplicationContext(),address1,Toast.LENGTH_SHORT).show();
+        address =addressList.get(0);
+        cardView.setVisibility(View.VISIBLE);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addAddress();
+            }
+        });
     }
 }
