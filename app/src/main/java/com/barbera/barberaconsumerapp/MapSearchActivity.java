@@ -85,7 +85,6 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
             @SuppressLint("MissingPermission")
             @Override
             public boolean onQueryTextSubmit(String query) {
-                cardView.setVisibility(View.VISIBLE);
                 String location = searchView.getQuery().toString();
                 List<Address> addressList =null;
                 if(location!=null || location.equals("")){
@@ -98,6 +97,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                     }
                     if(addressList.size()>0) {
                         address = addressList.get(0);
+                        checkWithinZone(new LatLng(address.getLatitude(),address.getLongitude()));
                         if(marker==null){
                             MarkerOptions markerOptions = new MarkerOptions();
                             markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
@@ -148,6 +148,10 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public void onMapLongClick(LatLng latLng) {
+
+        if(marker !=null){
+            marker.remove();
+        }
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(latLng.latitude,latLng.longitude));
         markerOptions.draggable(true);
@@ -162,13 +166,53 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         }
         String address1 = addressList.get(0).getAddressLine(0);
         Toast.makeText(getApplicationContext(),address1,Toast.LENGTH_SHORT).show();
+        checkWithinZone(latLng);
         address =addressList.get(0);
-        cardView.setVisibility(View.VISIBLE);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addAddress();
             }
         });
+    }
+
+    private void checkWithinZone(LatLng location) {
+        double distanceInMeters =getdistanceinkm(location)*1000;
+        if(distanceInMeters<=radius){
+            cardView.setVisibility(View.VISIBLE);
+            Toast.makeText(getApplicationContext(),"Within Zone",Toast.LENGTH_SHORT).show();
+        }else{
+            cardView.setVisibility(View.INVISIBLE);
+            Toast.makeText(getApplicationContext(),"Not Within Zone",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private double getdistanceinkm(LatLng location) {
+        double lat1= center.latitude;
+        double lon1= center. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
     }
 }
