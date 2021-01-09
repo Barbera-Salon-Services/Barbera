@@ -1,12 +1,17 @@
 package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,6 +25,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -64,8 +76,36 @@ public class SignUpActivity extends AppCompatActivity {
         signup=(CardView) findViewById(R.id.signUp);
         firebaseAuth=FirebaseAuth.getInstance();
         fstore=FirebaseFirestore.getInstance();
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(500);
+        locationRequest.setFastestInterval(500);
+        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
        // privacyPOLICY=(TextView)findViewById(R.id.privacyPolicyOnsignup);
         final ImageView showpassword=(ImageView)findViewById(R.id.showPassword);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+        task.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try {
+                    task.getResult(ApiException.class);
+                } catch (ApiException e) {
+                    switch (e.getStatusCode()){
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            try {
+                                ResolvableApiException resolvableApiException = (ResolvableApiException)e;
+                                resolvableApiException.startResolutionForResult(SignUpActivity.this,800);
+                            } catch (IntentSender.SendIntentException ex) {
+                                ex.printStackTrace();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        });
 
         showpassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,15 +124,17 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
-
-
-
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInputs()&&checkEmailAndPassword()){
-                    signup.setEnabled(false);
-                    saveUserData();
+                if(islocationEnabled()) {
+                    if (checkInputs() && checkEmailAndPassword()) {
+                        signup.setEnabled(false);
+                        saveUserData();
+                    }
+                }else {
+                    finish();
+                    startActivity(getIntent());
                 }
             }
         });
@@ -104,6 +146,14 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(new Intent(SignUpActivity.this,SecondScreen.class));
             }
         });
+    }
+
+    private boolean islocationEnabled() {
+        LocationManager locationManager =(LocationManager)getSystemService(LOCATION_SERVICE);
+        boolean providerEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(providerEnabled)
+            return true;
+        return false;
     }
 
     private void saveUserData() {
@@ -326,5 +376,23 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 800)
+        {
+            switch(resultCode) {
+                case Activity.RESULT_OK:
+                    break;
+                case Activity.RESULT_CANCELED:
+                    finish();
+                    startActivity(getIntent());
+                    break;
+
+            }
+
+        }
     }
 }
