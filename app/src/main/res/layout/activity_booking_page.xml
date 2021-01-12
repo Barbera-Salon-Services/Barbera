@@ -197,28 +197,25 @@
                 android:ems="10"
                 android:hint="Enter Complete Building Address..."
                 android:inputType="textPostalAddress" />
-
-         <!--   <TextView
-                android:id="@+id/covid_question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Are You a Frontline COVID-19 Warrior?"
-                android:layout_below="@id/NewAddress"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="20sp"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
             <EditText
-                android:id="@+id/covidWarior"
+                android:id="@+id/couponCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/SignUpPage"
-                android:layout_marginTop="20sp"
-                android:hint="If Yes Enter Your Role"
+                android:layout_marginTop="20dp"
+                android:hint="Enter Coupon Code"
                 android:ems="10"
-                android:inputType="textPostalAddress"
-                android:layout_below="@id/covid_question"/>-->
+                android:inputType="textCapCharacters"
+                android:layout_marginRight="120dp"
+                android:layout_below="@id/HouseAddress"/>
+            <Button
+                android:id="@+id/coupon_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/couponCode"
+                android:layout_below="@id/HouseAddress"
+                android:background="@color/colorAccent"
+                android:text="apply"/>
 
             <TextView
                 android:id="@+id/booking_amount"

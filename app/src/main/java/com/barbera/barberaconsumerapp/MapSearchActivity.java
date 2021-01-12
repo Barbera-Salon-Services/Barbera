@@ -54,9 +54,8 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
         if(ActivityCompat.checkSelfPermission(MapSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             startSearching();
-        }else {
-            ActivityCompat.requestPermissions(MapSearchActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},4);
-        }
+        }else
+            ActivityCompat.requestPermissions(MapSearchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
     }
 
     private void startSearching() {

@@ -55,6 +55,7 @@ public class ActivityPhoneVerification extends AppCompatActivity {
         progressBar= findViewById(R.id.progressBarInVerificationPage);
         fstore=FirebaseFirestore.getInstance();
         phonePattern="^[6789]\\d{9}$";
+        progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
 
         sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
 
@@ -90,7 +91,9 @@ public class ActivityPhoneVerification extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    sendToastmsg("Verification Completed");
+                    progressDialog.setMessage("Verification Completed...");
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
                     whetherNewOrOldUser();
                 }
                 else{
@@ -134,7 +137,6 @@ public class ActivityPhoneVerification extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-            progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
             progressDialog.setMessage("Verification Completed...");
             progressDialog.show();
             progressDialog.setCancelable(false);
