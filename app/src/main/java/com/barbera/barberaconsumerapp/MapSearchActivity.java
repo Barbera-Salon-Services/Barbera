@@ -12,12 +12,16 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,6 +31,10 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +50,8 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     private LatLng center1;
     private double radius1;
     private double radius;
+    private FloatingActionButton floatingActionButton;
+    private FusedLocationProviderClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
         searchView = findViewById(R.id.location);
         cardView = findViewById(R.id.continueToBooking);
+        floatingActionButton = findViewById(R.id.floatingBtn);
 
         center =new LatLng(22.640268, 88.390115);
         radius =10000;
@@ -90,6 +101,19 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         mMap.setMyLocationEnabled(true);
         mMap.setOnMapLongClickListener(this);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                floatingActionButton.setEnabled(false);
+                LocationRequest locationRequest =locationRequest = LocationRequest.create();
+                locationRequest.setInterval(500);
+                locationRequest.setFastestInterval(500);
+                locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+
+                fetchLocation();
+            }
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @SuppressLint("MissingPermission")
@@ -136,6 +160,44 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+    }
+
+    private void fetchLocation() {
+        client =LocationServices.getFusedLocationProviderClient(this);
+
+        @SuppressLint("MissingPermission") Task<Location> task =client.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+               if(location!=null){
+                   Geocoder geocoder =  new Geocoder(getApplicationContext(), Locale.getDefault());
+                   try {
+                       List<Address> addressList = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                       address = addressList.get(0);
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                   }
+                   if(marker==null){
+                       MarkerOptions markerOptions = new MarkerOptions();
+                       markerOptions.position(new LatLng(address.getLatitude(),address.getLongitude()));
+                       marker =mMap.addMarker(markerOptions);
+                   }else {
+                       marker.setPosition(new LatLng(address.getLatitude(),address.getLongitude()));
+                   }
+                   mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(),address.getLongitude()), 17));
+                   Toast.makeText(getApplicationContext(),address.getAddressLine(0),Toast.LENGTH_SHORT).show();
+                   cardView.setVisibility(View.VISIBLE);
+
+                   cardView.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           addAddress();
+                       }
+                   });
+
+               }
             }
         });
     }
