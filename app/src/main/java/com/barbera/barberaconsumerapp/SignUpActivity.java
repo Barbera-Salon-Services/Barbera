@@ -133,6 +133,7 @@ public class SignUpActivity extends AppCompatActivity {
                         saveUserData();
                     }
                 }else {
+                    sendToastmsg("Sorry we cannot allow You to register without enabling Location Services!");
                     finish();
                     startActivity(getIntent());
                 }
@@ -387,6 +388,7 @@ public class SignUpActivity extends AppCompatActivity {
                 case Activity.RESULT_OK:
                     break;
                 case Activity.RESULT_CANCELED:
+                    sendToastmsg("Sorry we cannot allow You to register without enabling Location Services!");
                     finish();
                     startActivity(getIntent());
                     break;
