@@ -33,7 +33,8 @@ public class SecondScreen extends AppCompatActivity {
         locationRequest.setInterval(500);
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
-        
+
+        // If check required for location enabled, un-comment the following lines code
 
 //        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
 //        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
