@@ -39,6 +39,8 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     private CardView cardView;
     private Address address;
     private LatLng center;
+    private LatLng center1;
+    private double radius1;
     private double radius;
 
     @Override
@@ -51,6 +53,8 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
         center =new LatLng(22.640268, 88.390115);
         radius =10000;
+        center1 = new LatLng(21.640268, 88.390115);
+        radius1=10000;
 
         if(ActivityCompat.checkSelfPermission(MapSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             startSearching();
@@ -74,6 +78,12 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         Circle circle = mMap.addCircle(new CircleOptions()
                 .center(center)
                 .radius(radius)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle1 = mMap.addCircle(new CircleOptions()
+                .center(center1)
+                .radius(radius1)
                 .strokeWidth(5.0f)
                 .fillColor(0x1A0066FF)
                 .strokeColor(0xFF0066FF));
@@ -178,7 +188,8 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void checkWithinZone(LatLng location) {
         double distanceInMeters =getdistanceinkm(location)*1000;
-        if(distanceInMeters<=radius){
+        double distanceInMeters1 = getdistanceinkm1(location)*1000;
+        if(distanceInMeters<= radius || distanceInMeters1<=radius1){
             cardView.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(),"Within Zone",Toast.LENGTH_SHORT).show();
         }else{
@@ -191,6 +202,33 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     private double getdistanceinkm(LatLng location) {
         double lat1= center.latitude;
         double lon1= center. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm1(LatLng location) {
+        double lat1= center1.latitude;
+        double lon1= center1. longitude;
         double lat2= location.latitude;
         double lon2 = location.longitude;
 
