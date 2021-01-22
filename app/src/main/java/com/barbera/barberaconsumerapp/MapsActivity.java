@@ -47,7 +47,6 @@ import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-
     private GoogleMap mMap;
     private FusedLocationProviderClient client;
     private LocationRequest locationRequest;
@@ -87,7 +86,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }else {
             ActivityCompat.requestPermissions(MapsActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},4);
         }
-
     }
 
     private void getCurrentLocation() {

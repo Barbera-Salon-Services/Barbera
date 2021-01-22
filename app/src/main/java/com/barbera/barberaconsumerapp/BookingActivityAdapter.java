@@ -73,13 +73,11 @@ public class BookingActivityAdapter extends BaseAdapter {
         TextView serviceSummary=(TextView)view.findViewById(R.id.booking_service_title);
         TextView totalAmount=(TextView)view.findViewById(R.id.booking_service_total);
         TextView dateTime=(TextView)view.findViewById(R.id.booking_date_time);
-        TextView address=(TextView)view.findViewById(R.id.booking_address);
         final Button cancelBooking=(Button)view.findViewById(R.id.cancel_button);
 
         serviceSummary.setText(bookingAdapterList.get(position).getSummary());
         totalAmount.setText("Total Amount Rs "+bookingAdapterList.get(position).getAmount());
         dateTime.setText(bookingAdapterList.get(position).getDate()+"\n"+bookingAdapterList.get(position).getTime());
-        address.setText(bookingAdapterList.get(position).getAddress());
         extractNameAndContact();
 
         cancelBooking.setOnClickListener(new View.OnClickListener() {
