@@ -123,10 +123,18 @@ public class CartAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     if(dbQueries.cartItemModelList.size()>=1) {
-                        BookingPage.BookingTotalAmount+=CartActivity.totalAmount;
-
+                       // BookingPage.BookingTotalAmount=CartActivity.totalAmount;
+                        String OrderSummary="";
+                        for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
+                            OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
+                                    dbQueries.cartItemModelList.get(i).getServiceName()
+                                    + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
+                                    dbQueries.cartItemModelList.get(i).getServicePrice() + "\n";
+                        }
                         Intent intent=new Intent(itemView.getContext(),BookingPage.class);
                         intent.putExtra("BookingType","Cart");
+                        intent.putExtra("Booking Amount",CartActivity.totalAmount);
+                        intent.putExtra("Order Summary",OrderSummary);
                         itemView.getContext().startActivity(intent);
                     }
                     else {

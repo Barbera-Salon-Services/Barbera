@@ -34,29 +34,31 @@ public class SecondScreen extends AppCompatActivity {
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
 
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
-        task.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-                try {
-                    task.getResult(ApiException.class);
-                } catch (ApiException e) {
-                    switch (e.getStatusCode()){
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                ResolvableApiException resolvableApiException = (ResolvableApiException)e;
-                                resolvableApiException.startResolutionForResult(SecondScreen.this,800);
-                            } catch (IntentSender.SendIntentException ex) {
-                                ex.printStackTrace();
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        });
+        // If check required for location enabled, un-comment the following lines code
+
+//        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+//        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+//        task.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+//            @Override
+//            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+//                try {
+//                    task.getResult(ApiException.class);
+//                } catch (ApiException e) {
+//                    switch (e.getStatusCode()){
+//                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+//                            try {
+//                                ResolvableApiException resolvableApiException = (ResolvableApiException)e;
+//                                resolvableApiException.startResolutionForResult(SecondScreen.this,800);
+//                            } catch (IntentSender.SendIntentException ex) {
+//                                ex.printStackTrace();
+//                            }
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                }
+//            }
+//        });
 
         CardView skipLogin=(CardView)findViewById(R.id.skip_login);
         Button NewUser=(Button)findViewById(R.id.new_user_signup);

@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="20dp"
+        app:cardElevation="15dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/booking_service_title"
@@ -11,6 +20,7 @@
         android:layout_height="wrap_content"
         tools:text="(Men) Simple Hair Cut"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_margin="15dp"
         android:textColor="@color/colorAccent"/>
 
@@ -33,7 +43,7 @@
         tools:text="Wednesday, 29 July 2020\n2:05 am"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/booking_clock"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textColor="@color/colorAccent"/>
     </RelativeLayout>
 
@@ -58,7 +68,7 @@
         android:layout_centerVertical="true"
         tools:text="11 a krihsna dham jai shree krishna jai shree krishna jai shree krishna"
         android:layout_toRightOf="@id/booking_address_vector"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textColor="@color/colorAccent"/>
     </RelativeLayout>
     <TextView
@@ -76,12 +86,13 @@
     <Button
         android:visibility="visible"
         android:id="@+id/cancel_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/booking_service_total"
+        android:text="Cancel"
         android:layout_centerHorizontal="true"
-        android:text="Cancel booking"
-        android:background="@color/colorAccent"
+        android:padding="5dp"
+        android:background="#ADF60303"
         android:textColor="@color/white"
         android:layout_margin="15dp"
         android:elevation="50dp" />
@@ -97,4 +108,6 @@
         android:textSize="20sp"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"/>-->
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

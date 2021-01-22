@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/weddingLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WeddingActivity"
+    tools:background="@drawable/groom_background">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="20dp"
+        app:cardBackgroundColor="@color/CartBlack">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/wedding_section_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                tools:text="Groom"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="20sp" />
+      </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/wedding_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardView"/>
+    <ProgressBar
+        android:id="@+id/progress_bar_on_wedding_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+
+
+</RelativeLayout>

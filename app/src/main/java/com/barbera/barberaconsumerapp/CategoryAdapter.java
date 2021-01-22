@@ -52,7 +52,7 @@ public class CategoryAdapter extends BaseAdapter {
         ImageView img=view.findViewById(R.id.category_image);
         TextView text=view.findViewById(R.id.category_text);
 
-        Glide.with(view.getContext()).load(list.get(position).getCategoryImage())
+        Glide.with(view.getContext()).load(list.get(position).getCategoryIcon())
                 .apply(new RequestOptions().placeholder(R.drawable.logo)).into(img);
         text.setText(list.get(position).getCategoryName());
         return view;

@@ -34,12 +34,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorAccent"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:textSize="18sp"
         android:textStyle="bold"
         tools:text="Simple Hair Cut and shaving and itna kuchh ki maja hi aa jayega"
-        android:layout_marginTop="20dp"
-        android:layout_toLeftOf="@id/add_to_cart"/>
+        android:layout_marginTop="20dp"/>
+    <RelativeLayout
+        android:id="@+id/service_price_parent_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/service_title">
     <TextView
         android:id="@+id/servicePrice"
         android:layout_width="wrap_content"
@@ -47,18 +53,14 @@
         tools:text="Rs 111"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_below="@id/service_title"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"/>
+        android:textStyle="bold"/>
     <TextView
         android:id="@+id/Service_cutPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/servicePrice"
-        android:layout_below="@id/service_title"
-        android:layout_marginTop="11dp"
         tools:text="Rs 201"
+        android:layout_marginTop="2dp"
         android:textSize="15sp"
         android:layout_marginLeft="10dp"/>
     <view
@@ -68,21 +70,52 @@
         android:layout_toRightOf="@id/servicePrice"
         class="android.widget.TextView"
         android:background="#80000000"
-        android:layout_below="@id/service_title"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="11dp"/>
+        <ImageView
+            android:id="@+id/serviceTimeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/service_timer_vector"
+            android:layout_toRightOf="@id/line"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+            android:id="@+id/serviceTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/serviceTimeImage"
+            android:layout_marginTop="2dp"
+            tools:text="30 Min"
+            android:textColor="#009688"
+            android:layout_marginLeft="5dp"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/service_price_parent_layout">
+
+        <Button
+            android:id="@+id/book_now_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="book now"
+            android:textColor="@color/white"/>
     <Button
         android:id="@+id/add_to_cart"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/img_view"
-        android:layout_marginTop="20dp"
         android:background="@color/colorAccent"
-        android:layout_marginRight="30dp"
-        android:text="ADD"
+        android:text="add to cart"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:textColor="@color/white"
-        android:padding="15dp"/>
+        android:textColor="@color/white"/>
+    </LinearLayout>
 
 </RelativeLayout>

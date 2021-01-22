@@ -36,6 +36,16 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/numberOfCartCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="4"
+                android:layout_toLeftOf="@id/cartOnParlour"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
@@ -54,6 +64,6 @@
         android:layout_below="@id/cardView"
         android:paddingBottom="5dp"
         android:scrollbars="none"
-        tools:context=".MenParlourActivity">
+        tools:context=".ParlourActivity">
     </GridView>
 </RelativeLayout>

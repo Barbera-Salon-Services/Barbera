@@ -16,6 +16,9 @@ public class CongratulationsPage extends AppCompatActivity {
         setContentView(R.layout.activity_congratulations_page);
 
 
+        Intent intent=getIntent();
+        int totalAmount=intent.getIntExtra("Booking Amount",0);
+        String summary=intent.getStringExtra("Order Summary");
         CardView backtohome=(CardView) findViewById(R.id.backtoHome);
         TextView finalSummary=(TextView)findViewById(R.id.finalSummary);
         TextView finalAmount=(TextView)findViewById(R.id.finalPageAmount);
@@ -23,9 +26,9 @@ public class CongratulationsPage extends AppCompatActivity {
 
         finalDateTime.setText(BookingPage.finalDate+"\t\t\t\t\t"+BookingPage.finalTime);
 
-        finalAmount.setText("Total   Rs"+BookingPage.BookingTotalAmount);
+        finalAmount.setText("Total Rs "+totalAmount);
 
-        finalSummary.setText(BookingPage.OrderSummary);
+        finalSummary.setText(summary);
 
         backtohome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,12 +38,12 @@ public class CongratulationsPage extends AppCompatActivity {
             }
         });
 
-        BookingPage.BookingTotalAmount="";
+        //BookingPage.BookingTotalAmount="";
     }
     public void onBackPressed() {
+        super.onBackPressed();
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         overridePendingTransition(0,0);
         finish();
-        super.onBackPressed();
     }
 }

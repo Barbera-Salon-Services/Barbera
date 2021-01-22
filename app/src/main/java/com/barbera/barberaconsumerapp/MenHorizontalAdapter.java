@@ -46,8 +46,9 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
         String imgResource=HorizontalserviceList.get(position).getImageId();
         String price=HorizontalserviceList.get(position).getPrice();
         String cutPrice=HorizontalserviceList.get(position).getCutPrice();
+        String TIME=HorizontalserviceList.get(position).getTime();
 
-        ((MenItemViewHolder)holder).setDetails(title,imgResource,price,cutPrice,position);
+        ((MenItemViewHolder)holder).setDetails(title,imgResource,price,cutPrice,position,TIME);
 
     }
 
@@ -62,6 +63,8 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
         private TextView price;
         private TextView cutPrice;
         private Button add;
+        private Button bookNow;
+        private TextView time;
 
         public MenItemViewHolder(@NonNull View itemView) {
 
@@ -72,13 +75,16 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
             price=(TextView) itemView.findViewById(R.id.servicePrice);
             cutPrice=(TextView) itemView.findViewById(R.id.Service_cutPrice);
             add=(Button) itemView.findViewById(R.id.add_to_cart);
+            bookNow=(Button)itemView.findViewById(R.id.book_now_button);
+            time=(TextView)itemView.findViewById(R.id.serviceTime);
         }
 
-        private void setDetails(String Title,String imgLink,String Price,String CutPrice,final int position){
+        private void setDetails(String Title,String imgLink,String Price,String CutPrice,final int position,String iTime){
             final Service adapterList=HorizontalserviceList.get(position);
             title.setText(Title);
             price.setText("Rs "+Price);
             cutPrice.setText("Rs "+CutPrice);
+            time.setText(iTime+" Min");
             Glide.with(itemView.getContext()).load(imgLink)
                     .apply(new RequestOptions().placeholder(R.drawable.logo)).into(photo);
 
@@ -111,6 +117,7 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                                             if(task.isSuccessful()){
                                                 dbQueries.cartList.add(adapterList.getServiceId());
                                                 dbQueries.cartItemModelList.clear();
+                                                MainActivity.loadNumberOnCart();
                                                 CartActivity.updateCartItemModelList();
                                                 Toast.makeText(itemView.getContext(),"Service Added to Cart",Toast.LENGTH_SHORT).show();
                                                 add.setEnabled(true);
@@ -126,7 +133,26 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                         }
                         else
                             Toast.makeText(itemView.getContext(),"Already Added to Cart",Toast.LENGTH_SHORT).show();
-                    }}
+                    }
+                }
+            });
+
+            bookNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                        Toast.makeText(itemView.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
+                        itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
+                    }
+                    else {
+                        //BookingPage.OrderSummary = HorizontalserviceList.get(position).getServiceName();
+                        Intent intent=new Intent(itemView.getContext(),BookingPage.class);
+                        intent.putExtra("BookingType","Cart");
+                        intent.putExtra("Booking Amount",Integer.parseInt(HorizontalserviceList.get(position).getPrice()));
+                        intent.putExtra("Order Summary",HorizontalserviceList.get(position).getServiceName());
+                        itemView.getContext().startActivity(intent);
+                    }
+                }
             });
 
         }

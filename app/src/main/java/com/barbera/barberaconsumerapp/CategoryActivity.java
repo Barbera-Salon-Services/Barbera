@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,6 +31,7 @@ public class CategoryActivity extends AppCompatActivity {
     public static List<CategoryDesign> menCategoryList=new ArrayList<>();
     public static List<CategoryDesign> womenCategoryList=new ArrayList<>();
     private String type;
+    private static TextView numberCartCategory;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -45,6 +47,7 @@ public class CategoryActivity extends AppCompatActivity {
         gridView=(GridView)findViewById(R.id.RootView);
         final CategoryAdapter adapter = new CategoryAdapter(menCategoryList);
         final CategoryAdapter womenadapter=new CategoryAdapter(womenCategoryList);
+        numberCartCategory=(TextView)findViewById(R.id.numberOfCartCategory);
 
 
         cart.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +74,8 @@ public class CategoryActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
                                 for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
-                                   menCategoryList.add(new CategoryDesign(documentSnapshot.get("Category_icon").toString(),documentSnapshot.getId()));
+                                   menCategoryList.add(new CategoryDesign(documentSnapshot.get("Category_icon").toString(),documentSnapshot.getId(),
+                                           documentSnapshot.get("Category_image").toString(),documentSnapshot.getBoolean("SubCategory")));
                                 }
                                 gridView.setAdapter(adapter);
                                 progressBar.setVisibility(View.INVISIBLE);
@@ -87,7 +91,8 @@ public class CategoryActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
                                 for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
-                                    womenCategoryList.add(new CategoryDesign(documentSnapshot.get("Category_icon").toString(),documentSnapshot.getId()));
+                                    womenCategoryList.add(new CategoryDesign(documentSnapshot.get("Category_icon").toString(),documentSnapshot.getId(),
+                                            documentSnapshot.get("Category_image").toString(),documentSnapshot.getBoolean("SubCategory")));
                                 }
                                 gridView.setAdapter(womenadapter);
                                 progressBar.setVisibility(View.INVISIBLE);
@@ -106,17 +111,69 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
-                if(type.equals("Men\'s Salon")) {
-                    intent = new Intent(CategoryActivity.this, MenParlourActivity.class);
+                if(type.equals("Men\'s Salon")&&!menCategoryList.get(position).HavesubCategory()) {
+                    intent = new Intent(CategoryActivity.this, ParlourActivity.class);
                     intent.putExtra("Category", menCategoryList.get(position).getCategoryName());
+                    intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
+                    intent.putExtra("SalonType","men");
+                    intent.putExtra("Collection","MenCategory");
+                    intent.putExtra("ServiceType",type);
+                    intent.putExtra("SubCategDoc","Null");
+                    startActivity(intent);
                 }
-                else{
-                    intent = new Intent(CategoryActivity.this, WomenParlourActivity.class);
+                else if(type.equals("Women\'s Salon")&&!womenCategoryList.get(position).HavesubCategory()){
+                    intent = new Intent(CategoryActivity.this, ParlourActivity.class);
                     intent.putExtra("Category", womenCategoryList.get(position).getCategoryName());
-
+                    intent.putExtra("CategoryIMage",womenCategoryList.get(position).getCategoryImage());
+                    intent.putExtra("SalonType","women");
+                    intent.putExtra("Collection","WomenCategory");
+                    intent.putExtra("ServiceType",type);
+                    intent.putExtra("SubCategDoc","Null");
+                    startActivity(intent);
                 }
-                startActivity(intent);
+                else if(type.equals("Men\'s Salon")&&menCategoryList.get(position).HavesubCategory()){
+                    intent = new Intent(CategoryActivity.this, SubCategoryActivity.class);
+                    intent.putExtra("Category", menCategoryList.get(position).getCategoryName());
+                    intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
+                    intent.putExtra("SalonType","men");
+                    intent.putExtra("Collection","MenCategory");
+                    intent.putExtra("ServiceType",type);
+                    startActivity(intent);
+                }
+                else if(type.equals("Women\'s Salon")&&womenCategoryList.get(position).HavesubCategory()){
+                    intent = new Intent(CategoryActivity.this, SubCategoryActivity.class);
+                    intent.putExtra("Category", womenCategoryList.get(position).getCategoryName());
+                    intent.putExtra("CategoryIMage",womenCategoryList.get(position).getCategoryImage());
+                    intent.putExtra("SalonType","women");
+                    intent.putExtra("Collection","WomenCategory");
+                    intent.putExtra("ServiceType",type);
+                    startActivity(intent);
+                }
             }
         });
+    }
+    public static void loadNumberOnCartCategory(){
+        if(FirebaseAuth.getInstance().getCurrentUser()==null)
+            numberCartCategory.setText("0");
+        else {
+            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .collection("UserData").document("MyCart").get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                //NumberOnCartMain.setText(task.getResult().get("cart_list_size").toString());
+                                numberCartCategory.setText(task.getResult().get("cart_list_size").toString());
+                                // numberCartParlour.setText(task.getResult().get("cart_list_size").toString());
+                            }
+                        }
+                    });
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadNumberOnCartCategory();
     }
 }

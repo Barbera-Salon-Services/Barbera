@@ -26,7 +26,7 @@ public class CartActivity extends AppCompatActivity {
     private DocumentReference documentReference;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore fstore;
-    public   static ProgressBar progressBarMyCart;
+    public static ProgressBar progressBarMyCart;
     public static TextView total_cart_amount;
     public static int totalAmount=0;
     public static Button continueToBooking;
@@ -106,7 +106,8 @@ public class CartActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
-                        } else if (task.getResult().get("service_id_" + i + "_type").toString().equals("women")) {
+                        }
+                        else if (task.getResult().get("service_id_" + i + "_type").toString().equals("women")) {
                             final int finalI1 = i;
                             fstore.collection("Women\'s Salon").document(task.getResult().get("service_id_" + i).toString()).get()
                                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -117,11 +118,31 @@ public class CartActivity extends AppCompatActivity {
                                                 dbQueries.cartItemModelList.add(new CartItemModel
                                                         (documentSnapshot.get("icon").toString(),
                                                                 documentSnapshot.get("Service_title").toString(),
-                                                                documentSnapshot.get("price").toString(), documentSnapshot.get("type").toString(), documentSnapshot.getId(), finalI1));
+                                                                documentSnapshot.get("price").toString(), documentSnapshot.get("type").toString(),
+                                                                documentSnapshot.getId(), finalI1));
                                                 MainActivity.cartAdapter.notifyDataSetChanged();
                                             }
                                         }
                                     });
+                        }
+                        else{
+                            final String serviceType=task.getResult().get("service_id_" + i + "_type").toString();
+                            final int finalI2 = i;
+                            fstore.collection(serviceType).document(task.getResult().get("service_id_" + i).toString())
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    if (documentSnapshot.exists()) {
+                                        dbQueries.cartItemModelList.add(new CartItemModel
+                                                (null,
+                                                        documentSnapshot.getId(),
+                                                        documentSnapshot.get("Price").toString(), serviceType,
+                                                        documentSnapshot.getId(), finalI2));
+                                        MainActivity.cartAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            });
                         }
                     }
                     //cartItemRecyclerView.setAdapter(MainActivity.cartAdapter);

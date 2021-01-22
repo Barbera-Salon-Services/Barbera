@@ -70,14 +70,16 @@ public class MyCouponAdapter extends RecyclerView.Adapter {
             booknow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    BookingPage.OrderSummary="";
-                    BookingPage.OrderSummary+="("+couponItemModels.get(position).getType()+")"+couponItemModels.get(position).getServiceName()+
+                    String OrderSummary="";
+                    OrderSummary+="("+couponItemModels.get(position).getType()+")"+couponItemModels.get(position).getServiceName()+
                             "\t\t\tRs "+couponItemModels.get(position).getServicePrice();
-                    BookingPage.BookingTotalAmount=couponItemModels.get(position).getServicePrice();
+                    //BookingPage.BookingTotalAmount=couponItemModels.get(position).getServicePrice();
 
                     Intent intent=new Intent(itemView.getContext(),BookingPage.class);
                     intent.putExtra("BookingType","Coupon");
                     intent.putExtra("Position",position);
+                    intent.putExtra("Booking Amount",Integer.parseInt(couponItemModels.get(position).getServicePrice()));
+                    intent.putExtra("Order Summary",OrderSummary);
                     itemView.getContext().startActivity(intent);
                 }
             });

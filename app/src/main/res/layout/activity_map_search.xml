@@ -28,6 +28,24 @@
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
 			tools:ignore="MissingConstraints" />
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="14dp"
+			android:text="OR Long Press on the map to select address"
+			app:layout_constraintTop_toBottomOf="@id/location" />
+
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/floatingBtn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="8dp"
+			android:layout_marginBottom="8dp"
+			android:backgroundTint="#086ACD"
+			android:src="@drawable/ic_location"
+			app:layout_constraintBottom_toTopOf="@+id/continueToBooking"
+			app:layout_constraintEnd_toEndOf="parent" />
+
 
 	<androidx.cardview.widget.CardView
 			android:id="@+id/continueToBooking"
