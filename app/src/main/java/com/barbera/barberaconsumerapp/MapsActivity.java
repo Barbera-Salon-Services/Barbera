@@ -192,8 +192,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }else{
             sharedPreferences.edit().putString("Address","NA");
             sharedPreferences.edit().commit();
-            Toast.makeText(getApplicationContext(),"We are extremely sorry that we currently do not provide our services in your location. Hope to reach you SOON", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(MapsActivity.this,MainActivity.class));
+           // Toast.makeText(getApplicationContext(),"We are extremely sorry that we currently do " +
+                   // "not provide our services in your location. Hope to reach you SOON", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setTitle("Not Active In this Region");
+            builder.setMessage("We Currently aren't active in your Region. Hope to Reach you SOON...");
+            builder.setCancelable(false);
+            builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    sendToMainActivity();
+                    finish();
+                }
+            });
+            AlertDialog alertDialog=builder.create();
+            alertDialog.show();
         }
 
     }

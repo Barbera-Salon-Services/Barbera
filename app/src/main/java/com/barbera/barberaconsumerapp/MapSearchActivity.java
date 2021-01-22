@@ -62,16 +62,15 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         cardView = findViewById(R.id.continueToBooking);
         floatingActionButton = findViewById(R.id.floatingBtn);
 
-        center =new LatLng(22.640268, 88.390115);
+        center =new LatLng(26.974001, 75.841022);
         radius =10000;
         center1 = new LatLng(21.640268, 88.390115);
         radius1=10000;
 
         if(ActivityCompat.checkSelfPermission(MapSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             startSearching();
-        }else {
-            ActivityCompat.requestPermissions(MapSearchActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},4);
-        }
+        }else
+            ActivityCompat.requestPermissions(MapSearchActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
     }
 
     private void startSearching() {

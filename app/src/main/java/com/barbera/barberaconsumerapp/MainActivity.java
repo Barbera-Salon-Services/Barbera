@@ -17,11 +17,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,8 +46,6 @@ import eu.dkaratzas.android.inapp.update.InAppUpdateManager;
 import eu.dkaratzas.android.inapp.update.InAppUpdateStatus;
 
 public class MainActivity extends AppCompatActivity implements InAppUpdateManager.InAppUpdateHandler {
-    private CardView menSalon;
-    private CardView womenSalon;
     private ImageView Cart;
     public static CartAdapter cartAdapter;
     private ImageSlider imageSlider;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     public MenHorizontalAdapter womenadapter;
     public RecyclerView WoMenTrendRecyclerView;
     private LinearLayoutManager womenlayoutManager;
+    private ImageView weddingSection;
+    private static TextView NumberOnCartMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigation);
         Cart=(ImageView)findViewById(R.id.cart);
         cartAdapter=new CartAdapter();
-        RelativeLayout menSalon=(RelativeLayout)findViewById(R.id.explore_men_salon);
-        RelativeLayout womenSalon=(RelativeLayout)findViewById(R.id.explore_women_salon);
+        Button menSalon=(Button) findViewById(R.id.view_men_salon);
+        Button womenSalon=(Button) findViewById(R.id.view_women_salon);
         imageSlider=(ImageSlider)findViewById(R.id.slider_view);
         layoutManager=new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -81,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         WoMenTrendRecyclerView.setLayoutManager(womenlayoutManager);
         WoMenTrendRecyclerView.setAdapter(womenadapter);
         ImageView referMain=(ImageView)findViewById(R.id.refer);
+        weddingSection =(ImageView)findViewById(R.id.wedding_picture);
+        NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
 
         referMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +111,25 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                 startActivity(intent);
             }
         });
+
+        FirebaseFirestore.getInstance().collection("AppData").document("Offers").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            Glide.with(getApplicationContext()).load(task.getResult().get("Offer1"))
+                                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(weddingSection);
+                        }
+                    }
+                });
+        weddingSection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),WeddingPreActivity.class));
+            }
+        });
+
+
 
 
 
@@ -183,6 +208,25 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         inAppUpdateManager.checkForAppUpdate();
     }
 
+    public static void loadNumberOnCart(){
+        if(FirebaseAuth.getInstance().getCurrentUser()==null)
+            NumberOnCartMain.setText("0");
+        else {
+            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .collection("UserData").document("MyCart").get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                NumberOnCartMain.setText(task.getResult().get("cart_list_size").toString());
+                                //numberCartCategory.setText(task.getResult().get("cart_list_size").toString());
+                               // numberCartParlour.setText(task.getResult().get("cart_list_size").toString());
+                            }
+                        }
+                    });
+        }
+    }
+
     private void loadImageSlider() {
         imageSlider.setImageList(dbQueries.slideModelList,true);
     }
@@ -206,7 +250,8 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                                                     womenHorizontalserviceList.add(new Service(documentSnapshot.get("icon").toString(),
                                                             documentSnapshot.get("Service_title").toString(),
                                                             documentSnapshot.get("price").toString(), documentSnapshot.getId(),
-                                                            documentSnapshot.get("type").toString(),documentSnapshot.get("cut_price").toString()));
+                                                            documentSnapshot.get("type").toString(),documentSnapshot.get("cut_price").toString()
+                                                            ,documentSnapshot.get("Time").toString()));
                                                     womenadapter.notifyDataSetChanged();
                                                     womenBar.setVisibility(View.INVISIBLE);
 
@@ -222,11 +267,17 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     @Override
     protected void onStart() {
         super.onStart();
-        loadImageSlider();
         if(menHorizontalserviceList.size()==0)
             loadMenTrendingList();
         if(womenHorizontalserviceList.size()==0)
             loadWomenTrendingList();
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null&&dbQueries.cartList.size() == 0) {
+            dbQueries.loadCartList();
+        }
+        if(dbQueries.slideModelList.size()==0)
+            dbQueries.loadslideModelList();
+        loadImageSlider();
+        loadNumberOnCart();
     }
 
     private void loadMenTrendingList() {
@@ -248,7 +299,8 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                                                     menHorizontalserviceList.add(new Service(documentSnapshot.get("icon").toString(),
                                                             documentSnapshot.get("Service_title").toString(),
                                                             documentSnapshot.get("price").toString(), documentSnapshot.getId(),
-                                                            documentSnapshot.get("type").toString(),documentSnapshot.get("cut_price").toString()));
+                                                            documentSnapshot.get("type").toString(),documentSnapshot.get("cut_price").toString()
+                                                            ,documentSnapshot.get("Time").toString()));
                                                     adapter.notifyDataSetChanged();
                                                     menBar.setVisibility(View.INVISIBLE);
 

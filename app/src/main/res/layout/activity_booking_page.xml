@@ -35,7 +35,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cardView">
+        android:layout_below="@id/cardView"
+        tools:layout_marginTop="-280dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -47,14 +48,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/logo"
                 android:layout_centerHorizontal="true"
-                android:padding="40dp"/>
+                android:padding="20dp"/>
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="12 Aug 2020"
-                android:layout_below="@id/logo"
+                android:layout_below="@id/chooseDate"
                 android:layout_centerHorizontal="true"
                 android:paddingTop="20sp"
                 android:textColor="@color/colorAccent"
@@ -64,12 +65,12 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/chooseDate"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:layout_below="@id/date"
+                android:layout_height="60dp"
+                android:layout_below="@id/logo"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="20dp"
                 app:cardBackgroundColor="@color/colorAccent"
-                android:layout_marginTop="20sp"
-                android:layout_marginLeft="20sp"
-                android:layout_marginRight="20sp"
                 app:cardCornerRadius="40sp">
 
                 <TextView
@@ -77,9 +78,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Choose A Date"
-                    android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:textColor="@color/white"/>
+                    android:textStyle="bold" />
 
             </androidx.cardview.widget.CardView>
 
@@ -88,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="8:40 PM"
-                android:layout_below="@id/chooseDate"
+                android:layout_below="@id/chooseTime"
                 android:layout_centerHorizontal="true"
                 android:paddingTop="20sp"
                 android:textColor="@color/colorAccent"
@@ -98,12 +99,12 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/chooseTime"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:layout_below="@id/time"
-                app:cardBackgroundColor="@color/colorAccent"
-                android:layout_marginTop="20sp"
-                android:layout_marginLeft="20sp"
+                android:layout_height="60dp"
+                android:layout_below="@id/date"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="20sp"
+                app:cardBackgroundColor="@color/colorAccent"
                 app:cardCornerRadius="40sp">
 
                 <TextView
@@ -111,9 +112,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Choose A Time"
-                    android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:textColor="@color/white"/>
+                    android:textStyle="bold" />
 
             </androidx.cardview.widget.CardView>
 
@@ -124,21 +125,22 @@
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
                 tools:text="Your address.."
-                android:layout_below="@id/chooseTime"
+                android:layout_below="@id/time"
                 android:layout_centerHorizontal="true"
-                android:paddingTop="20sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:textStyle="bold"
                 android:textSize="14sp"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/currentAddress"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:layout_below="@id/address"
+                android:layout_height="60dp"
+                android:layout_below="@id/time"
+                android:layout_marginTop="50dp"
                 app:cardBackgroundColor="@color/colorAccent"
-                android:layout_marginTop="20sp"
-                android:layout_marginLeft="20sp"
-                android:layout_marginRight="20sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 app:cardCornerRadius="40sp">
 
                 <TextView
@@ -197,39 +199,42 @@
                 android:ems="10"
                 android:hint="Enter Complete Building Address..."
                 android:inputType="textPostalAddress" />
-
-            <!--   <TextView
-                   android:id="@+id/covid_question"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="Are You a Frontline COVID-19 Warrior?"
-                   android:layout_below="@id/NewAddress"
-                   android:layout_centerHorizontal="true"
-                   android:paddingTop="20sp"
-                   android:textColor="@color/colorAccent"
-                   android:textStyle="bold"
-                   android:textSize="20sp"/>
-               <EditText
-                   android:id="@+id/covidWarior"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   style="@style/SignUpPage"
-                   android:layout_marginTop="20sp"
-                   android:hint="If Yes Enter Your Role"
-                   android:ems="10"
-                   android:inputType="textPostalAddress"
-                   android:layout_below="@id/covid_question"/>-->
+            <EditText
+                android:id="@+id/couponCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Enter Coupon Code"
+                android:ems="10"
+                android:inputType="textCapCharacters"
+                android:layout_toLeftOf="@id/coupon_apply_button"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_below="@id/HouseAddress"/>
+            <Button
+                android:id="@+id/coupon_apply_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/white"
+                android:layout_below="@id/HouseAddress"
+                android:background="@color/colorAccent"
+                android:text="apply"/>
 
             <TextView
                 android:id="@+id/booking_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
                 tools:text="Total Amount Rs 1100"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_below="@id/HouseAddress"/>
+                android:layout_below="@id/couponCode"/>
 
 
             <androidx.cardview.widget.CardView
@@ -238,7 +243,8 @@
                 android:layout_height="60sp"
                 android:layout_below="@id/booking_amount"
                 app:cardBackgroundColor="@color/colorAccent"
-                android:layout_margin="30dp">
+                android:layout_margin="30dp"
+                android:layout_alignParentBottom="true">
 
                 <TextView
                     android:layout_width="wrap_content"

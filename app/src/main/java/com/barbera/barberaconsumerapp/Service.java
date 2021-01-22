@@ -7,14 +7,16 @@ public class Service {
     private String serviceId;
     private String serviceType;
     private String cutPrice;
+    private String time;
 
-    public Service(String imageId, String serviceName, String price, String serviceId, String serviceType,String cutPrice) {
+    public Service(String imageId, String serviceName, String price, String serviceId, String serviceType,String cutPrice,String itime) {
         ImageId = imageId;
         ServiceName = serviceName;
         Price = price;
         this.serviceId = serviceId;
         this.serviceType = serviceType;
         this.cutPrice=cutPrice;
+        this.time=itime;
     }
 
     public String getServiceId() {
@@ -41,4 +43,7 @@ public class Service {
         return Price;
     }
 
+    public String getTime() {
+        return time;
+    }
 }

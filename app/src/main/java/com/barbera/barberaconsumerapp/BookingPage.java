@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -31,12 +33,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BookingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
@@ -53,19 +57,23 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     private CardView changeLocation;
     private TextView or;
     private SharedPreferences sharedPreferences;
-    public static String OrderSummary="";
+    private String OrderSummary="";
     public static String finalDate;
     public static String finalTime;
     private String Username;
     private String UserPhone;
-    private String isCovidWarrior;
+    private boolean isCouponApplied;
     private String bookingType="";
     private int listPosition;
-    public static String BookingTotalAmount="";
+    public int BookingTotalAmount;
     private int selectedDay;
     private int selectedMonth;
     private int selectedYear;
+    private EditText couponcodeEditText;
+    private Button couponApply;
+    private List<String> users;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +83,8 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         or =(TextView)findViewById(R.id.or);
         bookingType+=intent.getStringExtra("BookingType");
         listPosition=intent.getIntExtra("Position",-1);
+        BookingTotalAmount=intent.getIntExtra("Booking Amount",0);
+        OrderSummary=intent.getStringExtra("Order Summary");
         chooseDate=(CardView) findViewById(R.id.chooseDate);
         address = (TextView) findViewById(R.id.address);
         date=(TextView)findViewById(R.id.date);
@@ -86,6 +96,9 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         ConfirmBooking=(CardView)findViewById(R.id.confirmBooking);
         totalAmount=(TextView)findViewById(R.id.booking_amount);
         sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
+        couponcodeEditText =(EditText) findViewById(R.id.couponCode);
+        couponApply=(Button)findViewById(R.id.coupon_apply_button);
+        isCouponApplied=false;
 
         String addres=sharedPreferences.getString("Address","");
 
@@ -182,7 +195,10 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                             BookingsActivity.checked=false;
                                             BookingsActivity.bookingActivityList.clear();
                                             MainActivity.cartAdapter.notifyDataSetChanged();
-                                            startActivity(new Intent(BookingPage.this, CongratulationsPage.class));
+                                            Intent intent1=new Intent(BookingPage.this, CongratulationsPage.class);
+                                            intent1.putExtra("Booking Amount",BookingTotalAmount);
+                                            intent1.putExtra("Order Summary",OrderSummary);
+                                            startActivity(intent1);
                                             finish();
                                         } else
                                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -211,16 +227,95 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                             BookingsActivity.bookingActivityList.clear();
                                             MyCoupons.couponsChecked=false;
                                             MyCoupons.couponItemModelList.clear();
-                                            startActivity(new Intent(BookingPage.this, CongratulationsPage.class));
+                                            Intent intent1=new Intent(BookingPage.this, CongratulationsPage.class);
+                                            intent1.putExtra("Booking Amount",BookingTotalAmount);
+                                            intent1.putExtra("Order Summary",OrderSummary);
+                                            startActivity(intent1);
                                             finish();
                                         }
                                     }
                                 });
                     }
+                    else {
+                        progressDialog.dismiss();
+                        BookingsActivity.checked=false;
+                        BookingsActivity.bookingActivityList.clear();
+                        Intent intent1=new Intent(BookingPage.this, CongratulationsPage.class);
+                        intent1.putExtra("Booking Amount",BookingTotalAmount);
+                        intent1.putExtra("Order Summary",OrderSummary);
+                        startActivity(intent1);
+                        finish();
+                    }
                     SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("New_Address","");
                     editor.commit();
+                }
+            }
+        });
+
+        couponApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!TextUtils.isEmpty(couponcodeEditText.getText())){
+                    final ProgressDialog progressDialog=new ProgressDialog(BookingPage.this);
+                    progressDialog.setMessage("Please wait for a while...");
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
+                    FirebaseFirestore.getInstance().collection("AppData").document("Coupons").get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        String couponCode=task.getResult().get("CouponName").toString();
+                                        long limit=task.getResult().getLong("CouponLimit");
+                                        users=(List<String>)task.getResult().get("users");
+                                        if(!couponcodeEditText.getText().toString().equals(couponCode)){
+                                            couponcodeEditText.setError("No Such Coupon Exists");
+                                            couponcodeEditText.requestFocus();
+                                            progressDialog.dismiss();
+                                        }
+                                        else if(users.contains(FirebaseAuth.getInstance().getUid())){
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(),"You have already used this coupon",Toast.LENGTH_LONG).show();
+                                        }
+                                        else if(limit==0){
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(),"Sorry, it has reached its limit!!",Toast.LENGTH_LONG).show();
+                                        }
+                                        else if(BookingTotalAmount<69){
+                                            progressDialog.dismiss();
+                                            couponcodeEditText.setError("Total Amount should be greater than or equal to 69");
+                                            couponcodeEditText.requestFocus();
+                                        }
+                                        else{
+                                            BookingTotalAmount=(BookingTotalAmount>=200?BookingTotalAmount-100:BookingTotalAmount/2);
+                                            //BookingTotalAmount=String.valueOf(totalAmount)+"(Coupon Applied)";
+                                            totalAmount.setText("Total Amount Rs" +BookingTotalAmount+"(Coupon Applied)");
+                                            HashMap<String, Object> data=new HashMap<>();
+                                            users.add(FirebaseAuth.getInstance().getUid());
+                                            data.put("CouponLimit",--limit);
+                                            data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                            FirebaseFirestore.getInstance().collection("AppData").document("Coupons")
+                                                    .update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Toast.makeText(getApplicationContext(),"Coupon Applied Successfully. Don't Revert this Booking, you will lose the couopon",Toast.LENGTH_LONG).show();
+                                                        isCouponApplied=true;
+                                                        progressDialog.dismiss();
+                                                    }
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                }
+                            });
+                }
+                else {
+                    couponcodeEditText.setError("Please enter a coupon code first");
+                    couponcodeEditText.requestFocus();
                 }
             }
         });
@@ -300,10 +395,14 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                 parmas.put("services",OrderSummary);
                 parmas.put("servicedate",finalDate);
                 parmas.put("servicetime",finalTime);
-                parmas.put("total",BookingTotalAmount);
+                parmas.put("total",String.valueOf(BookingTotalAmount));
                 parmas.put("address",userAddress);
                 parmas.put("phone", UserPhone);
-                parmas.put("covid_warrior","No");
+                if(isCouponApplied)
+                 parmas.put("covid_warrior","Yes");
+                else
+                    parmas.put("covid_warrior","No");
+
 
                 return parmas;
             }
@@ -395,13 +494,15 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     @Override
     protected void onStart() {
         super.onStart();
-        if(bookingType.equals("Cart")) {
+      /*  if(bookingType.equals("Cart")) {
             OrderSummary="";
             for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
-                OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" + dbQueries.cartItemModelList.get(i).getServiceName()
-                        + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" + dbQueries.cartItemModelList.get(i).getServicePrice() + "\n";
+                OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
+                        dbQueries.cartItemModelList.get(i).getServiceName()
+                        + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
+                        dbQueries.cartItemModelList.get(i).getServicePrice() + "\n";
             }
-        }
+        }*/
 
         extractDataFromUser();
     }
@@ -409,7 +510,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        BookingTotalAmount="";
+       // OrderSummary="";
 
     }
 }

@@ -35,15 +35,25 @@
                 android:clickable="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/numberOfCartMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="4"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/cart"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
             <ImageView
                 android:id="@+id/refer"
                 android:layout_width="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_refer"
+                android:layout_toLeftOf="@id/numberOfCartMain"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
-                android:layout_toLeftOf="@id/cart"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -72,6 +82,15 @@
               android:layout_marginRight="10dp"
               android:layout_marginLeft="10dp"
               app:corner_radius="60"/>
+            <ImageView
+                android:id="@+id/wedding_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/slider_view"
+                tools:src="@drawable/groom"/>
             <TextView
                 android:id="@+id/trend_in_men"
                 android:layout_width="wrap_content"
@@ -81,41 +100,39 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_below="@id/slider_view"
-                android:layout_marginTop="40dp"
+                android:layout_below="@id/wedding_picture"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"/>
             <RelativeLayout
                 android:id="@+id/explore_men_salon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/slider_view"
+                android:layout_below="@id/wedding_picture"
                 android:layout_alignParentRight="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="10dp">
 
-                <TextView
-                    android:id="@+id/more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View All"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorAccent"/>
+                <!--   <TextView
+                       android:id="@+id/more"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="View All"
+                       android:textSize="20sp"
+                       android:textColor="@color/colorAccent"/>-->
                 <ImageView
        android:id="@+id/arrow_vector_men"
        android:layout_width="30dp"
        android:layout_height="30dp"
-       android:src="@drawable/more_vector"
-                    android:layout_toRightOf="@id/more"/>
+       android:src="@drawable/more_vector"/>
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/view_for_men_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/trend_in_men"
-                android:layout_marginBottom="50dp">
+                android:layout_below="@id/trend_in_men">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/men_horizontal_view"
@@ -128,6 +145,16 @@
                     android:layout_centerInParent="true"
                     android:visibility="invisible"/>
             </RelativeLayout>
+            <Button
+                android:id="@+id/view_men_salon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view_for_men_list"
+                android:background="@color/white"
+                android:layout_margin="10dp"
+                android:text="view men salon >"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"/>
             <TextView
                 android:id="@+id/trend_in_women"
                 android:layout_width="wrap_content"
@@ -135,7 +162,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="Trending in Women"
                 android:layout_marginBottom="10dp"
-                android:layout_below="@id/view_for_men_list"
+                android:layout_below="@id/view_men_salon"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -143,32 +170,31 @@
             android:id="@+id/explore_women_salon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/view_for_men_list"
+            android:layout_below="@id/view_men_salon"
             android:layout_alignParentRight="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:layout_marginRight="10dp">
 
-            <TextView
+         <!--   <TextView
                 android:id="@+id/more_in_women"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="View All"
                 android:textSize="20sp"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent"/>-->
             <ImageView
                 android:id="@+id/arrow_vector_women"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/more_vector"
-                android:layout_toRightOf="@id/more_in_women"/>
+                android:src="@drawable/more_vector"/>
         </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/view_for_women_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/trend_in_women"
-                android:layout_marginBottom="40dp">
+                android:layout_below="@id/trend_in_women">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/women_horizontal_view"
@@ -181,6 +207,17 @@
                     android:layout_centerInParent="true"
                     android:visibility="invisible"/>
             </RelativeLayout>
+
+            <Button
+                android:id="@+id/view_women_salon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view_for_women_list"
+                android:background="@color/white"
+                android:layout_margin="10dp"
+                android:text="view women salon >"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"/>
 
         </RelativeLayout>
     </ScrollView>
