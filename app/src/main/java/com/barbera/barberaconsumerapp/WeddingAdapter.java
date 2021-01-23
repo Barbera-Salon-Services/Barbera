@@ -99,7 +99,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                         //itemView.getContext().startActivity(intent);
                         Intent intent=new Intent(itemView.getContext(),BookingPage.class);
                         intent.putExtra("BookingType", "Wedding");
-                        intent.putExtra("Booking Amount",weddingList.get(position).getPackagePrice());
+                        intent.putExtra("Booking Amount",Integer.parseInt(weddingList.get(position).getPackagePrice()));
                         intent.putExtra("Order Summary",weddingList.get(position).getPackageName());
                         itemView.getContext().startActivity(intent);
                     }
@@ -118,7 +118,8 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                             progressDialog.show();
                             progressDialog.setContentView(R.layout.progress_dialog);
                             progressDialog.setCancelable(false);
-                            DocumentReference documentReference=   FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            DocumentReference documentReference=   FirebaseFirestore.getInstance().collection("Users").
+                                    document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .collection("UserData").document("MyCart");
                             Map<String,Object> cartData=new HashMap<>();
                             cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1),weddingList.get(position).getPackageName());

@@ -78,14 +78,14 @@ public class WeddingActivity extends AppCompatActivity {
 
     private void loadbridalList() {
         progressBarwedding.setVisibility(View.VISIBLE);
-        FirebaseFirestore.getInstance().collection("BridalPackages").orderBy("Price").get()
+        FirebaseFirestore.getInstance().collection("BridalPackages").orderBy("price").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                                 brideList.add(new WeddingModel(documentSnapshot.getId(),documentSnapshot.get("Services").toString(),
-                                        documentSnapshot.get("Price").toString(),"BridalPackages"));
+                                        documentSnapshot.get("price").toString(),"BridalPackages"));
                             }
                             weddingRecyclerView.setLayoutManager(bridelayoutmanager);
                             weddingRecyclerView.setAdapter(brideAdapter);
@@ -97,14 +97,14 @@ public class WeddingActivity extends AppCompatActivity {
 
     private void loadgroomList(){
         progressBarwedding.setVisibility(View.VISIBLE);
-        FirebaseFirestore.getInstance().collection("GroomPackages").orderBy("Price").get()
+        FirebaseFirestore.getInstance().collection("GroomPackages").orderBy("price").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                                 groomList.add(new WeddingModel(documentSnapshot.getId(),documentSnapshot.get("Services").toString(),
-                                        documentSnapshot.get("Price").toString(),"GroomPackages"));
+                                        documentSnapshot.get("price").toString(),"GroomPackages"));
                             }
                             weddingRecyclerView.setLayoutManager(groomlayoutmanager);
                             weddingRecyclerView.setAdapter(groomAdapter);

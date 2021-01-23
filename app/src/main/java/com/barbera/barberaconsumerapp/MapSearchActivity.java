@@ -327,7 +327,6 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         // calculate the result
         return(c * r);
     }
-
     private double getdistanceinkm2(LatLng location) {
         double lat1= center2.latitude;
         double lon1= center2. longitude;

@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 public class WeddingPreActivity extends AppCompatActivity {
     private LinearLayout bridal;
     private LinearLayout groom;
+    private LinearLayout mehandi;
+    private LinearLayout makeup;
     private Intent intent;
 
     @Override
@@ -19,6 +21,8 @@ public class WeddingPreActivity extends AppCompatActivity {
 
         bridal=(LinearLayout)findViewById(R.id.bridal_section);
         groom=(LinearLayout)findViewById(R.id.groom_section);
+        mehandi=(LinearLayout)findViewById(R.id.mehandi_section);
+        makeup=(LinearLayout)findViewById(R.id.makeup_section);
         intent=new Intent(getApplicationContext(),WeddingActivity.class);
 
         bridal.setOnClickListener(new View.OnClickListener() {

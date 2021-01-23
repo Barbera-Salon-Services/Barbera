@@ -59,9 +59,10 @@ public class SubCategoryActivity extends AppCompatActivity {
         LinearLayout cartAndBookLayout=(LinearLayout)findViewById(R.id.addANdbookLayout);
 
         cartAndBookLayout.setVisibility(View.GONE);
+        cart.setVisibility(View.GONE);
 
 
-        cart.setOnClickListener(new View.OnClickListener() {
+      /* cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(FirebaseAuth.getInstance().getCurrentUser()==null){
@@ -72,7 +73,7 @@ public class SubCategoryActivity extends AppCompatActivity {
                     startActivity(new Intent(SubCategoryActivity.this, CartActivity.class));
                 }
             }
-        });
+        });*/
 
         title.setText(Category);
 

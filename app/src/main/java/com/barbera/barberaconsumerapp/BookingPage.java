@@ -11,12 +11,14 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,18 +46,18 @@ import java.util.List;
 import java.util.Map;
 
 public class BookingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
-    private CardView chooseDate;
+    private TextView chooseDate;
     private TextView date;
-    private CardView chooseTime;
+    private TextView chooseTime;
     private TextView time;
-    private CardView usecurrentAddress;
-    private TextView address;
+    //private CardView usecurrentAddress;
+    //private TextView address;
     private String userAddress;//Address string to be stored in database
-    private EditText houseAddress;
-    private CardView ConfirmBooking;
+    public static EditText houseAddress;
+    private Button ConfirmBooking;
     private TextView totalAmount;
-    private CardView changeLocation;
-    private TextView or;
+    private TextView changeLocation;
+    //private TextView or;
     private SharedPreferences sharedPreferences;
     private String OrderSummary="";
     public static String finalDate;
@@ -72,33 +74,35 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     private EditText couponcodeEditText;
     private Button couponApply;
     private List<String> users;
+    private TextView BookingOrders;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_booking_page);
+        setContentView(R.layout.new_booking_page);
 
         Intent intent=getIntent();
-        or =(TextView)findViewById(R.id.or);
+        //or =(TextView)findViewById(R.id.or);
         bookingType+=intent.getStringExtra("BookingType");
         listPosition=intent.getIntExtra("Position",-1);
         BookingTotalAmount=intent.getIntExtra("Booking Amount",0);
         OrderSummary=intent.getStringExtra("Order Summary");
-        chooseDate=(CardView) findViewById(R.id.chooseDate);
-        address = (TextView) findViewById(R.id.address);
-        date=(TextView)findViewById(R.id.date);
-        changeLocation =(CardView) findViewById(R.id.changeAddress);
-        chooseTime=(CardView)findViewById(R.id.chooseTime);
-        time=(TextView)findViewById(R.id.time);
-        usecurrentAddress=(CardView)findViewById(R.id.currentAddress);
-        houseAddress=(EditText)findViewById(R.id.HouseAddress);
-        ConfirmBooking=(CardView)findViewById(R.id.confirmBooking);
-        totalAmount=(TextView)findViewById(R.id.booking_amount);
+        chooseDate=(TextView) findViewById(R.id.booking_choose_a_date);
+        //address = (TextView) findViewById(R.id.address);
+        date=(TextView)findViewById(R.id.booking_date_text);
+        changeLocation =(TextView) findViewById(R.id.booking_choose_address);
+        chooseTime=(TextView)findViewById(R.id.booking_choose_a_time);
+        time=(TextView)findViewById(R.id.booking_time_text);
+        //usecurrentAddress=(CardView)findViewById(R.id.currentAddress);
+        houseAddress=(EditText)findViewById(R.id.booking_edit_address);
+        ConfirmBooking=(Button)findViewById(R.id.booking_confirm_booking);
+        totalAmount=(TextView)findViewById(R.id.booking_total_amount);
         sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
-        couponcodeEditText =(EditText) findViewById(R.id.couponCode);
-        couponApply=(Button)findViewById(R.id.coupon_apply_button);
+        couponcodeEditText =(EditText) findViewById(R.id.booking_couponCode_editText);
+        couponApply=(Button)findViewById(R.id.booking_coupon_apply_button);
         isCouponApplied=false;
+        BookingOrders=(TextView)findViewById(R.id.booking_order_summary);
 
         String addres=sharedPreferences.getString("Address","");
 
@@ -107,8 +111,16 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         }
         //Toast.makeText(getApplicationContext(),bookingType,Toast.LENGTH_LONG).show();
 
-        or.setText("OR");
+        //or.setText("OR");
         totalAmount.setText("Total Amount Rs " +BookingTotalAmount);
+        BookingOrders.setText(OrderSummary);
+
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.YEAR,Calendar.YEAR);
+        calendar.set(Calendar.MONTH,Calendar.MONTH);
+        calendar.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH);
+        String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        date.setText(currentday);
 
 
         chooseDate.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +130,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                 datePicker.show(getSupportFragmentManager(),"date picker");
             }
         });
+        useCurrentAddress();
 
 
         chooseTime.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +142,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
             }
         });
 
-        usecurrentAddress.setOnClickListener(new View.OnClickListener() {
+      /*  usecurrentAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final ProgressDialog progressDialog=new ProgressDialog(BookingPage.this);
@@ -156,7 +169,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                             }
                         });
             }
-        });
+        });*/
 
         changeLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,11 +186,10 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                     progressDialog.setMessage("Hold on for a moment...");
                     progressDialog.show();
                     progressDialog.setCancelable(false);
-                    ConfirmBooking.setEnabled(false);
                     finalDate=date.getText().toString();
                     finalTime=time.getText().toString();
-                    userAddress="Building Address: "+houseAddress.getText().toString()+" location: "+ address.getText().toString();
-                    Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
+                    userAddress=houseAddress.getText().toString();
+                   // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
                     addTosheet();
                     addtoDatabase();
                     if(bookingType.equals("Cart")) {
@@ -324,10 +336,10 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     @Override
     protected void onRestart() {
         super.onRestart();
-        SharedPreferences sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
+       /* SharedPreferences sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
         if(!sharedPreferences.getString("New_Address","").equals("")) {
             address.setText(sharedPreferences.getString("New_Address", ""));
-        }
+        }*/
     }
 
     private void addtoDatabase() {
@@ -428,11 +440,11 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
             houseAddress.requestFocus();
             Toast.makeText(getApplicationContext(),"Please Choose An Address",Toast.LENGTH_SHORT).show();
             return false;
-        }else if(address.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(),"Select Address",Toast.LENGTH_SHORT).show();
         }
+       /* else if(address.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(),"Select Address",Toast.LENGTH_SHORT).show();
+        }*/
         return true;
-
     }
 
     @Override
@@ -505,6 +517,28 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         }*/
 
         extractDataFromUser();
+    }
+
+    private void useCurrentAddress(){
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            if(task.getResult().get("Address")!=null) {
+                                String location = task.getResult().get("Address").toString();
+                                houseAddress.setText(location);
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"You don't have an address stored",Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     @Override

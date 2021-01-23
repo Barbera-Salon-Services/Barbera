@@ -134,10 +134,9 @@ public class CartActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     DocumentSnapshot documentSnapshot = task.getResult();
                                     if (documentSnapshot.exists()) {
-                                        dbQueries.cartItemModelList.add(new CartItemModel
-                                                (null,
+                                        dbQueries.cartItemModelList.add(new CartItemModel(null,
                                                         documentSnapshot.getId(),
-                                                        documentSnapshot.get("Price").toString(), serviceType,
+                                                        documentSnapshot.get("price").toString(), serviceType,
                                                         documentSnapshot.getId(), finalI2));
                                         MainActivity.cartAdapter.notifyDataSetChanged();
                                     }

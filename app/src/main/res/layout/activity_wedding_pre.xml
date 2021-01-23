@@ -45,6 +45,46 @@
             android:layout_gravity="bottom"/>
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/mehandi_section"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_below="@id/bridal_section"
+        android:orientation="horizontal"
+        android:background="@drawable/bridal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mehandi"
+            android:textSize="40sp"
+            android:textColor="@color/white"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:layout_gravity="bottom"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/makeup_section"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_below="@id/bridal_section"
+        android:orientation="horizontal"
+        android:background="@drawable/groom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MakeUp"
+            android:textSize="40sp"
+            android:textColor="@color/white"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:layout_gravity="bottom"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>
