@@ -52,8 +52,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationRequest locationRequest;
     private LatLng center;
     private LatLng center1;
+    private LatLng center2;
     private double radius1;
     private double radius;
+    private double radius2;
     private ProgressDialog progressDialog;
     private DocumentReference documentReference;
     private FirebaseFirestore fileStore;
@@ -78,6 +80,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         radius =10000;
         center1 = new LatLng(21.640268, 88.390115);
         radius1=10000;
+        center2 =new LatLng(26.474001, 75.341022);
+        radius2=10000;
 
         client = LocationServices.getFusedLocationProviderClient(this);
 
@@ -136,6 +140,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .strokeWidth(5.0f)
                 .fillColor(0x1A0066FF)
                 .strokeColor(0xFF0066FF));
+        Circle circle2 = mMap.addCircle(new CircleOptions()
+                .center(center2)
+                .radius(radius2)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
         try {
             checkWithinZone(mylocation);
         } catch (IOException e) {
@@ -147,10 +157,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void checkWithinZone(LatLng location) throws IOException {
         double distanceInMeters =getdistanceinkm(location)*1000;
         double distanceInMeters1 = getdistanceinkm1(location)*1000;
+        double distanceInMeters2 = getdistanceinkm2(location)*1000;
         documentReference=fileStore.collection("Users").document(firebaseAuth.getCurrentUser().getUid());
         final SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
 
-        if(distanceInMeters<= radius || distanceInMeters1<=radius1){
+        if(distanceInMeters<= radius || distanceInMeters1<=radius1 || distanceInMeters2<= radius2){
             Geocoder geocoder =  new Geocoder(this, Locale.getDefault());
             List<Address> addressList = geocoder.getFromLocation(Lat,Lon, 1);
             final String address = addressList.get(0).getAddressLine(0);
@@ -209,6 +220,33 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             alertDialog.show();
         }
 
+    }
+    private double getdistanceinkm2(LatLng location) {
+        double lat1= center2.latitude;
+        double lon1= center2. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
     }
 
     private double getdistanceinkm1(LatLng location) {

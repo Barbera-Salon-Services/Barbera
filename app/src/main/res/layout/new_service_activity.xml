@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.cardview.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/CartBlack">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/new_service_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            tools:text="Men's Salon"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/new_service_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_cart"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/numberOnCartParlour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="4"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:layout_toLeftOf="@id/new_service_cart"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_below="@id/cardView"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/new_service_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:src="@drawable/bridal"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+        <ProgressBar
+            android:id="@+id/new_service_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"/>
+        <ListView
+            android:id="@+id/new_service_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/addANdbookLayout"/>
+        <LinearLayout
+            android:id="@+id/addANdbookLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/new_service_book_now_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="book now"
+                android:textColor="@color/white"/>
+            <Button
+                android:id="@+id/new_service_add_to_cart"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="add to cart"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
+</RelativeLayout>
