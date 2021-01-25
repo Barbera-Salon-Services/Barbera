@@ -91,7 +91,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                         itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
                     }
                     else {
-                       // BookingPage.OrderSummary = weddingList.get(position).getPackageName();
+                        //BookingPage.OrderSummary = weddingList.get(position).getPackageName();
                         //BookingPage.BookingTotalAmount = weddingList.get(position).getPackagePrice();
                         //Intent intent = new Intent(itemView.getContext(), BookingPage.class);
 
@@ -99,7 +99,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                         //itemView.getContext().startActivity(intent);
                         Intent intent=new Intent(itemView.getContext(),BookingPage.class);
                         intent.putExtra("BookingType", "Wedding");
-                        intent.putExtra("Booking Amount",weddingList.get(position).getPackagePrice());
+                        intent.putExtra("Booking Amount",Integer.parseInt(weddingList.get(position).getPackagePrice()));
                         intent.putExtra("Order Summary",weddingList.get(position).getPackageName());
                         itemView.getContext().startActivity(intent);
                     }

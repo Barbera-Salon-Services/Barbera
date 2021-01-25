@@ -137,7 +137,7 @@ public class CartActivity extends AppCompatActivity {
                                         dbQueries.cartItemModelList.add(new CartItemModel
                                                 (null,
                                                         documentSnapshot.getId(),
-                                                        documentSnapshot.get("Price").toString(), serviceType,
+                                                        documentSnapshot.get("price").toString(), serviceType,
                                                         documentSnapshot.getId(), finalI2));
                                         MainActivity.cartAdapter.notifyDataSetChanged();
                                     }

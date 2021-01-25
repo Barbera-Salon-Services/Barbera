@@ -5,12 +5,24 @@ public class WeddingModel {
     private String PackageContent;
     private String PackagePrice;
     private String type;
+    private String icon;
+    private String cutPrice;
 
-    public WeddingModel(String packageName, String packageContent, String packagePrice,String itype) {
+    public WeddingModel(String packageName, String packageContent, String packagePrice,String itype,String mcutPrice,String micon) {
         PackageName = packageName;
         PackageContent = packageContent;
         PackagePrice = packagePrice;
         type=itype;
+        cutPrice=mcutPrice;
+        icon=micon;
+    }
+
+    public String getCutPrice() {
+        return cutPrice;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 
     public String getPackageName() {

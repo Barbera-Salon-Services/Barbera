@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 public class WeddingPreActivity extends AppCompatActivity {
-    private LinearLayout bridal;
-    private LinearLayout groom;
+    private LinearLayout bridal,groom,mehndi,makeup;
+
     private Intent intent;
 
     @Override
@@ -19,11 +19,14 @@ public class WeddingPreActivity extends AppCompatActivity {
 
         bridal=(LinearLayout)findViewById(R.id.bridal_section);
         groom=(LinearLayout)findViewById(R.id.groom_section);
-        intent=new Intent(getApplicationContext(),WeddingActivity.class);
+        mehndi=(LinearLayout) findViewById(R.id.mehndi_section);
+        makeup=(LinearLayout) findViewById(R.id.makeup_section);
+
 
         bridal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intent=new Intent(getApplicationContext(),WeddingActivity.class);
                 intent.putExtra("Type","Bride");
                 startActivity(intent);
             }
@@ -32,7 +35,24 @@ public class WeddingPreActivity extends AppCompatActivity {
         groom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intent=new Intent(getApplicationContext(),WeddingActivity.class);
                 intent.putExtra("Type","Groom");
+                startActivity(intent);
+            }
+        });
+        mehndi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent=new Intent(getApplicationContext(),WeddingActivity2.class);
+                intent.putExtra("Type","Mehndi");
+                startActivity(intent);
+            }
+        });
+        makeup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent=new Intent(getApplicationContext(),WeddingActivity2.class);
+                intent.putExtra("Type","Makeup");
                 startActivity(intent);
             }
         });
