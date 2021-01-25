@@ -3,7 +3,9 @@ package com.barbera.barberaconsumerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,7 +45,7 @@ public class WeddingActivity extends AppCompatActivity {
         Intent intent=getIntent();
         weddingType=intent.getStringExtra("Type");
         weddingHeading=(TextView)findViewById(R.id.wedding_section_heading);
-        weddingRecyclerView=(RecyclerView)findViewById(R.id.wedding_recycler_view);
+        weddingRecyclerView=(RecyclerView) findViewById(R.id.wedding_recycler_view);
         progressBarwedding=(ProgressBar)findViewById(R.id.progress_bar_on_wedding_section);
         bridelayoutmanager=new LinearLayoutManager(getApplicationContext());
         bridelayoutmanager.setOrientation(RecyclerView.HORIZONTAL);
@@ -52,6 +54,9 @@ public class WeddingActivity extends AppCompatActivity {
         brideAdapter=new WeddingAdapter(brideList);
         groomAdapter=new WeddingAdapter(groomList);
         RelativeLayout weddingActLayout=(RelativeLayout)findViewById(R.id.weddingLayout);
+
+        //PagerSnapHelper pagerSnapHelper;
+        new PagerSnapHelper().attachToRecyclerView(weddingRecyclerView);
 
         weddingHeading.setText(weddingType);
 

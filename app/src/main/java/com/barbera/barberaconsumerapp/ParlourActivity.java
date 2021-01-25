@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -102,60 +104,84 @@ public class ParlourActivity extends AppCompatActivity {
         Glide.with(getApplicationContext()).load(CategoryIMage)
                 .apply(new RequestOptions().placeholder(R.drawable.logo)).into(image);
 
-
-       if(subCategoryDocument.equals("Null")) {
-           progressBarOnServiceList.setVisibility(View.VISIBLE);
-           fstore.collection(collecton).document(Category).get()
-                   .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                       @Override
-                       public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                           if(task.isSuccessful()){
-                               for(int i=1;i<=(long)task.getResult().get("Services");i++){
-                                   fstore.collection(serViceType).document(task.getResult().get("Service_"+i).toString()).get()
-                                           .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                               @Override
-                                               public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                   DocumentSnapshot documentSnapshot = task.getResult();
-                                                   if(documentSnapshot.exists()){
-                                                       serviceList.add(new Service(documentSnapshot.get("icon").toString().trim(), documentSnapshot.get("Service_title").toString(),
-                                                               documentSnapshot.get("price").toString(), documentSnapshot.getId(), documentSnapshot.get("type").toString(),
-                                                               documentSnapshot.get("cut_price").toString(),documentSnapshot.get("Time").toString()));
-                                                       listView.setAdapter(adapter);
-                                                       progressBarOnServiceList.setVisibility(View.INVISIBLE);
-                                                   }
-                                               }
-                                           });
-                               }
-                           }
-                       }
-                   });
-           }
-       else{
-           progressBarOnServiceList.setVisibility(View.VISIBLE);
-           FirebaseFirestore.getInstance().collection(collecton).document(Category).collection("SubCategories").document(subCategoryDocument).get()
-                   .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                       @Override
-                       public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                           List<String> subCategoryList=(List<String>)task.getResult().get("Services");
-                           for(int i=0;i<subCategoryList.size();i++){
-                               FirebaseFirestore.getInstance().collection(serViceType).document(subCategoryList.get(i).toString()).get()
-                                       .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                           @Override
-                                           public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                               DocumentSnapshot documentSnapshot = task.getResult();
-                                               if(documentSnapshot.exists()){
-                                                   serviceList.add(new Service(Objects.requireNonNull(documentSnapshot.get("icon")).toString(), documentSnapshot.get("Service_title").toString(),
-                                                           documentSnapshot.get("price").toString(), documentSnapshot.getId(), documentSnapshot.get("type").toString(),
-                                                           documentSnapshot.get("cut_price").toString(),documentSnapshot.get("Time").toString()));
-                                                   listView.setAdapter(adapter);
-                                                   progressBarOnServiceList.setVisibility(View.INVISIBLE);
-                                               }
-                                           }
-                                       });
-                           }
-                       }
-                   });
-       }
+        if(salontype.equals("men")||salontype.equals("women")) {
+            if (subCategoryDocument.equals("Null")) {
+                progressBarOnServiceList.setVisibility(View.VISIBLE);
+                fstore.collection(collecton).document(Category).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (int i = 1; i <= (long) task.getResult().get("Services"); i++) {
+                                        fstore.collection(serViceType).document(task.getResult().get("Service_" + i).toString()).get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        DocumentSnapshot documentSnapshot = task.getResult();
+                                                        if (documentSnapshot.exists()) {
+                                                            serviceList.add(new Service(documentSnapshot.get("icon").toString().trim(),
+                                                                    documentSnapshot.get("Service_title").toString(),
+                                                                    documentSnapshot.get("price").toString(), documentSnapshot.getId(),
+                                                                    documentSnapshot.get("type").toString(),
+                                                                    documentSnapshot.get("cut_price").toString(), documentSnapshot.get("Time").toString()));
+                                                            listView.setAdapter(adapter);
+                                                            progressBarOnServiceList.setVisibility(View.INVISIBLE);
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+                        });
+            }
+            else {
+                progressBarOnServiceList.setVisibility(View.VISIBLE);
+                FirebaseFirestore.getInstance().collection(collecton).document(Category).collection("SubCategories").document(subCategoryDocument).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                List<String> subCategoryList = (List<String>) task.getResult().get("Services");
+                                for (int i = 0; i < subCategoryList.size(); i++) {
+                                    FirebaseFirestore.getInstance().collection(serViceType).document(subCategoryList.get(i).toString()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                                    if (documentSnapshot.exists()) {
+                                                        serviceList.add(new Service(Objects.requireNonNull(documentSnapshot.get("icon")).toString(),
+                                                                documentSnapshot.get("Service_title").toString(),
+                                                                documentSnapshot.get("price").toString(), documentSnapshot.getId(), documentSnapshot.get("type").toString(),
+                                                                documentSnapshot.get("cut_price").toString(), documentSnapshot.get("Time")!=null?documentSnapshot.get("Time").toString():null));
+                                                        listView.setAdapter(adapter);
+                                                        progressBarOnServiceList.setVisibility(View.INVISIBLE);
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        });
+            }
+        }
+        else{
+            if(salontype.equals("Mehandi"))
+                image.setImageResource(R.drawable.mehandi);
+            else
+                image.setImageResource(R.drawable.makeup);
+            progressBarOnServiceList.setVisibility(View.VISIBLE);
+            fstore.collection(salontype).orderBy("price").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
+                            serviceList.add(new Service(documentSnapshot.get("icon").toString(),documentSnapshot.getId(),documentSnapshot.get("price").toString(),
+                                    documentSnapshot.getId(),salontype,documentSnapshot.get("cut_price").toString(),null));
+                        }
+                        listView.setAdapter(adapter);
+                        progressBarOnServiceList.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+        }
 
        /* else if(salontype.equals("women")){
            progressBarOnServiceList.setVisibility(View.VISIBLE);

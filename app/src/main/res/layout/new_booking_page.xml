@@ -46,7 +46,7 @@
         android:textAllCaps="true"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"/>
     <TextView
@@ -67,7 +67,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         tools:text="Total Rs 240"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"/>
         <View
@@ -91,9 +91,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/lineInBooking"
             android:layout_marginTop="28dp"
-            android:textSize="20sp"
-            tools:text="25 December, 2021"
+            android:textSize="18sp"
+            tools:text="DD MM, YYYY"
             android:layout_toRightOf="@id/date_image"
+            android:layout_toLeftOf="@id/booking_choose_a_date"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"/>
         <TextView
@@ -123,9 +124,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/date_image"
             android:layout_toRightOf="@id/time_image"
+            android:layout_toLeftOf="@id/booking_choose_a_time"
             android:layout_marginTop="8dp"
-            android:textSize="20sp"
-            tools:text="12:12 PM"
+            android:textSize="18sp"
+            android:text="HH:MM AM/PM"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"/>
         <TextView

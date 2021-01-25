@@ -45,6 +45,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,12 +59,12 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     private Marker marker;
     private CardView cardView;
     private Address address;
-    private LatLng center;
-    private LatLng center1;
-    private LatLng center2;
-    private double radius1;
-    private double radius;
-    private double radius2;
+    public static LatLng center;
+    public static LatLng center1;
+    public static LatLng center2;
+    public static double radius1;
+    public static double radius;
+    public static double radius2;
     private FloatingActionButton floatingActionButton;
     private FusedLocationProviderClient client;
 
@@ -74,12 +77,14 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         cardView = findViewById(R.id.continueToBooking);
         floatingActionButton = findViewById(R.id.floatingBtn);
 
-        center =new LatLng(26.974001, 75.841022);
-        radius =10000;
-        center1 = new LatLng(21.640268, 88.390115);
-        radius1=10000;
-        center2 =new LatLng(26.474001, 75.341022);
-        radius2=10000;
+      /*  //agra road region
+        center =new LatLng(26.930256, 75.875947);
+        radius =8101.33;
+        //kalwar road region
+        center1 = new LatLng(26.949311, 75.714512);
+        radius1=1764.76;
+        center2 =new LatLng(26.943649, 75.748845);
+        radius2=1718.21;*/
 
         if(ActivityCompat.checkSelfPermission(MapSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             startSearching();
@@ -265,6 +270,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("New_Address", address.getAddressLine(0));
         editor.commit();
+        BookingPage.houseAddress.setText(address.getAddressLine(0));
         finish();
     }
 
@@ -414,5 +420,27 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                     break;
             }
         }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+      /*  FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            GeoPoint geoPoint1=task.getResult().getGeoPoint("kal_1");
+                            GeoPoint geoPoint2=task.getResult().getGeoPoint("kal_2");
+                            GeoPoint geoPoint=task.getResult().getGeoPoint("ag");
+                            radius=task.getResult().getDouble("ag_radius");
+                            radius1=task.getResult().getDouble("kal_1_radius");
+                            radius2=task.getResult().getDouble("kal_2_radius");
+                            center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
+                            center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
+                            center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+
+                        }
+                    }
+                });*/
     }
 }

@@ -52,6 +52,7 @@ public class SubCategoryAdapter extends BaseAdapter {
         TextView time=view.findViewById(R.id.service_fragement_time);
         ImageView timeImage=view.findViewById(R.id.timer);
         View line=view.findViewById(R.id.line);
+        ImageView arrow=view.findViewById(R.id.subcategoryArrow);
 
         price.setVisibility(View.GONE);
         cutPrice.setVisibility(View.GONE);
@@ -59,6 +60,7 @@ public class SubCategoryAdapter extends BaseAdapter {
         time.setVisibility(View.GONE);
         timeImage.setVisibility(View.GONE);
         line.setVisibility(View.GONE);
+        arrow.setVisibility(View.VISIBLE);
 
         title.setText(sublist.get(position));
 

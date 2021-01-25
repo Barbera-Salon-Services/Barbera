@@ -31,12 +31,14 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -64,17 +66,18 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     public static String finalTime;
     private String Username;
     private String UserPhone;
-    private boolean isCouponApplied;
+    public static boolean isCouponApplied;
     private String bookingType="";
     private int listPosition;
     public int BookingTotalAmount;
     private int selectedDay;
     private int selectedMonth;
     private int selectedYear;
-    private EditText couponcodeEditText;
+    private static EditText couponcodeEditText;
     private Button couponApply;
     private List<String> users;
     private TextView BookingOrders;
+    private long limit;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -109,16 +112,21 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         if(addres.equals("NA") || addres.equals("")){
             finish();
         }
-        //Toast.makeText(getApplicationContext(),bookingType,Toast.LENGTH_LONG).show();
+            totalAmount.setText("Total Amount Rs " +BookingTotalAmount);
+            BookingOrders.setText(OrderSummary);
 
-        //or.setText("OR");
-        totalAmount.setText("Total Amount Rs " +BookingTotalAmount);
-        BookingOrders.setText(OrderSummary);
-
-        Calendar calendar=Calendar.getInstance();
+        //autodateandtime();
+        /* Calendar calendar=Calendar.getInstance();
         calendar.set(Calendar.YEAR,Calendar.YEAR);
         calendar.set(Calendar.MONTH,Calendar.MONTH);
         calendar.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH);
+        String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        date.setText(currentday);*/
+        Calendar calendar= Calendar.getInstance();
+        selectedYear=calendar.get(Calendar.YEAR);
+        selectedMonth=calendar.get(Calendar.MONTH);
+        selectedDay=calendar.get(Calendar.DAY_OF_MONTH);
+
         String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         date.setText(currentday);
 
@@ -192,6 +200,8 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                    // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
                     addTosheet();
                     addtoDatabase();
+                    if(isCouponApplied==true)
+                        addCouponUsage();
                     if(bookingType.equals("Cart")) {
                         Map<String, Object> updateCart = new HashMap<>();
                         updateCart.put("cart_list_size", (long) 0);
@@ -280,7 +290,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if(task.isSuccessful()){
                                         String couponCode=task.getResult().get("CouponName").toString();
-                                        long limit=task.getResult().getLong("CouponLimit");
+                                        limit=task.getResult().getLong("CouponLimit");
                                         users=(List<String>)task.getResult().get("users");
                                         if(!couponcodeEditText.getText().toString().equals(couponCode)){
                                             couponcodeEditText.setError("No Such Coupon Exists");
@@ -302,9 +312,11 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                         }
                                         else{
                                             BookingTotalAmount=(BookingTotalAmount>=200?BookingTotalAmount-100:BookingTotalAmount/2);
-                                            //BookingTotalAmount=String.valueOf(totalAmount)+"(Coupon Applied)";
                                             totalAmount.setText("Total Amount Rs" +BookingTotalAmount+"(Coupon Applied)");
-                                            HashMap<String, Object> data=new HashMap<>();
+                                            isCouponApplied=true;
+                                            Toast.makeText(getApplicationContext(),"Coupon Applied Successfully.",Toast.LENGTH_LONG).show();
+                                            progressDialog.dismiss();
+                                           /* HashMap<String, Object> data=new HashMap<>();
                                             users.add(FirebaseAuth.getInstance().getUid());
                                             data.put("CouponLimit",--limit);
                                             data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
@@ -318,8 +330,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                                         progressDialog.dismiss();
                                                     }
                                                 }
-                                            });
-
+                                            });*/
                                         }
                                     }
                                 }
@@ -431,7 +442,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
             Toast.makeText(getApplicationContext(),"Please Choose A Date",Toast.LENGTH_SHORT).show();
             return false;
         }
-        else if(time.getText().toString().isEmpty()){
+        else if(time.getText().toString().isEmpty()||time.getText().toString().equals("HH:MM AM/PM")){
             Toast.makeText(getApplicationContext(),"Please Choose A Time",Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -517,6 +528,43 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         }*/
 
         extractDataFromUser();
+        FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            GeoPoint geoPoint1=task.getResult().getGeoPoint("kal_1");
+                            GeoPoint geoPoint2=task.getResult().getGeoPoint("kal_2");
+                            GeoPoint geoPoint=task.getResult().getGeoPoint("ag");
+                            MapSearchActivity.radius=task.getResult().getDouble("ag_radius");
+                            MapSearchActivity.radius1=task.getResult().getDouble("kal_1_radius");
+                            MapSearchActivity.radius2=task.getResult().getDouble("kal_2_radius");
+                            MapSearchActivity.center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
+                            MapSearchActivity.center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
+                            MapSearchActivity.center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+
+                        }
+                    }
+                });
+    }
+
+    private void addCouponUsage(){
+        HashMap<String, Object> data=new HashMap<>();
+        users.add(FirebaseAuth.getInstance().getUid());
+        data.put("CouponLimit",--limit);
+        data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+        FirebaseFirestore.getInstance().collection("AppData").document("Coupons")
+                .update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    //Toast.makeText(getApplicationContext(),"Coupon Applied Successfully. Don't Revert this Booking, you will lose the couopon",Toast.LENGTH_LONG).show();
+                    //isCouponApplied=true;
+                   // progressDialog.dismiss();
+                }
+            }
+        });
+
     }
 
     private void useCurrentAddress(){
@@ -540,6 +588,28 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                 });
 
     }
+
+   /* private void autodateandtime(){
+        Calendar calendar=Calendar.getInstance();
+        int hour=calendar.get(Calendar.HOUR_OF_DAY);
+        int minute=calendar.get(Calendar.MINUTE);
+
+        if(hour>=19||hour<9||hour+2>=19||hour+2<9){
+            //Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
+            time.setText(10 + ":" + "00" + " AM");
+            calendar.add(Calendar.DATE,1);
+        }
+        else {
+            if (hour >= 12) {
+                hour = (hour >= 13 ? hour - 12 : hour);
+                time.setText(hour+2 + ":" + minute + " PM");
+            }
+            else
+                time.setText(hour+2 + ":" + minute + " AM");
+        }
+        String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(Calendar.getInstance().getTime());
+        date.setText(currentday);
+    }*/
 
     @Override
     public void onBackPressed() {

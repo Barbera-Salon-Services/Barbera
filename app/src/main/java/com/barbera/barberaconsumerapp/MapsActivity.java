@@ -36,7 +36,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
 import java.nio.file.FileStore;
@@ -51,12 +53,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private FusedLocationProviderClient client;
     private LocationRequest locationRequest;
-    private LatLng center;
-    private LatLng center1;
-    private LatLng center2;
-    private double radius1;
-    private double radius;
-    private double radius2;
+    public static LatLng center;
+    public static LatLng center1;
+    public static LatLng center2;
+    public static double radius1;
+    public static double radius;
+    public static double radius2;
     private ProgressDialog progressDialog;
     private DocumentReference documentReference;
     private FirebaseFirestore fileStore;
@@ -77,12 +79,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         fileStore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
-        center =new LatLng(22.640268, 88.390115);
+      /*  center =new LatLng(22.640268, 88.390115);
         radius =10000;
         center1 = new LatLng(21.640268, 88.390115);
         radius1=10000;
         center2 =new LatLng(26.474001, 75.341022);
-        radius2=10000;
+        radius2=10000;*/
 
         client = LocationServices.getFusedLocationProviderClient(this);
 
@@ -319,5 +321,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
                 getCurrentLocation();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+     /*   FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            GeoPoint geoPoint1=task.getResult().getGeoPoint("kal_1");
+                            GeoPoint geoPoint2=task.getResult().getGeoPoint("kal_2");
+                            GeoPoint geoPoint=task.getResult().getGeoPoint("ag");
+                            radius=task.getResult().getDouble("ag_radius");
+                            radius1=task.getResult().getDouble("kal_1_radius");
+                            radius2=task.getResult().getDouble("kal_2_radius");
+                            center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
+                            center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
+                            center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+
+                        }
+                    }
+                });*/
     }
 }

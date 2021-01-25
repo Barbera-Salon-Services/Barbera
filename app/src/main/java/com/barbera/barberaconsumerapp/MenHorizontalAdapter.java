@@ -146,10 +146,11 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                     }
                     else {
                         //BookingPage.OrderSummary = HorizontalserviceList.get(position).getServiceName();
+                        String ordersummary=HorizontalserviceList.get(position).getServiceName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
                         Intent intent=new Intent(itemView.getContext(),BookingPage.class);
                         intent.putExtra("BookingType","Cart");
                         intent.putExtra("Booking Amount",Integer.parseInt(HorizontalserviceList.get(position).getPrice()));
-                        intent.putExtra("Order Summary",HorizontalserviceList.get(position).getServiceName());
+                        intent.putExtra("Order Summary",ordersummary);
                         itemView.getContext().startActivity(intent);
                     }
                 }

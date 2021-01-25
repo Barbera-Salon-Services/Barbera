@@ -121,11 +121,11 @@
                        android:text="View All"
                        android:textSize="20sp"
                        android:textColor="@color/colorAccent"/>-->
-                <ImageView
+           <!--     <ImageView
        android:id="@+id/arrow_vector_men"
        android:layout_width="30dp"
        android:layout_height="30dp"
-       android:src="@drawable/more_vector"/>
+       android:src="@drawable/more_vector"/>-->
             </RelativeLayout>
 
             <RelativeLayout
@@ -183,11 +183,11 @@
                 android:text="View All"
                 android:textSize="20sp"
                 android:textColor="@color/colorAccent"/>-->
-            <ImageView
+         <!--   <ImageView
                 android:id="@+id/arrow_vector_women"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/more_vector"/>
+                android:src="@drawable/more_vector"/>-->
         </RelativeLayout>
 
             <RelativeLayout

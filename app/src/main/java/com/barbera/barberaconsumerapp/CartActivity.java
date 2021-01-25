@@ -134,7 +134,7 @@ public class CartActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     DocumentSnapshot documentSnapshot = task.getResult();
                                     if (documentSnapshot.exists()) {
-                                        dbQueries.cartItemModelList.add(new CartItemModel(null,
+                                        dbQueries.cartItemModelList.add(new CartItemModel(documentSnapshot.get("icon").toString(),
                                                         documentSnapshot.getId(),
                                                         documentSnapshot.get("price").toString(), serviceType,
                                                         documentSnapshot.getId(), finalI2));

@@ -152,6 +152,7 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
     }
+
     public static void loadNumberOnCartCategory(){
         if(FirebaseAuth.getInstance().getCurrentUser()==null)
             numberCartCategory.setText("0");

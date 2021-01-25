@@ -31,9 +31,12 @@
 	<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_margin="14dp"
-			android:text="OR Long Press on the map to select address"
-			app:layout_constraintTop_toBottomOf="@id/location" />
+			android:text="Long Press to Select"
+		    app:layout_constraintTop_toBottomOf="@id/location"
+		    android:gravity="center_horizontal"
+		    android:layout_marginTop="10dp"
+		    android:textColor="@color/colorAccent"
+		    android:textStyle="bold"/>
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 			android:id="@+id/floatingBtn"

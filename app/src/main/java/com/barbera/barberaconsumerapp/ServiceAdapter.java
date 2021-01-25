@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,11 +68,17 @@ public class ServiceAdapter extends BaseAdapter {
         TextView cutPrice=view.findViewById(R.id.service_fragement_cut_price);
         final CheckBox checkBox=view.findViewById(R.id.service_fragement_check_box);
         TextView time=view.findViewById(R.id.service_fragement_time);
+        ImageView timeImage=view.findViewById(R.id.timer);
+        View line=view.findViewById(R.id.line);
       //  final Button addToCart = view.findViewById(R.id.new_service_add_to_cart);
       //  Button bookNow=view.findViewById(R.id.new_service_book_now_button);
 
         /*  Glide.with(view.getContext()).load(serviceList.get(position).getImageId())
            .apply(new RequestOptions().placeholder(R.drawable.logo)).into(logo);*/
+        if(serviceList.get(position).getTime()==null){
+            timeImage.setVisibility(View.GONE);
+            time.setVisibility(View.GONE);
+        }
         final String amount = "Rs " + serviceList.get(position).getPrice();
         String CutAmount="Rs " +serviceList.get(position).getCutPrice();
         title.setText(serviceList.get(position).getServiceName());
@@ -103,6 +110,7 @@ public class ServiceAdapter extends BaseAdapter {
                 }
             }
         });
+
         ParlourActivity.addToCart.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
@@ -154,6 +162,7 @@ public class ServiceAdapter extends BaseAdapter {
                        Toast.makeText(view.getContext(),"Select Something First",Toast.LENGTH_LONG).show();
                 }}
         });
+
         ParlourActivity.bookNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

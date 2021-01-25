@@ -32,6 +32,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +46,7 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -376,6 +378,24 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+        FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            GeoPoint geoPoint1=task.getResult().getGeoPoint("kal_1");
+                            GeoPoint geoPoint2=task.getResult().getGeoPoint("kal_2");
+                            GeoPoint geoPoint=task.getResult().getGeoPoint("ag");
+                            MapsActivity.radius=task.getResult().getDouble("ag_radius");
+                            MapsActivity.radius1=task.getResult().getDouble("kal_1_radius");
+                            MapsActivity.radius2=task.getResult().getDouble("kal_2_radius");
+                            MapsActivity.center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
+                            MapsActivity.center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
+                            MapsActivity.center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+
+                        }
+                    }
+                });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

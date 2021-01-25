@@ -19,15 +19,14 @@
         android:layout_above="@id/bottomNavigation">
         <RelativeLayout
             android:id="@+id/profile_section_main_view"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/profile_card_section"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-
+        android:layout_height="180dp"
         android:background="@color/colorAccent">
         <ImageView
             android:id="@+id/profile_image"
@@ -53,6 +52,7 @@
             android:textColor="@color/white"
             android:layout_marginTop="5dp"
             android:layout_below="@id/NameInProfile"
+            android:layout_centerHorizontal="true"
             android:layout_toRightOf="@id/profile_image"/>
         <TextView
             android:id="@+id/PhoneInProfile"
