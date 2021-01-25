@@ -1,27 +1,37 @@
 package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,6 +45,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,12 +59,12 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     private Marker marker;
     private CardView cardView;
     private Address address;
-    private LatLng center;
-    private LatLng center1;
-    private LatLng center2;
-    private double radius1;
-    private double radius;
-    private double radius2;
+    public static LatLng center;
+    public static LatLng center1;
+    public static LatLng center2;
+    public static double radius1;
+    public static double radius;
+    public static double radius2;
     private FloatingActionButton floatingActionButton;
     private FusedLocationProviderClient client;
 
@@ -64,12 +77,14 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         cardView = findViewById(R.id.continueToBooking);
         floatingActionButton = findViewById(R.id.floatingBtn);
 
-        center =new LatLng(26.974001, 75.841022);
-        radius =10000;
-        center1 = new LatLng(21.640268, 88.390115);
-        radius1=10000;
-        center2 =new LatLng(26.474001, 75.341022);
-        radius2=10000;
+      /*  //agra road region
+        center =new LatLng(26.930256, 75.875947);
+        radius =8101.33;
+        //kalwar road region
+        center1 = new LatLng(26.949311, 75.714512);
+        radius1=1764.76;
+        center2 =new LatLng(26.943649, 75.748845);
+        radius2=1718.21;*/
 
         if(ActivityCompat.checkSelfPermission(MapSearchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             startSearching();
@@ -119,8 +134,11 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                 locationRequest.setInterval(500);
                 locationRequest.setFastestInterval(500);
                 locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
-
+                if(isLocationEnabled()){
                 fetchLocation();
+                }else{
+                    enableLocation(locationRequest);
+                }
             }
         });
 
@@ -173,6 +191,40 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
 
+    private void enableLocation(LocationRequest locationRequest) {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+        task.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try {
+                    task.getResult(ApiException.class);
+                } catch (ApiException e) {
+                    switch (e.getStatusCode()){
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            try {
+                                ResolvableApiException resolvableApiException = (ResolvableApiException)e;
+                                resolvableApiException.startResolutionForResult(MapSearchActivity.this,8080);
+                            } catch (IntentSender.SendIntentException ex) {
+                                ex.printStackTrace();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager =(LocationManager)getSystemService(LOCATION_SERVICE);
+        boolean providerEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(providerEnabled)
+            return true;
+        return false;
+    }
+
     private void fetchLocation() {
         client =LocationServices.getFusedLocationProviderClient(this);
 
@@ -218,6 +270,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("New_Address", address.getAddressLine(0));
         editor.commit();
+        BookingPage.houseAddress.setText(address.getAddressLine(0));
         finish();
     }
 
@@ -327,7 +380,6 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         // calculate the result
         return(c * r);
     }
-
     private double getdistanceinkm2(LatLng location) {
         double lat1= center2.latitude;
         double lon1= center2. longitude;
@@ -354,5 +406,41 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
         // calculate the result
         return(c * r);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 8080){
+            switch (resultCode){
+                case Activity.RESULT_OK:
+                    break;
+                case Activity.RESULT_CANCELED:
+                    Toast.makeText(getApplicationContext(),"Cannot fetch loaction without enabling location services",Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+      /*  FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            GeoPoint geoPoint1=task.getResult().getGeoPoint("kal_1");
+                            GeoPoint geoPoint2=task.getResult().getGeoPoint("kal_2");
+                            GeoPoint geoPoint=task.getResult().getGeoPoint("ag");
+                            radius=task.getResult().getDouble("ag_radius");
+                            radius1=task.getResult().getDouble("kal_1_radius");
+                            radius2=task.getResult().getDouble("kal_2_radius");
+                            center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
+                            center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
+                            center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+
+                        }
+                    }
+                });*/
     }
 }

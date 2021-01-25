@@ -25,6 +25,16 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"/>
+    <ImageView
+        android:id="@+id/subcategoryArrow"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/more_vector"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"/>
     <TextView
         android:id="@+id/service_fragement_price"
         android:layout_width="wrap_content"

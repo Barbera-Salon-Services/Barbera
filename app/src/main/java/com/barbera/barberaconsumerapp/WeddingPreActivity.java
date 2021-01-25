@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 public class WeddingPreActivity extends AppCompatActivity {
-    private LinearLayout bridal,groom,mehndi,makeup;
-
+    private LinearLayout bridal;
+    private LinearLayout groom;
+    private LinearLayout mehandi;
+    private LinearLayout makeup;
     private Intent intent;
+    private Intent intent1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +22,14 @@ public class WeddingPreActivity extends AppCompatActivity {
 
         bridal=(LinearLayout)findViewById(R.id.bridal_section);
         groom=(LinearLayout)findViewById(R.id.groom_section);
-        mehndi=(LinearLayout) findViewById(R.id.mehndi_section);
-        makeup=(LinearLayout) findViewById(R.id.makeup_section);
-
+        mehandi=(LinearLayout)findViewById(R.id.mehandi_section);
+        makeup=(LinearLayout)findViewById(R.id.makeup_section);
+        intent=new Intent(getApplicationContext(),WeddingActivity.class);
+        final Intent intent1 =new Intent(getApplicationContext(),ParlourActivity.class);
 
         bridal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(getApplicationContext(),WeddingActivity.class);
                 intent.putExtra("Type","Bride");
                 startActivity(intent);
             }
@@ -35,25 +38,27 @@ public class WeddingPreActivity extends AppCompatActivity {
         groom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(getApplicationContext(),WeddingActivity.class);
                 intent.putExtra("Type","Groom");
                 startActivity(intent);
             }
         });
-        mehndi.setOnClickListener(new View.OnClickListener() {
+
+        mehandi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(getApplicationContext(),WeddingActivity2.class);
-                intent.putExtra("Type","Mehndi");
-                startActivity(intent);
+                intent1.putExtra("SalonType","Mehandi");
+                intent1.putExtra("Category", "Mehandi");
+                //intent1.putExtra("ServiceType","Mehandi");
+                startActivity(intent1);
             }
         });
         makeup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(getApplicationContext(),WeddingActivity2.class);
-                intent.putExtra("Type","Makeup");
-                startActivity(intent);
+                intent1.putExtra("SalonType","WeddingMakeup");
+                intent1.putExtra("Category", "WeddingMakeup");
+                //intent1.putExtra("ServiceType","WeddingMakeup");
+                startActivity(intent1);
             }
         });
     }

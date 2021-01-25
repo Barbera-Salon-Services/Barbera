@@ -3,7 +3,9 @@ package com.barbera.barberaconsumerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,8 +32,10 @@ public class WeddingActivity extends AppCompatActivity {
     private static List<WeddingModel> brideList=new ArrayList<>();
     private static List<WeddingModel> groomList=new ArrayList<>();
     private ProgressBar progressBarwedding;
-    private LinearLayoutManager bridelayoutmanager,groomlayoutmanager;
-    private WeddingAdapter brideAdapter,groomAdapter;
+    private LinearLayoutManager bridelayoutmanager;
+    private LinearLayoutManager groomlayoutmanager;
+    private WeddingAdapter brideAdapter;
+    private WeddingAdapter groomAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,7 @@ public class WeddingActivity extends AppCompatActivity {
         Intent intent=getIntent();
         weddingType=intent.getStringExtra("Type");
         weddingHeading=(TextView)findViewById(R.id.wedding_section_heading);
-        weddingRecyclerView=(RecyclerView)findViewById(R.id.wedding_recycler_view);
+        weddingRecyclerView=(RecyclerView) findViewById(R.id.wedding_recycler_view);
         progressBarwedding=(ProgressBar)findViewById(R.id.progress_bar_on_wedding_section);
         bridelayoutmanager=new LinearLayoutManager(getApplicationContext());
         bridelayoutmanager.setOrientation(RecyclerView.HORIZONTAL);
@@ -49,14 +53,16 @@ public class WeddingActivity extends AppCompatActivity {
         groomlayoutmanager.setOrientation(RecyclerView.HORIZONTAL);
         brideAdapter=new WeddingAdapter(brideList);
         groomAdapter=new WeddingAdapter(groomList);
-
         RelativeLayout weddingActLayout=(RelativeLayout)findViewById(R.id.weddingLayout);
+
+        //PagerSnapHelper pagerSnapHelper;
+        new PagerSnapHelper().attachToRecyclerView(weddingRecyclerView);
 
         weddingHeading.setText(weddingType);
 
         if(weddingType.equals("Bride"))
             weddingActLayout.setBackgroundResource(bride_background);
-        else if(weddingType.equals("Groom"))
+        else
             weddingActLayout.setBackgroundResource(R.drawable.groom_background);
 
 
@@ -64,10 +70,6 @@ public class WeddingActivity extends AppCompatActivity {
             loadbridalList();
         else if(weddingType.equals("Groom")&&groomList.size()==0)
             loadgroomList();
-//        else if(weddingType.equals("Mehndi")&&mehndiList.size()==0)
-//            loadMehndiList();
-//        else if(weddingType.equals("Makeup")&&makeupList.size()==0)
-//            loadMakeupList();
         else if(weddingType.equals("Bride")&&brideList.size()!=0) {
             weddingRecyclerView.setLayoutManager(bridelayoutmanager);
             weddingRecyclerView.setAdapter(brideAdapter);
@@ -76,14 +78,6 @@ public class WeddingActivity extends AppCompatActivity {
             weddingRecyclerView.setLayoutManager(groomlayoutmanager);
             weddingRecyclerView.setAdapter(groomAdapter);
         }
-//        else if(weddingType.equals("Mehndi")&&mehndiList.size()!=0) {
-//            weddingRecyclerView.setLayoutManager(mehndilayoutmanager);
-//            weddingRecyclerView.setAdapter(mehndiAdapter);
-//        }
-//        else if(weddingType.equals("Makeup")&&makeupList.size()!=0) {
-//            weddingRecyclerView.setLayoutManager(makeuplayoutmanager);
-//            weddingRecyclerView.setAdapter(makeupAdapter);
-//        }
 
     }
 
@@ -96,7 +90,7 @@ public class WeddingActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                                 brideList.add(new WeddingModel(documentSnapshot.getId(),documentSnapshot.get("Services").toString(),
-                                        documentSnapshot.get("price").toString(),"BridalPackages",null,null));
+                                        documentSnapshot.get("price").toString(),"BridalPackages"));
                             }
                             weddingRecyclerView.setLayoutManager(bridelayoutmanager);
                             weddingRecyclerView.setAdapter(brideAdapter);
@@ -115,7 +109,7 @@ public class WeddingActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                                 groomList.add(new WeddingModel(documentSnapshot.getId(),documentSnapshot.get("Services").toString(),
-                                        documentSnapshot.get("price").toString(),"GroomPackages",null,null));
+                                        documentSnapshot.get("price").toString(),"GroomPackages"));
                             }
                             weddingRecyclerView.setLayoutManager(groomlayoutmanager);
                             weddingRecyclerView.setAdapter(groomAdapter);
@@ -123,41 +117,6 @@ public class WeddingActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
-//    private void loadMehndiList(){
-//        progressBarwedding.setVisibility(View.VISIBLE);
-//        FirebaseFirestore.getInstance().collection("Mehandi").orderBy("price").get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if(task.isSuccessful()){
-//                            for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
-//                                mehndiList.add(new WeddingModel(documentSnapshot.getId(),null,documentSnapshot.get("price").toString(),
-//                                        "Mehandi",documentSnapshot.get("cut_price").toString(),documentSnapshot.get("icon").toString()));
-//                            }
-//                            weddingRecyclerView.setLayoutManager(mehndilayoutmanager);
-//                            weddingRecyclerView.setAdapter(mehndiAdapter);
-//                            progressBarwedding.setVisibility(View.INVISIBLE);
-//                        }
-//                    }
-//                });
-//    }
-//    private void loadMakeupList(){
-//        progressBarwedding.setVisibility(View.VISIBLE);
-//        FirebaseFirestore.getInstance().collection("WeddingMakeup").orderBy("price").get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if(task.isSuccessful()){
-//                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
-//                                makeupList.add(new WeddingModel(documentSnapshot.getId(),null,documentSnapshot.get("price").toString(),
-//                                        "WeddingMakeup",documentSnapshot.get("cut_price").toString(),documentSnapshot.get("icon").toString()));
-//                            }
-//                            weddingRecyclerView.setLayoutManager(makeuplayoutmanager);
-//                            weddingRecyclerView.setAdapter(makeupAdapter);
-//                            progressBarwedding.setVisibility(View.INVISIBLE);
-//                        }
-//                    }
-//                });
-//    }
 }

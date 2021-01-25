@@ -56,9 +56,13 @@ public class MyCouponAdapter extends RecyclerView.Adapter {
             serviceImage=(ImageView)itemView.findViewById(R.id.service_image);
             servicename=(TextView)itemView.findViewById(R.id.service_title);
             couponservicePrice=(TextView)itemView.findViewById(R.id.servicePrice);
-            booknow=(Button)itemView.findViewById(R.id.add_to_cart);
+            booknow=(Button)itemView.findViewById(R.id.book_now_button);
             View lineView=itemView.findViewById(R.id.line);
-            lineView.setVisibility(View.INVISIBLE);
+            lineView.setVisibility(View.GONE);
+            ImageView timeImage=itemView.findViewById(R.id.serviceTimeImage);
+            timeImage.setVisibility(View.GONE);
+            Button addtocart=itemView.findViewById(R.id.add_to_cart);
+            addtocart.setVisibility(View.GONE);
         }
 
         public void setCouponDetails(String icon, String name, String price, final int position) {

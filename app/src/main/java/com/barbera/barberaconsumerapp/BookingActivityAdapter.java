@@ -73,11 +73,13 @@ public class BookingActivityAdapter extends BaseAdapter {
         TextView serviceSummary=(TextView)view.findViewById(R.id.booking_service_title);
         TextView totalAmount=(TextView)view.findViewById(R.id.booking_service_total);
         TextView dateTime=(TextView)view.findViewById(R.id.booking_date_time);
+        //TextView address=(TextView)view.findViewById(R.id.booking_address);
         final Button cancelBooking=(Button)view.findViewById(R.id.cancel_button);
 
         serviceSummary.setText(bookingAdapterList.get(position).getSummary());
         totalAmount.setText("Total Amount Rs "+bookingAdapterList.get(position).getAmount());
         dateTime.setText(bookingAdapterList.get(position).getDate()+"\n"+bookingAdapterList.get(position).getTime());
+        //address.setText(bookingAdapterList.get(position).getAddress());
         extractNameAndContact();
 
         cancelBooking.setOnClickListener(new View.OnClickListener() {
@@ -127,16 +129,16 @@ public class BookingActivityAdapter extends BaseAdapter {
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Bookings")
                 .document(bookingAdapterList.get(position).getDocId()).delete().
                 addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    BookingsActivity.bookingActivityList.remove(bookingAdapterList.get(position));
-                    BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
-                }
-                else
-                    Toast.makeText(view.getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            BookingsActivity.bookingActivityList.remove(bookingAdapterList.get(position));
+                            BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
+                        }
+                        else
+                            Toast.makeText(view.getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void addtoSheet(final int position,final View view) {

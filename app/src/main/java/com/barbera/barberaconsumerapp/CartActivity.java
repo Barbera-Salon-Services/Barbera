@@ -21,6 +21,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import static com.barbera.barberaconsumerapp.MainActivity.cartAdapter;
+
 public class CartActivity extends AppCompatActivity {
     public static RecyclerView cartItemRecyclerView;
     private DocumentReference documentReference;
@@ -134,11 +136,10 @@ public class CartActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     DocumentSnapshot documentSnapshot = task.getResult();
                                     if (documentSnapshot.exists()) {
-                                        dbQueries.cartItemModelList.add(new CartItemModel
-                                                (null,
-                                                        documentSnapshot.getId(),
-                                                        documentSnapshot.get("price").toString(), serviceType,
-                                                        documentSnapshot.getId(), finalI2));
+                                        dbQueries.cartItemModelList.add(new CartItemModel(documentSnapshot.get("icon").toString(),
+                                                documentSnapshot.getId(),
+                                                documentSnapshot.get("price").toString(), serviceType,
+                                                documentSnapshot.getId(), finalI2));
                                         MainActivity.cartAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -147,7 +148,7 @@ public class CartActivity extends AppCompatActivity {
                     }
                     //cartItemRecyclerView.setAdapter(MainActivity.cartAdapter);
                     //CartActivity.progressBarMyCart.setVisibility(View.INVISIBLE);
-                   // MainActivity.cartAdapter.notifyDataSetChanged();
+                    // MainActivity.cartAdapter.notifyDataSetChanged();
                 }
             }
         });

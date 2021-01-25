@@ -184,6 +184,7 @@ public class ActivityPhoneVerification extends AppCompatActivity {
                     editor.putString("Name",documentSnapshot.get("Name").toString());
                     editor.putString("Email",documentSnapshot.get("Email Address").toString());
                     editor.putString("Phone",documentSnapshot.get("Phone").toString());
+                    if(documentSnapshot.get("Address")!=null)
                     editor.putString("Address",documentSnapshot.get("Address").toString());
                     editor.commit();
                     progressDialog.dismiss();
