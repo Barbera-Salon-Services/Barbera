@@ -36,6 +36,9 @@ public class BookingActivityAdapter extends BaseAdapter {
     private List<BookingModel> bookingAdapterList;
     private String UserName;
     private String UserPhone;
+    private Button end;
+    private Button cancelBooking;
+    private Button start;
     private ProgressDialog progressDialog;
 
     public BookingActivityAdapter(List<BookingModel> bookingAdapterList) {
@@ -74,7 +77,9 @@ public class BookingActivityAdapter extends BaseAdapter {
         TextView totalAmount=(TextView)view.findViewById(R.id.booking_service_total);
         TextView dateTime=(TextView)view.findViewById(R.id.booking_date_time);
         //TextView address=(TextView)view.findViewById(R.id.booking_address);
-        final Button cancelBooking=(Button)view.findViewById(R.id.cancel_button);
+        cancelBooking=(Button)view.findViewById(R.id.cancel_button);
+        start = (Button)view.findViewById(R.id.startOtp);
+        end = (Button)view.findViewById(R.id.endtOtp);
 
         serviceSummary.setText(bookingAdapterList.get(position).getSummary());
         totalAmount.setText("Total Amount Rs "+bookingAdapterList.get(position).getAmount());
@@ -82,34 +87,111 @@ public class BookingActivityAdapter extends BaseAdapter {
         //address.setText(bookingAdapterList.get(position).getAddress());
         extractNameAndContact();
 
-        cancelBooking.setOnClickListener(new View.OnClickListener() {
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
-                builder.setMessage("Really!!You Want to Cancel..");
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @SuppressLint("ResourceAsColor")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        progressDialog=new ProgressDialog(view.getContext());
-                        progressDialog.setMessage("Hold On for a moment...");
-                        progressDialog.show();
-                        progressDialog.setCancelable(false);
-                        addtoSheet(position,view);
-                        dropBooking(position,view);
-                    }
-                });
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                AlertDialog dialog=builder.create();
-                dialog.show();
+                generateStartOtp(v);
             }
         });
+        end.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      generateEndOtp(v);
+            }
+        });
+
+                cancelBooking.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setMessage("Really!!You Want to Cancel..");
+                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @SuppressLint("ResourceAsColor")
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressDialog = new ProgressDialog(view.getContext());
+                                progressDialog.setMessage("Hold On for a moment...");
+                                progressDialog.show();
+                                progressDialog.setCancelable(false);
+                                addtoSheet(position, view);
+                                dropBooking(position, view);
+                            }
+                        });
+                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
         return view;
+    }
+
+    private void generateEndOtp(final View view) {
+        final int otp = (int)(Math.random()*9000)+1000;
+        Map<String,Object> user=new HashMap<>();
+        user.put("endOtp",otp);
+        progressDialog = new ProgressDialog(view.getContext());
+        progressDialog.setMessage("generating otp...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).update(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        progressDialog.dismiss();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("End Otp is "+otp);
+                        builder.setMessage("Please use this otp to end service");
+                        builder.setCancelable(true);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                end.setVisibility(View.INVISIBLE);
+                                start.setVisibility(View.INVISIBLE);
+                                cancelBooking.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
+    }
+
+    private void generateStartOtp(final View view) {
+        final int otp = (int)(Math.random()*9000)+1000;
+        Map<String,Object> user=new HashMap<>();
+        user.put("startOtp",otp);
+        progressDialog = new ProgressDialog(view.getContext());
+        progressDialog.setMessage("generating otp...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).update(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        progressDialog.dismiss();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("Start Otp is "+otp);
+                        builder.setMessage("Please use this otp to start service");
+                        builder.setCancelable(true);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                end.setVisibility(View.VISIBLE);
+                                start.setVisibility(View.INVISIBLE);
+                                cancelBooking.setVisibility(View.INVISIBLE);
+                            }
+                    });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+              }
+        });
     }
 
     private void extractNameAndContact() {
