@@ -58,9 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText password;
     private CardView signup;
     private FirebaseAuth firebaseAuth;
-    private String emailPattern="[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
     private FirebaseFirestore fstore;
-    private String userID;
     private DocumentReference documentReference;
     private static int pressed=0;
     private long haircutMinPrice;
@@ -73,6 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         name=(EditText)findViewById(R.id.name);
         email=(EditText) findViewById(R.id.email);
+        address = (EditText)findViewById(R.id.house_address);
        // address=(EditText) findViewById(R.id.PostalAddress);
         password=(EditText) findViewById(R.id.Password);
         signup=(CardView) findViewById(R.id.signUp);
@@ -165,7 +164,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.show();
         progressDialog.setCancelable(false);
 
-        userID=firebaseAuth.getCurrentUser().getUid();
+        String userID = firebaseAuth.getCurrentUser().getUid();
         documentReference=fstore.collection("Users").document(userID);
         AuthCredential credential= EmailAuthProvider.getCredential(email.getText().toString(),password.getText().toString());
 
@@ -184,54 +183,55 @@ public class SignUpActivity extends AppCompatActivity {
         editor.putString("Name",name.getText().toString());
         editor.putString("Email",email.getText().toString());
         editor.putString("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
-        editor.commit();
+        editor.apply();
         Map<String,Object> user=new HashMap<>();
         //user.put("Address",address.getText().toString());
         user.put("Email Address",email.getText().toString());
         user.put("Name",name.getText().toString());
         user.put("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
-
-        documentReference.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Map<String, Object> myCart=new HashMap<>();
-                    myCart.put("cart_list_size",(long) 0);
-                    documentReference.collection("UserData").document("MyCart")
-                            .set(myCart).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Map<String, Object> myCoupons=new HashMap<>();
-                                myCoupons.put("coupons",(long) 0);
-                                documentReference.collection("UserData").document("MyCoupons")
-                                        .set(myCoupons).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            checkForReferal();
-                                            startActivity(new Intent(SignUpActivity.this,MapsActivity.class));
-                                            finish();
-                                            progressDialog.dismiss();
-                                        }
-                                    }
-                                });
-                            }
-                            else{
-                                sendToastmsg(task.getException().getMessage());
-                                signup.setEnabled(true);
-                                progressDialog.dismiss();
-                            }
-                        }
-                    });
-                }
-                else {
-                    sendToastmsg(task.getException().getMessage());
-                    signup.setEnabled(true);
-                    progressDialog.dismiss();
-                }
-            }
-        });
+        user.put("house_address",address.getText().toString());
+        startActivity(new Intent(SignUpActivity.this,MapsActivity.class));
+//        documentReference.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if(task.isSuccessful()){
+//                    Map<String, Object> myCart=new HashMap<>();
+//                    myCart.put("cart_list_size",(long) 0);
+//                    documentReference.collection("UserData").document("MyCart")
+//                            .set(myCart).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            if(task.isSuccessful()){
+//                                Map<String, Object> myCoupons=new HashMap<>();
+//                                myCoupons.put("coupons",(long) 0);
+//                                documentReference.collection("UserData").document("MyCoupons")
+//                                        .set(myCoupons).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//                                        if(task.isSuccessful()){
+//                                            checkForReferal();
+//                                            startActivity(new Intent(SignUpActivity.this,MapsActivity.class));
+//                                            finish();
+//                                            progressDialog.dismiss();
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                            else{
+//                                sendToastmsg(task.getException().getMessage());
+//                                signup.setEnabled(true);
+//                                progressDialog.dismiss();
+//                            }
+//                        }
+//                    });
+//                }
+//                else {
+//                    sendToastmsg(task.getException().getMessage());
+//                    signup.setEnabled(true);
+//                    progressDialog.dismiss();
+//                }
+//            }
+//        });
 
     }
 
@@ -346,6 +346,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
     private boolean checkEmailAndPassword(){
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
         if(email.getText().toString().matches(emailPattern)){
             if (password.length() >= 8) {
                     return true;
@@ -389,9 +390,9 @@ public class SignUpActivity extends AppCompatActivity {
                             MapsActivity.radius=task.getResult().getDouble("ag_radius");
                             MapsActivity.radius1=task.getResult().getDouble("kal_1_radius");
                             MapsActivity.radius2=task.getResult().getDouble("kal_2_radius");
-                            MapsActivity.center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
-                            MapsActivity.center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
-                            MapsActivity.center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+                            MapsActivity.center=new LatLng(22.566127, 88.404933);
+                            MapsActivity.center1=new LatLng(22.566127, 88.404933);
+                            MapsActivity.center2=new LatLng(22.566127, 88.404933);
 
                         }
                     }

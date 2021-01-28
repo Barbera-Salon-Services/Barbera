@@ -36,6 +36,7 @@
     <EditText
         android:id="@+id/name"
         style="@style/SignUpPage"
+        android:inputType="text"
         android:layout_below="@id/logo"
         android:hint="Full Name"
         android:autofillHints="" />
@@ -57,13 +58,21 @@
         android:layout_below="@id/email"
         android:hint="Address"
         android:autofillHints="" />-->
+    <EditText
+            android:id="@+id/house_address"
+            style="@style/SignUpPage"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_below="@id/email"
+            android:hint="Enter House No/Flat No/Society name"
+            android:autofillHints="" />
 
     <EditText
         android:id="@+id/Password"
         style="@style/SignUpPage"
         android:ems="10"
         android:inputType="textPassword"
-        android:layout_below="@id/email"
+        android:layout_below="@id/house_address"
         android:hint="Password (Min 8 Characters)"
         android:autofillHints="" />
 
@@ -130,7 +139,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/email"
+        android:layout_below="@id/house_address"
         android:layout_marginTop="34dp"
         android:layout_marginRight="25dp"/>
 
