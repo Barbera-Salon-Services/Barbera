@@ -48,7 +48,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener ,GoogleMap.OnCameraMoveCanceledListener,
+        GoogleMap.OnCameraIdleListener {
 
     private GoogleMap mMap;
     private FusedLocationProviderClient client;
@@ -56,6 +57,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private SearchView searchView;
     private TextView addd;
     private CardView cont;
+    private int key =0;
     private String address;
     private Marker marker;
     public static LatLng center;
@@ -173,7 +175,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-
+//        mMap.setOnCameraMoveStartedListener ((GoogleMap.OnCameraMoveStartedListener) this);
+        mMap.setOnCameraIdleListener (this);
+        mMap.setOnCameraMoveListener  (this);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -389,5 +393,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });*/
+    }
+
+    @Override
+    public void onCameraMove() {
+        key =1;
+    }
+
+    @Override
+    public void onCameraIdle() {
+        if(key ==1) {
+            if (marker != null)
+                marker.remove();
+            marker = mMap.addMarker(new MarkerOptions().position(mMap.getCameraPosition().target));
+            Lat = mMap.getCameraPosition().target.latitude;
+            Lon = mMap.getCameraPosition().target.longitude;
+            try {
+                checkWithinZone(new LatLng(Lat, Lon));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            key =0;
+        }
+    }
+
+    @Override
+    public void onCameraMoveCanceled() {
+
     }
 }

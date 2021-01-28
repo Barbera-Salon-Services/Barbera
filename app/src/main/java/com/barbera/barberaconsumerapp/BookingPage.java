@@ -366,7 +366,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Map<String,Object> addressMap=new HashMap<>();
-                    addressMap.put("House_address",houseAddress.getText().toString());
+                    addressMap.put("house_address",houseAddress.getText().toString());
                     FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .update(addressMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -573,8 +573,8 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            if(task.getResult().get("Address")!=null) {
-                                String location = task.getResult().get("Address").toString();
+                            if(task.getResult().get("house_address")!=null) {
+                                String location = task.getResult().get("house_address")+" "+task.getResult().get("Address").toString();
                                 houseAddress.setText(location);
                             }
                             else{
