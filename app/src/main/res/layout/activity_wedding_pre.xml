@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".WeddingPreActivity">
+
     <LinearLayout
         android:id="@+id/bridal_section"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@drawable/bridal">
-        <TextView
+        android:background="@drawable/wedding_bridal">
+       <!-- <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bride"
@@ -22,9 +22,10 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_margin="10dp"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"/>-->
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/groom_section"
         android:layout_width="match_parent"
@@ -32,9 +33,9 @@
         android:layout_weight="1"
         android:layout_below="@id/bridal_section"
         android:orientation="horizontal"
-        android:background="@drawable/groom">
+        android:background="@drawable/wedding_groom">
 
-        <TextView
+      <!--  <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Groom"
@@ -42,9 +43,10 @@
             android:textColor="@color/white"
             android:layout_margin="10dp"
             android:textStyle="bold"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"/>-->
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/mehandi_section"
         android:layout_width="match_parent"
@@ -52,9 +54,8 @@
         android:layout_weight="1"
         android:layout_below="@id/bridal_section"
         android:orientation="horizontal"
-        android:background="@drawable/mehandi">
-
-        <TextView
+        android:background="@drawable/wedding_mehandi">
+        <!--  <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mehandi"
@@ -62,9 +63,10 @@
             android:textColor="@color/white"
             android:layout_margin="10dp"
             android:textStyle="bold"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"/>-->
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/makeup_section"
         android:layout_width="match_parent"
@@ -72,9 +74,8 @@
         android:layout_weight="1"
         android:layout_below="@id/bridal_section"
         android:orientation="horizontal"
-        android:background="@drawable/makeup">
-
-        <TextView
+        android:background="@drawable/make_up_wedding">
+        <!--  <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MakeUp"
@@ -82,9 +83,7 @@
             android:textColor="@color/white"
             android:layout_margin="10dp"
             android:textStyle="bold"
-            android:layout_gravity="bottom"/>
-
+            android:layout_gravity="bottom"/>-->
     </LinearLayout>
-
 
 </LinearLayout>

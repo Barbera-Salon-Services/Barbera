@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/package_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Bridal Package 1"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:layout_marginTop="20dp"
+        android:textSize="25sp"/>
+    <TextView
+        android:id="@+id/package_price_new_wedding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Rs 21000"
+        android:layout_below="@id/package_heading"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/package_price_new_wedding"
+        android:layout_above="@id/linear_layout_new_wedding">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_1_sitting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/text01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01"
+            android:textStyle="bold"
+            android:textSize="80sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/colorAccent"/>
+        <TextView
+            android:id="@+id/textFirstSitting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First Sitting"
+            android:layout_toRightOf="@id/text01"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/CancellationColor"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/sitting_1_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textFirstSitting"
+            android:layout_toRightOf="@id/text01"
+            android:textSize="18sp"
+            tools:text="Makeup, Lehenga Drape, Body Wax(Rica),
+            Hair Spa, Hair Cut, BOdy Spa(Loreal), Manicure, Pedicure, Threading, Hairwash,
+            Facial(Kaya)"
+            android:textColor="@color/colorAccent" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/layout_2_sitting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_1_sitting"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/text02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="02"
+            android:textStyle="bold"
+            android:textSize="80sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colorAccent"/>
+        <TextView
+            android:id="@+id/textSecondSitting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Second Sitting"
+            android:layout_marginTop="20dp"
+            android:layout_toLeftOf="@id/text02"
+            android:textSize="20sp"
+            android:textColor="@color/CancellationColor"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/sitting_2_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textSecondSitting"
+            android:layout_toLeftOf="@id/text02"
+            android:textSize="18sp"
+            tools:text="Makeup, Lehenga Drape, Body Wax(Rica),
+            Hair Spa, Hair Cut, BOdy Spa(Loreal), Manicure, Pedicure, Threading, Hairwash,
+            Facial(Kaya)"
+            android:textColor="@color/colorAccent" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_3_sitting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_2_sitting"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/text03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="03"
+            android:textStyle="bold"
+            android:textSize="80sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/colorAccent"/>
+        <TextView
+            android:id="@+id/textThirdSitting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Third Sitting"
+            android:layout_toRightOf="@id/text03"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/CancellationColor"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/sitting_3_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textThirdSitting"
+            android:layout_toRightOf="@id/text03"
+            android:textSize="18sp"
+            tools:text="Makeup, Lehenga Drape, Body Wax(Rica),
+            Hair Spa, Hair Cut, BOdy Spa(Loreal), Manicure, Pedicure, Threading, Hairwash,
+            Facial(Kaya)"
+            android:textColor="@color/colorAccent" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/layout_4_sitting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_3_sitting"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/text04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04"
+            android:textStyle="bold"
+            android:textSize="80sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colorAccent"/>
+        <TextView
+            android:id="@+id/textFourthSitting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fourth Sitting"
+            android:layout_marginTop="20dp"
+            android:layout_toLeftOf="@id/text04"
+            android:textSize="20sp"
+            android:textColor="@color/CancellationColor"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/sitting_4_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textFourthSitting"
+            android:layout_toLeftOf="@id/text04"
+            android:textSize="18sp"
+            tools:text="Makeup, Lehenga Drape, Body Wax(Rica),
+            Hair Spa, Hair Cut, BOdy Spa(Loreal), Manicure, Pedicure, Threading, Hairwash,
+            Facial(Kaya)"
+            android:textColor="@color/colorAccent" />
+    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/layout_5_sitting"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_4_sitting"
+                android:layout_margin="10dp">
+                <TextView
+                    android:id="@+id/text05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="05"
+                    android:textStyle="bold"
+                    android:textSize="80sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/colorAccent"/>
+                <TextView
+                    android:id="@+id/textFifthSitting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fifth Sitting"
+                    android:layout_toRightOf="@id/text05"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/CancellationColor"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/sitting_5_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textFifthSitting"
+                    android:layout_toRightOf="@id/text05"
+                    android:textSize="18sp"
+                    tools:text="Makeup, Lehenga Drape, Body Wax(Rica),
+                    Hair Spa, Hair Cut, BOdy Spa(Loreal), Manicure, Pedicure, Threading, Hairwash,
+                    Facial(Kaya)"
+                    android:textColor="@color/colorAccent"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/linear_layout_new_wedding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/wedding_package_booking"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="book now"
+            android:background="@color/colorAccent"
+            android:textColor="@color/white"/>
+        <Button
+            android:id="@+id/wedding_package_to_cart"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="20dp"
+            android:background="@color/colorAccent"
+            android:text="add to cart"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+</RelativeLayout>

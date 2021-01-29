@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ import java.util.List;
 import static com.barbera.barberaconsumerapp.R.drawable.bride_background;
 
 public class WeddingActivity extends AppCompatActivity {
-    private TextView weddingHeading;
+    private ImageView weddingHeading;
     private String weddingType;
     private RecyclerView weddingRecyclerView;
     private static List<WeddingModel> brideList=new ArrayList<>();
@@ -44,7 +45,7 @@ public class WeddingActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         weddingType=intent.getStringExtra("Type");
-        weddingHeading=(TextView)findViewById(R.id.wedding_section_heading);
+        weddingHeading=(ImageView) findViewById(R.id.heading_view);
         weddingRecyclerView=(RecyclerView) findViewById(R.id.wedding_recycler_view);
         progressBarwedding=(ProgressBar)findViewById(R.id.progress_bar_on_wedding_section);
         bridelayoutmanager=new LinearLayoutManager(getApplicationContext());
@@ -58,12 +59,12 @@ public class WeddingActivity extends AppCompatActivity {
         //PagerSnapHelper pagerSnapHelper;
         new PagerSnapHelper().attachToRecyclerView(weddingRecyclerView);
 
-        weddingHeading.setText(weddingType);
+        //weddingHeading.setText(weddingType);
 
         if(weddingType.equals("Bride"))
-            weddingActLayout.setBackgroundResource(bride_background);
+            weddingHeading.setBackgroundResource(R.drawable.bridal_heading);
         else
-            weddingActLayout.setBackgroundResource(R.drawable.groom_background);
+            weddingHeading.setBackgroundResource(R.drawable.groom_heading);
 
 
         if(weddingType.equals("Bride")&&brideList.size()==0)
@@ -90,7 +91,7 @@ public class WeddingActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                                 brideList.add(new WeddingModel(documentSnapshot.getId(),documentSnapshot.get("Services").toString(),
-                                        documentSnapshot.get("price").toString(),"BridalPackages"));
+                                        documentSnapshot.get("price").toString(),"BridalPackages",(List<String>)documentSnapshot.get("sittings")));
                             }
                             weddingRecyclerView.setLayoutManager(bridelayoutmanager);
                             weddingRecyclerView.setAdapter(brideAdapter);
@@ -109,7 +110,7 @@ public class WeddingActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                                 groomList.add(new WeddingModel(documentSnapshot.getId(),documentSnapshot.get("Services").toString(),
-                                        documentSnapshot.get("price").toString(),"GroomPackages"));
+                                        documentSnapshot.get("price").toString(),"GroomPackages",(List<String>)documentSnapshot.get("sittings")));
                             }
                             weddingRecyclerView.setLayoutManager(groomlayoutmanager);
                             weddingRecyclerView.setAdapter(groomAdapter);

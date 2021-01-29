@@ -38,6 +38,7 @@ public class SubCategoryActivity extends AppCompatActivity {
     private List<String> subCategoryList=new ArrayList<>();
     private SubCategoryAdapter subCategoryAdapter;
     private String serViceType;
+    private String subCategoryImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +88,10 @@ public class SubCategoryActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot documentSnapshot:task.getResult())
+                                for(QueryDocumentSnapshot documentSnapshot:task.getResult()) {
                                     subCategoryList.add(documentSnapshot.getId());
+                                    subCategoryImage=documentSnapshot.get("icon").toString();
+                                }
                                 sublistview.setAdapter(subCategoryAdapter);
                                 progressBarOnSubCategory.setVisibility(View.INVISIBLE);
                             }
@@ -100,7 +103,7 @@ public class SubCategoryActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(SubCategoryActivity.this, ParlourActivity.class);
                 intent.putExtra("Category", Category);
-                intent.putExtra("CategoryIMage",CategoryIMage);
+                intent.putExtra("CategoryIMage",subCategoryImage);
                 intent.putExtra("SalonType",salontype);
                 intent.putExtra("Collection",collecton);
                 intent.putExtra("SubCategDoc",subCategoryList.get(position));

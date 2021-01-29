@@ -28,120 +28,16 @@ import java.util.Map;
 
 public class WeddingAdapter extends RecyclerView.Adapter {
     private List<WeddingModel> weddingList=new ArrayList<>();
-    // private Context context;
-    // private LayoutInflater layoutInflater;
+   // private Context context;
+   // private LayoutInflater layoutInflater;
 
     public WeddingAdapter(List<WeddingModel> weddingList) {
         this.weddingList = weddingList;
-        // this.context=context;
-        // layoutInflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
-   /* @Override
-    public int getCount() {
-        return weddingList.size();
-    }*/
-
-    /*   @Override
-       public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-           return view==(RelativeLayout)object;
-       }
-       @NonNull
-       @Override
-       public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-           final View itemView= layoutInflater.inflate(R.layout.wedding_design,container,false);
-           String Packagename=weddingList.get(position).getPackageName();
-           String Packageservices=weddingList.get(position).getPackageContent();
-           String Packageprice=weddingList.get(position).getPackagePrice();
-           TextView Name;
-           TextView services;
-           TextView price;
-           Button book;
-           Button addToCart;
-           Name=(TextView)itemView.findViewById(R.id.package_name);
-           services=(TextView)itemView.findViewById(R.id.wedding_package_details);
-           price=(TextView)itemView.findViewById(R.id.wedding_package_price);
-           book=(Button)itemView.findViewById(R.id.wedding_package_booking);
-           addToCart=(Button)itemView.findViewById(R.id.wedding_package_to_cart);
-           Name.setText(Packagename);
-           services.setText(Packageservices);
-           price.setText("Rs "+Packageprice);
-           book.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   if(FirebaseAuth.getInstance().getCurrentUser()==null){
-                       Toast.makeText(itemView.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                       itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
-                   }
-                   else {
-                       // BookingPage.OrderSummary = weddingList.get(position).getPackageName();
-                       //BookingPage.BookingTotalAmount = weddingList.get(position).getPackagePrice();
-                       //Intent intent = new Intent(itemView.getContext(), BookingPage.class);
-                       //intent.putExtra("Position",position);
-                       //itemView.getContext().startActivity(intent);
-                       String ordersummary=weddingList.get(position).getPackageName()+"   Rs"+weddingList.get(position).getPackagePrice();
-                       Intent intent=new Intent(itemView.getContext(),BookingPage.class);
-                       intent.putExtra("BookingType", "Wedding");
-                       intent.putExtra("Booking Amount",Integer.parseInt(weddingList.get(position).getPackagePrice()));
-                       intent.putExtra("Order Summary",ordersummary);
-                       context.startActivity(intent);
-                   }
-               }
-           });
-           addToCart.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   if(FirebaseAuth.getInstance().getCurrentUser()==null){
-                       Toast.makeText(itemView.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                       itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
-                   }
-                   else{
-                       if(!dbQueries.cartList.contains(weddingList.get(position).getPackageName())){
-                           final ProgressDialog progressDialog=new ProgressDialog(context);
-                           progressDialog.show();
-                           progressDialog.setContentView(R.layout.progress_dialog);
-                           progressDialog.setCancelable(false);
-                           DocumentReference documentReference=   FirebaseFirestore.getInstance().collection("Users").
-                                   document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                   .collection("UserData").document("MyCart");
-                           Map<String,Object> cartData=new HashMap<>();
-                           cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1),weddingList.get(position).getPackageName());
-                           cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1)+"_type",weddingList.get(position).getType());
-                           cartData.put("cart_list_size",(long)(dbQueries.cartList.size()+1));
-                           documentReference.update(cartData)
-                                   .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                       @Override
-                                       public void onComplete(@NonNull Task<Void> task) {
-                                           if(task.isSuccessful()){
-                                               dbQueries.cartList.add(weddingList.get(position).getPackageName());
-                                               dbQueries.cartItemModelList.clear();
-                                               CartActivity.updateCartItemModelList();
-                                               Toast.makeText(itemView.getContext(),"Service Added to Cart",Toast.LENGTH_SHORT).show();
-                                               progressDialog.dismiss();
-                                           }
-                                           else {
-                                               Toast.makeText(itemView.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                               progressDialog.dismiss();
-                                           }
-                                       }
-                                   });
-                       }
-                       else
-                           Toast.makeText(itemView.getContext(),"Already Added to Cart",Toast.LENGTH_SHORT).show();
-                   }
-               }
-           });
-           container.addView(itemView);
-           return itemView;
-       }
-       @Override
-       public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-           container.removeView((RelativeLayout)object);
-       }*/
-    @NonNull
+      @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.wedding_design,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.new_wedding_piece,parent,false);
         return new WeddingItemViewHolder(view);
     }
 
@@ -175,21 +71,54 @@ public class WeddingAdapter extends RecyclerView.Adapter {
         private TextView price;
         private Button book;
         private Button addToCart;
+        private RelativeLayout Layout1;
+        private RelativeLayout Layout2;
+        private RelativeLayout Layout3;
+        private RelativeLayout Layout4;
+        private RelativeLayout Layout5;
+        private TextView sitting1;
+        private TextView sitting2;
+        private TextView sitting3;
+        private TextView sitting4;
+        private TextView sitting5;
 
         public WeddingItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            Name=(TextView)itemView.findViewById(R.id.package_name);
-            services=(TextView)itemView.findViewById(R.id.wedding_package_details);
-            price=(TextView)itemView.findViewById(R.id.wedding_package_price);
+            Name=(TextView)itemView.findViewById(R.id.package_heading);
+            //services=(TextView)itemView.findViewById(R.id.wedding_package_details);
+            price=(TextView)itemView.findViewById(R.id.package_price_new_wedding);
             book=(Button)itemView.findViewById(R.id.wedding_package_booking);
             addToCart=(Button)itemView.findViewById(R.id.wedding_package_to_cart);
+            Layout1=(RelativeLayout)itemView.findViewById(R.id.layout_1_sitting);
+            Layout2=(RelativeLayout)itemView.findViewById(R.id.layout_2_sitting);
+            Layout3=(RelativeLayout)itemView.findViewById(R.id.layout_3_sitting);
+            Layout4=(RelativeLayout)itemView.findViewById(R.id.layout_4_sitting);
+            Layout5=(RelativeLayout)itemView.findViewById(R.id.layout_5_sitting);
+            sitting1=(TextView)itemView.findViewById(R.id.sitting_1_content);
+            sitting2=(TextView)itemView.findViewById(R.id.sitting_2_content);
+            sitting3=(TextView)itemView.findViewById(R.id.sitting_3_content);
+            sitting4=(TextView)itemView.findViewById(R.id.sitting_4_content);
+            sitting5=(TextView)itemView.findViewById(R.id.sitting_5_content);
+
         }
 
         public void setDetails(String packagename, String packageservices, String packageprice, final int position) {
             Name.setText(packagename);
-            services.setText(packageservices);
+            //services.setText(packageservices);
             price.setText("Rs "+packageprice);
+            sitting1.setText(weddingList.get(position).sittings.get(0));
+            sitting2.setText(weddingList.get(position).sittings.get(1));
+            sitting3.setText(weddingList.get(position).sittings.get(2));
+            if(weddingList.get(position).sittings.size()>3){
+                Layout4.setVisibility(View.VISIBLE);
+                Layout5.setVisibility(View.VISIBLE);
+                sitting4.setText(weddingList.get(position).sittings.get(3));
+                sitting5.setText(weddingList.get(position).sittings.get(4));
+            }
+
+
+
 
             book.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -199,7 +128,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                         itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
                     }
                     else {
-                        // BookingPage.OrderSummary = weddingList.get(position).getPackageName();
+                       // BookingPage.OrderSummary = weddingList.get(position).getPackageName();
                         //BookingPage.BookingTotalAmount = weddingList.get(position).getPackagePrice();
                         //Intent intent = new Intent(itemView.getContext(), BookingPage.class);
 
