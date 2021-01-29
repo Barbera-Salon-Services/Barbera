@@ -12,6 +12,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -49,7 +51,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener ,GoogleMap.OnCameraMoveCanceledListener,
-        GoogleMap.OnCameraIdleListener {
+        GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener {
 
     private GoogleMap mMap;
     private FusedLocationProviderClient client;
@@ -57,9 +59,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private SearchView searchView;
     private TextView addd;
     private CardView cont;
-    private int key =0;
     private String address;
     private Marker marker;
+    private CameraPosition key;
     public static LatLng center;
     public static LatLng center1;
     public static LatLng center2;
@@ -147,6 +149,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        key = mMap.getCameraPosition();
 
 //        LatLng mylocation = new LatLng(Lat,Lon);
         mMap.setMyLocationEnabled(true);
@@ -175,7 +178,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-//        mMap.setOnCameraMoveStartedListener ((GoogleMap.OnCameraMoveStartedListener) this);
+
+        mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraIdleListener (this);
         mMap.setOnCameraMoveListener  (this);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -230,7 +234,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(Lat,Lon)));
             cont.setVisibility(View.VISIBLE);
-            Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
         }else{
             sharedPreferences.edit().putString("Address","NA");
             sharedPreferences.edit().commit();
@@ -397,12 +401,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onCameraMove() {
-        key =1;
+        Log.d("Call","Onmoved");
     }
 
     @Override
     public void onCameraIdle() {
-        if(key ==1) {
+        Log.d("Call","Idle");
+        if(!key.equals(mMap.getCameraPosition())) {
             if (marker != null)
                 marker.remove();
             marker = mMap.addMarker(new MarkerOptions().position(mMap.getCameraPosition().target));
@@ -413,12 +418,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            key =0;
         }
     }
 
     @Override
     public void onCameraMoveCanceled() {
+        Log.d("Call","Cancelled");
+    }
 
+    @Override
+    public void onCameraMoveStarted(int i) {
+        Log.d("Call","start");
+        key = mMap.getCameraPosition();
     }
 }

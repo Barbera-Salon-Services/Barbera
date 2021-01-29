@@ -190,48 +190,48 @@ public class SignUpActivity extends AppCompatActivity {
         user.put("Name",name.getText().toString());
         user.put("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
         user.put("house_address",address.getText().toString());
-        startActivity(new Intent(SignUpActivity.this,MapsActivity.class));
-//        documentReference.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if(task.isSuccessful()){
-//                    Map<String, Object> myCart=new HashMap<>();
-//                    myCart.put("cart_list_size",(long) 0);
-//                    documentReference.collection("UserData").document("MyCart")
-//                            .set(myCart).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            if(task.isSuccessful()){
-//                                Map<String, Object> myCoupons=new HashMap<>();
-//                                myCoupons.put("coupons",(long) 0);
-//                                documentReference.collection("UserData").document("MyCoupons")
-//                                        .set(myCoupons).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        if(task.isSuccessful()){
-//                                            checkForReferal();
-//                                            startActivity(new Intent(SignUpActivity.this,MapsActivity.class));
-//                                            finish();
-//                                            progressDialog.dismiss();
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                            else{
-//                                sendToastmsg(task.getException().getMessage());
-//                                signup.setEnabled(true);
-//                                progressDialog.dismiss();
-//                            }
-//                        }
-//                    });
-//                }
-//                else {
-//                    sendToastmsg(task.getException().getMessage());
-//                    signup.setEnabled(true);
-//                    progressDialog.dismiss();
-//                }
-//            }
-//        });
+
+        documentReference.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Map<String, Object> myCart=new HashMap<>();
+                    myCart.put("cart_list_size",(long) 0);
+                    documentReference.collection("UserData").document("MyCart")
+                            .set(myCart).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Map<String, Object> myCoupons=new HashMap<>();
+                                myCoupons.put("coupons",(long) 0);
+                                documentReference.collection("UserData").document("MyCoupons")
+                                        .set(myCoupons).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            checkForReferal();
+                                            startActivity(new Intent(SignUpActivity.this,MapsActivity.class));
+                                            finish();
+                                            progressDialog.dismiss();
+                                        }
+                                    }
+                                });
+                            }
+                            else{
+                                sendToastmsg(task.getException().getMessage());
+                                signup.setEnabled(true);
+                                progressDialog.dismiss();
+                            }
+                        }
+                    });
+                }
+                else {
+                    sendToastmsg(task.getException().getMessage());
+                    signup.setEnabled(true);
+                    progressDialog.dismiss();
+                }
+            }
+        });
 
     }
 
