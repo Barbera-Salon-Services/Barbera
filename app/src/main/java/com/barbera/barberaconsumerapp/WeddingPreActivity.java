@@ -1,11 +1,19 @@
 package com.barbera.barberaconsumerapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class WeddingPreActivity extends AppCompatActivity {
     private LinearLayout bridal;
@@ -14,6 +22,10 @@ public class WeddingPreActivity extends AppCompatActivity {
     private LinearLayout makeup;
     private Intent intent;
     private Intent intent1;
+    private String bridalImage;
+    private String groomImage;
+    private String mehandiImage;
+    private String makeupImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +38,21 @@ public class WeddingPreActivity extends AppCompatActivity {
         makeup=(LinearLayout)findViewById(R.id.makeup_section);
         intent=new Intent(getApplicationContext(),WeddingActivity.class);
         final Intent intent1 =new Intent(getApplicationContext(),ParlourActivity.class);
+
+        FirebaseFirestore.getInstance().collection("AppData").document("Wedding").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            bridalImage=task.getResult().get("bridal").toString();
+                            groomImage=task.getResult().get("groom").toString();
+                            mehandiImage=task.getResult().get("mehandi").toString();
+                            makeupImage=task.getResult().get("makeup").toString();
+                        }
+                    }
+                });
+        //Glide.with(getApplicationContext()).load(bridalImage)
+               // .apply(new RequestOptions().placeholder(R.drawable.logo)).into(bridal.setBackgroundResource(););
 
         bridal.setOnClickListener(new View.OnClickListener() {
             @Override

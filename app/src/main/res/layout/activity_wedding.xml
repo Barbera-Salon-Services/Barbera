@@ -6,35 +6,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WeddingActivity"
-    tools:background="@drawable/groom_background">
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="20dp"
-        app:cardBackgroundColor="@color/CartBlack">
+    tools:context=".WeddingActivity">
+    <!-- <androidx.cardview.widget.CardView
+         android:id="@+id/cardView"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         app:cardElevation="20dp"
+         app:cardBackgroundColor="@color/CartBlack">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/wedding_section_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                tools:text="Groom"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20sp" />
-      </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+             <TextView
+                 android:id="@+id/wedding_section_heading"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:padding="20dp"
+                 tools:text="Groom"
+                 android:textColor="@color/white"
+                 android:textStyle="bold"
+                 android:textSize="20sp" />
+       </RelativeLayout>
+     </androidx.cardview.widget.CardView>-->
+
+    <ImageView
+        android:id="@+id/heading_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        tools:src="@drawable/bridal_heading"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/wedding_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cardView"/>
+        android:layout_below="@id/heading_view"/>
     <!-- <androidx.viewpager.widget.ViewPager
          android:id="@+id/wedding_recycler_view"
          android:layout_width="match_parent"
