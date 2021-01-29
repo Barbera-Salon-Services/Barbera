@@ -53,26 +53,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
-    <Button
-        android:id="@+id/wedding_package_booking"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="book now"
-        android:background="@color/colorAccent"
-        android:textColor="@color/white"/>
-    <Button
-        android:id="@+id/wedding_package_to_cart"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:background="@color/colorAccent"
-        android:text="add to cart"
-        android:textColor="@color/white"/>
+        <Button
+            android:id="@+id/wedding_package_booking"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="book now"
+            android:background="@color/colorAccent"
+            android:textColor="@color/white"/>
+        <Button
+            android:id="@+id/wedding_package_to_cart"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="20dp"
+            android:background="@color/colorAccent"
+            android:text="add to cart"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </RelativeLayout>

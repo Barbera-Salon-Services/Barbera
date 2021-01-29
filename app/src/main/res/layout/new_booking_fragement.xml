@@ -14,38 +14,38 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/booking_service_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="(Men) Simple Hair Cut"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_margin="15dp"
-        android:textColor="@color/colorAccent"/>
+            <TextView
+                android:id="@+id/booking_service_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="(Men) Simple Hair Cut"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_margin="15dp"
+                android:textColor="@color/colorAccent"/>
 
-    <RelativeLayout
-        android:id="@+id/dateandtimeview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/booking_service_title">
-    <ImageView
-        android:id="@+id/booking_clock"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/clock_vector"
-        android:layout_margin="15dp"/>
-    <TextView
-        android:id="@+id/booking_date_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Wednesday, 29 July 2020\n2:05 am"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/booking_clock"
-        android:textSize="15sp"
-        android:textColor="@color/colorAccent"/>
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/dateandtimeview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/booking_service_title">
+                <ImageView
+                    android:id="@+id/booking_clock"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/clock_vector"
+                    android:layout_margin="15dp"/>
+                <TextView
+                    android:id="@+id/booking_date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Wednesday, 29 July 2020\n2:05 am"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/booking_clock"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorAccent"/>
+            </RelativeLayout>
 
             <!--  <RelativeLayout
                   android:id="@+id/addressview"
@@ -53,7 +53,6 @@
                   android:layout_height="wrap_content"
                   android:layout_below="@id/dateandtimeview"
                   android:layout_marginTop="10dp">
-
               <ImageView
                   android:id="@+id/booking_address_vector"
                   android:layout_centerVertical="true"
@@ -71,43 +70,69 @@
                   android:textSize="15sp"
                   android:textColor="@color/colorAccent"/>
               </RelativeLayout>-->
-    <TextView
-        android:id="@+id/booking_service_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dateandtimeview"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/colorAccent"
-        android:layout_marginBottom="10dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        tools:text="Rs 251" />
-    <Button
-        android:visibility="visible"
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/booking_service_total"
-        android:text="Cancel"
-        android:layout_centerHorizontal="true"
-        android:padding="5dp"
-        android:background="#ADF60303"
-        android:textColor="@color/white"
-        android:layout_margin="15dp"
-        android:elevation="50dp" />
- <!--   <TextView
-        android:id="@+id/status"
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/booking_service_total"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="15dp"
-        android:text="Cancelled"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"/>-->
+            <TextView
+                android:id="@+id/booking_service_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dateandtimeview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorAccent"
+                android:layout_marginBottom="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Rs 251" />
+
+            <Button
+                    android:id="@+id/cancel_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/booking_service_total"
+                    android:layout_margin="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="15dp"
+                    android:background="#ADF60303"
+                    android:elevation="50dp"
+                    android:padding="5dp"
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+            <!--   <TextView
+                   android:id="@+id/status"
+                   android:visibility="invisible"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/booking_service_total"
+                   android:layout_centerHorizontal="true"
+                   android:layout_margin="15dp"
+                   android:text="Cancelled"
+                   android:textSize="20sp"
+                   android:textColor="@color/colorAccent"
+                   android:textStyle="bold"/>-->
+
+            <Button
+                    android:id="@+id/startOtp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                android:text="start"
+                android:layout_below="@id/booking_service_total"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/colorAccent"/>
+            <Button
+                    android:id="@+id/endtOtp"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End"
+                    android:layout_below="@id/booking_service_total"
+                    android:layout_toRightOf="@id/startOtp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="12dp"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/colorAccent"/>
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

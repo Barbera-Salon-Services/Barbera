@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,10 @@ import java.util.Objects;
 
 public class ServiceAdapter extends BaseAdapter {
     private List<Service> serviceList;
+    private Context con;
 
-    public ServiceAdapter(List<Service> serviceList) {
+    public ServiceAdapter(Context context,List<Service> serviceList) {
+        con=context;
         this.serviceList = serviceList;
     }
 
@@ -174,16 +177,17 @@ public class ServiceAdapter extends BaseAdapter {
                     if(ParlourActivity.checkeditemList.size()!=0) {
                         int amount = 0;
                         String ordersummary="";
+                        Toast.makeText(view.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
                         for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
                             ordersummary += "(" + ParlourActivity.salontype + ")" + ParlourActivity.checkeditemList.get(i).getName()
                                     + "\t\t\tRs " + ParlourActivity.checkeditemList.get(i).getPrice() + "\n";
                             amount += Integer.parseInt(ParlourActivity.checkeditemList.get(i).getPrice());
                         }
                         //BookingPage.BookingTotalAmount = amount;
-                        Intent intent = new Intent(view.getContext(), BookingPage.class);
+                        Intent intent = new Intent(con, BookingPage.class);
                         intent.putExtra("Booking Amount",amount);
                         intent.putExtra("Order Summary",ordersummary);
-                        view.getContext().startActivity(intent);
+                        con.startActivity(intent);
                     }
                     else
                         Toast.makeText(view.getContext(),"Please Select Something First",Toast.LENGTH_LONG).show();
