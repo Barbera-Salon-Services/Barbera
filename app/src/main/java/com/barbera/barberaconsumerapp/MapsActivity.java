@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -234,7 +235,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             if(marker!= null)
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(Lat,Lon)));
-            cont.setVisibility(View.VISIBLE);
+            cont.setBackgroundColor(Color.BLACK);
+            cont.setEnabled(true);
             Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
         }else{
             sharedPreferences.edit().putString("Address","NA");
@@ -242,16 +244,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             marker.remove();
            // Toast.makeText(getApplicationContext(),"We are extremely sorry that we currently do " +
                    // "not provide our services in your location. Hope to reach you SOON", Toast.LENGTH_LONG).show();
-            cont.setVisibility(View.INVISIBLE);
+            cont.setBackgroundColor(Color.GRAY);
+            cont.setEnabled(false);
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setTitle("Not Active In this Region");
             builder.setMessage("We Currently aren't active in your Region. Hope to Reach you SOON...");
             builder.setCancelable(true);
-            builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     sendToMainActivity();
                     finish();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
                 }
             });
             AlertDialog alertDialog=builder.create();
@@ -262,7 +271,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void storeToFb(){
         SharedPreferences.Editor editor =sharedPreferences.edit();
         editor.putString("Address",address);
-        editor.commit();
+        editor.apply();
 
         Map<String,Object> user=new HashMap<>();
         user.put("Address",address);
