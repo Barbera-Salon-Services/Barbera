@@ -517,16 +517,6 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     @Override
     protected void onStart() {
         super.onStart();
-      /*  if(bookingType.equals("Cart")) {
-            OrderSummary="";
-            for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
-                OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
-                        dbQueries.cartItemModelList.get(i).getServiceName()
-                        + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
-                        dbQueries.cartItemModelList.get(i).getServicePrice() + "\n";
-            }
-        }*/
-
         extractDataFromUser();
         FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -577,10 +567,6 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                 String location = task.getResult().get("Address").toString();
                                 houseAddress.setText(location);
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(),"You don't have an address stored",Toast.LENGTH_LONG).show();
-                            }
-
                         }
                         else
                             Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
@@ -589,32 +575,4 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
 
     }
 
-   /* private void autodateandtime(){
-        Calendar calendar=Calendar.getInstance();
-        int hour=calendar.get(Calendar.HOUR_OF_DAY);
-        int minute=calendar.get(Calendar.MINUTE);
-
-        if(hour>=19||hour<9||hour+2>=19||hour+2<9){
-            //Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
-            time.setText(10 + ":" + "00" + " AM");
-            calendar.add(Calendar.DATE,1);
-        }
-        else {
-            if (hour >= 12) {
-                hour = (hour >= 13 ? hour - 12 : hour);
-                time.setText(hour+2 + ":" + minute + " PM");
-            }
-            else
-                time.setText(hour+2 + ":" + minute + " AM");
-        }
-        String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(Calendar.getInstance().getTime());
-        date.setText(currentday);
-    }*/
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-       // OrderSummary="";
-
-    }
 }

@@ -37,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
         else
             sendToSecondActivity();
     }
+
     private void sendToSecondActivity() {
         Handler handler=new Handler();
         handler.postDelayed(new Runnable() {
