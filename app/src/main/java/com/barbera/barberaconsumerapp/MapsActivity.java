@@ -50,6 +50,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center1;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center2;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius1;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius2;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener ,GoogleMap.OnCameraMoveCanceledListener,
         GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener {
 
@@ -62,12 +69,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String address;
     private Marker marker;
     private CameraPosition key;
-    public static LatLng center;
-    public static LatLng center1;
-    public static LatLng center2;
-    public static double radius1;
-    public static double radius;
-    public static double radius2;
     private FloatingActionButton floatingActionButton;
     private ProgressDialog progressDialog;
     private DocumentReference  documentReference;
@@ -229,12 +230,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<Address> addressList = geocoder.getFromLocation(Lat,Lon, 1);
             address = addressList.get(0).getAddressLine(0);
             addd.setText(address);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Lat,Lon), 17));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Lat,Lon), 15));
             if(marker!= null)
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(Lat,Lon)));
             cont.setVisibility(View.VISIBLE);
-//            Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
         }else{
             sharedPreferences.edit().putString("Address","NA");
             sharedPreferences.edit().commit();
@@ -245,7 +246,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setTitle("Not Active In this Region");
             builder.setMessage("We Currently aren't active in your Region. Hope to Reach you SOON...");
-            builder.setCancelable(false);
+            builder.setCancelable(true);
             builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -371,8 +372,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==4){
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
-                getCurrentLocation();
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+                finish();
+                startActivity(new Intent(this, MapsActivity.class));
+            }
         }
     }
 

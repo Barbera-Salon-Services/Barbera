@@ -539,9 +539,9 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                             MapSearchActivity.radius=task.getResult().getDouble("ag_radius");
                             MapSearchActivity.radius1=task.getResult().getDouble("kal_1_radius");
                             MapSearchActivity.radius2=task.getResult().getDouble("kal_2_radius");
-                            MapSearchActivity.center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
-                            MapSearchActivity.center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
-                            MapSearchActivity.center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+                            MapSearchActivity.center=new LatLng(26.930256,75.875947);
+                            MapSearchActivity.center1=new LatLng(26.949311,75.714512);
+                            MapSearchActivity.center2=new LatLng(26.943649,75.748845);
 
                         }
                     }

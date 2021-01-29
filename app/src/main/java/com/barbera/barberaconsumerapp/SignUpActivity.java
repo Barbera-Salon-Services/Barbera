@@ -10,7 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.location.Location;
+
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +56,12 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText address;
     private EditText password;
     private CardView signup;
+    public static LatLng center;
+    public static LatLng center1;
+    public static LatLng center2;
+    public static double radius1;
+    public static double radius;
+    public static double radius2;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore fstore;
     private DocumentReference documentReference;
@@ -384,15 +389,13 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            GeoPoint geoPoint1=task.getResult().getGeoPoint("kal_1");
-                            GeoPoint geoPoint2=task.getResult().getGeoPoint("kal_2");
-                            GeoPoint geoPoint=task.getResult().getGeoPoint("ag");
-                            MapsActivity.radius=task.getResult().getDouble("ag_radius");
-                            MapsActivity.radius1=task.getResult().getDouble("kal_1_radius");
-                            MapsActivity.radius2=task.getResult().getDouble("kal_2_radius");
-                            MapsActivity.center=new LatLng(22.566127, 88.404933);
-                            MapsActivity.center1=new LatLng(22.566127, 88.404933);
-                            MapsActivity.center2=new LatLng(22.566127, 88.404933);
+                            radius=task.getResult().getDouble("ag_radius");
+                            radius1=task.getResult().getDouble("kal_1_radius");
+                            radius2=task.getResult().getDouble("kal_2_radius");
+//                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
+                            center=new LatLng(26.930256,75.875947);
+                            center1=new LatLng(26.949311,75.714512);
+                            center2=new LatLng(26.943649,75.748845);
 
                         }
                     }
