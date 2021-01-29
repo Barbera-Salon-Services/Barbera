@@ -10,7 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.location.Location;
+
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,10 +56,14 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText address;
     private EditText password;
     private CardView signup;
+    public static LatLng center;
+    public static LatLng center1;
+    public static LatLng center2;
+    public static double radius1;
+    public static double radius;
+    public static double radius2;
     private FirebaseAuth firebaseAuth;
-    private String emailPattern="[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
     private FirebaseFirestore fstore;
-    private String userID;
     private DocumentReference documentReference;
     private static int pressed=0;
     private long haircutMinPrice;
@@ -73,6 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         name=(EditText)findViewById(R.id.name);
         email=(EditText) findViewById(R.id.email);
+        address = (EditText)findViewById(R.id.house_address);
        // address=(EditText) findViewById(R.id.PostalAddress);
         password=(EditText) findViewById(R.id.Password);
         signup=(CardView) findViewById(R.id.signUp);
@@ -165,7 +169,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.show();
         progressDialog.setCancelable(false);
 
-        userID=firebaseAuth.getCurrentUser().getUid();
+        String userID = firebaseAuth.getCurrentUser().getUid();
         documentReference=fstore.collection("Users").document(userID);
         AuthCredential credential= EmailAuthProvider.getCredential(email.getText().toString(),password.getText().toString());
 
@@ -184,12 +188,13 @@ public class SignUpActivity extends AppCompatActivity {
         editor.putString("Name",name.getText().toString());
         editor.putString("Email",email.getText().toString());
         editor.putString("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
-        editor.commit();
+        editor.apply();
         Map<String,Object> user=new HashMap<>();
         //user.put("Address",address.getText().toString());
         user.put("Email Address",email.getText().toString());
         user.put("Name",name.getText().toString());
         user.put("Phone",firebaseAuth.getCurrentUser().getPhoneNumber());
+        user.put("house_address",address.getText().toString());
 
         documentReference.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -346,6 +351,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
     private boolean checkEmailAndPassword(){
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
         if(email.getText().toString().matches(emailPattern)){
             if (password.length() >= 8) {
                     return true;
@@ -383,15 +389,13 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            GeoPoint geoPoint1=task.getResult().getGeoPoint("kal_1");
-                            GeoPoint geoPoint2=task.getResult().getGeoPoint("kal_2");
-                            GeoPoint geoPoint=task.getResult().getGeoPoint("ag");
-                            MapsActivity.radius=task.getResult().getDouble("ag_radius");
-                            MapsActivity.radius1=task.getResult().getDouble("kal_1_radius");
-                            MapsActivity.radius2=task.getResult().getDouble("kal_2_radius");
-                            MapsActivity.center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
-                            MapsActivity.center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
-                            MapsActivity.center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+                            radius=task.getResult().getDouble("ag_radius");
+                            radius1=task.getResult().getDouble("kal_1_radius");
+                            radius2=task.getResult().getDouble("kal_2_radius");
+//                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
+                            center=new LatLng(26.930256,75.875947);
+                            center1=new LatLng(26.949311,75.714512);
+                            center2=new LatLng(26.943649,75.748845);
 
                         }
                     }

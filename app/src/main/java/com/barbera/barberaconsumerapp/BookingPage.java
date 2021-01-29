@@ -366,7 +366,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Map<String,Object> addressMap=new HashMap<>();
-                    addressMap.put("House_address",houseAddress.getText().toString());
+                    addressMap.put("house_address",houseAddress.getText().toString());
                     FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .update(addressMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -529,9 +529,9 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                             MapSearchActivity.radius=task.getResult().getDouble("ag_radius");
                             MapSearchActivity.radius1=task.getResult().getDouble("kal_1_radius");
                             MapSearchActivity.radius2=task.getResult().getDouble("kal_2_radius");
-                            MapSearchActivity.center=new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
-                            MapSearchActivity.center1=new LatLng(geoPoint1.getLatitude(),geoPoint.getLongitude());
-                            MapSearchActivity.center2=new LatLng(geoPoint2.getLatitude(),geoPoint.getLongitude());
+                            MapSearchActivity.center=new LatLng(26.930256,75.875947);
+                            MapSearchActivity.center1=new LatLng(26.949311,75.714512);
+                            MapSearchActivity.center2=new LatLng(26.943649,75.748845);
 
                         }
                     }
@@ -563,8 +563,8 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            if(task.getResult().get("Address")!=null) {
-                                String location = task.getResult().get("Address").toString();
+                            if(task.getResult().get("house_address")!=null) {
+                                String location = task.getResult().get("house_address")+" "+task.getResult().get("Address").toString();
                                 houseAddress.setText(location);
                             }
                         }
