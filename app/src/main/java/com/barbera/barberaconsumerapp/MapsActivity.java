@@ -43,6 +43,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
@@ -155,7 +156,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 //        LatLng mylocation = new LatLng(Lat,Lon);
         mMap.setMyLocationEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
 
         Circle circle = mMap.addCircle(new CircleOptions()
                 .center(center)
@@ -184,6 +185,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraIdleListener (this);
         mMap.setOnCameraMoveListener  (this);
+        getCurrentLocation();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -231,40 +233,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<Address> addressList = geocoder.getFromLocation(Lat,Lon, 1);
             address = addressList.get(0).getAddressLine(0);
             addd.setText(address);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Lat,Lon), 15));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 14));
             if(marker!= null)
                 marker.remove();
-            marker= mMap.addMarker(new MarkerOptions().position(new LatLng(Lat,Lon)));
-            cont.setBackgroundColor(Color.BLACK);
-            cont.setEnabled(true);
+            marker= mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude,location.longitude)));
             Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
         }else{
             sharedPreferences.edit().putString("Address","NA");
             sharedPreferences.edit().commit();
-            marker.remove();
-           // Toast.makeText(getApplicationContext(),"We are extremely sorry that we currently do " +
-                   // "not provide our services in your location. Hope to reach you SOON", Toast.LENGTH_LONG).show();
-            cont.setBackgroundColor(Color.GRAY);
-            cont.setEnabled(false);
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setTitle("Not Active In this Region");
-            builder.setMessage("We Currently aren't active in your Region. Hope to Reach you SOON...");
-            builder.setCancelable(true);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    sendToMainActivity();
-                    finish();
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 7));
+            if(marker!= null)
+                marker.remove();
+            marker= mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude,location.longitude)));
+            Toast.makeText(getApplicationContext(),"We Currently aren't active in your Region. Hope to Reach you SOON...", Toast.LENGTH_LONG).show();
 
-                }
-            });
-            AlertDialog alertDialog=builder.create();
-            alertDialog.show();
+//            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+//            builder.setTitle("Not Active In this Region");
+//            builder.setMessage("We Currently aren't active in your Region. Hope to Reach you SOON...");
+//            builder.setCancelable(true);
+//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    sendToMainActivity();
+//                    finish();
+//                }
+//            });
+//            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
+//            AlertDialog alertDialog=builder.create();
+//            alertDialog.show();
         }
 
     }
@@ -273,16 +274,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         editor.putString("Address",address);
         editor.apply();
 
-        Map<String,Object> user=new HashMap<>();
-        user.put("Address",address);
 
-        documentReference.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
+        documentReference.get().addOnCompleteListener(task -> {
+            String haddress = task.getResult().get("house_address").toString();
+            Map<String,Object> user=new HashMap<>();
+            user.put("Address",address);
+            user.put("house_address",haddress +" "+address);
+            documentReference.update(user).addOnCompleteListener(task1 -> {
+                if (task1.isSuccessful()) {
                     sendToMainActivity();
                 }
-            }
+            });
         });
 
 
