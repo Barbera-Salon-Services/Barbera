@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,6 +82,8 @@ public class WeddingAdapter extends RecyclerView.Adapter {
         private TextView sitting3;
         private TextView sitting4;
         private TextView sitting5;
+        private ImageView arrowback;
+        private ImageView arrowForward;
 
         public WeddingItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,9 +93,9 @@ public class WeddingAdapter extends RecyclerView.Adapter {
             price=(TextView)itemView.findViewById(R.id.package_price_new_wedding);
             book=(Button)itemView.findViewById(R.id.wedding_package_booking);
             addToCart=(Button)itemView.findViewById(R.id.wedding_package_to_cart);
-            Layout1=(RelativeLayout)itemView.findViewById(R.id.layout_1_sitting);
+           /* Layout1=(RelativeLayout)itemView.findViewById(R.id.layout_1_sitting);
             Layout2=(RelativeLayout)itemView.findViewById(R.id.layout_2_sitting);
-            Layout3=(RelativeLayout)itemView.findViewById(R.id.layout_3_sitting);
+            Layout3=(RelativeLayout)itemView.findViewById(R.id.layout_3_sitting);*/
             Layout4=(RelativeLayout)itemView.findViewById(R.id.layout_4_sitting);
             Layout5=(RelativeLayout)itemView.findViewById(R.id.layout_5_sitting);
             sitting1=(TextView)itemView.findViewById(R.id.sitting_1_content);
@@ -100,6 +103,8 @@ public class WeddingAdapter extends RecyclerView.Adapter {
             sitting3=(TextView)itemView.findViewById(R.id.sitting_3_content);
             sitting4=(TextView)itemView.findViewById(R.id.sitting_4_content);
             sitting5=(TextView)itemView.findViewById(R.id.sitting_5_content);
+            arrowback=(ImageView)itemView.findViewById(R.id.arrowBack);
+            arrowForward=(ImageView)itemView.findViewById(R.id.arrowForward);
 
         }
 
@@ -115,6 +120,18 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                 Layout5.setVisibility(View.VISIBLE);
                 sitting4.setText(weddingList.get(position).sittings.get(3));
                 sitting5.setText(weddingList.get(position).sittings.get(4));
+            }
+            if(position==0) {
+                arrowback.setVisibility(View.INVISIBLE);
+                arrowForward.setVisibility(View.VISIBLE);
+            }
+            else if(position+1==weddingList.size()) {
+                arrowForward.setVisibility(View.INVISIBLE);
+                arrowback.setVisibility(View.VISIBLE);
+            }
+            else{
+                arrowback.setVisibility(View.VISIBLE);
+                arrowForward.setVisibility(View.VISIBLE);
             }
 
 

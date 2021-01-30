@@ -24,7 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.barbera.barberaconsumerapp.R.drawable.bride_background;
+//import static com.barbera.barberaconsumerapp.R.drawable.bride_background;
 
 public class WeddingActivity extends AppCompatActivity {
     private ImageView weddingHeading;

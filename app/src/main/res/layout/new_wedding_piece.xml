@@ -14,6 +14,23 @@
         android:textColor="@color/colorAccent"
         android:layout_marginTop="20dp"
         android:textSize="25sp"/>
+    <ImageView
+        android:id="@+id/arrowBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/arrow_back"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="5dp"/>
+
+    <ImageView
+        android:id="@+id/arrowForward"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/arrow_forward"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="5dp"/>
     <TextView
         android:id="@+id/package_price_new_wedding"
         android:layout_width="wrap_content"

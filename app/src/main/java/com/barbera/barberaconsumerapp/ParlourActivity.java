@@ -99,8 +99,8 @@ public class ParlourActivity extends AppCompatActivity {
                 });
 
         title.setText(Category);
-
-        Glide.with(getApplicationContext()).load(CategoryIMage)
+        if(!CategoryIMage.isEmpty())
+            Glide.with(getApplicationContext()).load(CategoryIMage)
                 .apply(new RequestOptions().placeholder(R.drawable.logo)).into(image);
 
         if(salontype.equals("men")||salontype.equals("women")) {
@@ -140,6 +140,8 @@ public class ParlourActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 List<String> subCategoryList = (List<String>) task.getResult().get("Services");
+                                Glide.with(getApplicationContext()).load(task.getResult().get("icon").toString())
+                                        .apply(new RequestOptions().placeholder(R.drawable.logo)).into(image);
                                 for (int i = 0; i < subCategoryList.size(); i++) {
                                     FirebaseFirestore.getInstance().collection(serViceType).document(subCategoryList.get(i).toString()).get()
                                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -163,9 +165,9 @@ public class ParlourActivity extends AppCompatActivity {
         }
         else{
             if(salontype.equals("Mehandi"))
-                image.setImageResource(R.drawable.mehandi);
+                image.setImageResource(R.drawable.wedding_mehandi);
             else
-                image.setImageResource(R.drawable.makeup);
+                image.setImageResource(R.drawable.make_up_wedding);
             progressBarOnServiceList.setVisibility(View.VISIBLE);
             fstore.collection(salontype).orderBy("price").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override

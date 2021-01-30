@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +17,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class WeddingPreActivity extends AppCompatActivity {
-    private LinearLayout bridal;
-    private LinearLayout groom;
-    private LinearLayout mehandi;
-    private LinearLayout makeup;
+    private CardView bridal;
+    private CardView groom;
+    private CardView mehandi;
+    private CardView makeup;
     private Intent intent;
     private Intent intent1;
     private String bridalImage;
@@ -32,10 +33,10 @@ public class WeddingPreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wedding_pre);
 
-        bridal=(LinearLayout)findViewById(R.id.bridal_section);
-        groom=(LinearLayout)findViewById(R.id.groom_section);
-        mehandi=(LinearLayout)findViewById(R.id.mehandi_section);
-        makeup=(LinearLayout)findViewById(R.id.makeup_section);
+        bridal=(CardView)findViewById(R.id.bridal_section);
+        groom=(CardView)findViewById(R.id.groom_section);
+        mehandi=(CardView)findViewById(R.id.mehandi_section);
+        makeup=(CardView)findViewById(R.id.makeup_section);
         intent=new Intent(getApplicationContext(),WeddingActivity.class);
         final Intent intent1 =new Intent(getApplicationContext(),ParlourActivity.class);
 
@@ -52,7 +53,7 @@ public class WeddingPreActivity extends AppCompatActivity {
                     }
                 });
         //Glide.with(getApplicationContext()).load(bridalImage)
-               // .apply(new RequestOptions().placeholder(R.drawable.logo)).into(bridal.setBackgroundResource(););
+               // .apply(new RequestOptions().placeholder(R.drawable.logo)).into(bridal);
 
         bridal.setOnClickListener(new View.OnClickListener() {
             @Override

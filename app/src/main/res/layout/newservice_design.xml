@@ -16,14 +16,13 @@
         android:layout_centerHorizontal="true"
         android:elevation="20dp"
         app:cardCornerRadius="30dp">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/service_image"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="200dp"
                 tools:src="@drawable/img_20200922_wa0008"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

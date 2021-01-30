@@ -90,7 +90,7 @@ public class SubCategoryActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 for(QueryDocumentSnapshot documentSnapshot:task.getResult()) {
                                     subCategoryList.add(documentSnapshot.getId());
-                                    subCategoryImage=documentSnapshot.get("icon").toString();
+                                    //subCategoryImage=documentSnapshot.get("icon").toString();
                                 }
                                 sublistview.setAdapter(subCategoryAdapter);
                                 progressBarOnSubCategory.setVisibility(View.INVISIBLE);
@@ -102,8 +102,8 @@ public class SubCategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(SubCategoryActivity.this, ParlourActivity.class);
-                intent.putExtra("Category", Category);
-                intent.putExtra("CategoryIMage",subCategoryImage);
+                intent.putExtra("Category", subCategoryList.get(position));
+                //intent.putExtra("CategoryIMage",subCategoryImage);
                 intent.putExtra("SalonType",salontype);
                 intent.putExtra("Collection",collecton);
                 intent.putExtra("SubCategDoc",subCategoryList.get(position));

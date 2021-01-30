@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_background"
+    android:background="@drawable/second_screen_bg"
     tools:context=".SecondScreen">
     <Button
         android:id="@+id/new_user_signup"

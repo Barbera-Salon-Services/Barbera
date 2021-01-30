@@ -12,7 +12,8 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
-        app:cardElevation="10dp">
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -32,6 +33,7 @@
                 android:textColor="@color/colorAccent"
                 android:layout_below="@id/category_image"
                 tools:text="HairCut"
+                android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

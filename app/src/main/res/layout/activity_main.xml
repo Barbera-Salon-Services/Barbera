@@ -89,8 +89,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@id/slider_view"
-                tools:src="@drawable/groom"/>
+                android:layout_below="@id/slider_view"/>
             <TextView
                 android:id="@+id/trend_in_men"
                 android:layout_width="wrap_content"
@@ -109,8 +108,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/wedding_picture"
                 android:layout_alignParentRight="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="10dp">
 
@@ -121,11 +118,11 @@
                        android:text="View All"
                        android:textSize="20sp"
                        android:textColor="@color/colorAccent"/>-->
-           <!--     <ImageView
+                <ImageView
        android:id="@+id/arrow_vector_men"
        android:layout_width="30dp"
        android:layout_height="30dp"
-       android:src="@drawable/more_vector"/>-->
+       android:src="@drawable/more_vector"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -172,8 +169,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/view_men_salon"
             android:layout_alignParentRight="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
             android:layout_marginRight="10dp">
 
          <!--   <TextView
@@ -183,11 +178,11 @@
                 android:text="View All"
                 android:textSize="20sp"
                 android:textColor="@color/colorAccent"/>-->
-         <!--   <ImageView
+            <ImageView
                 android:id="@+id/arrow_vector_women"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/more_vector"/>-->
+                android:src="@drawable/more_vector"/>
         </RelativeLayout>
 
             <RelativeLayout
