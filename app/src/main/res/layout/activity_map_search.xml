@@ -14,6 +14,16 @@
 			android:layout_height="match_parent"
 			tools:context=".MapSearchActivity" />
 
+	<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/pinn"
+			app:layout_constraintBottom_toTopOf="@+id/continueToBooking"
+			app:layout_constraintEnd_toEndOf="@+id/map1"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/location" />
+
+
 	<SearchView
 			android:id="@+id/location"
 			android:layout_width="match_parent"
@@ -31,7 +41,7 @@
 	<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Long Press to Select"
+			android:text="Drag the map to change location"
 		    app:layout_constraintTop_toBottomOf="@id/location"
 		    android:gravity="center_horizontal"
 		    android:layout_marginTop="10dp"
