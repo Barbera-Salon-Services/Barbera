@@ -76,6 +76,7 @@ public class WeddingPreActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent1.putExtra("SalonType","Mehandi");
                 intent1.putExtra("Category", "Mehandi");
+                intent1.putExtra("SubCategDoc","Null");
                 //intent1.putExtra("ServiceType","Mehandi");
                 startActivity(intent1);
             }
@@ -85,6 +86,7 @@ public class WeddingPreActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent1.putExtra("SalonType","WeddingMakeup");
                 intent1.putExtra("Category", "WeddingMakeup");
+                intent1.putExtra("SubCategDoc","Null");
                 //intent1.putExtra("ServiceType","WeddingMakeup");
                 startActivity(intent1);
             }
