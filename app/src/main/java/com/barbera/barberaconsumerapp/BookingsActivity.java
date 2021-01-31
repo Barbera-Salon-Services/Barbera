@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class BookingsActivity extends AppCompatActivity {
-    public static List<BookingModel> bookingActivityList=new ArrayList<>();
+    private List<BookingModel> bookingActivityList=new ArrayList<>();
     private ListView BookinglistView;
     private ProgressBar progressBarONBookingActivity;
     private static RelativeLayout emptyLayout;
@@ -90,11 +90,17 @@ public class BookingsActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
                                 for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())){
+                                    String status = "";
+                                    try{
+                                        status =documentSnapshot.get("status").toString();
+                                    }catch (Exception ignored){
+                                        status ="pending";
+                                    }
                                     bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString(),documentSnapshot.get("total_amount").toString(),
                                             documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
-                                            documentSnapshot.getId()));
+                                            documentSnapshot.getId(),status));
                                 }
-                                checked=true;
+//                                checked=true;
                                 BookinglistView.setAdapter(bookingActivityAdapter);
                                 if(bookingActivityList.size()==0){
                                     //Toast.makeText(getApplicationContext(),"No Bookings Yet",Toast.LENGTH_LONG).show();
@@ -125,5 +131,12 @@ public class BookingsActivity extends AppCompatActivity {
         overridePendingTransition(0,0);
         finish();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(new Intent(getApplicationContext(),BookingsActivity.class));
     }
 }

@@ -215,7 +215,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                             dbQueries.cartList.clear();
                                             dbQueries.cartItemModelList.clear();
                                             BookingsActivity.checked=false;
-                                            BookingsActivity.bookingActivityList.clear();
+//                                            BookingsActivity.bookingActivityList.clear();
                                             MainActivity.cartAdapter.notifyDataSetChanged();
                                             Intent intent1=new Intent(BookingPage.this, CongratulationsPage.class);
                                             intent1.putExtra("Booking Amount",BookingTotalAmount);
@@ -246,7 +246,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                                         if(task.isSuccessful()){
                                             progressDialog.dismiss();
                                             BookingsActivity.checked=false;
-                                            BookingsActivity.bookingActivityList.clear();
+//                                            BookingsActivity.bookingActivityList.clear();
                                             MyCoupons.couponsChecked=false;
                                             MyCoupons.couponItemModelList.clear();
                                             Intent intent1=new Intent(BookingPage.this, CongratulationsPage.class);
@@ -261,7 +261,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                     else {
                         progressDialog.dismiss();
                         BookingsActivity.checked=false;
-                        BookingsActivity.bookingActivityList.clear();
+//                        BookingsActivity.bookingActivityList.clear();
                         Intent intent1=new Intent(BookingPage.this, CongratulationsPage.class);
                         intent1.putExtra("Booking Amount",BookingTotalAmount);
                         intent1.putExtra("Order Summary",OrderSummary);
@@ -360,6 +360,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         bookingData.put("time",finalTime);
         bookingData.put("address",userAddress);
         bookingData.put("total_amount",BookingTotalAmount);
+        bookingData.put("status","pending");
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Bookings")
                 .document().set(bookingData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

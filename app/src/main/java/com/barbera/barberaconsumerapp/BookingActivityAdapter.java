@@ -42,6 +42,7 @@ public class BookingActivityAdapter extends BaseAdapter {
     private Button end;
     private Button cancelBooking;
     private Button start;
+    private TextView status;
     private ProgressDialog progressDialog;
     private Context context;
 
@@ -86,12 +87,20 @@ public class BookingActivityAdapter extends BaseAdapter {
         cancelBooking=(Button)view.findViewById(R.id.cancel_button);
         start = (Button)view.findViewById(R.id.startOtp);
         end = (Button)view.findViewById(R.id.endtOtp);
+        status = view.findViewById(R.id.status);
 
         serviceSummary.setText(bookingAdapterList.get(position).getSummary());
         totalAmount.setText("Total Amount Rs "+bookingAdapterList.get(position).getAmount());
         dateTime.setText(bookingAdapterList.get(position).getDate()+"\n"+bookingAdapterList.get(position).getTime());
         //address.setText(bookingAdapterList.get(position).getAddress());
         extractNameAndContact();
+
+        if(bookingAdapterList.get(position).getStatus().equals("done")){
+            start.setVisibility(View.INVISIBLE);
+            end.setVisibility(View.INVISIBLE);
+            cancelBooking.setVisibility(View.INVISIBLE);
+            status.setVisibility(View.VISIBLE);
+        }
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,13 +169,23 @@ public class BookingActivityAdapter extends BaseAdapter {
                                 end.setVisibility(View.INVISIBLE);
                                 start.setVisibility(View.INVISIBLE);
                                 cancelBooking.setVisibility(View.INVISIBLE);
-//                                dropBooking();
+                                updateStatus();
                                 rateService();
                             }
                         });
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     }
+                });
+    }
+
+    private void updateStatus() {
+        Map<String,Object> user=new HashMap<>();
+        user.put("status","done");
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
+                .collection("Bookings").document(bookingAdapterList.get(pos).getDocId()).update(user)
+                .addOnCompleteListener(task -> {
+
                 });
     }
 
@@ -228,7 +247,7 @@ public class BookingActivityAdapter extends BaseAdapter {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            BookingsActivity.bookingActivityList.remove(bookingAdapterList.get(position));
+//                            BookingsActivity.bookingActivityList.remove(bookingAdapterList.get(position));
                             BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
                         }
                         else

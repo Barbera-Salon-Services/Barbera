@@ -176,7 +176,7 @@ public class ProfileActivity extends AppCompatActivity {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                BookingsActivity.bookingActivityList.clear();
+//                BookingsActivity.bookingActivityList.clear();
                 profile_name="";
                 BookingsActivity.checked=false;
                 MyCoupons.couponItemModelList.clear();
