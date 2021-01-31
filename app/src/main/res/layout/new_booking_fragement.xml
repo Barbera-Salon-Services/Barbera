@@ -97,7 +97,7 @@
                     android:text="Cancel"
                     android:textColor="@color/white"
                     android:visibility="visible" />
-            <!--   <TextView
+            <TextView
                    android:id="@+id/status"
                    android:visibility="invisible"
                    android:layout_width="wrap_content"
@@ -105,10 +105,10 @@
                    android:layout_below="@id/booking_service_total"
                    android:layout_centerHorizontal="true"
                    android:layout_margin="15dp"
-                   android:text="Cancelled"
+                   android:text="Completed"
                    android:textSize="20sp"
                    android:textColor="@color/colorAccent"
-                   android:textStyle="bold"/>-->
+                   android:textStyle="bold"/>
 
             <Button
                     android:id="@+id/startOtp"
