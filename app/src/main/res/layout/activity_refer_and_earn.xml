@@ -23,10 +23,11 @@
 
     <ImageView
         android:id="@+id/referimg"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/referandearn"
-        android:layout_marginTop="80dp"/>
+        android:src="@drawable/referimg"
+        android:layout_below="@id/cardViewINMyCoupons"
+        android:layout_marginTop="40dp"/>
     <TextView
         android:id="@+id/referHeading"
         android:layout_width="wrap_content"
@@ -35,6 +36,7 @@
         android:layout_centerHorizontal="true"
         android:text="Refer and Earn"
         android:textColor="@color/colorAccent"
+        android:layout_marginTop="50dp"
         android:textStyle="bold"
         android:textSize="20sp"/>
     <TextView
@@ -43,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="@string/referAndEarn"
         android:layout_below="@id/referHeading"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:textSize="15sp"
         android:layout_above="@id/refer_button"/>
     <Button

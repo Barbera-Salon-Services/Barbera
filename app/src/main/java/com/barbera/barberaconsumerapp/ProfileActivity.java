@@ -8,12 +8,9 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,9 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.dynamiclinks.DynamicLink;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -102,7 +96,9 @@ public class ProfileActivity extends AppCompatActivity {
         AboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,AboutUsActivity.class));
+                Intent intent=new Intent(ProfileActivity.this, AboutPrivacyActivity.class);
+                intent.putExtra("Heading","About Us");
+                startActivity(intent);
             }
         });
 
@@ -111,7 +107,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),ContactUsActivity.class));
-
             }
         });
 
@@ -119,7 +114,9 @@ public class ProfileActivity extends AppCompatActivity {
         privacyPOlicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),PrivacyPolicyActivity.class));
+                Intent intent=new Intent(ProfileActivity.this, AboutPrivacyActivity.class);
+                intent.putExtra("Heading","User Privacy Policy");
+                startActivity(intent);
             }
         });
 
@@ -194,10 +191,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
         AlertDialog dialog=builder.create();
         dialog.show();
-
     }
-
-
 
     @Override
     public void onBackPressed() {

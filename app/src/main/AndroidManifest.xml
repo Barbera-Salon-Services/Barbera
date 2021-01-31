@@ -49,15 +49,12 @@
 				android:name=".MyCoupons"
 				android:screenOrientation="portrait" />
 		<activity
-				android:name=".PrivacyPolicyActivity"
+				android:name=".AboutPrivacyActivity"
 				android:screenOrientation="portrait" />
 		<activity
 				android:name=".ContactUsActivity"
 				android:screenOrientation="portrait" />
-		<activity
-				android:name=".AboutUsActivity"
-				android:screenOrientation="portrait" />
-		<activity
+        <activity
 				android:name=".CongratulationsPage"
 				android:screenOrientation="portrait" />
 		<activity

@@ -15,8 +15,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -60,11 +63,26 @@ public class WeddingActivity extends AppCompatActivity {
         new PagerSnapHelper().attachToRecyclerView(weddingRecyclerView);
 
         //weddingHeading.setText(weddingType);
+        FirebaseFirestore.getInstance().collection("AppData").document("Wedding").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            if(weddingType.equals("Bride"))
+                                Glide.with(getApplicationContext()).load(task.getResult().get("bridal").toString())
+                                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(weddingHeading);
+                            else
+                                Glide.with(getApplicationContext()).load(task.getResult().get("groom").toString())
+                                        .apply(new RequestOptions().placeholder(R.drawable.logo)).into(weddingHeading);
 
-        if(weddingType.equals("Bride"))
+                        }
+                    }
+                });
+
+      /*  if(weddingType.equals("Bride"))
             weddingHeading.setBackgroundResource(R.drawable.bridal_heading);
         else
-            weddingHeading.setBackgroundResource(R.drawable.groom_heading);
+            weddingHeading.setBackgroundResource(R.drawable.groom_heading);*/
 
 
         if(weddingType.equals("Bride")&&brideList.size()==0)
