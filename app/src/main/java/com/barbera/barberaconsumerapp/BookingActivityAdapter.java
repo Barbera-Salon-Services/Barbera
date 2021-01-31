@@ -3,7 +3,9 @@ package com.barbera.barberaconsumerapp;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,13 +38,16 @@ public class BookingActivityAdapter extends BaseAdapter {
     private List<BookingModel> bookingAdapterList;
     private String UserName;
     private String UserPhone;
+    private int pos;
     private Button end;
     private Button cancelBooking;
     private Button start;
     private ProgressDialog progressDialog;
+    private Context context;
 
-    public BookingActivityAdapter(List<BookingModel> bookingAdapterList) {
+    public BookingActivityAdapter(List<BookingModel> bookingAdapterList, Context context) {
         this.bookingAdapterList = bookingAdapterList;
+        this.context = context;
     }
 
     @Override
@@ -72,6 +77,7 @@ public class BookingActivityAdapter extends BaseAdapter {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_booking_fragement, null);
         else
             view = (View) convertView;
+        pos =position;
 
         TextView serviceSummary=(TextView)view.findViewById(R.id.booking_service_title);
         TextView totalAmount=(TextView)view.findViewById(R.id.booking_service_total);
@@ -154,12 +160,20 @@ public class BookingActivityAdapter extends BaseAdapter {
                                 end.setVisibility(View.INVISIBLE);
                                 start.setVisibility(View.INVISIBLE);
                                 cancelBooking.setVisibility(View.INVISIBLE);
+//                                dropBooking();
+                                rateService();
                             }
                         });
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     }
                 });
+    }
+
+    private void rateService() {
+        context.startActivity(new Intent(context,Rating.class)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .putExtra("docId",bookingAdapterList.get(pos).getDocId()));
     }
 
     private void generateStartOtp(final View view) {
