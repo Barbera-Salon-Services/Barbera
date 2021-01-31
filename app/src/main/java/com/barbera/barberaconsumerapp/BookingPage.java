@@ -563,10 +563,13 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            if(task.getResult().get("house_address")!=null) {
-                                String location = task.getResult().get("house_address")+" "+task.getResult().get("Address").toString();
-                                houseAddress.setText(location);
-                            }
+                            String location="";
+                            if(task.getResult().get("house_address")!=null)
+                                location = task.getResult().get("house_address").toString();
+                            if(task.getResult().get("Address")!=null)
+                                location+=" "+task.getResult().get("Address").toString();
+                            houseAddress.setText(location);
+
                         }
                         else
                             Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();

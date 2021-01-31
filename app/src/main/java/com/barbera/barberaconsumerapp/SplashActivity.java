@@ -46,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashActivity.this,SecondScreen.class));
                 finish();
             }
-        },3000);
+        },5000);
     }
     private void whetherNewOrOldUser() {
 
