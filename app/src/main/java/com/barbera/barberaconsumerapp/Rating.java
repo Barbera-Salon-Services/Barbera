@@ -2,12 +2,15 @@ package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +27,7 @@ public class Rating extends AppCompatActivity {
     private int valuePicker1;
     private String bookingId;
     private  ProgressDialog progressDialog;
+    private CardView skip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,7 @@ public class Rating extends AppCompatActivity {
         progressDialog =new ProgressDialog(Rating.this);
         picker = findViewById(R.id. numPick);
         btn = findViewById(R.id.btntt);
+        skip=(CardView)findViewById(R.id.skip_rating);
         picker.setMaxValue(5);
         picker.setMinValue(1);
         Intent intent = getIntent();
@@ -46,6 +51,13 @@ public class Rating extends AppCompatActivity {
             progressDialog.setCancelable(false);
             updateInDb();
         });
+
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void updateInDb() {
@@ -55,6 +67,7 @@ public class Rating extends AppCompatActivity {
                 .collection("Bookings").document(bookingId).update(user).addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         progressDialog.dismiss();
+                        Toast.makeText(this, "Thank You for your Response", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                     progressDialog.dismiss();
