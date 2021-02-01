@@ -69,7 +69,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 //        serviceSummary.setText(bookingAdapterList.get(position).getSummary());
 //        totalAmount.setText("Total Amount Rs "+bookingAdapterList.get(position).getAmount());
 //        dateTime.setText(bookingAdapterList.get(position).getDate()+"\n"+bookingAdapterList.get(position).getTime());
-        //address.setText(bookingAdapterList.get(position).getAddress());
+    //address.setText(bookingAdapterList.get(position).getAddress());
 //
 //        if(bookingAdapterList.get(position).getStatus().equals("done")){
 //            start.setVisibility(View.INVISIBLE);
@@ -78,7 +78,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 //            status.setVisibility(View.VISIBLE);
 //        }
 
-//        start.setOnClickListener(new View.OnClickListener() {
+    //        start.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                generateStartOtp(v);
@@ -160,13 +160,13 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         holder.cancelBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setMessage("Really!!You Want to Cancel..");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        progressDialog = new ProgressDialog(context);
+                        progressDialog = new ProgressDialog(v.getContext());
                         progressDialog.setMessage("Hold On for a moment...");
                         progressDialog.show();
                         progressDialog.setCancelable(false);
@@ -189,7 +189,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 
     @Override
     public int getItemCount() {
-       return  bookingAdapterList.size();
+        return  bookingAdapterList.size();
     }
 
     public class BookingItemViewHolder extends RecyclerView.ViewHolder {
@@ -289,11 +289,11 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                                 holder.start.setVisibility(View.INVISIBLE);
                                 holder.cancelBooking.setVisibility(View.INVISIBLE);
                             }
-                    });
+                        });
                         AlertDialog dialog = builder.create();
                         dialog.show();
-              }
-        });
+                    }
+                });
     }
 
     private void extractNameAndContact() {
@@ -316,7 +316,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-//                            BookingsActivity.bookingActivityList.remove(bookingAdapterList.get(position));
+                            bookingAdapterList.remove(bookingAdapterList.get(position));
                             BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
                         }
                         else
