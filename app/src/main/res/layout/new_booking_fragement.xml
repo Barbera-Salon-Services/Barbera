@@ -110,7 +110,7 @@
                    android:textColor="@color/colorAccent"
                    android:textStyle="bold"/>
 
-            <Button
+          <!--  <Button
                     android:id="@+id/startOtp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="12dp"
                     android:textColor="@color/white"
-                    android:backgroundTint="@color/colorAccent"/>
+                    android:backgroundTint="@color/colorAccent"/>-->
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

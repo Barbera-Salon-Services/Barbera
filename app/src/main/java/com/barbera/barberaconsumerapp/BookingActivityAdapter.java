@@ -85,8 +85,8 @@ public class BookingActivityAdapter extends BaseAdapter {
         TextView dateTime=(TextView)view.findViewById(R.id.booking_date_time);
         //TextView address=(TextView)view.findViewById(R.id.booking_address);
         cancelBooking=(Button)view.findViewById(R.id.cancel_button);
-        start = (Button)view.findViewById(R.id.startOtp);
-        end = (Button)view.findViewById(R.id.endtOtp);
+        //start = (Button)view.findViewById(R.id.startOtp);
+        //end = (Button)view.findViewById(R.id.endtOtp);
         status = view.findViewById(R.id.status);
 
         serviceSummary.setText(bookingAdapterList.get(position).getSummary());
@@ -95,11 +95,23 @@ public class BookingActivityAdapter extends BaseAdapter {
         //address.setText(bookingAdapterList.get(position).getAddress());
         extractNameAndContact();
 
-        if(bookingAdapterList.get(position).getStatus().equals("done")){
+      /*  if(bookingAdapterList.get(position).getStatus().equals("done")){
             start.setVisibility(View.INVISIBLE);
             end.setVisibility(View.INVISIBLE);
             cancelBooking.setVisibility(View.INVISIBLE);
             status.setVisibility(View.VISIBLE);
+        }
+        else if(bookingAdapterList.get(position).getStatus().equals("started")){
+            start.setVisibility(View.INVISIBLE);
+            end.setVisibility(View.VISIBLE);
+            cancelBooking.setVisibility(View.INVISIBLE);
+            status.setVisibility(View.INVISIBLE);
+        }
+        else{
+            start.setVisibility(View.VISIBLE);
+            end.setVisibility(View.INVISIBLE);
+            cancelBooking.setVisibility(View.VISIBLE);
+            status.setVisibility(View.INVISIBLE);
         }
 
         start.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +125,7 @@ public class BookingActivityAdapter extends BaseAdapter {
                   public void onClick(View v) {
                       generateEndOtp(v);
             }
-        });
+        });*/
 
                 cancelBooking.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -169,7 +181,7 @@ public class BookingActivityAdapter extends BaseAdapter {
                                 end.setVisibility(View.INVISIBLE);
                                 start.setVisibility(View.INVISIBLE);
                                 cancelBooking.setVisibility(View.INVISIBLE);
-                                updateStatus();
+                                updateStatus("done");
                                 rateService();
                             }
                         });
@@ -179,9 +191,9 @@ public class BookingActivityAdapter extends BaseAdapter {
                 });
     }
 
-    private void updateStatus() {
+    private void updateStatus(String status) {
         Map<String,Object> user=new HashMap<>();
-        user.put("status","done");
+        user.put("status",status);
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
                 .collection("Bookings").document(bookingAdapterList.get(pos).getDocId()).update(user)
                 .addOnCompleteListener(task -> {
@@ -219,6 +231,7 @@ public class BookingActivityAdapter extends BaseAdapter {
                                 end.setVisibility(View.VISIBLE);
                                 start.setVisibility(View.INVISIBLE);
                                 cancelBooking.setVisibility(View.INVISIBLE);
+                                updateStatus("started");
                             }
                     });
                         AlertDialog dialog = builder.create();
@@ -247,7 +260,7 @@ public class BookingActivityAdapter extends BaseAdapter {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-//                            BookingsActivity.bookingActivityList.remove(bookingAdapterList.get(position));
+                            bookingAdapterList.remove(bookingAdapterList.get(position));
                             BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
                         }
                         else

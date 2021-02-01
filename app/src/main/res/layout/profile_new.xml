@@ -47,13 +47,12 @@
             android:id="@+id/EmailInProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="radhakrishnabalram@gmail.com"
+            tools:text="radhakrishnabalramfgkjdfgjdfjgfdgdkfgk@gmail.com"
             android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_marginTop="5dp"
             android:layout_below="@id/NameInProfile"
-            android:layout_centerHorizontal="true"
-            android:layout_toRightOf="@id/profile_image"/>
+            android:layout_centerHorizontal="true"/>
         <TextView
             android:id="@+id/PhoneInProfile"
             android:layout_width="wrap_content"
