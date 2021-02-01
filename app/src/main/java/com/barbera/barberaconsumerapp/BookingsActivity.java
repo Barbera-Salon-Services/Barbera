@@ -2,6 +2,8 @@ package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +32,7 @@ import java.util.Objects;
 
 public class BookingsActivity extends AppCompatActivity {
     private List<BookingModel> bookingActivityList=new ArrayList<>();
-    private ListView BookinglistView;
+    private RecyclerView BookinglistView;
     private ProgressBar progressBarONBookingActivity;
     private static RelativeLayout emptyLayout;
     public static boolean checked=false;
@@ -45,7 +47,9 @@ public class BookingsActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigation);
        // ImageView cart=(ImageView)findViewById(R.id.cartONBooking);
-        BookinglistView=(ListView)findViewById(R.id.BookingListView);
+        BookinglistView=findViewById(R.id.BookingListView);
+        BookinglistView.setHasFixedSize(true);
+        BookinglistView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         progressBarONBookingActivity=(ProgressBar)findViewById(R.id.progressBarOnBookingActivity);
         emptyLayout=(RelativeLayout)findViewById(R.id.empty_booking_layout);
         Button newBooking=(Button)findViewById(R.id.add_a_booking);

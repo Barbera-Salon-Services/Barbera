@@ -45,10 +45,11 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"/>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/BookingListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+            tools:listitem="@layout/new_booking_fragement"
         android:layout_below="@id/cardView"
         android:layout_above="@id/bottomNavigation"/>
     <RelativeLayout
