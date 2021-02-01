@@ -143,11 +143,24 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             holder.cancelBooking.setVisibility(View.INVISIBLE);
             holder.status.setVisibility(View.VISIBLE);
         }
+       /* else if(bookingModel.getStatus().equals("started")){
+            holder.start.setVisibility(View.INVISIBLE);
+            holder.end.setVisibility(View.VISIBLE);
+            holder.cancelBooking.setVisibility(View.INVISIBLE);
+            holder.status.setVisibility(View.INVISIBLE);
+        }
+       /* else if(bookingModel.getStatus().equals("")){
+            holder.start.setVisibility(View.INVISIBLE);
+            holder.end.setVisibility(View.VISIBLE);
+            holder.cancelBooking.setVisibility(View.INVISIBLE);
+            holder.status.setVisibility(View.INVISIBLE);
+        }*/
+
 
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                generateStartOtp(v,holder);
+                generateStartOtp(v,holder,position);
             }
         });
         holder.end.setOnClickListener(new View.OnClickListener() {
@@ -210,6 +223,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             start = itemView.findViewById(R.id.startOtp);
             end = itemView.findViewById(R.id.endtOtp);
             status =itemView.findViewById(R.id.status);
+
+
         }
     }
 
@@ -238,7 +253,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                                 holder.end.setVisibility(View.INVISIBLE);
                                 holder.start.setVisibility(View.INVISIBLE);
                                 holder.cancelBooking.setVisibility(View.INVISIBLE);
-                                updateStatus(pos);
+                                updateStatus(pos,"done");
                                 rateService(pos);
                             }
                         });
@@ -248,12 +263,14 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 });
     }
 
-    private void updateStatus(int pos) {
+    private void updateStatus(int pos,String status) {
         Map<String,Object> user=new HashMap<>();
-        user.put("status","done");
+        user.put("status",status);
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
                 .collection("Bookings").document(bookingAdapterList.get(pos).getDocId()).update(user)
                 .addOnCompleteListener(task -> {
+                    bookingAdapterList.get(pos).setStatus(status);
+                    BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
 
                 });
     }
@@ -264,7 +281,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 .putExtra("docId",bookingAdapterList.get(pos).getDocId()));
     }
 
-    private void generateStartOtp(View view, BookingItemViewHolder holder) {
+    private void generateStartOtp(View view, BookingItemViewHolder holder,int pos) {
         final int otp = (int)(Math.random()*9000)+1000;
         Map<String,Object> user=new HashMap<>();
         user.put("startOtp",otp);
@@ -288,6 +305,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                                 holder.end.setVisibility(View.VISIBLE);
                                 holder.start.setVisibility(View.INVISIBLE);
                                 holder.cancelBooking.setVisibility(View.INVISIBLE);
+                                updateStatus(pos,"started");
                             }
                     });
                         AlertDialog dialog = builder.create();
@@ -316,7 +334,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-//                            BookingsActivity.bookingActivityList.remove(bookingAdapterList.get(position));
+                            bookingAdapterList.remove(bookingAdapterList.get(position));
                             BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
                         }
                         else
