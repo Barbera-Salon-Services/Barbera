@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		tools:context=".Rating">
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/logo"
+		android:layout_centerHorizontal="true"
+		android:layout_margin="50dp"/>
 
 	<NumberPicker
 			android:id="@+id/numPick"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			app:layout_constraintBottom_toTopOf="@+id/textView2"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent" />
+		    android:layout_centerInParent="true"/>
 
 	<TextView
 			android:layout_margin="12dp"
 			android:id="@+id/textView2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Ratings"
+			android:text="Please Rate Your Experience"
 			android:textColor="@color/colorAccent"
-			android:textSize="32dp"
+			android:textSize="20dp"
 			android:textStyle="bold"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
+		    android:layout_below="@id/numPick"
+		    android:layout_centerHorizontal="true"/>
 
 	<Button
 			android:id="@+id/btntt"
-			android:layout_margin="12dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:backgroundTint="@color/colorAccent"
-			android:text="OK"
+			android:text="rate"
 			android:textColor="@color/white"
-			android:textSize="30dp"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/textView2" />
+		    android:layout_below="@id/textView2"
+		    android:layout_centerHorizontal="true"/>
+	<androidx.cardview.widget.CardView
+		android:id="@+id/skip_rating"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:foreground="?android:attr/selectableItemBackground"
+		android:clickable="true"
+		android:layout_margin="20dp"
+		app:cardCornerRadius="20dp">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Skip"
+			android:textColor="@color/colorAccent"
+			android:padding="10dp"/>
+	</androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
