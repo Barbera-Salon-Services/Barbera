@@ -104,7 +104,7 @@ public class BookingsActivity extends AppCompatActivity {
                                             documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
                                             documentSnapshot.getId(),status));
                                 }
-//                                checked=true;
+                                checked=true;
                                 BookinglistView.setAdapter(bookingActivityAdapter);
                                 if(bookingActivityList.size()==0){
                                     //Toast.makeText(getApplicationContext(),"No Bookings Yet",Toast.LENGTH_LONG).show();

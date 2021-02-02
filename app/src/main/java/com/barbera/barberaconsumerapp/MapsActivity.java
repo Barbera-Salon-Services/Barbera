@@ -77,6 +77,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FirebaseFirestore fileStore;
     private FirebaseAuth firebaseAuth;
     private SharedPreferences sharedPreferences;
+    private Boolean withinzone;
 
     private double Lat;
     private double Lon;
@@ -110,7 +111,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             getCurrentLocation();
         });
         cont.setOnClickListener(v -> {
-            storeToFb();
+            storeTodb();
         });
 
         if(ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
@@ -238,7 +239,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude,location.longitude)));
             Toast.makeText(getApplicationContext(),"Within Zone", Toast.LENGTH_SHORT).show();
-        }else{
+            withinzone=true;
+        }
+        else{
             sharedPreferences.edit().putString("Address","NA");
             sharedPreferences.edit().commit();
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 7));
@@ -246,6 +249,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude,location.longitude)));
             Toast.makeText(getApplicationContext(),"We Currently aren't active in your Region. Hope to Reach you SOON...", Toast.LENGTH_LONG).show();
+            withinzone=false;
 
 //            AlertDialog.Builder builder=new AlertDialog.Builder(this);
 //            builder.setTitle("Not Active In this Region");
@@ -269,25 +273,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     }
-    private void storeToFb(){
+    private void storeTodb(){
         SharedPreferences.Editor editor =sharedPreferences.edit();
         editor.putString("Address",address);
         editor.apply();
-
-
-        documentReference.get().addOnCompleteListener(task -> {
-            String haddress = task.getResult().get("house_address").toString();
-            Map<String,Object> user=new HashMap<>();
-            user.put("Address",address);
-            user.put("house_address",haddress +" "+address);
-            documentReference.update(user).addOnCompleteListener(task1 -> {
-                if (task1.isSuccessful()) {
-                    sendToMainActivity();
-                }
+        if(withinzone) {
+            documentReference.get().addOnCompleteListener(task -> {
+                String haddress = task.getResult().get("house_address").toString();
+                Map<String, Object> user = new HashMap<>();
+                user.put("Address", address);
+                user.put("house_address", haddress + " " + address);
+                documentReference.update(user).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        sendToMainActivity();
+                    }
+                });
             });
-        });
-
-
+        }
+        else
+            sendToMainActivity();
     }
 
     private double getdistanceinkm2(LatLng location) {

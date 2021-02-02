@@ -177,17 +177,18 @@ public class ServiceAdapter extends BaseAdapter {
                     if(ParlourActivity.checkeditemList.size()!=0) {
                         int amount = 0;
                         String ordersummary="";
-                        Toast.makeText(view.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(view.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
                         for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
                             ordersummary += "(" + ParlourActivity.salontype + ")" + ParlourActivity.checkeditemList.get(i).getName()
                                     + "\t\t\tRs " + ParlourActivity.checkeditemList.get(i).getPrice() + "\n";
                             amount += Integer.parseInt(ParlourActivity.checkeditemList.get(i).getPrice());
                         }
                         //BookingPage.BookingTotalAmount = amount;
-                        Intent intent = new Intent(con, BookingPage.class);
+                        Intent intent = new Intent(view.getContext(), BookingPage.class);
                         intent.putExtra("Booking Amount",amount);
                         intent.putExtra("Order Summary",ordersummary);
-                        con.startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        view.getContext().startActivity(intent);
                     }
                     else
                         Toast.makeText(view.getContext(),"Please Select Something First",Toast.LENGTH_LONG).show();

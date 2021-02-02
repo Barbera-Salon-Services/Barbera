@@ -1,7 +1,9 @@
 package com.barbera.barberaconsumerapp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +30,11 @@ import java.util.Map;
 
 public class MenHorizontalAdapter extends RecyclerView.Adapter {
     private List<Service> HorizontalserviceList;
+    private Context activity;
 
-    public MenHorizontalAdapter(List<Service> horizontalserviceList) {
+    public MenHorizontalAdapter(List<Service> horizontalserviceList,Context activity) {
         HorizontalserviceList = horizontalserviceList;
+        this.activity=activity;
     }
 
     @NonNull
@@ -145,13 +149,14 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                         itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
                     }
                     else {
-                        //BookingPage.OrderSummary = HorizontalserviceList.get(position).getServiceName();
                         String ordersummary=HorizontalserviceList.get(position).getServiceName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
-                        Intent intent=new Intent(itemView.getContext(),BookingPage.class);
+                        Intent intent=new Intent(activity,BookingPage.class);
                         intent.putExtra("BookingType","Cart");
                         intent.putExtra("Booking Amount",Integer.parseInt(HorizontalserviceList.get(position).getPrice()));
                         intent.putExtra("Order Summary",ordersummary);
-                        itemView.getContext().startActivity(intent);
+                        //Toast.makeText(itemView.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(intent);
                     }
                 }
             });
