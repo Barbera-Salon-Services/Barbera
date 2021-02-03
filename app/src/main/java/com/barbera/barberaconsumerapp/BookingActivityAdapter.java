@@ -48,78 +48,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     }
 
 
-//    @Override
-//    public View getView(final int position, View convertView, ViewGroup parent) {
-//        final View view;
-//        if (convertView == null)
-//            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_booking_fragement, null);
-//        else
-//            view = (View) convertView;
-//        pos =position;
 
-//        TextView serviceSummary=(TextView)view.findViewById(R.id.booking_service_title);
-//        TextView totalAmount=(TextView)view.findViewById(R.id.booking_service_total);
-//        TextView dateTime=(TextView)view.findViewById(R.id.booking_date_time);
-//        //TextView address=(TextView)view.findViewById(R.id.booking_address);
-//        cancelBooking=(Button)view.findViewById(R.id.cancel_button);
-//        start = (Button)view.findViewById(R.id.startOtp);
-//        end = (Button)view.findViewById(R.id.endtOtp);
-//        status = view.findViewById(R.id.status);
-
-//        serviceSummary.setText(bookingAdapterList.get(position).getSummary());
-//        totalAmount.setText("Total Amount Rs "+bookingAdapterList.get(position).getAmount());
-//        dateTime.setText(bookingAdapterList.get(position).getDate()+"\n"+bookingAdapterList.get(position).getTime());
-    //address.setText(bookingAdapterList.get(position).getAddress());
-//
-//        if(bookingAdapterList.get(position).getStatus().equals("done")){
-//            start.setVisibility(View.INVISIBLE);
-//            end.setVisibility(View.INVISIBLE);
-//            cancelBooking.setVisibility(View.INVISIBLE);
-//            status.setVisibility(View.VISIBLE);
-//        }
-
-    //        start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                generateStartOtp(v);
-//            }
-//        });
-//        end.setOnClickListener(new View.OnClickListener() {
-//                  @Override
-//                  public void onClick(View v) {
-//                      generateEndOtp(v);
-//            }
-//        });
-//
-//                cancelBooking.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//                        builder.setMessage("Really!!You Want to Cancel..");
-//                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//                            @SuppressLint("ResourceAsColor")
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                progressDialog = new ProgressDialog(view.getContext());
-//                                progressDialog.setMessage("Hold On for a moment...");
-//                                progressDialog.show();
-//                                progressDialog.setCancelable(false);
-//                                addtoSheet(position, view);
-//                                dropBooking(position, view);
-//                            }
-//                        });
-//                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//
-//                            }
-//                        });
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-//                    }
-//                });
-//        return view;
-//    }
     @NonNull
     @Override
     public BookingActivityAdapter.BookingItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -142,6 +71,11 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             holder.end.setVisibility(View.INVISIBLE);
             holder.cancelBooking.setVisibility(View.INVISIBLE);
             holder.status.setVisibility(View.VISIBLE);
+        }
+        if(bookingModel.getStatus().equals("ongoing")){
+            holder.start.setVisibility(View.INVISIBLE);
+            holder.end.setVisibility(View.VISIBLE);
+            holder.cancelBooking.setVisibility(View.INVISIBLE);
         }
        /* else if(bookingModel.getStatus().equals("started")){
             holder.start.setVisibility(View.INVISIBLE);
@@ -289,7 +223,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         progressDialog.setMessage("generating otp...");
         progressDialog.show();
         progressDialog.setCancelable(false);
-
+        updateStatus(pos,"ongoing");
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).update(user)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -305,7 +239,6 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                                 holder.end.setVisibility(View.VISIBLE);
                                 holder.start.setVisibility(View.INVISIBLE);
                                 holder.cancelBooking.setVisibility(View.INVISIBLE);
-                                updateStatus(pos,"started");
                             }
                         });
                         AlertDialog dialog = builder.create();
