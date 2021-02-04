@@ -234,7 +234,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<Address> addressList = geocoder.getFromLocation(Lat,Lon, 1);
             address = addressList.get(0).getAddressLine(0);
             addd.setText(address);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 14));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 17));
             if(marker!= null)
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude,location.longitude)));

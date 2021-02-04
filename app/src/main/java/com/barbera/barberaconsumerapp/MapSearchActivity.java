@@ -136,7 +136,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         mMap.setOnCameraIdleListener (this);
         mMap.setOnCameraMoveListener  (this);
         fetchLocation();
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 17));
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,14 +280,14 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
             if(marker!= null)
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude,location.longitude)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 13));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 17));
             Toast.makeText(getApplicationContext(),address.getAddressLine(0),Toast.LENGTH_LONG).show();
         }else{
             cardView.setVisibility(View.INVISIBLE);
             if(marker!= null)
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude,location.longitude)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 13));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 17));
             Toast.makeText(getApplicationContext(),"Not Within Zone",Toast.LENGTH_SHORT).show();
         }
 

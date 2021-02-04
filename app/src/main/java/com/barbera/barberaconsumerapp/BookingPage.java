@@ -47,27 +47,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BookingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
-    private TextView chooseDate;
+public class BookingPage extends AppCompatActivity  {
     private TextView date;
     private TextView chooseTime;
     private TextView time;
     //private CardView usecurrentAddress;
-    //private TextView address;
+    private TextView month;
     private String userAddress;//Address string to be stored in database
     public static EditText houseAddress;
     private Button ConfirmBooking;
     private TextView totalAmount;
     private TextView changeLocation;
-    //private TextView or;
+    private TextView day1, day2, day3, day4, day5, day6, day7;
     private SharedPreferences sharedPreferences;
-    private String OrderSummary="";
+    private String OrderSummary = "";
     public static String finalDate;
     public static String finalTime;
     private String Username;
     private String UserPhone;
     public static boolean isCouponApplied;
-    private String bookingType="";
+    private String bookingType = "";
     private int listPosition;
     public int BookingTotalAmount;
     private int selectedDay;
@@ -78,6 +77,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
     private List<String> users;
     private TextView BookingOrders;
     private long limit;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -91,13 +91,17 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         listPosition=intent.getIntExtra("Position",-1);
         BookingTotalAmount=intent.getIntExtra("Booking Amount",0);
         OrderSummary=intent.getStringExtra("Order Summary");
-        chooseDate=(TextView) findViewById(R.id.booking_choose_a_date);
-        //address = (TextView) findViewById(R.id.address);
-        date=(TextView)findViewById(R.id.booking_date_text);
+        month = (TextView) findViewById(R.id.mon);
+
         changeLocation =(TextView) findViewById(R.id.booking_choose_address);
-        chooseTime=(TextView)findViewById(R.id.booking_choose_a_time);
-        time=(TextView)findViewById(R.id.booking_time_text);
-        //usecurrentAddress=(CardView)findViewById(R.id.currentAddress);
+        day1 = (TextView) findViewById(R.id.day1);
+        day2 = (TextView) findViewById(R.id.day2);
+        day3 = (TextView) findViewById(R.id.day3);
+        day4 = (TextView) findViewById(R.id.day4);
+        day5 = (TextView) findViewById(R.id.day5);
+        day6 = (TextView) findViewById(R.id.day6);
+        day7 = (TextView) findViewById(R.id.day7);
+
         houseAddress=(EditText)findViewById(R.id.booking_edit_address);
         ConfirmBooking=(Button)findViewById(R.id.booking_confirm_booking);
         totalAmount=(TextView)findViewById(R.id.booking_total_amount);
@@ -122,33 +126,227 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         calendar.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH);
         String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         date.setText(currentday);*/
-        Calendar calendar= Calendar.getInstance();
-        selectedYear=calendar.get(Calendar.YEAR);
-        selectedMonth=calendar.get(Calendar.MONTH);
-        selectedDay=calendar.get(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        selectedYear = calendar.get(Calendar.YEAR);
+        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+        String cur_month = month_date.format(calendar.getTime());
+        month.setText(cur_month + ", " + selectedYear);
 
-        String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-        date.setText(currentday);
+        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+//        calendar.add(Calendar.DAY_OF_MONTH,20);
+//        selectedDay=calendar.get(Calendar.DAY_OF_MONTH);
+        day1.setText(String.valueOf(selectedDay));
 
+        int flag = 0;
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+        day2.setText(String.valueOf(selectedDay));
+        String compMonth = month_date.format(calendar.getTime());
+        if (!compMonth.equals(cur_month)) {
+            month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
+            flag = 1;
+        }
 
-        chooseDate.setOnClickListener(new View.OnClickListener() {
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+        day3.setText(String.valueOf(selectedDay));
+        compMonth = month_date.format(calendar.getTime());
+        if (!compMonth.equals(cur_month) && flag == 0) {
+            month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
+            flag = 1;
+        }
+
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+        day4.setText(String.valueOf(selectedDay));
+        compMonth = month_date.format(calendar.getTime());
+        if (!compMonth.equals(cur_month) && flag == 0) {
+            month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
+            flag = 1;
+        }
+
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+        day5.setText(String.valueOf(selectedDay));
+        compMonth = month_date.format(calendar.getTime());
+        if (!compMonth.equals(cur_month) && flag == 0) {
+            month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
+            flag = 1;
+        }
+
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+        day6.setText(String.valueOf(selectedDay));
+        compMonth = month_date.format(calendar.getTime());
+        if (!compMonth.equals(cur_month) && flag == 0) {
+            month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
+            flag = 1;
+        }
+
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+        day7.setText(String.valueOf(selectedDay));
+        compMonth = month_date.format(calendar.getTime());
+        if (!compMonth.equals(cur_month) && flag == 0) {
+            month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
+            flag = 1;
+        }
+
+        day1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment datePicker=new com.barbera.barberaconsumerapp.DatePicker();
-                datePicker.show(getSupportFragmentManager(),"date picker");
+                day1.setTextColor(getResources().getColor(R.color.white));
+                day1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+                day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                day2.setBackgroundColor(getResources().getColor(R.color.white));
+                day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                day3.setBackgroundColor(getResources().getColor(R.color.white));
+                day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                day4.setBackgroundColor(getResources().getColor(R.color.white));
+                day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                day5.setBackgroundColor(getResources().getColor(R.color.white));
+                day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                day6.setBackgroundColor(getResources().getColor(R.color.white));
+                day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+
             }
         });
+        day2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                day2.setTextColor(getResources().getColor(R.color.white));
+                day2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+                day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                day1.setBackgroundColor(getResources().getColor(R.color.white));
+                day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                day3.setBackgroundColor(getResources().getColor(R.color.white));
+                day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                day4.setBackgroundColor(getResources().getColor(R.color.white));
+                day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                day5.setBackgroundColor(getResources().getColor(R.color.white));
+                day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                day6.setBackgroundColor(getResources().getColor(R.color.white));
+                day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                day7.setBackgroundColor(getResources().getColor(R.color.white));
+            }
+        });
+        day3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                day3.setTextColor(getResources().getColor(R.color.white));
+                day3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+                day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                day1.setBackgroundColor(getResources().getColor(R.color.white));
+                day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                day2.setBackgroundColor(getResources().getColor(R.color.white));
+                day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                day4.setBackgroundColor(getResources().getColor(R.color.white));
+                day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                day5.setBackgroundColor(getResources().getColor(R.color.white));
+                day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                day6.setBackgroundColor(getResources().getColor(R.color.white));
+                day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+            }
+        });
+        day4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                day4.setTextColor(getResources().getColor(R.color.white));
+                day4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+                day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                day1.setBackgroundColor(getResources().getColor(R.color.white));
+                day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                day2.setBackgroundColor(getResources().getColor(R.color.white));
+                day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                day3.setBackgroundColor(getResources().getColor(R.color.white));
+                day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                day5.setBackgroundColor(getResources().getColor(R.color.white));
+                day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                day6.setBackgroundColor(getResources().getColor(R.color.white));
+                day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+            }
+        });
+        day5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                day5.setTextColor(getResources().getColor(R.color.white));
+                day5.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+                day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                day1.setBackgroundColor(getResources().getColor(R.color.white));
+                day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                day2.setBackgroundColor(getResources().getColor(R.color.white));
+                day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                day3.setBackgroundColor(getResources().getColor(R.color.white));
+                day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                day4.setBackgroundColor(getResources().getColor(R.color.white));
+                day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                day6.setBackgroundColor(getResources().getColor(R.color.white));
+                day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+            }
+        });
+        day6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                day6.setTextColor(getResources().getColor(R.color.white));
+                day6.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+                day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                day1.setBackgroundColor(getResources().getColor(R.color.white));
+                day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                day2.setBackgroundColor(getResources().getColor(R.color.white));
+                day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                day3.setBackgroundColor(getResources().getColor(R.color.white));
+                day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                day5.setBackgroundColor(getResources().getColor(R.color.white));
+                day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                day4.setBackgroundColor(getResources().getColor(R.color.white));
+                day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+
+            }
+        });
+
+        day7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                day7.setTextColor(getResources().getColor(R.color.white));
+                day7.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+                day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                day1.setBackgroundColor(getResources().getColor(R.color.white));
+                day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                day2.setBackgroundColor(getResources().getColor(R.color.white));
+                day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                day3.setBackgroundColor(getResources().getColor(R.color.white));
+                day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                day4.setBackgroundColor(getResources().getColor(R.color.white));
+                day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                day5.setBackgroundColor(getResources().getColor(R.color.white));
+                day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                day6.setBackgroundColor(getResources().getColor(R.color.white));
+
+
+            }
+        });
+
+
+//
         useCurrentAddress();
 
-
-        chooseTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogFragment timePicker=new TimePicker();
-                timePicker.show(getSupportFragmentManager(),"time picker");
-            }
-        });
 
       /*  usecurrentAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -459,46 +657,46 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
         return true;
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//    @Override
+//    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//
+//        Calendar calendar=Calendar.getInstance();
+//        calendar.set(Calendar.YEAR,year);
+//        calendar.set(Calendar.MONTH,month);
+//        calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+//        selectedDay= dayOfMonth;
+//        selectedMonth=month;
+//        selectedYear=year;
+//
+//            String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+//            date.setText(currentday);
+//    }
 
-        Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.YEAR,year);
-        calendar.set(Calendar.MONTH,month);
-        calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-        selectedDay= dayOfMonth;
-        selectedMonth=month;
-        selectedYear=year;
-
-            String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-            date.setText(currentday);
-    }
-
-    @Override
-    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
-        Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.YEAR,selectedYear);
-        calendar.set(Calendar.MONTH,selectedMonth);
-        calendar.set(Calendar.DAY_OF_MONTH,selectedDay);
-        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
-        calendar.set(Calendar.MINUTE,minute);
-       if((calendar.getTimeInMillis()>Calendar.getInstance().getTimeInMillis()&&calendar.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()<3600000)
-           ||(calendar.getTimeInMillis()<Calendar.getInstance().getTimeInMillis())) {
-           Toast.makeText(getApplicationContext(), "Please Select a Time with 1 hour Gap", Toast.LENGTH_LONG).show();
-       }
-       else{
-           if(hourOfDay>=19||hourOfDay<9){
-               Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
-           }
-           else {
-               if (hourOfDay >= 12) {
-                   hourOfDay = (hourOfDay >= 13 ? hourOfDay - 12 : hourOfDay);
-                   time.setText(hourOfDay + ":" + minute + " PM");
-               }
-               else
-                   time.setText(hourOfDay + ":" + minute + " AM");
-           }
-       }
+//    @Override
+//    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
+//        Calendar calendar=Calendar.getInstance();
+//        calendar.set(Calendar.YEAR,selectedYear);
+//        calendar.set(Calendar.MONTH,selectedMonth);
+//        calendar.set(Calendar.DAY_OF_MONTH,selectedDay);
+//        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
+//        calendar.set(Calendar.MINUTE,minute);
+//       if((calendar.getTimeInMillis()>Calendar.getInstance().getTimeInMillis()&&calendar.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()<3600000)
+//           ||(calendar.getTimeInMillis()<Calendar.getInstance().getTimeInMillis())) {
+//           Toast.makeText(getApplicationContext(), "Please Select a Time with 1 hour Gap", Toast.LENGTH_LONG).show();
+//       }
+//       else{
+//           if(hourOfDay>=19||hourOfDay<9){
+//               Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
+//           }
+//           else {
+//               if (hourOfDay >= 12) {
+//                   hourOfDay = (hourOfDay >= 13 ? hourOfDay - 12 : hourOfDay);
+//                   time.setText(hourOfDay + ":" + minute + " PM");
+//               }
+//               else
+//                   time.setText(hourOfDay + ":" + minute + " AM");
+//           }
+//       }
       /* else {
            if (hourOfDay >= 12) {
                hourOfDay = (hourOfDay >= 13 ? hourOfDay - 12 : hourOfDay);
@@ -513,7 +711,7 @@ public class BookingPage extends AppCompatActivity implements DatePickerDialog.O
                    time.setText(hourOfDay + ":" + minute + " AM");
            }
        }*/
-    }
+//    }
 
     @Override
     protected void onStart() {
