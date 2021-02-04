@@ -11,9 +11,11 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -59,6 +61,8 @@ public class BookingPage extends AppCompatActivity  {
     private TextView totalAmount;
     private TextView changeLocation;
     private TextView day1, day2, day3, day4, day5, day6, day7;
+    private CardView slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9;
+    private String mon1,mon2,mon3,mon4,mon5,mon6,mon7,mon,day;
     private SharedPreferences sharedPreferences;
     private String OrderSummary = "";
     public static String finalDate;
@@ -102,6 +106,16 @@ public class BookingPage extends AppCompatActivity  {
         day6 = (TextView) findViewById(R.id.day6);
         day7 = (TextView) findViewById(R.id.day7);
 
+        slot1=(CardView) findViewById(R.id.slot1);
+        slot2=(CardView) findViewById(R.id.slot2);
+        slot3=(CardView) findViewById(R.id.slot3);
+        slot4=(CardView) findViewById(R.id.slot4);
+        slot5=(CardView) findViewById(R.id.slot5);
+        slot6=(CardView) findViewById(R.id.slot6);
+        slot7=(CardView) findViewById(R.id.slot7);
+        slot8=(CardView) findViewById(R.id.slot8);
+        slot9=(CardView) findViewById(R.id.slot9);
+
         houseAddress=(EditText)findViewById(R.id.booking_edit_address);
         ConfirmBooking=(Button)findViewById(R.id.booking_confirm_booking);
         totalAmount=(TextView)findViewById(R.id.booking_total_amount);
@@ -119,6 +133,7 @@ public class BookingPage extends AppCompatActivity  {
             totalAmount.setText("Total Amount Rs " +BookingTotalAmount);
             BookingOrders.setText(OrderSummary);
 
+
         //autodateandtime();
         /* Calendar calendar=Calendar.getInstance();
         calendar.set(Calendar.YEAR,Calendar.YEAR);
@@ -130,6 +145,7 @@ public class BookingPage extends AppCompatActivity  {
         selectedYear = calendar.get(Calendar.YEAR);
         SimpleDateFormat month_date = new SimpleDateFormat("MMM");
         String cur_month = month_date.format(calendar.getTime());
+        mon1=cur_month;
         month.setText(cur_month + ", " + selectedYear);
 
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -142,6 +158,7 @@ public class BookingPage extends AppCompatActivity  {
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         day2.setText(String.valueOf(selectedDay));
         String compMonth = month_date.format(calendar.getTime());
+        mon2=compMonth;
         if (!compMonth.equals(cur_month)) {
             month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
             flag = 1;
@@ -151,6 +168,7 @@ public class BookingPage extends AppCompatActivity  {
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         day3.setText(String.valueOf(selectedDay));
         compMonth = month_date.format(calendar.getTime());
+        mon3=compMonth;
         if (!compMonth.equals(cur_month) && flag == 0) {
             month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
             flag = 1;
@@ -160,6 +178,7 @@ public class BookingPage extends AppCompatActivity  {
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         day4.setText(String.valueOf(selectedDay));
         compMonth = month_date.format(calendar.getTime());
+        mon4=compMonth;
         if (!compMonth.equals(cur_month) && flag == 0) {
             month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
             flag = 1;
@@ -168,6 +187,7 @@ public class BookingPage extends AppCompatActivity  {
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         day5.setText(String.valueOf(selectedDay));
+        mon5=compMonth;
         compMonth = month_date.format(calendar.getTime());
         if (!compMonth.equals(cur_month) && flag == 0) {
             month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
@@ -178,6 +198,7 @@ public class BookingPage extends AppCompatActivity  {
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         day6.setText(String.valueOf(selectedDay));
         compMonth = month_date.format(calendar.getTime());
+        mon6=compMonth;
         if (!compMonth.equals(cur_month) && flag == 0) {
             month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
             flag = 1;
@@ -187,6 +208,7 @@ public class BookingPage extends AppCompatActivity  {
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         day7.setText(String.valueOf(selectedDay));
         compMonth = month_date.format(calendar.getTime());
+        mon7=compMonth;
         if (!compMonth.equals(cur_month) && flag == 0) {
             month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
             flag = 1;
@@ -197,6 +219,8 @@ public class BookingPage extends AppCompatActivity  {
             public void onClick(View v) {
                 day1.setTextColor(getResources().getColor(R.color.white));
                 day1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                mon=mon1;
+                day=day1.getText().toString();
 
                 day2.setTextColor(getResources().getColor(R.color.colorAccent));
                 day2.setBackgroundColor(getResources().getColor(R.color.white));
@@ -211,7 +235,15 @@ public class BookingPage extends AppCompatActivity  {
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day1")
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                        }
+                    }
+                });
             }
         });
         day2.setOnClickListener(new View.OnClickListener() {
@@ -219,6 +251,8 @@ public class BookingPage extends AppCompatActivity  {
             public void onClick(View v) {
                 day2.setTextColor(getResources().getColor(R.color.white));
                 day2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                mon=mon2;
+                day=day2.getText().toString();
 
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -232,6 +266,16 @@ public class BookingPage extends AppCompatActivity  {
                 day6.setBackgroundColor(getResources().getColor(R.color.white));
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day2")
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                        }
+                    }
+                });
             }
         });
         day3.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +283,8 @@ public class BookingPage extends AppCompatActivity  {
             public void onClick(View v) {
                 day3.setTextColor(getResources().getColor(R.color.white));
                 day3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                mon=mon3;
+                day=day3.getText().toString();
 
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -253,6 +299,15 @@ public class BookingPage extends AppCompatActivity  {
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
 
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day3")
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                        }
+                    }
+                });
             }
         });
         day4.setOnClickListener(new View.OnClickListener() {
@@ -260,6 +315,8 @@ public class BookingPage extends AppCompatActivity  {
             public void onClick(View v) {
                 day4.setTextColor(getResources().getColor(R.color.white));
                 day4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                mon=mon4;
+                day=day4.getText().toString();
 
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -274,6 +331,15 @@ public class BookingPage extends AppCompatActivity  {
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
 
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day4")
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                        }
+                    }
+                });
             }
         });
         day5.setOnClickListener(new View.OnClickListener() {
@@ -281,6 +347,8 @@ public class BookingPage extends AppCompatActivity  {
             public void onClick(View v) {
                 day5.setTextColor(getResources().getColor(R.color.white));
                 day5.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                mon=mon5;
+                day=day5.getText().toString();
 
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -295,6 +363,15 @@ public class BookingPage extends AppCompatActivity  {
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
 
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day5")
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                        }
+                    }
+                });
             }
         });
         day6.setOnClickListener(new View.OnClickListener() {
@@ -302,6 +379,8 @@ public class BookingPage extends AppCompatActivity  {
             public void onClick(View v) {
                 day6.setTextColor(getResources().getColor(R.color.white));
                 day6.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                mon=mon6;
+                day=day6.getText().toString();
 
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -316,7 +395,15 @@ public class BookingPage extends AppCompatActivity  {
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day6")
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                        }
+                    }
+                });
             }
         });
 
@@ -325,6 +412,8 @@ public class BookingPage extends AppCompatActivity  {
             public void onClick(View v) {
                 day7.setTextColor(getResources().getColor(R.color.white));
                 day7.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                mon=mon7;
+                day=day7.getText().toString();
 
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -339,7 +428,15 @@ public class BookingPage extends AppCompatActivity  {
                 day6.setTextColor(getResources().getColor(R.color.colorAccent));
                 day6.setBackgroundColor(getResources().getColor(R.color.white));
 
-
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day7")
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                        }
+                    }
+                });
             }
         });
 
@@ -392,8 +489,10 @@ public class BookingPage extends AppCompatActivity  {
                     progressDialog.setMessage("Hold on for a moment...");
                     progressDialog.show();
                     progressDialog.setCancelable(false);
-                    finalDate=date.getText().toString();
-                    finalTime=time.getText().toString();
+                    String dt=mon+" "+day+", "+selectedYear;
+                    finalDate=dt;
+                    Toast.makeText(getApplicationContext(),finalDate,Toast.LENGTH_SHORT);
+                    finalTime="6pm";
                     userAddress=houseAddress.getText().toString();
                    // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
                     addTosheet();
@@ -771,7 +870,54 @@ public class BookingPage extends AppCompatActivity  {
                             Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
 
+    private void slots(Task<DocumentSnapshot> task){
+        slot1.setVisibility(View.VISIBLE);
+        slot3.setVisibility(View.VISIBLE);
+        slot2.setVisibility(View.VISIBLE);
+        slot4.setVisibility(View.VISIBLE);
+        slot5.setVisibility(View.VISIBLE);
+        slot9.setVisibility(View.VISIBLE);
+        slot8.setVisibility(View.VISIBLE);
+        slot7.setVisibility(View.VISIBLE);
+        slot6.setVisibility(View.VISIBLE);
+
+        if(task.getResult().get("9am").toString().equals("B")){
+            slot1.setEnabled(false);
+            slot1.setBackgroundColor(Color.GRAY);
+        }
+        if(task.getResult().get("10am").toString().equals("B")){
+            slot2.setEnabled(false);
+            Log.d("Book?",task.getResult().get("10am").toString());
+            slot2.setBackgroundColor(Color.GRAY);
+        }
+        if(task.getResult().get("11am").toString().equals("B")){
+            slot3.setEnabled(false);
+            slot3.setBackgroundColor(Color.GRAY);
+        }
+        if(task.getResult().get("12pm").toString().equals("B")){
+            slot4.setEnabled(false);
+            slot4.setBackgroundColor(Color.GRAY);
+        }if(task.getResult().get("1pm").toString().equals("B")){
+            slot5.setEnabled(false);
+            slot5.setBackgroundColor(Color.GRAY);
+        }
+        if(task.getResult().get("2pm").toString().equals("B")){
+            slot6.setEnabled(false);
+            slot6.setBackgroundColor(Color.GRAY);
+        }
+        if(task.getResult().get("3pm").toString().equals("B")){
+            slot7.setEnabled(false);
+            slot7.setBackgroundColor(Color.GRAY);
+        }if(task.getResult().get("4pm").toString().equals("B")){
+            slot8.setEnabled(false);
+            slot8.setBackgroundColor(Color.GRAY);
+        }
+        if(task.getResult().get("5pm").toString().equals("B")){
+            slot9.setEnabled(false);
+            slot9.setBackgroundColor(Color.GRAY);
+        }
     }
 
 }
