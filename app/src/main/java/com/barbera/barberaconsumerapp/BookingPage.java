@@ -63,7 +63,7 @@ public class BookingPage extends AppCompatActivity  {
     private ProgressDialog progressDialog;
     public static boolean isCouponApplied;
     private String bookingType = "";
-    private int listPosition,region;
+    private int listPosition;
     public int BookingTotalAmount;
     private LinearLayout linearLayout;
     private int selectedYear;
@@ -116,8 +116,6 @@ public class BookingPage extends AppCompatActivity  {
         totalAmount=findViewById(R.id.booking_total_amount);
         linearLayout = findViewById(R.id.ll);
         sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
-        region=sharedPreferences.getInt("Region",1);
-        //Kush use field "Region" in this sharedPref as int field 1 or 2
         couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
         Button couponApply =  findViewById(R.id.booking_coupon_apply_button);
         isCouponApplied=false;
