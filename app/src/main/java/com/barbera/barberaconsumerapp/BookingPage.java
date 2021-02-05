@@ -219,7 +219,7 @@ public class BookingPage extends AppCompatActivity  {
             mon=mon1;
             day=day1.getText().toString();
             progressDialog.show();
-            setDefault();
+//            setDefault();
 
             array[0]=1;
             day2.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -254,7 +254,7 @@ public class BookingPage extends AppCompatActivity  {
                 day=day2.getText().toString();
 
                 progressDialog.show();
-                setDefault();
+//                setDefault();
                 array[0]=2;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -289,7 +289,7 @@ public class BookingPage extends AppCompatActivity  {
                 day=day3.getText().toString();
 
                 progressDialog.show();
-                setDefault();
+//                setDefault();
                 array[0]=3;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -324,7 +324,7 @@ public class BookingPage extends AppCompatActivity  {
                 day=day4.getText().toString();
 
                 progressDialog.show();
-                setDefault();
+//                setDefault();
                 array[0]=4;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -359,7 +359,7 @@ public class BookingPage extends AppCompatActivity  {
                 day=day5.getText().toString();
 
                 progressDialog.show();
-                setDefault();
+//                setDefault();
                 array[0]=5;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -394,7 +394,7 @@ public class BookingPage extends AppCompatActivity  {
                 day=day6.getText().toString();
 
                 progressDialog.show();
-                setDefault();
+//                setDefault();
                 array[0]=6;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
@@ -429,7 +429,6 @@ public class BookingPage extends AppCompatActivity  {
                 mon=mon7;
                 day=day7.getText().toString();
                 progressDialog.show();
-                setDefault();
 
                 array[0]=7;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -1066,26 +1065,26 @@ public class BookingPage extends AppCompatActivity  {
 //        }
         progressDialog.dismiss();
     }
-    private void setDefault(){
-        slot1.setEnabled(true);
-        slot2.setEnabled(true);
-        slot3.setEnabled(true);
-        slot4.setEnabled(true);
-        slot5.setEnabled(true);
-        slot6.setEnabled(true);
-        slot7.setEnabled(true);
-        slot8.setEnabled(true);
-        slot9.setEnabled(true);
-
-        slot1.setCardBackgroundColor(Color.BLACK);
-        slot2.setCardBackgroundColor(Color.BLACK);
-        slot3.setCardBackgroundColor(Color.BLACK);
-        slot4.setCardBackgroundColor(Color.BLACK);
-        slot5.setCardBackgroundColor(Color.BLACK);
-        slot6.setCardBackgroundColor(Color.BLACK);
-        slot7.setCardBackgroundColor(Color.BLACK);
-        slot8.setCardBackgroundColor(Color.BLACK);
-        slot9.setCardBackgroundColor(Color.BLACK);
-    }
+//    private void setDefault(){
+//        slot1.setEnabled(true);
+//        slot2.setEnabled(true);
+//        slot3.setEnabled(true);
+//        slot4.setEnabled(true);
+//        slot5.setEnabled(true);
+//        slot6.setEnabled(true);
+//        slot7.setEnabled(true);
+//        slot8.setEnabled(true);
+//        slot9.setEnabled(true);
+//
+//        slot1.setCardBackgroundColor(Color.BLACK);
+//        slot2.setCardBackgroundColor(Color.BLACK);
+//        slot3.setCardBackgroundColor(Color.BLACK);
+//        slot4.setCardBackgroundColor(Color.BLACK);
+//        slot5.setCardBackgroundColor(Color.BLACK);
+//        slot6.setCardBackgroundColor(Color.BLACK);
+//        slot7.setCardBackgroundColor(Color.BLACK);
+//        slot8.setCardBackgroundColor(Color.BLACK);
+//        slot9.setCardBackgroundColor(Color.BLACK);
+//    }
 
 }
