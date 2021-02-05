@@ -86,6 +86,8 @@ public class BookingPage extends AppCompatActivity  {
         BookingTotalAmount=intent.getIntExtra("Booking Amount",0);
         OrderSummary=intent.getStringExtra("Order Summary");
         array = new int[2];
+        array[0]= 100;
+        array[1]= 100;
         //    private TextView date;
         //    private TextView chooseTime;
         //    private TextView time;
@@ -911,9 +913,10 @@ public class BookingPage extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(),"Please Choose An Address",Toast.LENGTH_SHORT).show();
             return false;
         }
-       /* else if(address.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(),"Select Address",Toast.LENGTH_SHORT).show();
-        }*/
+       if(array[0] == 100 || array[1] ==100){
+           Toast.makeText(getApplicationContext(),"Date/Time Not selected!",Toast.LENGTH_SHORT).show();
+           return false;
+       }
         return true;
     }
 
