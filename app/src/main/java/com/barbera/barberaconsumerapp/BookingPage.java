@@ -61,7 +61,7 @@ public class BookingPage extends AppCompatActivity  {
     private ProgressDialog progressDialog;
     public static boolean isCouponApplied;
     private String bookingType = "";
-    private int listPosition;
+    private int listPosition,region;
     public int BookingTotalAmount;
     private LinearLayout linearLayout;
     private int selectedYear;
@@ -113,7 +113,9 @@ public class BookingPage extends AppCompatActivity  {
         ConfirmBooking=findViewById(R.id.booking_confirm_booking);
         totalAmount=findViewById(R.id.booking_total_amount);
         linearLayout = findViewById(R.id.ll);
-        sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);//Kush use field "Region" in this sharedPref as int field 1 or 2
+        sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
+        region=sharedPreferences.getInt("Region",1);
+        //Kush use field "Region" in this sharedPref as int field 1 or 2
         couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
         Button couponApply =  findViewById(R.id.booking_coupon_apply_button);
         isCouponApplied=false;
@@ -238,7 +240,7 @@ public class BookingPage extends AppCompatActivity  {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if(task.isSuccessful()){
-                        slots(task);
+                        slots(task,region);
                     }
                 }
             });
@@ -272,7 +274,7 @@ public class BookingPage extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            slots(task);
+                            slots(task,region);
                         }
                     }
                 });
@@ -307,7 +309,7 @@ public class BookingPage extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            slots(task);
+                            slots(task,region);
                         }
                     }
                 });
@@ -342,7 +344,7 @@ public class BookingPage extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            slots(task);
+                            slots(task,region);
                         }
                     }
                 });
@@ -377,7 +379,7 @@ public class BookingPage extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            slots(task);
+                            slots(task,region);
                         }
                     }
                 });
@@ -412,7 +414,7 @@ public class BookingPage extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            slots(task);
+                            slots(task,region);
                         }
                     }
                 });
@@ -448,7 +450,7 @@ public class BookingPage extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            slots(task);
+                            slots(task,region);
                         }
                     }
                 });
@@ -546,15 +548,7 @@ public class BookingPage extends AppCompatActivity  {
             slot9.setCardBackgroundColor(Color.BLACK);
 
             array[1]=14;
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        slots(task);
-                    }
-                }
-            });
+
         });
         slot7.setOnClickListener(v -> {
             slot1.setCardBackgroundColor(Color.BLACK);
@@ -921,7 +915,7 @@ public class BookingPage extends AppCompatActivity  {
     }
 
 
-    private void slots(Task<DocumentSnapshot> task){
+    private void slots(Task<DocumentSnapshot> task, int region){
         linearLayout.setVisibility(View.VISIBLE);
         boolean check= false;
         for(int i= 9;i<=17;i++){
@@ -929,7 +923,7 @@ public class BookingPage extends AppCompatActivity  {
                 check =true;
         }
         if(check) {
-            if (task.getResult().get("9").toString().equals("B")) {
+            if(task.getResult().get("9").toString().equals("B")) {
                 slot1.setEnabled(false);
                 slot1.setCardBackgroundColor(Color.GRAY);
             }
