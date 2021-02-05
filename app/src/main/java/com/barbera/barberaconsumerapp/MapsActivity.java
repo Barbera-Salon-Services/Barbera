@@ -244,7 +244,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         else{
             sharedPreferences.edit().putString("Address","NA");
             sharedPreferences.edit().commit();
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 7));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude,location.longitude), 14));
             if(marker!= null)
                 marker.remove();
             marker= mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude,location.longitude)));
@@ -281,7 +281,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             documentReference.get().addOnCompleteListener(task -> {
                 String haddress = task.getResult().get("house_address").toString();
                 Map<String, Object> user = new HashMap<>();
-                user.put("Address", address);
+                user.put("Address", Lat+","+Lon);
                 user.put("house_address", haddress + " " + address);
                 documentReference.update(user).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
