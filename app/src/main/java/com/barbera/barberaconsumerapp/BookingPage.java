@@ -505,7 +505,6 @@ public class BookingPage extends AppCompatActivity  {
                 }
             });
             array[1]=11;
-
         });
         slot4.setOnClickListener(v -> {
             FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
@@ -519,7 +518,6 @@ public class BookingPage extends AppCompatActivity  {
                 }
             });
             array[1]=12;
-
         });
         slot5.setOnClickListener(v -> {
             FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
@@ -532,7 +530,6 @@ public class BookingPage extends AppCompatActivity  {
                     }
                 }
             });
-
             array[1]=13;
         });
         slot6.setOnClickListener(v -> {
@@ -547,7 +544,6 @@ public class BookingPage extends AppCompatActivity  {
                 }
             });
             array[1]=14;
-
         });
         slot7.setOnClickListener(v -> {
             FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
@@ -587,15 +583,6 @@ public class BookingPage extends AppCompatActivity  {
                 }
             });
             array[1]=17;
-//            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
-//                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                    if(task.isSuccessful()){
-//                        slots(task);
-//                    }
-//                }
-//            });
         });
 
         ConfirmBooking.setOnClickListener(new View.OnClickListener() {
