@@ -546,15 +546,6 @@ public class BookingPage extends AppCompatActivity  {
             slot9.setCardBackgroundColor(Color.BLACK);
 
             array[1]=14;
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        slots(task);
-                    }
-                }
-            });
         });
         slot7.setOnClickListener(v -> {
             slot1.setCardBackgroundColor(Color.BLACK);
@@ -923,51 +914,78 @@ public class BookingPage extends AppCompatActivity  {
 
     private void slots(Task<DocumentSnapshot> task){
         linearLayout.setVisibility(View.VISIBLE);
-        boolean check= false;
-        for(int i= 9;i<=17;i++){
-            if(task.getResult().get(i+"").toString().equals("B"))
-                check =true;
-        }
-        if(check) {
+//        boolean check= false;
+//        for(int i= 9;i<=17;i++){
+//            if(task.getResult().get(i+"").toString().equals("B"))
+//                check =true;
+//        }
+//        if(check) {
             if (task.getResult().get("9").toString().equals("B")) {
                 slot1.setEnabled(false);
                 slot1.setCardBackgroundColor(Color.GRAY);
+            }else{
+                slot1.setEnabled(true);
+                slot1.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("10").toString().equals("B")) {
                 slot2.setEnabled(false);
                 slot2.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot2.setEnabled(true);
+                slot2.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("11").toString().equals("B")) {
                 slot3.setEnabled(false);
                 slot3.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot3.setEnabled(true);
+                slot3.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("12").toString().equals("B")) {
                 slot4.setEnabled(false);
                 slot4.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot4.setEnabled(true);
+                slot4.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("13").toString().equals("B")) {
                 slot5.setEnabled(false);
                 slot5.setCardBackgroundColor(Color.GRAY);
+            }else{
+                slot5.setEnabled(true);
+                slot5.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("14").toString().equals("B")) {
                 slot6.setEnabled(false);
                 slot6.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot6.setEnabled(true);
+                slot6.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("15").toString().equals("B")) {
                 slot7.setEnabled(false);
                 slot7.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot7.setEnabled(true);
+                slot7.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("16").toString().equals("B")) {
                 slot8.setEnabled(false);
                 slot8.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot8.setEnabled(true);
+                slot8.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("17").toString().equals("B")) {
                 slot9.setEnabled(false);
                 slot9.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot9.setEnabled(true);
+                slot9.setCardBackgroundColor(Color.BLACK);
             }
-        }else{
-            setDefault();
-        }
+//        }else{
+//            setDefault();
+//        }
         progressDialog.dismiss();
     }
     private void setDefault(){
