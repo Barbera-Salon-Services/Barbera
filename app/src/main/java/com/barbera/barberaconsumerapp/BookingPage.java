@@ -48,6 +48,8 @@ public class BookingPage extends AppCompatActivity  {
     private Button ConfirmBooking;
     private TextView totalAmount;
     private TextView changeLocation;
+    private int region;
+    private double lat,lon;
     private TextView day1, day2, day3, day4, day5, day6, day7;
     private CardView slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9;
     private String mon1,mon2,mon3,mon4,mon5,mon6,mon7,mon,day;
@@ -210,6 +212,7 @@ public class BookingPage extends AppCompatActivity  {
         progressDialog=new ProgressDialog(BookingPage.this);
         progressDialog.setMessage("Loading...");
 
+        fetchRegion();
 
         day1.setOnClickListener(v -> {
             day1.setTextColor(getResources().getColor(R.color.white));
@@ -734,6 +737,63 @@ public class BookingPage extends AppCompatActivity  {
                 couponcodeEditText.requestFocus();
             }
         });
+    }
+
+    private void fetchRegion() {
+        ProgressDialog p =new ProgressDialog(BookingPage.this);
+        p.setMessage("Please Wait...");
+        p.show();
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get().addOnCompleteListener(task -> {
+                    String[] x =task.getResult().get("Address").toString().split(",");
+                    lat = Double.parseDouble(x[0]);
+                    lon = Double.parseDouble(x[1]);
+                    p.dismiss();
+                    getRegion();
+                });
+
+    }
+
+    private void getRegion() {
+        double radius = 8101.33;
+        double radius1 =1718.21;
+        double radius2 =1764.76;
+
+        if(getdistanceinkm(new LatLng(26.930256,75.875947))*1000<=radius){
+            region =1 ;
+        }
+        if(getdistanceinkm(new LatLng(26.949311,75.714512))*1000<=radius1 || getdistanceinkm(new LatLng(26.943649,75.748845))*1000<=radius2){
+            region =2;
+        }
+        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
+    }
+
+    private double getdistanceinkm( LatLng latLng) {
+        double lat1= latLng.latitude;
+        double lon1= latLng.longitude;
+        double lat2= lat;
+        double lon2 = lon;
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
     }
 
     @Override
