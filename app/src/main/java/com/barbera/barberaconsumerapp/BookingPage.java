@@ -733,11 +733,19 @@ public class BookingPage extends AppCompatActivity  {
         FirebaseFirestore.getInstance().collection("Users")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnCompleteListener(task -> {
-                    String[] x =task.getResult().get("Address1").toString().split(",");
-                    lat = Double.parseDouble(x[0]);
-                    lon = Double.parseDouble(x[1]);
+                    String[] x = new String[2];
+                    try {
+                        String coord = task.getResult().get("Address1").toString();
+                        x = coord.split(",");
+                        lat = Double.parseDouble(x[0]);
+                        lon = Double.parseDouble(x[1]);
+                        getRegion();
+                    }catch(Exception e){
+                        p.dismiss();
+                        Toast.makeText(getApplicationContext(),"Address fields not saved!",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(BookingPage.this,ChangeLocation.class));
+                    }
                     p.dismiss();
-                    getRegion();
                 });
 
     }
@@ -961,6 +969,7 @@ public class BookingPage extends AppCompatActivity  {
                             if(task.getResult().get("house_address")!=null) {
                                 String location = task.getResult().get("house_address").toString();
                                 houseAddress.setText(location);
+
                             }
                         }
                         else

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".MapsActivity">
+	<fragment
+			android:id="@+id/map3"
+			android:name="com.google.android.gms.maps.SupportMapFragment"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:context=".ChangeLocation" />
+
+	<TextView
+			android:id="@+id/textView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
+			android:text="Drag the map to change location"
+			android:textColor="@color/colorAccent"
+			android:textStyle="bold"
+			app:layout_constraintTop_toBottomOf="@+id/location3"
+			tools:layout_editor_absoluteX="24dp" />
+
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/floatbtn3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="8dp"
+			android:layout_marginBottom="8dp"
+			android:backgroundTint="#086ACD"
+			android:src="@drawable/ic_location"
+			app:layout_constraintBottom_toTopOf="@+id/cardView2"
+			app:layout_constraintEnd_toEndOf="parent" />
+
+	<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/pinn"
+			app:layout_constraintBottom_toTopOf="@+id/cardView2"
+			app:layout_constraintEnd_toEndOf="@+id/map3"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/textView" />
+	<SearchView
+			android:id="@+id/location3"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:layout_marginTop="8dp"
+			android:background="@color/white"
+			android:elevation="5dp"
+			android:iconifiedByDefault="false"
+			android:queryHint="Search..."
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:ignore="MissingConstraints" />
+
+
+	<androidx.cardview.widget.CardView
+			android:id="@+id/cardView2"
+			app:cardCornerRadius="16dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:layout_constraintBottom_toBottomOf="parent">
+		<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+			<TextView
+					android:id="@+id/text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Address:  "
+					android:textColor="@color/colorAccent"
+					android:layout_marginLeft="32dp"
+					android:layout_marginTop="16dp"
+					android:layout_marginBottom="12dp"
+					android:textSize="16dp"/>
+
+			<TextView
+					android:id="@+id/addd3"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:layout_marginBottom="12dp"
+					android:layout_marginEnd="20dp"
+					android:layout_toRightOf="@id/text"
+					android:text=""
+					android:textColor="@color/colorAccent"
+					android:textSize="16dp" />
+			<androidx.cardview.widget.CardView
+					android:id="@+id/continueTo3"
+					android:layout_width="match_parent"
+					android:layout_height="60sp"
+					android:layout_below="@id/addd3"
+					android:layout_marginStart="16dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginBottom="16dp"
+					app:cardBackgroundColor="@color/colorAccent"
+					app:cardCornerRadius="40sp">
+
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:text="Continue"
+						android:textColor="@color/white"
+						android:textSize="20sp"
+						android:textStyle="bold" />
+
+			</androidx.cardview.widget.CardView>
+		</RelativeLayout>
+	</androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
