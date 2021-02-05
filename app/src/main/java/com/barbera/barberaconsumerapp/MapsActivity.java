@@ -159,24 +159,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMyLocationEnabled(true);
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
 
-        Circle circle = mMap.addCircle(new CircleOptions()
-                .center(center)
-                .radius(radius)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle1 = mMap.addCircle(new CircleOptions()
-                .center(center1)
-                .radius(radius1)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle2 = mMap.addCircle(new CircleOptions()
-                .center(center2)
-                .radius(radius2)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
+//        Circle circle = mMap.addCircle(new CircleOptions()
+//                .center(center)
+//                .radius(radius)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle1 = mMap.addCircle(new CircleOptions()
+//                .center(center1)
+//                .radius(radius1)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle2 = mMap.addCircle(new CircleOptions()
+//                .center(center2)
+//                .radius(radius2)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
 //        try {
 //            checkWithinZone(mylocation);
 //        } catch (IOException e) {

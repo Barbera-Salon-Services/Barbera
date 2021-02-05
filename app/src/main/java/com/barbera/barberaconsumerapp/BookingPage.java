@@ -1104,32 +1104,7 @@ public class BookingPage extends AppCompatActivity  {
                 slot9.setCardBackgroundColor(Color.BLACK);
             }
         }
-
-//        }else{
-//            setDefault();
-//        }
         progressDialog.dismiss();
     }
-//    private void setDefault(){
-//        slot1.setEnabled(true);
-//        slot2.setEnabled(true);
-//        slot3.setEnabled(true);
-//        slot4.setEnabled(true);
-//        slot5.setEnabled(true);
-//        slot6.setEnabled(true);
-//        slot7.setEnabled(true);
-//        slot8.setEnabled(true);
-//        slot9.setEnabled(true);
-//
-//        slot1.setCardBackgroundColor(Color.BLACK);
-//        slot2.setCardBackgroundColor(Color.BLACK);
-//        slot3.setCardBackgroundColor(Color.BLACK);
-//        slot4.setCardBackgroundColor(Color.BLACK);
-//        slot5.setCardBackgroundColor(Color.BLACK);
-//        slot6.setCardBackgroundColor(Color.BLACK);
-//        slot7.setCardBackgroundColor(Color.BLACK);
-//        slot8.setCardBackgroundColor(Color.BLACK);
-//        slot9.setCardBackgroundColor(Color.BLACK);
-//    }
 
 }

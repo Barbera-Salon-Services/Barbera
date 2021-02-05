@@ -113,24 +113,24 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         key = mMap.getCameraPosition();
 
-        Circle circle = mMap.addCircle(new CircleOptions()
-                .center(center)
-                .radius(radius)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle1 = mMap.addCircle(new CircleOptions()
-                .center(center1)
-                .radius(radius1)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle2 = mMap.addCircle(new CircleOptions()
-                .center(center2)
-                .radius(radius2)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
+//        Circle circle = mMap.addCircle(new CircleOptions()
+//                .center(center)
+//                .radius(radius)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle1 = mMap.addCircle(new CircleOptions()
+//                .center(center1)
+//                .radius(radius1)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle2 = mMap.addCircle(new CircleOptions()
+//                .center(center2)
+//                .radius(radius2)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
         mMap.setMyLocationEnabled(true);
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraIdleListener (this);
