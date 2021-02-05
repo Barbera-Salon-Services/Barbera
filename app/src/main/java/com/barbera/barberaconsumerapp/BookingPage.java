@@ -1,29 +1,23 @@
 package com.barbera.barberaconsumerapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.DialogFragment;
-
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -42,7 +36,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -50,11 +43,6 @@ import java.util.List;
 import java.util.Map;
 
 public class BookingPage extends AppCompatActivity  {
-    private TextView date;
-    private TextView chooseTime;
-    private TextView time;
-    //private CardView usecurrentAddress;
-    private TextView month;
     private String userAddress;//Address string to be stored in database
     public static EditText houseAddress;
     private Button ConfirmBooking;
@@ -64,20 +52,20 @@ public class BookingPage extends AppCompatActivity  {
     private CardView slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9;
     private String mon1,mon2,mon3,mon4,mon5,mon6,mon7,mon,day;
     private SharedPreferences sharedPreferences;
+    private int array[];
     private String OrderSummary = "";
     public static String finalDate;
     public static String finalTime;
     private String Username;
     private String UserPhone;
+    private ProgressDialog progressDialog;
     public static boolean isCouponApplied;
     private String bookingType = "";
     private int listPosition;
     public int BookingTotalAmount;
-    private int selectedDay;
-    private int selectedMonth;
+    private LinearLayout linearLayout;
     private int selectedYear;
     private static EditText couponcodeEditText;
-    private Button couponApply;
     private List<String> users;
     private TextView BookingOrders;
     private long limit;
@@ -95,35 +83,41 @@ public class BookingPage extends AppCompatActivity  {
         listPosition=intent.getIntExtra("Position",-1);
         BookingTotalAmount=intent.getIntExtra("Booking Amount",0);
         OrderSummary=intent.getStringExtra("Order Summary");
-        month = (TextView) findViewById(R.id.mon);
+        array = new int[2];
+        //    private TextView date;
+        //    private TextView chooseTime;
+        //    private TextView time;
+        //private CardView usecurrentAddress;
+        TextView month = (TextView) findViewById(R.id.mon);
 
-        changeLocation =(TextView) findViewById(R.id.booking_choose_address);
-        day1 = (TextView) findViewById(R.id.day1);
-        day2 = (TextView) findViewById(R.id.day2);
-        day3 = (TextView) findViewById(R.id.day3);
-        day4 = (TextView) findViewById(R.id.day4);
-        day5 = (TextView) findViewById(R.id.day5);
-        day6 = (TextView) findViewById(R.id.day6);
-        day7 = (TextView) findViewById(R.id.day7);
+        changeLocation = findViewById(R.id.booking_choose_address);
+        day1 = findViewById(R.id.day1);
+        day2 =  findViewById(R.id.day2);
+        day3 =  findViewById(R.id.day3);
+        day4 =  findViewById(R.id.day4);
+        day5 =  findViewById(R.id.day5);
+        day6 =  findViewById(R.id.day6);
+        day7 = findViewById(R.id.day7);
 
-        slot1=(CardView) findViewById(R.id.slot1);
-        slot2=(CardView) findViewById(R.id.slot2);
-        slot3=(CardView) findViewById(R.id.slot3);
-        slot4=(CardView) findViewById(R.id.slot4);
-        slot5=(CardView) findViewById(R.id.slot5);
-        slot6=(CardView) findViewById(R.id.slot6);
-        slot7=(CardView) findViewById(R.id.slot7);
-        slot8=(CardView) findViewById(R.id.slot8);
-        slot9=(CardView) findViewById(R.id.slot9);
+        slot1= findViewById(R.id.slot1);
+        slot2= findViewById(R.id.slot2);
+        slot3= findViewById(R.id.slot3);
+        slot4= findViewById(R.id.slot4);
+        slot5= findViewById(R.id.slot5);
+        slot6= findViewById(R.id.slot6);
+        slot7= findViewById(R.id.slot7);
+        slot8= findViewById(R.id.slot8);
+        slot9= findViewById(R.id.slot9);
 
-        houseAddress=(EditText)findViewById(R.id.booking_edit_address);
-        ConfirmBooking=(Button)findViewById(R.id.booking_confirm_booking);
-        totalAmount=(TextView)findViewById(R.id.booking_total_amount);
-        sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
-        couponcodeEditText =(EditText) findViewById(R.id.booking_couponCode_editText);
-        couponApply=(Button)findViewById(R.id.booking_coupon_apply_button);
+        houseAddress=findViewById(R.id.booking_edit_address);
+        ConfirmBooking=findViewById(R.id.booking_confirm_booking);
+        totalAmount=findViewById(R.id.booking_total_amount);
+        linearLayout = findViewById(R.id.ll);
+        sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);//Kush use field "Region" in this sharedPref as int field 1 or 2
+        couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
+        Button couponApply =  findViewById(R.id.booking_coupon_apply_button);
         isCouponApplied=false;
-        BookingOrders=(TextView)findViewById(R.id.booking_order_summary);
+        BookingOrders=findViewById(R.id.booking_order_summary);
 
         String addres=sharedPreferences.getString("Address","");
 
@@ -148,7 +142,7 @@ public class BookingPage extends AppCompatActivity  {
         mon1=cur_month;
         month.setText(cur_month + ", " + selectedYear);
 
-        selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
 //        calendar.add(Calendar.DAY_OF_MONTH,20);
 //        selectedDay=calendar.get(Calendar.DAY_OF_MONTH);
         day1.setText(String.valueOf(selectedDay));
@@ -213,38 +207,41 @@ public class BookingPage extends AppCompatActivity  {
             month.setText(cur_month + "/" + compMonth + ", " + selectedYear);
             flag = 1;
         }
+        progressDialog=new ProgressDialog(BookingPage.this);
+        progressDialog.setMessage("Loading...");
 
-        day1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day1.setTextColor(getResources().getColor(R.color.white));
-                day1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                mon=mon1;
-                day=day1.getText().toString();
 
-                day2.setTextColor(getResources().getColor(R.color.colorAccent));
-                day2.setBackgroundColor(getResources().getColor(R.color.white));
-                day3.setTextColor(getResources().getColor(R.color.colorAccent));
-                day3.setBackgroundColor(getResources().getColor(R.color.white));
-                day4.setTextColor(getResources().getColor(R.color.colorAccent));
-                day4.setBackgroundColor(getResources().getColor(R.color.white));
-                day5.setTextColor(getResources().getColor(R.color.colorAccent));
-                day5.setBackgroundColor(getResources().getColor(R.color.white));
-                day6.setTextColor(getResources().getColor(R.color.colorAccent));
-                day6.setBackgroundColor(getResources().getColor(R.color.white));
-                day7.setTextColor(getResources().getColor(R.color.colorAccent));
-                day7.setBackgroundColor(getResources().getColor(R.color.white));
+        day1.setOnClickListener(v -> {
+            day1.setTextColor(getResources().getColor(R.color.white));
+            day1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            mon=mon1;
+            day=day1.getText().toString();
+            progressDialog.show();
+            setDefault();
 
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day1")
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            slots(task);
-                        }
+            array[0]=1;
+            day2.setTextColor(getResources().getColor(R.color.colorAccent));
+            day2.setBackgroundColor(getResources().getColor(R.color.white));
+            day3.setTextColor(getResources().getColor(R.color.colorAccent));
+            day3.setBackgroundColor(getResources().getColor(R.color.white));
+            day4.setTextColor(getResources().getColor(R.color.colorAccent));
+            day4.setBackgroundColor(getResources().getColor(R.color.white));
+            day5.setTextColor(getResources().getColor(R.color.colorAccent));
+            day5.setBackgroundColor(getResources().getColor(R.color.white));
+            day6.setTextColor(getResources().getColor(R.color.colorAccent));
+            day6.setBackgroundColor(getResources().getColor(R.color.white));
+            day7.setTextColor(getResources().getColor(R.color.colorAccent));
+            day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day1")
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task);
                     }
-                });
-            }
+                }
+            });
         });
         day2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,6 +251,9 @@ public class BookingPage extends AppCompatActivity  {
                 mon=mon2;
                 day=day2.getText().toString();
 
+                progressDialog.show();
+                setDefault();
+                array[0]=2;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
                 day3.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -286,6 +286,9 @@ public class BookingPage extends AppCompatActivity  {
                 mon=mon3;
                 day=day3.getText().toString();
 
+                progressDialog.show();
+                setDefault();
+                array[0]=3;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
                 day2.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -318,6 +321,9 @@ public class BookingPage extends AppCompatActivity  {
                 mon=mon4;
                 day=day4.getText().toString();
 
+                progressDialog.show();
+                setDefault();
+                array[0]=4;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
                 day2.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -350,6 +356,9 @@ public class BookingPage extends AppCompatActivity  {
                 mon=mon5;
                 day=day5.getText().toString();
 
+                progressDialog.show();
+                setDefault();
+                array[0]=5;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
                 day2.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -382,6 +391,9 @@ public class BookingPage extends AppCompatActivity  {
                 mon=mon6;
                 day=day6.getText().toString();
 
+                progressDialog.show();
+                setDefault();
+                array[0]=6;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
                 day2.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -414,7 +426,10 @@ public class BookingPage extends AppCompatActivity  {
                 day7.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 mon=mon7;
                 day=day7.getText().toString();
+                progressDialog.show();
+                setDefault();
 
+                array[0]=7;
                 day1.setTextColor(getResources().getColor(R.color.colorAccent));
                 day1.setBackgroundColor(getResources().getColor(R.color.white));
                 day2.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -439,46 +454,155 @@ public class BookingPage extends AppCompatActivity  {
                 });
             }
         });
-
-
-//
         useCurrentAddress();
 
-
-      /*  usecurrentAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ProgressDialog progressDialog=new ProgressDialog(BookingPage.this);
-                progressDialog.setMessage("Fetching Current Address...");
-                progressDialog.show();
-                progressDialog.setCancelable(false);
-                FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(task.isSuccessful()){
-                                    progressDialog.dismiss();
-                                    if(task.getResult().get("Address")!=null) {
-                                        String location = task.getResult().get("Address").toString();
-                                        address.setText(location);
-                                    }
-                                    else{
-                                        Toast.makeText(getApplicationContext(),"You don't have an address stored",Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-                                else
-                                    Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
-        });*/
 
         changeLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(BookingPage.this,MapSearchActivity.class));
             }
+        });
+
+        slot1.setOnClickListener(v -> {
+            slot1.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
+            slot2.setCardBackgroundColor(Color.BLACK);
+            slot3.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.BLACK);
+            slot5.setCardBackgroundColor(Color.BLACK);
+            slot6.setCardBackgroundColor(Color.BLACK);
+            slot7.setCardBackgroundColor(Color.BLACK);
+            slot8.setCardBackgroundColor(Color.BLACK);
+            slot9.setCardBackgroundColor(Color.BLACK);
+
+            array[1]=9;
+
+        });
+        slot2.setOnClickListener(v -> {
+            slot2.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
+            slot1.setCardBackgroundColor(Color.BLACK);
+            slot3.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.BLACK);
+            slot5.setCardBackgroundColor(Color.BLACK);
+            slot6.setCardBackgroundColor(Color.BLACK);
+            slot7.setCardBackgroundColor(Color.BLACK);
+            slot8.setCardBackgroundColor(Color.BLACK);
+            slot9.setCardBackgroundColor(Color.BLACK);
+            array[1]=10;
+        });
+        slot3.setOnClickListener(v -> {
+            slot3.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
+            slot1.setCardBackgroundColor(Color.BLACK);
+            slot2.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.BLACK);
+            slot5.setCardBackgroundColor(Color.BLACK);
+            slot6.setCardBackgroundColor(Color.BLACK);
+            slot7.setCardBackgroundColor(Color.BLACK);
+            slot8.setCardBackgroundColor(Color.BLACK);
+            slot9.setCardBackgroundColor(Color.BLACK);
+
+            array[1]=11;
+
+        });
+        slot4.setOnClickListener(v -> {
+            slot1.setCardBackgroundColor(Color.BLACK);
+            slot2.setCardBackgroundColor(Color.BLACK);
+            slot3.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.parseColor("#27AE60"));
+            slot5.setCardBackgroundColor(Color.BLACK);
+            slot6.setCardBackgroundColor(Color.BLACK);
+            slot7.setCardBackgroundColor(Color.BLACK);
+            slot8.setCardBackgroundColor(Color.BLACK);
+            slot9.setCardBackgroundColor(Color.BLACK);
+
+            array[1]=12;
+
+        });
+        slot5.setOnClickListener(v -> {
+            slot1.setCardBackgroundColor(Color.BLACK);
+            slot2.setCardBackgroundColor(Color.BLACK);
+            slot3.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.BLACK);
+            slot5.setCardBackgroundColor(Color.parseColor("#27AE60"));
+            slot6.setCardBackgroundColor(Color.BLACK);
+            slot7.setCardBackgroundColor(Color.BLACK);
+            slot8.setCardBackgroundColor(Color.BLACK);
+            slot9.setCardBackgroundColor(Color.BLACK);
+
+            array[1]=13;
+        });
+        slot6.setOnClickListener(v -> {
+            slot1.setCardBackgroundColor(Color.BLACK);
+            slot2.setCardBackgroundColor(Color.BLACK);
+            slot3.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.BLACK);
+            slot5.setCardBackgroundColor(Color.BLACK);
+            slot6.setCardBackgroundColor(Color.parseColor("#27AE60"));
+            slot7.setCardBackgroundColor(Color.BLACK);
+            slot8.setCardBackgroundColor(Color.BLACK);
+            slot9.setCardBackgroundColor(Color.BLACK);
+
+            array[1]=14;
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task);
+                    }
+                }
+            });
+        });
+        slot7.setOnClickListener(v -> {
+            slot1.setCardBackgroundColor(Color.BLACK);
+            slot2.setCardBackgroundColor(Color.BLACK);
+            slot3.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.BLACK);
+            slot5.setCardBackgroundColor(Color.BLACK);
+            slot6.setCardBackgroundColor(Color.BLACK);
+            slot7.setCardBackgroundColor(Color.parseColor("#27AE60"));
+            slot8.setCardBackgroundColor(Color.BLACK);
+            slot9.setCardBackgroundColor(Color.BLACK);
+
+            array[1]=15;
+        });
+        slot8.setOnClickListener(v -> {
+            slot1.setCardBackgroundColor(Color.BLACK);
+            slot2.setCardBackgroundColor(Color.BLACK);
+            slot3.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.BLACK);
+            slot5.setCardBackgroundColor(Color.BLACK);
+            slot6.setCardBackgroundColor(Color.BLACK);
+            slot7.setCardBackgroundColor(Color.BLACK);
+            slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));
+            slot9.setCardBackgroundColor(Color.BLACK);
+
+            array[1]=16;
+        });
+        slot9.setOnClickListener(v -> {
+            slot1.setCardBackgroundColor(Color.BLACK);
+            slot2.setCardBackgroundColor(Color.BLACK);
+            slot3.setCardBackgroundColor(Color.BLACK);
+            slot4.setCardBackgroundColor(Color.BLACK);
+            slot5.setCardBackgroundColor(Color.BLACK);
+            slot6.setCardBackgroundColor(Color.BLACK);
+            slot7.setCardBackgroundColor(Color.BLACK);
+            slot8.setCardBackgroundColor(Color.BLACK);
+            slot9.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
+            array[1]=17;
+//            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+//                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                    if(task.isSuccessful()){
+//                        slots(task);
+//                    }
+//                }
+//            });
         });
 
         ConfirmBooking.setOnClickListener(new View.OnClickListener() {
@@ -491,13 +615,12 @@ public class BookingPage extends AppCompatActivity  {
                     progressDialog.setCancelable(false);
                     String dt=mon+" "+day+", "+selectedYear;
                     finalDate=dt;
-                    Toast.makeText(getApplicationContext(),finalDate,Toast.LENGTH_SHORT);
                     finalTime="6pm";
                     userAddress=houseAddress.getText().toString();
                    // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
                     addTosheet();
                     addtoDatabase();
-                    if(isCouponApplied==true)
+                    if(isCouponApplied)
                         addCouponUsage();
                     if(bookingType.equals("Cart")) {
                         Map<String, Object> updateCart = new HashMap<>();
@@ -573,70 +696,52 @@ public class BookingPage extends AppCompatActivity  {
             }
         });
 
-        couponApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!TextUtils.isEmpty(couponcodeEditText.getText())){
-                    final ProgressDialog progressDialog=new ProgressDialog(BookingPage.this);
-                    progressDialog.setMessage("Please wait for a while...");
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
-                    FirebaseFirestore.getInstance().collection("AppData").document("Coupons").get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if(task.isSuccessful()){
-                                        String couponCode=task.getResult().get("CouponName").toString();
-                                        limit=task.getResult().getLong("CouponLimit");
-                                        users=(List<String>)task.getResult().get("users");
-                                        if(!couponcodeEditText.getText().toString().equals(couponCode)){
-                                            couponcodeEditText.setError("No Such Coupon Exists");
-                                            couponcodeEditText.requestFocus();
-                                            progressDialog.dismiss();
-                                        }
-                                        else if(users.contains(FirebaseAuth.getInstance().getUid())){
-                                            progressDialog.dismiss();
-                                            Toast.makeText(getApplicationContext(),"You have already used this coupon",Toast.LENGTH_LONG).show();
-                                        }
-                                        else if(limit==0){
-                                            progressDialog.dismiss();
-                                            Toast.makeText(getApplicationContext(),"Sorry, it has reached its limit!!",Toast.LENGTH_LONG).show();
-                                        }
-                                        else if(BookingTotalAmount<69){
-                                            progressDialog.dismiss();
-                                            couponcodeEditText.setError("Total Amount should be greater than or equal to 69");
-                                            couponcodeEditText.requestFocus();
-                                        }
-                                        else{
-                                            BookingTotalAmount=(BookingTotalAmount>=200?BookingTotalAmount-100:BookingTotalAmount/2);
-                                            totalAmount.setText("Total Amount Rs" +BookingTotalAmount+"(Coupon Applied)");
-                                            isCouponApplied=true;
-                                            Toast.makeText(getApplicationContext(),"Coupon Applied Successfully.",Toast.LENGTH_LONG).show();
-                                            progressDialog.dismiss();
-                                           /* HashMap<String, Object> data=new HashMap<>();
-                                            users.add(FirebaseAuth.getInstance().getUid());
-                                            data.put("CouponLimit",--limit);
-                                            data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                                            FirebaseFirestore.getInstance().collection("AppData").document("Coupons")
-                                                    .update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if(task.isSuccessful()){
-                                                        Toast.makeText(getApplicationContext(),"Coupon Applied Successfully. Don't Revert this Booking, you will lose the couopon",Toast.LENGTH_LONG).show();
-                                                        isCouponApplied=true;
-                                                        progressDialog.dismiss();
-                                                    }
-                                                }
-                                            });*/
-                                        }
+        couponApply.setOnClickListener(v -> {
+            if(!TextUtils.isEmpty(couponcodeEditText.getText())){
+                final ProgressDialog progressDialog=new ProgressDialog(BookingPage.this);
+                progressDialog.setMessage("Please wait for a while...");
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+                FirebaseFirestore.getInstance().collection("AppData").document("Coupons").get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    String couponCode=task.getResult().get("CouponName").toString();
+                                    limit=task.getResult().getLong("CouponLimit");
+                                    users=(List<String>)task.getResult().get("users");
+                                    if(!couponcodeEditText.getText().toString().equals(couponCode)){
+                                        couponcodeEditText.setError("No Such Coupon Exists");
+                                        couponcodeEditText.requestFocus();
+                                        progressDialog.dismiss();
+                                    }
+                                    else if(users.contains(FirebaseAuth.getInstance().getUid())){
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getApplicationContext(),"You have already used this coupon",Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(limit==0){
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getApplicationContext(),"Sorry, it has reached its limit!!",Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(BookingTotalAmount<69){
+                                        progressDialog.dismiss();
+                                        couponcodeEditText.setError("Total Amount should be greater than or equal to 69");
+                                        couponcodeEditText.requestFocus();
+                                    }
+                                    else{
+                                        BookingTotalAmount=(BookingTotalAmount>=200?BookingTotalAmount-100:BookingTotalAmount/2);
+                                        totalAmount.setText("Total Amount Rs" +BookingTotalAmount+"(Coupon Applied)");
+                                        isCouponApplied=true;
+                                        Toast.makeText(getApplicationContext(),"Coupon Applied Successfully.",Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
                                     }
                                 }
-                            });
-                }
-                else {
-                    couponcodeEditText.setError("Please enter a coupon code first");
-                    couponcodeEditText.requestFocus();
-                }
+                            }
+                        });
+            }
+            else {
+                couponcodeEditText.setError("Please enter a coupon code first");
+                couponcodeEditText.requestFocus();
             }
         });
     }
@@ -650,7 +755,7 @@ public class BookingPage extends AppCompatActivity  {
         }*/
     }
 
-    private void addtoDatabase() {
+    private void  addtoDatabase() {
         Map<String,Object> bookingData=new HashMap<>();
         bookingData.put("service",OrderSummary);
         bookingData.put("date",finalDate);
@@ -671,6 +776,13 @@ public class BookingPage extends AppCompatActivity  {
                         public void onComplete(@NonNull Task<Void> task) {
                         }
                     });
+                    Map<String,Object> date=new HashMap<>();
+                    date.put(array[1]+"","B");
+                    date.put("date",mon+" "+day+", "+selectedYear);
+                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
+                            .addOnCompleteListener(task1 -> {
+
+                            });
                 }
                 else
                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
@@ -736,15 +848,7 @@ public class BookingPage extends AppCompatActivity  {
     }
 
     private boolean checkUserData() {
-        if(date.getText().toString().isEmpty()){
-            Toast.makeText(getApplicationContext(),"Please Choose A Date",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else if(time.getText().toString().isEmpty()||time.getText().toString().equals("HH:MM AM/PM")){
-            Toast.makeText(getApplicationContext(),"Please Choose A Time",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else if(houseAddress.getText().toString().isEmpty()){
+       if(houseAddress.getText().toString().isEmpty()){
             houseAddress.setError("Please Enter an Address");
             houseAddress.requestFocus();
             Toast.makeText(getApplicationContext(),"Please Choose An Address",Toast.LENGTH_SHORT).show();
@@ -755,62 +859,6 @@ public class BookingPage extends AppCompatActivity  {
         }*/
         return true;
     }
-
-//    @Override
-//    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//
-//        Calendar calendar=Calendar.getInstance();
-//        calendar.set(Calendar.YEAR,year);
-//        calendar.set(Calendar.MONTH,month);
-//        calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-//        selectedDay= dayOfMonth;
-//        selectedMonth=month;
-//        selectedYear=year;
-//
-//            String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-//            date.setText(currentday);
-//    }
-
-//    @Override
-//    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
-//        Calendar calendar=Calendar.getInstance();
-//        calendar.set(Calendar.YEAR,selectedYear);
-//        calendar.set(Calendar.MONTH,selectedMonth);
-//        calendar.set(Calendar.DAY_OF_MONTH,selectedDay);
-//        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
-//        calendar.set(Calendar.MINUTE,minute);
-//       if((calendar.getTimeInMillis()>Calendar.getInstance().getTimeInMillis()&&calendar.getTimeInMillis()-Calendar.getInstance().getTimeInMillis()<3600000)
-//           ||(calendar.getTimeInMillis()<Calendar.getInstance().getTimeInMillis())) {
-//           Toast.makeText(getApplicationContext(), "Please Select a Time with 1 hour Gap", Toast.LENGTH_LONG).show();
-//       }
-//       else{
-//           if(hourOfDay>=19||hourOfDay<9){
-//               Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
-//           }
-//           else {
-//               if (hourOfDay >= 12) {
-//                   hourOfDay = (hourOfDay >= 13 ? hourOfDay - 12 : hourOfDay);
-//                   time.setText(hourOfDay + ":" + minute + " PM");
-//               }
-//               else
-//                   time.setText(hourOfDay + ":" + minute + " AM");
-//           }
-//       }
-      /* else {
-           if (hourOfDay >= 12) {
-               hourOfDay = (hourOfDay >= 13 ? hourOfDay - 12 : hourOfDay);
-              // if (hourOfDay > 7 || (hourOfDay == 7 && minute > 0))
-                 //  Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
-              // else
-                   time.setText(hourOfDay + ":" + minute + " PM");
-           } else {
-               if (hourOfDay < 9)
-                   Toast.makeText(getApplicationContext(), "Sorry, Our services are only Active between 9 AM to 7 PM", Toast.LENGTH_LONG).show();
-               else
-                   time.setText(hourOfDay + ":" + minute + " AM");
-           }
-       }*/
-//    }
 
     @Override
     protected void onStart() {
@@ -872,52 +920,76 @@ public class BookingPage extends AppCompatActivity  {
                 });
     }
 
-    private void slots(Task<DocumentSnapshot> task){
-        slot1.setVisibility(View.VISIBLE);
-        slot3.setVisibility(View.VISIBLE);
-        slot2.setVisibility(View.VISIBLE);
-        slot4.setVisibility(View.VISIBLE);
-        slot5.setVisibility(View.VISIBLE);
-        slot9.setVisibility(View.VISIBLE);
-        slot8.setVisibility(View.VISIBLE);
-        slot7.setVisibility(View.VISIBLE);
-        slot6.setVisibility(View.VISIBLE);
 
-        if(task.getResult().get("9am").toString().equals("B")){
-            slot1.setEnabled(false);
-            slot1.setBackgroundColor(Color.GRAY);
+    private void slots(Task<DocumentSnapshot> task){
+        linearLayout.setVisibility(View.VISIBLE);
+        boolean check= false;
+        for(int i= 9;i<=17;i++){
+            if(task.getResult().get(i+"").toString().equals("B"))
+                check =true;
         }
-        if(task.getResult().get("10am").toString().equals("B")){
-            slot2.setEnabled(false);
-            Log.d("Book?",task.getResult().get("10am").toString());
-            slot2.setBackgroundColor(Color.GRAY);
+        if(check) {
+            if (task.getResult().get("9").toString().equals("B")) {
+                slot1.setEnabled(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if (task.getResult().get("10").toString().equals("B")) {
+                slot2.setEnabled(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if (task.getResult().get("11").toString().equals("B")) {
+                slot3.setEnabled(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if (task.getResult().get("12").toString().equals("B")) {
+                slot4.setEnabled(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if (task.getResult().get("13").toString().equals("B")) {
+                slot5.setEnabled(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if (task.getResult().get("14").toString().equals("B")) {
+                slot6.setEnabled(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if (task.getResult().get("15").toString().equals("B")) {
+                slot7.setEnabled(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if (task.getResult().get("16").toString().equals("B")) {
+                slot8.setEnabled(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if (task.getResult().get("17").toString().equals("B")) {
+                slot9.setEnabled(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+        }else{
+            setDefault();
         }
-        if(task.getResult().get("11am").toString().equals("B")){
-            slot3.setEnabled(false);
-            slot3.setBackgroundColor(Color.GRAY);
-        }
-        if(task.getResult().get("12pm").toString().equals("B")){
-            slot4.setEnabled(false);
-            slot4.setBackgroundColor(Color.GRAY);
-        }if(task.getResult().get("1pm").toString().equals("B")){
-            slot5.setEnabled(false);
-            slot5.setBackgroundColor(Color.GRAY);
-        }
-        if(task.getResult().get("2pm").toString().equals("B")){
-            slot6.setEnabled(false);
-            slot6.setBackgroundColor(Color.GRAY);
-        }
-        if(task.getResult().get("3pm").toString().equals("B")){
-            slot7.setEnabled(false);
-            slot7.setBackgroundColor(Color.GRAY);
-        }if(task.getResult().get("4pm").toString().equals("B")){
-            slot8.setEnabled(false);
-            slot8.setBackgroundColor(Color.GRAY);
-        }
-        if(task.getResult().get("5pm").toString().equals("B")){
-            slot9.setEnabled(false);
-            slot9.setBackgroundColor(Color.GRAY);
-        }
+        progressDialog.dismiss();
+    }
+    private void setDefault(){
+        slot1.setEnabled(true);
+        slot2.setEnabled(true);
+        slot3.setEnabled(true);
+        slot4.setEnabled(true);
+        slot5.setEnabled(true);
+        slot6.setEnabled(true);
+        slot7.setEnabled(true);
+        slot8.setEnabled(true);
+        slot9.setEnabled(true);
+
+        slot1.setCardBackgroundColor(Color.BLACK);
+        slot2.setCardBackgroundColor(Color.BLACK);
+        slot3.setCardBackgroundColor(Color.BLACK);
+        slot4.setCardBackgroundColor(Color.BLACK);
+        slot5.setCardBackgroundColor(Color.BLACK);
+        slot6.setCardBackgroundColor(Color.BLACK);
+        slot7.setCardBackgroundColor(Color.BLACK);
+        slot8.setCardBackgroundColor(Color.BLACK);
+        slot9.setCardBackgroundColor(Color.BLACK);
     }
 
 }

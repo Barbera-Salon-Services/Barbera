@@ -7,5 +7,6 @@
     <color name="CardWhite">#F3EBEB</color>
     <color name="CartBlack">#ED010203</color>
     <color name="NavigationBlack">#474444</color>
+    <color name="gray">#FF888888</color>
     <color name="CancellationColor">#E83F3F</color>
 </resources>
