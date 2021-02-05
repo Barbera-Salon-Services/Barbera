@@ -421,7 +421,6 @@ public class BookingPage extends AppCompatActivity  {
                 });
             }
         });
-
         day7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -734,7 +733,7 @@ public class BookingPage extends AppCompatActivity  {
         FirebaseFirestore.getInstance().collection("Users")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnCompleteListener(task -> {
-                    String[] x =task.getResult().get("Address").toString().split(",");
+                    String[] x =task.getResult().get("Address1").toString().split(",");
                     lat = Double.parseDouble(x[0]);
                     lon = Double.parseDouble(x[1]);
                     p.dismiss();
@@ -754,7 +753,7 @@ public class BookingPage extends AppCompatActivity  {
         if(getdistanceinkm(new LatLng(26.949311,75.714512))*1000<=radius1 || getdistanceinkm(new LatLng(26.943649,75.748845))*1000<=radius2){
             region =2;
         }
-        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
     }
 
     private double getdistanceinkm( LatLng latLng) {
