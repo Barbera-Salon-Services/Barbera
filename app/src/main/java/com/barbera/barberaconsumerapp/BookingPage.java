@@ -467,126 +467,126 @@ public class BookingPage extends AppCompatActivity  {
         });
 
         slot1.setOnClickListener(v -> {
-            slot1.setCardBackgroundColor(Color.parseColor("#27AE60"));
-
-            slot2.setCardBackgroundColor(Color.BLACK);
-            slot3.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.BLACK);
-            slot5.setCardBackgroundColor(Color.BLACK);
-            slot6.setCardBackgroundColor(Color.BLACK);
-            slot7.setCardBackgroundColor(Color.BLACK);
-            slot8.setCardBackgroundColor(Color.BLACK);
-            slot9.setCardBackgroundColor(Color.BLACK);
-
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getApplicationContext(),"Inside task "+array[0],Toast.LENGTH_SHORT).show();
+                        slots(task,region);
+                        slot1.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
             array[1]=9;
 
         });
         slot2.setOnClickListener(v -> {
-            slot2.setCardBackgroundColor(Color.parseColor("#27AE60"));
-
-            slot1.setCardBackgroundColor(Color.BLACK);
-            slot3.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.BLACK);
-            slot5.setCardBackgroundColor(Color.BLACK);
-            slot6.setCardBackgroundColor(Color.BLACK);
-            slot7.setCardBackgroundColor(Color.BLACK);
-            slot8.setCardBackgroundColor(Color.BLACK);
-            slot9.setCardBackgroundColor(Color.BLACK);
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task,region);
+                        slot2.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
             array[1]=10;
         });
         slot3.setOnClickListener(v -> {
-            slot3.setCardBackgroundColor(Color.parseColor("#27AE60"));
-
-            slot1.setCardBackgroundColor(Color.BLACK);
-            slot2.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.BLACK);
-            slot5.setCardBackgroundColor(Color.BLACK);
-            slot6.setCardBackgroundColor(Color.BLACK);
-            slot7.setCardBackgroundColor(Color.BLACK);
-            slot8.setCardBackgroundColor(Color.BLACK);
-            slot9.setCardBackgroundColor(Color.BLACK);
-
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task,region);
+                        slot3.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
             array[1]=11;
 
         });
         slot4.setOnClickListener(v -> {
-            slot1.setCardBackgroundColor(Color.BLACK);
-            slot2.setCardBackgroundColor(Color.BLACK);
-            slot3.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.parseColor("#27AE60"));
-            slot5.setCardBackgroundColor(Color.BLACK);
-            slot6.setCardBackgroundColor(Color.BLACK);
-            slot7.setCardBackgroundColor(Color.BLACK);
-            slot8.setCardBackgroundColor(Color.BLACK);
-            slot9.setCardBackgroundColor(Color.BLACK);
-
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task,region);
+                        slot4.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
             array[1]=12;
 
         });
         slot5.setOnClickListener(v -> {
-            slot1.setCardBackgroundColor(Color.BLACK);
-            slot2.setCardBackgroundColor(Color.BLACK);
-            slot3.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.BLACK);
-            slot5.setCardBackgroundColor(Color.parseColor("#27AE60"));
-            slot6.setCardBackgroundColor(Color.BLACK);
-            slot7.setCardBackgroundColor(Color.BLACK);
-            slot8.setCardBackgroundColor(Color.BLACK);
-            slot9.setCardBackgroundColor(Color.BLACK);
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task,region);
+                        slot5.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
 
             array[1]=13;
         });
         slot6.setOnClickListener(v -> {
-            slot1.setCardBackgroundColor(Color.BLACK);
-            slot2.setCardBackgroundColor(Color.BLACK);
-            slot3.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.BLACK);
-            slot5.setCardBackgroundColor(Color.BLACK);
-            slot6.setCardBackgroundColor(Color.parseColor("#27AE60"));
-            slot7.setCardBackgroundColor(Color.BLACK);
-            slot8.setCardBackgroundColor(Color.BLACK);
-            slot9.setCardBackgroundColor(Color.BLACK);
-
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task,region);
+                        slot6.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
             array[1]=14;
 
         });
         slot7.setOnClickListener(v -> {
-            slot1.setCardBackgroundColor(Color.BLACK);
-            slot2.setCardBackgroundColor(Color.BLACK);
-            slot3.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.BLACK);
-            slot5.setCardBackgroundColor(Color.BLACK);
-            slot6.setCardBackgroundColor(Color.BLACK);
-            slot7.setCardBackgroundColor(Color.parseColor("#27AE60"));
-            slot8.setCardBackgroundColor(Color.BLACK);
-            slot9.setCardBackgroundColor(Color.BLACK);
-
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task,region);
+                        slot7.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
             array[1]=15;
         });
         slot8.setOnClickListener(v -> {
-            slot1.setCardBackgroundColor(Color.BLACK);
-            slot2.setCardBackgroundColor(Color.BLACK);
-            slot3.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.BLACK);
-            slot5.setCardBackgroundColor(Color.BLACK);
-            slot6.setCardBackgroundColor(Color.BLACK);
-            slot7.setCardBackgroundColor(Color.BLACK);
-            slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));
-            slot9.setCardBackgroundColor(Color.BLACK);
-
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task,region);
+                        slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
             array[1]=16;
         });
         slot9.setOnClickListener(v -> {
-            slot1.setCardBackgroundColor(Color.BLACK);
-            slot2.setCardBackgroundColor(Color.BLACK);
-            slot3.setCardBackgroundColor(Color.BLACK);
-            slot4.setCardBackgroundColor(Color.BLACK);
-            slot5.setCardBackgroundColor(Color.BLACK);
-            slot6.setCardBackgroundColor(Color.BLACK);
-            slot7.setCardBackgroundColor(Color.BLACK);
-            slot8.setCardBackgroundColor(Color.BLACK);
-            slot9.setCardBackgroundColor(Color.parseColor("#27AE60"));
-
+            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        slots(task,region);
+                        slot9.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    }
+                }
+            });
             array[1]=17;
 //            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
 //                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -770,13 +770,25 @@ public class BookingPage extends AppCompatActivity  {
                         public void onComplete(@NonNull Task<Void> task) {
                         }
                     });
-                    Map<String,Object> date=new HashMap<>();
-                    date.put(array[1]+"","B");
-                    date.put("date",mon+" "+day+", "+selectedYear);
-                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
-                            .addOnCompleteListener(task1 -> {
+                    if(region==1){
+                        Map<String,Object> date=new HashMap<>();
+                        date.put(array[1]+"","B");
+                        date.put("date",mon+" "+day+", "+selectedYear);
+                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
+                                .addOnCompleteListener(task1 -> {
 
-                            });
+                                });
+                    }
+                    else{
+                        Map<String,Object> date=new HashMap<>();
+                        date.put(array[1]+"B","B");
+                        date.put("date",mon+" "+day+", "+selectedYear);
+                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
+                                .addOnCompleteListener(task1 -> {
+
+                                });
+                    }
+
                 }
                 else
                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
@@ -917,51 +929,141 @@ public class BookingPage extends AppCompatActivity  {
 
     private void slots(Task<DocumentSnapshot> task, int region){
         linearLayout.setVisibility(View.VISIBLE);
-        boolean check= false;
-        for(int i= 9;i<=17;i++){
-            if(task.getResult().get(i+"").toString().equals("B"))
-                check =true;
-        }
-        if(check) {
-            if(task.getResult().get("9").toString().equals("B")) {
+
+        if(region==1){
+            if (task.getResult().get("9").toString().equals("B")) {
                 slot1.setEnabled(false);
                 slot1.setCardBackgroundColor(Color.GRAY);
+            }else{
+                slot1.setEnabled(true);
+                slot1.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("10").toString().equals("B")) {
                 slot2.setEnabled(false);
                 slot2.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot2.setEnabled(true);
+                slot2.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("11").toString().equals("B")) {
                 slot3.setEnabled(false);
                 slot3.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot3.setEnabled(true);
+                slot3.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("12").toString().equals("B")) {
                 slot4.setEnabled(false);
                 slot4.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot4.setEnabled(true);
+                slot4.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("13").toString().equals("B")) {
                 slot5.setEnabled(false);
                 slot5.setCardBackgroundColor(Color.GRAY);
+            }else{
+                slot5.setEnabled(true);
+                slot5.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("14").toString().equals("B")) {
                 slot6.setEnabled(false);
                 slot6.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot6.setEnabled(true);
+                slot6.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("15").toString().equals("B")) {
                 slot7.setEnabled(false);
                 slot7.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot7.setEnabled(true);
+                slot7.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("16").toString().equals("B")) {
                 slot8.setEnabled(false);
                 slot8.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot8.setEnabled(true);
+                slot8.setCardBackgroundColor(Color.BLACK);
             }
             if (task.getResult().get("17").toString().equals("B")) {
                 slot9.setEnabled(false);
                 slot9.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot9.setEnabled(true);
+                slot9.setCardBackgroundColor(Color.BLACK);
             }
-        }else{
-            setDefault();
         }
+        else{
+            if (task.getResult().get("9B").toString().equals("B")) {
+                slot1.setEnabled(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }else{
+                slot1.setEnabled(true);
+                slot1.setCardBackgroundColor(Color.BLACK);
+            }
+            if (task.getResult().get("10B").toString().equals("B")) {
+                slot2.setEnabled(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot2.setEnabled(true);
+                slot2.setCardBackgroundColor(Color.BLACK);
+            }
+            if (task.getResult().get("11B").toString().equals("B")) {
+                slot3.setEnabled(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot3.setEnabled(true);
+                slot3.setCardBackgroundColor(Color.BLACK);
+            }
+            if (task.getResult().get("12B").toString().equals("B")) {
+                slot4.setEnabled(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot4.setEnabled(true);
+                slot4.setCardBackgroundColor(Color.BLACK);
+            }
+            if (task.getResult().get("13B").toString().equals("B")) {
+                slot5.setEnabled(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }else{
+                slot5.setEnabled(true);
+                slot5.setCardBackgroundColor(Color.BLACK);
+            }
+            if (task.getResult().get("14B").toString().equals("B")) {
+                slot6.setEnabled(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot6.setEnabled(true);
+                slot6.setCardBackgroundColor(Color.BLACK);
+            }
+            if (task.getResult().get("15B").toString().equals("B")) {
+                slot7.setEnabled(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot7.setEnabled(true);
+                slot7.setCardBackgroundColor(Color.BLACK);
+            }
+            if (task.getResult().get("16B").toString().equals("B")) {
+                slot8.setEnabled(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot8.setEnabled(true);
+                slot8.setCardBackgroundColor(Color.BLACK);
+            }
+            if (task.getResult().get("17B").toString().equals("B")) {
+                slot9.setEnabled(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            } else{
+                slot9.setEnabled(true);
+                slot9.setCardBackgroundColor(Color.BLACK);
+            }
+        }
+
+//        }else{
+//            setDefault();
+//        }
         progressDialog.dismiss();
     }
     private void setDefault(){
