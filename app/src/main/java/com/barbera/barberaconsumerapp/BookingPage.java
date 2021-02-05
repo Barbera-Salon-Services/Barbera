@@ -596,7 +596,7 @@ public class BookingPage extends AppCompatActivity  {
                     progressDialog.setCancelable(false);
                     String dt=mon+" "+day+", "+selectedYear;
                     finalDate=dt;
-                    finalTime="6pm";
+                    finalTime=array[1]+":00";
                     userAddress=houseAddress.getText().toString();
                    // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
                     addTosheet();
