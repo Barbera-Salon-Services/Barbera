@@ -140,8 +140,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                floatingActionButton.setEnabled(false);
+            public void onClick(View v) { ;
                 LocationRequest locationRequest =locationRequest = LocationRequest.create();
                 locationRequest.setInterval(500);
                 locationRequest.setFastestInterval(500);

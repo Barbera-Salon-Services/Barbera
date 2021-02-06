@@ -1,28 +1,38 @@
 package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,6 +41,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -99,8 +110,15 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         firebaseAuth = FirebaseAuth.getInstance();
         client = LocationServices.getFusedLocationProviderClient(this);
 
-        floatingActionButton.setOnClickListener(v -> {
-            getCurrentLocation();
+        floatingActionButton.setOnClickListener(v -> {LocationRequest locationRequest =locationRequest = LocationRequest.create();
+            locationRequest.setInterval(500);
+            locationRequest.setFastestInterval(500);
+            locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+            if(isLocationEnabled()){
+                getCurrentLocation();
+            }else{
+                enableLocation(locationRequest);
+            }
         });
         cont.setOnClickListener(v -> {
             storeTodb();
@@ -115,6 +133,7 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         }
 
     }
+
 
     private void getCurrentLocation() {
         progressDialog = new ProgressDialog(ChangeLocation.this);
@@ -175,7 +194,7 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraIdleListener (this);
         mMap.setOnCameraMoveListener  (this);
@@ -213,6 +232,13 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
             }
         });
     }
+    private boolean isLocationEnabled() {
+        LocationManager locationManager =(LocationManager)getSystemService(LOCATION_SERVICE);
+        boolean providerEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(providerEnabled)
+            return true;
+        return false;
+    }
     private void checkWithinZone(LatLng location) throws IOException {
         double distanceInMeters = getdistanceinkm(location) * 1000;
         double distanceInMeters1 = getdistanceinkm1(location) * 1000;
@@ -248,6 +274,7 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         editor.putString("Address",address);
         editor.apply();
         if(withinzone) {
+            cont.setCardBackgroundColor(Color.BLACK);
             documentReference.get().addOnCompleteListener(task -> {
                 Map<String, Object> user = new HashMap<>();
                 user.put("Address1", Lat+","+Lon);
@@ -260,7 +287,34 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
             });
         }
         else
-            sendToBookingPage();
+            cont.setCardBackgroundColor(Color.GRAY);
+            Toast.makeText(getApplicationContext(),"Address Not added",Toast.LENGTH_SHORT).show();
+    }
+
+    private void enableLocation(LocationRequest locationRequest) {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+        task.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try {
+                    task.getResult(ApiException.class);
+                } catch (ApiException e) {
+                    switch (e.getStatusCode()){
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            try {
+                                ResolvableApiException resolvableApiException = (ResolvableApiException)e;
+                                resolvableApiException.startResolutionForResult(ChangeLocation.this,8080);
+                            } catch (IntentSender.SendIntentException ex) {
+                                ex.printStackTrace();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     private double getdistanceinkm2(LatLng location) {
@@ -321,7 +375,6 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
 
     private void sendToBookingPage() {
         finish();
-        startActivity(new Intent(ChangeLocation.this,BookingPage.class));
     }
 
     private double getdistanceinkm(LatLng location) {
@@ -359,6 +412,19 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
                 finish();
                 startActivity(new Intent(this, MapsActivity.class));
+            }
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 8080){
+            switch (resultCode){
+                case Activity.RESULT_OK:
+                    break;
+                case Activity.RESULT_CANCELED:
+                    Toast.makeText(getApplicationContext(),"Cannot fetch loaction without enabling location services",Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     }
