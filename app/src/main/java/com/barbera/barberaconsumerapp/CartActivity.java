@@ -103,7 +103,7 @@ public class CartActivity extends AppCompatActivity {
                                                 dbQueries.cartItemModelList.add(new CartItemModel(documentSnapshot.get("icon").toString(),
                                                         documentSnapshot.get("Service_title").toString(),
                                                         documentSnapshot.get("price").toString(), documentSnapshot.get("type").toString(),
-                                                        documentSnapshot.getId(), finalI));
+                                                        documentSnapshot.getId(), finalI,documentSnapshot.get("Time").toString()));
                                                 MainActivity.cartAdapter.notifyDataSetChanged();
                                             }
                                         }
@@ -121,7 +121,7 @@ public class CartActivity extends AppCompatActivity {
                                                         (documentSnapshot.get("icon").toString(),
                                                                 documentSnapshot.get("Service_title").toString(),
                                                                 documentSnapshot.get("price").toString(), documentSnapshot.get("type").toString(),
-                                                                documentSnapshot.getId(), finalI1));
+                                                                documentSnapshot.getId(), finalI1,documentSnapshot.get("Time").toString()));
                                                 MainActivity.cartAdapter.notifyDataSetChanged();
                                             }
                                         }
@@ -139,7 +139,7 @@ public class CartActivity extends AppCompatActivity {
                                         dbQueries.cartItemModelList.add(new CartItemModel(documentSnapshot.get("icon").toString(),
                                                 documentSnapshot.getId(),
                                                 documentSnapshot.get("price").toString(), serviceType,
-                                                documentSnapshot.getId(), finalI2));
+                                                documentSnapshot.getId(), finalI2,documentSnapshot.get("Time").toString()));
                                         MainActivity.cartAdapter.notifyDataSetChanged();
                                     }
                                 }

@@ -8,8 +8,9 @@ public class CartItemModel {
     private String type;
     private String serviceId;
     private int index;
+    private String Time;
 
-    public CartItemModel(String imageId, String serviceName, String servicePrice, String type,String ServiceId,int Index) {
+    public CartItemModel(String imageId, String serviceName, String servicePrice, String type,String ServiceId,int Index, String time) {
         ImageId = imageId;
         ServiceName = serviceName;
         ServicePrice =  servicePrice;
@@ -17,6 +18,11 @@ public class CartItemModel {
         serviceId=ServiceId;
         index=Index;
         Quantity=1;
+        Time=time;
+    }
+
+    public String getTime() {
+        return Time;
     }
 
     public int getIndex() {
