@@ -21,7 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static com.barbera.barberaconsumerapp.CartActivity.cartItemRecyclerView;
 import static com.barbera.barberaconsumerapp.CartActivity.cartTotalAmtLayout;

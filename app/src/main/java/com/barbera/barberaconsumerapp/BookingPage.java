@@ -71,6 +71,7 @@ public class BookingPage extends AppCompatActivity  {
     private List<String> users;
     private TextView BookingOrders;
     private long limit;
+    private boolean men=false,women=false;
 
 
     @SuppressLint("SetTextI18n")
@@ -85,6 +86,19 @@ public class BookingPage extends AppCompatActivity  {
         listPosition=intent.getIntExtra("Position",-1);
         BookingTotalAmount=intent.getIntExtra("Booking Amount",0);
         OrderSummary=intent.getStringExtra("Order Summary");
+        String [] lines = OrderSummary.split("\n");
+        for (String line : lines) {
+            String sub=line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+            Log.d("sub", sub);
+            Log.d("line", line);
+            if (sub.equals("men")) {
+                men = true;
+            }
+            if (sub.equals("women")) {
+                women = true;
+            }
+        }
+        Toast.makeText(this, men+" "+women, Toast.LENGTH_SHORT).show();
         array = new int[2];
         //    private TextView date;
         //    private TextView chooseTime;
@@ -815,22 +829,45 @@ public class BookingPage extends AppCompatActivity  {
                         }
                     });
                     if(region==1){
-                        Map<String,Object> date=new HashMap<>();
-                        date.put(array[1]+"","B");
-                        date.put("date",mon+" "+day+", "+selectedYear);
-                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
-                                .addOnCompleteListener(task1 -> {
+                        if(men){
+                            Map<String,Object> date=new HashMap<>();
+                            date.put(array[1]+"_m","B");
+                            date.put("date",mon+" "+day+", "+selectedYear);
+                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
+                                    .addOnCompleteListener(task1 -> {
 
-                                });
+                                    });
+                        }
+                        if(women){
+                            Map<String,Object> date=new HashMap<>();
+                            date.put(array[1]+"_f","B");
+                            date.put("date",mon+" "+day+", "+selectedYear);
+                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
+                                    .addOnCompleteListener(task1 -> {
+
+                                    });
+                        }
+
                     }
                     else{
-                        Map<String,Object> date=new HashMap<>();
-                        date.put(array[1]+"B","B");
-                        date.put("date",mon+" "+day+", "+selectedYear);
-                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
-                                .addOnCompleteListener(task1 -> {
+                        if(men){
+                            Map<String,Object> date=new HashMap<>();
+                            date.put(array[1]+"B_m","B");
+                            date.put("date",mon+" "+day+", "+selectedYear);
+                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
+                                    .addOnCompleteListener(task1 -> {
 
-                                });
+                                    });
+                        }
+                        if(women){
+                            Map<String,Object> date=new HashMap<>();
+                            date.put(array[1]+"B_f","B");
+                            date.put("date",mon+" "+day+", "+selectedYear);
+                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
+                                    .addOnCompleteListener(task1 -> {
+
+                                    });
+                        }
                     }
 
                 }
@@ -971,137 +1008,396 @@ public class BookingPage extends AppCompatActivity  {
     }
 
 
-    private void slots(Task<DocumentSnapshot> task, int region){
+    private void slots(Task<DocumentSnapshot> task, int region) {
         linearLayout.setVisibility(View.VISIBLE);
 
-        if(region==1){
-            if (task.getResult().get("9").toString().equals("B")) {
-                slot1.setEnabled(false);
-                slot1.setCardBackgroundColor(Color.GRAY);
-            }else{
-                slot1.setEnabled(true);
-                slot1.setCardBackgroundColor(Color.BLACK);
+        if (region == 1) {
+            if (men && !women) {
+                if (task.getResult().get("9_m").toString().equals("B")) {
+                    slot1.setEnabled(false);
+                    slot1.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot1.setEnabled(true);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("10_m").toString().equals("B")) {
+                    slot2.setEnabled(false);
+                    slot2.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot2.setEnabled(true);
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("11_m").toString().equals("B")) {
+                    slot3.setEnabled(false);
+                    slot3.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot3.setEnabled(true);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("12_m").toString().equals("B")) {
+                    slot4.setEnabled(false);
+                    slot4.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot4.setEnabled(true);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("13_m").toString().equals("B")) {
+                    slot5.setEnabled(false);
+                    slot5.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot5.setEnabled(true);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("14_m").toString().equals("B")) {
+                    slot6.setEnabled(false);
+                    slot6.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot6.setEnabled(true);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("15_m").toString().equals("B")) {
+                    slot7.setEnabled(false);
+                    slot7.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot7.setEnabled(true);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("16_m").toString().equals("B")) {
+                    slot8.setEnabled(false);
+                    slot8.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot8.setEnabled(true);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("17_m").toString().equals("B")) {
+                    slot9.setEnabled(false);
+                    slot9.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot9.setEnabled(true);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                }
+            } else if (women && !men) {
+                if (task.getResult().get("9_f").toString().equals("B")) {
+                    slot1.setEnabled(false);
+                    slot1.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot1.setEnabled(true);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("10_f").toString().equals("B")) {
+                    slot2.setEnabled(false);
+                    slot2.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot2.setEnabled(true);
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("11_f").toString().equals("B")) {
+                    slot3.setEnabled(false);
+                    slot3.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot3.setEnabled(true);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("12_f").toString().equals("B")) {
+                    slot4.setEnabled(false);
+                    slot4.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot4.setEnabled(true);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("13_f").toString().equals("B")) {
+                    slot5.setEnabled(false);
+                    slot5.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot5.setEnabled(true);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("14_f").toString().equals("B")) {
+                    slot6.setEnabled(false);
+                    slot6.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot6.setEnabled(true);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("15_f").toString().equals("B")) {
+                    slot7.setEnabled(false);
+                    slot7.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot7.setEnabled(true);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("16_f").toString().equals("B")) {
+                    slot8.setEnabled(false);
+                    slot8.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot8.setEnabled(true);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("17_f").toString().equals("B")) {
+                    slot9.setEnabled(false);
+                    slot9.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot9.setEnabled(true);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                }
+            } else {
+                if (task.getResult().get("9_m").toString().equals("B") || task.getResult().get("9_f").toString().equals("B")) {
+                    slot1.setEnabled(false);
+                    slot1.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot1.setEnabled(true);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("10_m").toString().equals("B") || task.getResult().get("10_f").toString().equals("B")) {
+                    slot2.setEnabled(false);
+                    slot2.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot2.setEnabled(true);
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("11_m").toString().equals("B") || task.getResult().get("11_f").toString().equals("B")) {
+                    slot3.setEnabled(false);
+                    slot3.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot3.setEnabled(true);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("12_m").toString().equals("B") || task.getResult().get("12_f").toString().equals("B")) {
+                    slot4.setEnabled(false);
+                    slot4.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot4.setEnabled(true);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("13_m").toString().equals("B") || task.getResult().get("13_f").toString().equals("B")) {
+                    slot5.setEnabled(false);
+                    slot5.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot5.setEnabled(true);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("14_m").toString().equals("B") || task.getResult().get("14_f").toString().equals("B")) {
+                    slot6.setEnabled(false);
+                    slot6.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot6.setEnabled(true);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("15_m").toString().equals("B") || task.getResult().get("15_f").toString().equals("B")) {
+                    slot7.setEnabled(false);
+                    slot7.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot7.setEnabled(true);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("16_m").toString().equals("B") || task.getResult().get("16_f").toString().equals("B")) {
+                    slot8.setEnabled(false);
+                    slot8.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot8.setEnabled(true);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("17_m").toString().equals("B") || task.getResult().get("17_f").toString().equals("B")) {
+                    slot9.setEnabled(false);
+                    slot9.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot9.setEnabled(true);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                }
             }
-            if (task.getResult().get("10").toString().equals("B")) {
-                slot2.setEnabled(false);
-                slot2.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot2.setEnabled(true);
-                slot2.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("11").toString().equals("B")) {
-                slot3.setEnabled(false);
-                slot3.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot3.setEnabled(true);
-                slot3.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("12").toString().equals("B")) {
-                slot4.setEnabled(false);
-                slot4.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot4.setEnabled(true);
-                slot4.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("13").toString().equals("B")) {
-                slot5.setEnabled(false);
-                slot5.setCardBackgroundColor(Color.GRAY);
-            }else{
-                slot5.setEnabled(true);
-                slot5.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("14").toString().equals("B")) {
-                slot6.setEnabled(false);
-                slot6.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot6.setEnabled(true);
-                slot6.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("15").toString().equals("B")) {
-                slot7.setEnabled(false);
-                slot7.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot7.setEnabled(true);
-                slot7.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("16").toString().equals("B")) {
-                slot8.setEnabled(false);
-                slot8.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot8.setEnabled(true);
-                slot8.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("17").toString().equals("B")) {
-                slot9.setEnabled(false);
-                slot9.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot9.setEnabled(true);
-                slot9.setCardBackgroundColor(Color.BLACK);
-            }
-        }
-        else{
-            if (task.getResult().get("9B").toString().equals("B")) {
-                slot1.setEnabled(false);
-                slot1.setCardBackgroundColor(Color.GRAY);
-            }else{
-                slot1.setEnabled(true);
-                slot1.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("10B").toString().equals("B")) {
-                slot2.setEnabled(false);
-                slot2.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot2.setEnabled(true);
-                slot2.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("11B").toString().equals("B")) {
-                slot3.setEnabled(false);
-                slot3.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot3.setEnabled(true);
-                slot3.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("12B").toString().equals("B")) {
-                slot4.setEnabled(false);
-                slot4.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot4.setEnabled(true);
-                slot4.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("13B").toString().equals("B")) {
-                slot5.setEnabled(false);
-                slot5.setCardBackgroundColor(Color.GRAY);
-            }else{
-                slot5.setEnabled(true);
-                slot5.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("14B").toString().equals("B")) {
-                slot6.setEnabled(false);
-                slot6.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot6.setEnabled(true);
-                slot6.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("15B").toString().equals("B")) {
-                slot7.setEnabled(false);
-                slot7.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot7.setEnabled(true);
-                slot7.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("16B").toString().equals("B")) {
-                slot8.setEnabled(false);
-                slot8.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot8.setEnabled(true);
-                slot8.setCardBackgroundColor(Color.BLACK);
-            }
-            if (task.getResult().get("17B").toString().equals("B")) {
-                slot9.setEnabled(false);
-                slot9.setCardBackgroundColor(Color.GRAY);
-            } else{
-                slot9.setEnabled(true);
-                slot9.setCardBackgroundColor(Color.BLACK);
+        } else {
+            if (men && !women) {
+                if (task.getResult().get("9B_m").toString().equals("B")) {
+                    slot1.setEnabled(false);
+                    slot1.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot1.setEnabled(true);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("10B_m").toString().equals("B")) {
+                    slot2.setEnabled(false);
+                    slot2.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot2.setEnabled(true);
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("11B_m").toString().equals("B")) {
+                    slot3.setEnabled(false);
+                    slot3.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot3.setEnabled(true);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("12B_m").toString().equals("B")) {
+                    slot4.setEnabled(false);
+                    slot4.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot4.setEnabled(true);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("13B_m").toString().equals("B")) {
+                    slot5.setEnabled(false);
+                    slot5.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot5.setEnabled(true);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("14B_m").toString().equals("B")) {
+                    slot6.setEnabled(false);
+                    slot6.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot6.setEnabled(true);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("15B_m").toString().equals("B")) {
+                    slot7.setEnabled(false);
+                    slot7.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot7.setEnabled(true);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("16B_m").toString().equals("B")) {
+                    slot8.setEnabled(false);
+                    slot8.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot8.setEnabled(true);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("17B_m").toString().equals("B")) {
+                    slot9.setEnabled(false);
+                    slot9.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot9.setEnabled(true);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                }
+            } else if (women && !men) {
+                if (task.getResult().get("9B_f").toString().equals("B")) {
+                    slot1.setEnabled(false);
+                    slot1.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot1.setEnabled(true);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("10B_f").toString().equals("B")) {
+                    slot2.setEnabled(false);
+                    slot2.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot2.setEnabled(true);
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("11B_f").toString().equals("B")) {
+                    slot3.setEnabled(false);
+                    slot3.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot3.setEnabled(true);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("12B_f").toString().equals("B")) {
+                    slot4.setEnabled(false);
+                    slot4.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot4.setEnabled(true);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("13B_f").toString().equals("B")) {
+                    slot5.setEnabled(false);
+                    slot5.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot5.setEnabled(true);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("14B_f").toString().equals("B")) {
+                    slot6.setEnabled(false);
+                    slot6.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot6.setEnabled(true);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("15B_f").toString().equals("B")) {
+                    slot7.setEnabled(false);
+                    slot7.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot7.setEnabled(true);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("16B_f").toString().equals("B")) {
+                    slot8.setEnabled(false);
+                    slot8.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot8.setEnabled(true);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("17B_f").toString().equals("B")) {
+                    slot9.setEnabled(false);
+                    slot9.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot9.setEnabled(true);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                }
+            } else {
+                if (task.getResult().get("9B_m").toString().equals("B") || task.getResult().get("9B_f").toString().equals("B")) {
+                    slot1.setEnabled(false);
+                    slot1.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot1.setEnabled(true);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("10B_m").toString().equals("B") || task.getResult().get("10B_f").toString().equals("B")) {
+                    slot2.setEnabled(false);
+                    slot2.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot2.setEnabled(true);
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("11B_m").toString().equals("B") || task.getResult().get("11B_f").toString().equals("B")) {
+                    slot3.setEnabled(false);
+                    slot3.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot3.setEnabled(true);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("12B_m").toString().equals("B") || task.getResult().get("12B_f").toString().equals("B")) {
+                    slot4.setEnabled(false);
+                    slot4.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot4.setEnabled(true);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("13B_m").toString().equals("B") || task.getResult().get("13B_f").toString().equals("B")) {
+                    slot5.setEnabled(false);
+                    slot5.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot5.setEnabled(true);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("14B_m").toString().equals("B") || task.getResult().get("14B_f").toString().equals("B")) {
+                    slot6.setEnabled(false);
+                    slot6.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot6.setEnabled(true);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("15B_m").toString().equals("B") || task.getResult().get("15B_f").toString().equals("B")) {
+                    slot7.setEnabled(false);
+                    slot7.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot7.setEnabled(true);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("16B_m").toString().equals("B") || task.getResult().get("16B_f").toString().equals("B")) {
+                    slot8.setEnabled(false);
+                    slot8.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot8.setEnabled(true);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("17B_m").toString().equals("B") || task.getResult().get("17B_f").toString().equals("B")) {
+                    slot9.setEnabled(false);
+                    slot9.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot9.setEnabled(true);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                }
             }
         }
         progressDialog.dismiss();
