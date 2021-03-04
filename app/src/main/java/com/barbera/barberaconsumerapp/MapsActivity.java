@@ -281,7 +281,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             documentReference.get().addOnCompleteListener(task -> {
                 String haddress = task.getResult().get("house_address").toString();
                 Map<String, Object> user = new HashMap<>();
-                user.put("Address", Lat+","+Lon);
+                user.put("Address1", Lat+","+Lon);
                 user.put("house_address", haddress + " " + address);
                 documentReference.update(user).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {

@@ -100,6 +100,8 @@ public class BookingPage extends AppCompatActivity  {
         }
         Toast.makeText(this, men+" "+women, Toast.LENGTH_SHORT).show();
         array = new int[2];
+        array[0]= 100;
+        array[1]= 100;
         //    private TextView date;
         //    private TextView chooseTime;
         //    private TextView time;
@@ -435,7 +437,6 @@ public class BookingPage extends AppCompatActivity  {
                 });
             }
         });
-
         day7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -748,11 +749,19 @@ public class BookingPage extends AppCompatActivity  {
         FirebaseFirestore.getInstance().collection("Users")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnCompleteListener(task -> {
-                    String[] x =task.getResult().get("Address").toString().split(",");
-                    lat = Double.parseDouble(x[0]);
-                    lon = Double.parseDouble(x[1]);
+                    String[] x = new String[2];
+                    try {
+                        String coord = task.getResult().get("Address1").toString();
+                        x = coord.split(",");
+                        lat = Double.parseDouble(x[0]);
+                        lon = Double.parseDouble(x[1]);
+                        getRegion();
+                    }catch(Exception e){
+                        p.dismiss();
+                        Toast.makeText(getApplicationContext(),"Address fields not saved!",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(BookingPage.this,ChangeLocation.class));
+                    }
                     p.dismiss();
-                    getRegion();
                 });
 
     }
@@ -768,7 +777,7 @@ public class BookingPage extends AppCompatActivity  {
         if(getdistanceinkm(new LatLng(26.949311,75.714512))*1000<=radius1 || getdistanceinkm(new LatLng(26.943649,75.748845))*1000<=radius2){
             region =2;
         }
-        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
     }
 
     private double getdistanceinkm( LatLng latLng) {
@@ -941,9 +950,10 @@ public class BookingPage extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(),"Please Choose An Address",Toast.LENGTH_SHORT).show();
             return false;
         }
-       /* else if(address.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(),"Select Address",Toast.LENGTH_SHORT).show();
-        }*/
+       if(array[0] == 100 || array[1] ==100){
+           Toast.makeText(getApplicationContext(),"Date/Time Not selected!",Toast.LENGTH_SHORT).show();
+           return false;
+       }
         return true;
     }
 
@@ -999,6 +1009,7 @@ public class BookingPage extends AppCompatActivity  {
                             if(task.getResult().get("house_address")!=null) {
                                 String location = task.getResult().get("house_address").toString();
                                 houseAddress.setText(location);
+
                             }
                         }
                         else

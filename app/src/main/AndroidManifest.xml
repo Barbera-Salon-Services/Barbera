@@ -12,7 +12,8 @@
 			android:roundIcon="@drawable/logo"
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme">
-		<activity android:name=".Rating"></activity>
+		<activity android:name=".ChangeLocation"></activity>
+		<activity android:name=".Rating" />
 		<activity android:name=".SubCategoryActivity" />
 		<activity android:name=".WeddingActivity" />
 		<activity android:name=".WeddingPreActivity" />
@@ -54,7 +55,7 @@
 		<activity
 				android:name=".ContactUsActivity"
 				android:screenOrientation="portrait" />
-        <activity
+		<activity
 				android:name=".CongratulationsPage"
 				android:screenOrientation="portrait" />
 		<activity
