@@ -55,8 +55,8 @@ public class WeddingActivity extends AppCompatActivity {
         bridelayoutmanager.setOrientation(RecyclerView.HORIZONTAL);
         groomlayoutmanager=new LinearLayoutManager(getApplicationContext());
         groomlayoutmanager.setOrientation(RecyclerView.HORIZONTAL);
-        brideAdapter=new WeddingAdapter(brideList);
-        groomAdapter=new WeddingAdapter(groomList);
+        brideAdapter=new WeddingAdapter(brideList,getApplicationContext());
+        groomAdapter=new WeddingAdapter(groomList,getApplicationContext());
         RelativeLayout weddingActLayout=(RelativeLayout)findViewById(R.id.weddingLayout);
 
         //PagerSnapHelper pagerSnapHelper;
