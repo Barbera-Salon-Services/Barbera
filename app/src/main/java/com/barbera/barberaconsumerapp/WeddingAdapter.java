@@ -207,7 +207,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
 //                }
 //            });
             addToCart.setOnClickListener(v -> {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "8420607591"));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "+916377894199"));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             });
