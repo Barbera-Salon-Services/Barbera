@@ -53,6 +53,7 @@ public class BookingPage extends AppCompatActivity  {
     private String userAddress;//Address string to be stored in database
     public static EditText houseAddress;
     private Button ConfirmBooking;
+    private String email;
     private TextView totalAmount;
     private TextView changeLocation;
     private int region;
@@ -756,19 +757,26 @@ public class BookingPage extends AppCompatActivity  {
     private void sendemailconfirmation() {
         Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
         JsonPlaceHolderApi jsonPlaceholderApi =retrofit.create(JsonPlaceHolderApi.class);
-        Emailer emailer = new Emailer(FirebaseAuth.getInstance().getCurrentUser().getEmail(),OrderSummary);
-        Call<Emailer> call = jsonPlaceholderApi.sendEmail(emailer);
-        call.enqueue(new Callback<Emailer>() {
-            @Override
-            public void onResponse(Call<Emailer> call, retrofit2.Response<Emailer> response) {
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    email = task.getResult().get("Email Address").toString();
+                    //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
+                    Emailer emailer = new Emailer(email,OrderSummary);
+                    Call<Emailer> call = jsonPlaceholderApi.sendEmail(emailer);
+                    call.enqueue(new Callback<Emailer>() {
+                        @Override
+                        public void onResponse(Call<Emailer> call, retrofit2.Response<Emailer> response) {
 
-            }
+                        }
 
-            @Override
-            public void onFailure(Call<Emailer> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<Emailer> call, Throwable t) {
 
-            }
-        });
+                        }
+                    });
+                });
     }
 
     private void fetchRegion() {
