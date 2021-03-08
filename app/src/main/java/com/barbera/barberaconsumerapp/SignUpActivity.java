@@ -393,7 +393,7 @@ public class SignUpActivity extends AppCompatActivity {
                             radius1=task.getResult().getDouble("kal_1_radius");
                             radius2=task.getResult().getDouble("kal_2_radius");
 //                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
-                            center=new LatLng(task.getResult().getDouble("c1_lat"), task.getResult().getDouble("c1_lon"));
+                            center=new LatLng(task.getResult().getDouble("c1_lat "), task.getResult().getDouble("c1_lon"));
                             center1=new LatLng(task.getResult().getDouble("c2_lat"), task.getResult().getDouble("c2_lon"));
                             center2=new LatLng(task.getResult().getDouble("c3_lat"), task.getResult().getDouble("c3_lon"));
 

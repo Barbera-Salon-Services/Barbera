@@ -101,7 +101,7 @@ public class BookingPage extends AppCompatActivity  {
                 women = true;
             }
         }
-        Toast.makeText(this, men+" "+women, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, men+" "+women, Toast.LENGTH_SHORT).show();
         array = new int[2];
         array[0]= 100;
         array[1]= 100;
@@ -989,15 +989,12 @@ public class BookingPage extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            GeoPoint geoPoint1=task.getResult().getGeoPoint("kal_1");
-                            GeoPoint geoPoint2=task.getResult().getGeoPoint("kal_2");
-                            GeoPoint geoPoint=task.getResult().getGeoPoint("ag");
                             MapSearchActivity.radius=task.getResult().getDouble("ag_radius");
                             MapSearchActivity.radius1=task.getResult().getDouble("kal_1_radius");
                             MapSearchActivity.radius2=task.getResult().getDouble("kal_2_radius");
-                            MapSearchActivity.center=new LatLng(26.930256,75.875947);
-                            MapSearchActivity.center1=new LatLng(26.949311,75.714512);
-                            MapSearchActivity.center2=new LatLng(26.943649,75.748845);
+                            MapSearchActivity.center=new LatLng(task.getResult().getDouble("c1_lat "), task.getResult().getDouble("c1_lon"));
+                            MapSearchActivity.center1=new LatLng(task.getResult().getDouble("c2_lat"), task.getResult().getDouble("c2_lon"));
+                            MapSearchActivity.center2=new LatLng(task.getResult().getDouble("c3_lat"), task.getResult().getDouble("c3_lon"));
 
                         }
                     }

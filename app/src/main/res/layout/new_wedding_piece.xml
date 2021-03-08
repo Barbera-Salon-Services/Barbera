@@ -256,6 +256,7 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/wedding_package_booking"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -273,7 +274,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
             android:background="@color/colorAccent"
-            android:text="add to cart"
+            android:text="Call to Book"
             android:textColor="@color/white"/>
     </LinearLayout>
 </RelativeLayout>

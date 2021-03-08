@@ -99,13 +99,13 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
 
-        center=new LatLng(26.930256,75.875947);
-        center1=new LatLng(26.949311,75.714512);
-        center2=new LatLng(26.943649,75.748845);
+        center=MapSearchActivity.center;
+        center1=MapSearchActivity.center1;
+        center2=MapSearchActivity.center2;
 
-        radius =8101.33;
-        radius1=1718.21;
-        radius2=1764.76;
+        radius =MapSearchActivity.radius;
+        radius1=MapSearchActivity.radius1;
+        radius2=MapSearchActivity.radius2;
         fileStore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         client = LocationServices.getFusedLocationProviderClient(this);
