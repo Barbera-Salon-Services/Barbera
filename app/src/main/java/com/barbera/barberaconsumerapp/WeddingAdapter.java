@@ -151,7 +151,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
 
                         //intent.putExtra("Position",position);
                         //itemView.getContext().startActivity(intent);
-                        String ordersummary=weddingList.get(position).getPackageName()+"   Rs"+weddingList.get(position).getPackagePrice();
+                        String ordersummary="("+WeddingActivity.weddingType+")"+weddingList.get(position).getPackageName()+"   Rs"+weddingList.get(position).getPackagePrice();
                         Intent intent=new Intent(itemView.getContext(),BookingPage.class);
                         intent.putExtra("BookingType", "Wedding");
                         intent.putExtra("Booking Amount",Integer.parseInt(weddingList.get(position).getPackagePrice()));

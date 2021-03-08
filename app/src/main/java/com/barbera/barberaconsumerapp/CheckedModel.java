@@ -4,11 +4,17 @@ public class CheckedModel {
     private String serviceId;
     private String servicePrice;
     private String serviceName;
+    private int serviceTime;
 
-    public CheckedModel(String serviceId,String serviceName ,String servicePrice) {
+    public CheckedModel(String serviceId,String serviceName ,String servicePrice,int serviceTime) {
         this.serviceName=serviceName;
         this.serviceId = serviceId;
         this.servicePrice = servicePrice;
+        this.serviceTime = serviceTime;
+    }
+
+    public int getTime() {
+        return serviceTime;
     }
 
     public String getId() {

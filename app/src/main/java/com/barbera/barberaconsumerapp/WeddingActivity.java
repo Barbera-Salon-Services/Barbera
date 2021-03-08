@@ -31,7 +31,7 @@ import java.util.List;
 
 public class WeddingActivity extends AppCompatActivity {
     private ImageView weddingHeading;
-    private String weddingType;
+    public static String weddingType;
     private RecyclerView weddingRecyclerView;
     private static List<WeddingModel> brideList=new ArrayList<>();
     private static List<WeddingModel> groomList=new ArrayList<>();
@@ -110,6 +110,7 @@ public class WeddingActivity extends AppCompatActivity {
                             for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                                 brideList.add(new WeddingModel(documentSnapshot.getId(),documentSnapshot.get("Services").toString(),
                                         documentSnapshot.get("price").toString(),"BridalPackages",(List<String>)documentSnapshot.get("sittings")));
+
                             }
                             weddingRecyclerView.setLayoutManager(bridelayoutmanager);
                             weddingRecyclerView.setAdapter(brideAdapter);

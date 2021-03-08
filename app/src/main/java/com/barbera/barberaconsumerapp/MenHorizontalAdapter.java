@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Integer.parseInt;
+
 public class MenHorizontalAdapter extends RecyclerView.Adapter {
     private List<Service> HorizontalserviceList;
     private Context activity;
@@ -150,10 +152,12 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                     }
                     else {
                         String ordersummary="(men)"+HorizontalserviceList.get(position).getServiceName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
+                        int time= parseInt(HorizontalserviceList.get(position).getTime());
                         Intent intent=new Intent(activity,BookingPage.class);
                         intent.putExtra("BookingType","Cart");
-                        intent.putExtra("Booking Amount",Integer.parseInt(HorizontalserviceList.get(position).getPrice()));
+                        intent.putExtra("Booking Amount", parseInt(HorizontalserviceList.get(position).getPrice()));
                         intent.putExtra("Order Summary",ordersummary);
+                        intent.putExtra("Time",time);
                         //Toast.makeText(itemView.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(intent);

@@ -28,6 +28,7 @@ import java.util.Set;
 import static com.barbera.barberaconsumerapp.CartActivity.cartItemRecyclerView;
 import static com.barbera.barberaconsumerapp.CartActivity.cartTotalAmtLayout;
 import static com.barbera.barberaconsumerapp.CartActivity.emptyCart;
+import static java.lang.Integer.parseInt;
 
 public class CartAdapter extends RecyclerView.Adapter {
 
@@ -127,13 +128,16 @@ public class CartAdapter extends RecyclerView.Adapter {
                     if(dbQueries.cartItemModelList.size()>=1) {
                        // BookingPage.BookingTotalAmount=CartActivity.totalAmount;
                         String OrderSummary="";
+                        int time=0;
                         for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
                             OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
                                     dbQueries.cartItemModelList.get(i).getServiceName()
                                     + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
                                     dbQueries.cartItemModelList.get(i).getServicePrice() + "\n";
+                            time+=parseInt(dbQueries.cartItemModelList.get(i).getTime());
                         }
                         Intent intent=new Intent(itemView.getContext(),BookingPage.class);
+                        intent.putExtra("Time",time);
                         intent.putExtra("BookingType","Cart");
                         intent.putExtra("Booking Amount",CartActivity.totalAmount);
                         intent.putExtra("Order Summary",OrderSummary);
@@ -189,7 +193,7 @@ public class CartAdapter extends RecyclerView.Adapter {
         private void updateTotalAmount(){
             CartActivity.totalAmount=0;
             for(int i=0;i<dbQueries.cartItemModelList.size();i++) {
-                  int price=Integer.parseInt(dbQueries.cartItemModelList.get(i).getServicePrice());
+                  int price= parseInt(dbQueries.cartItemModelList.get(i).getServicePrice());
                 CartActivity.totalAmount +=(price*dbQueries.cartItemModelList.get(i).getQuantity());
             }
             String result=String.valueOf(CartActivity.totalAmount);

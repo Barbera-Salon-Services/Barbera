@@ -72,7 +72,7 @@ public class BookingPage extends AppCompatActivity  {
     private TextView BookingOrders;
     private long limit;
     private boolean men=false,women=false;
-
+    private int serviceTime,slotsBooked;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -86,15 +86,18 @@ public class BookingPage extends AppCompatActivity  {
         listPosition=intent.getIntExtra("Position",-1);
         BookingTotalAmount=intent.getIntExtra("Booking Amount",0);
         OrderSummary=intent.getStringExtra("Order Summary");
+        serviceTime=intent.getIntExtra("Time",0);
+        Log.d("Order",OrderSummary+"  "+serviceTime);
+
         String [] lines = OrderSummary.split("\n");
         for (String line : lines) {
             String sub=line.substring(line.indexOf("(") + 1, line.indexOf(")"));
             Log.d("sub", sub);
             Log.d("line", line);
-            if (sub.equals("men")) {
+            if (sub.equals("men") || sub.equals("Groom")) {
                 men = true;
             }
-            if (sub.equals("women")) {
+            if (sub.equals("women") || sub.equals("Mehandi")|| sub.equals("WeddingMakeup") || sub.equals("Bride")) {
                 women = true;
             }
         }
@@ -837,10 +840,19 @@ public class BookingPage extends AppCompatActivity  {
                         public void onComplete(@NonNull Task<Void> task) {
                         }
                     });
+                    if(serviceTime%60==0){
+                        slotsBooked=serviceTime/60;
+                    }
+                    else{
+                        slotsBooked=(serviceTime/60)+1;
+                    }
+
                     if(region==1){
                         if(men){
                             Map<String,Object> date=new HashMap<>();
-                            date.put(array[1]+"_m","B");
+                            for(int i=array[1];i<array[1]+slotsBooked && i<18;i++) {
+                                date.put(i + "_m", "B");
+                            }
                             date.put("date",mon+" "+day+", "+selectedYear);
                             FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
                                     .addOnCompleteListener(task1 -> {
@@ -849,7 +861,9 @@ public class BookingPage extends AppCompatActivity  {
                         }
                         if(women){
                             Map<String,Object> date=new HashMap<>();
-                            date.put(array[1]+"_f","B");
+                            for(int i=array[1];i<array[1]+slotsBooked&& i<18;i++) {
+                                date.put(i + "_f", "B");
+                            }
                             date.put("date",mon+" "+day+", "+selectedYear);
                             FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
                                     .addOnCompleteListener(task1 -> {
@@ -861,7 +875,9 @@ public class BookingPage extends AppCompatActivity  {
                     else{
                         if(men){
                             Map<String,Object> date=new HashMap<>();
-                            date.put(array[1]+"B_m","B");
+                            for(int i=array[1];i<array[1]+slotsBooked&& i<18;i++) {
+                                date.put(i + "B_m", "B");
+                            }
                             date.put("date",mon+" "+day+", "+selectedYear);
                             FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
                                     .addOnCompleteListener(task1 -> {
@@ -870,7 +886,9 @@ public class BookingPage extends AppCompatActivity  {
                         }
                         if(women){
                             Map<String,Object> date=new HashMap<>();
-                            date.put(array[1]+"B_f","B");
+                            for(int i=array[1];i<array[1]+slotsBooked&& i<18;i++) {
+                                date.put(i + "B_f", "B");
+                            }
                             date.put("date",mon+" "+day+", "+selectedYear);
                             FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0]).update(date)
                                     .addOnCompleteListener(task1 -> {
@@ -901,13 +919,12 @@ public class BookingPage extends AppCompatActivity  {
     }
 
     private void addTosheet(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbzlHWNBT0F-28qDbkNKqDezI8JmPts1jQVZIj5ClOY_YvEQNxY/exec"
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbwtLJ3Ts_ObuVoM0iuPOj1aOvf2wIy0E0Q6J56VtdMExqUWPvn4jAOURwxfHHE8zJIUIA/exec"
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Toast.makeText(getApplicationContext(),"Entered on REsponse",Toast.LENGTH_SHORT).show();
                 //Toast.makeText(BookingPage.this,response,Toast.LENGTH_LONG).show();
-
             }
         },  new Response.ErrorListener() {
             @Override
@@ -919,7 +936,13 @@ public class BookingPage extends AppCompatActivity  {
             protected Map<String, String> getParams() {
                 Map<String, String> parmas = new HashMap<>();
                 //here we pass params
-                parmas.put("action","addItem");
+                if(region==1){
+                    parmas.put("action","addItem1");
+                }
+                else if(region==2){
+                    parmas.put("action","addItem2");
+                }
+
                 parmas.put("userName",Username);
                 parmas.put("services",OrderSummary);
                 parmas.put("servicedate",finalDate);

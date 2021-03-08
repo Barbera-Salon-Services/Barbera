@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static java.lang.Integer.parseInt;
+
 public class ServiceAdapter extends BaseAdapter {
     private List<Service> serviceList;
     private Context con;
@@ -96,7 +98,7 @@ public class ServiceAdapter extends BaseAdapter {
                 if(checkBox.isChecked()){
                    // Toast.makeText(view.getContext(),"Checked",Toast.LENGTH_LONG).show();
                     ParlourActivity.checkeditemList.add(new CheckedModel(serviceList.get(position).getServiceId(),serviceList.get(position).getServiceName(),
-                            serviceList.get(position).getPrice()));
+                            serviceList.get(position).getPrice(),parseInt(serviceList.get(position).getTime())));
                     checkBox.setChecked(true);
                 }
                 else{
@@ -175,18 +177,20 @@ public class ServiceAdapter extends BaseAdapter {
                 }
                 else {
                     if(ParlourActivity.checkeditemList.size()!=0) {
-                        int amount = 0;
+                        int amount = 0,Time=0;
                         String ordersummary="";
                         //Toast.makeText(view.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
                         for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
                             ordersummary += "(" + ParlourActivity.salontype + ")" + ParlourActivity.checkeditemList.get(i).getName()
                                     + "\t\t\tRs " + ParlourActivity.checkeditemList.get(i).getPrice() + "\n";
-                            amount += Integer.parseInt(ParlourActivity.checkeditemList.get(i).getPrice());
+                            amount += parseInt(ParlourActivity.checkeditemList.get(i).getPrice());
+                            Time+=ParlourActivity.checkeditemList.get(i).getTime();
                         }
                         //BookingPage.BookingTotalAmount = amount;
                         Intent intent = new Intent(view.getContext(), BookingPage.class);
                         intent.putExtra("Booking Amount",amount);
                         intent.putExtra("Order Summary",ordersummary);
+                        intent.putExtra("Time",Time);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         view.getContext().startActivity(intent);
                     }
