@@ -45,6 +45,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
     implementation 'com.google.firebase:firebase-dynamic-links:19.1.1'
     testImplementation 'junit:junit:4.12'
+    implementation'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
+    implementation("com.squareup.okhttp3:logging-interceptor:4.4.0")
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'

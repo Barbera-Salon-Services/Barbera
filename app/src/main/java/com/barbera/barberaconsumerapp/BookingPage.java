@@ -27,6 +27,9 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.barbera.barberaconsumerapp.network.Emailer;
+import com.barbera.barberaconsumerapp.network.JsonPlaceHolderApi;
+import com.barbera.barberaconsumerapp.network.RetrofitClientInstance;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,10 +45,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+
 public class BookingPage extends AppCompatActivity  {
     private String userAddress;//Address string to be stored in database
     public static EditText houseAddress;
     private Button ConfirmBooking;
+    private String email;
     private TextView totalAmount;
     private TextView changeLocation;
     private int region;
@@ -634,6 +642,7 @@ public class BookingPage extends AppCompatActivity  {
                     userAddress=houseAddress.getText().toString();
                    // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
                     addTosheet();
+                    sendemailconfirmation();
                     addtoDatabase();
                     if(isCouponApplied)
                         addCouponUsage();
@@ -759,6 +768,31 @@ public class BookingPage extends AppCompatActivity  {
                 couponcodeEditText.requestFocus();
             }
         });
+    }
+
+    private void sendemailconfirmation() {
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        JsonPlaceHolderApi jsonPlaceholderApi =retrofit.create(JsonPlaceHolderApi.class);
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    email = task.getResult().get("Email Address").toString();
+                    //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
+                    Emailer emailer = new Emailer(email,OrderSummary);
+                    Call<Emailer> call = jsonPlaceholderApi.sendEmail(emailer);
+                    call.enqueue(new Callback<Emailer>() {
+                        @Override
+                        public void onResponse(Call<Emailer> call, retrofit2.Response<Emailer> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Emailer> call, Throwable t) {
+
+                        }
+                    });
+                });
     }
 
     private void fetchRegion() {
