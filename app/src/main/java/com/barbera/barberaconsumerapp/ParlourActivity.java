@@ -77,11 +77,6 @@ public class ParlourActivity extends AppCompatActivity {
         subCategoryList=new ArrayList<>();
 
         //listView.setNumColumns(1);
-        addToCart.setOnClickListener(v -> {
-            Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "+916377894199"));
-            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent1);
-        });
 
         FirebaseMessaging.getInstance().subscribeToTopic("men")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

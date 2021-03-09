@@ -85,8 +85,7 @@
                 android:id="@+id/new_service_book_now_button"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:visibility="gone"
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 android:clickable="true"
@@ -100,7 +99,7 @@
                 android:layout_margin="20dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
-                android:text="Call to Book"
+                android:text="Add to Cart"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:textColor="@color/white"/>
