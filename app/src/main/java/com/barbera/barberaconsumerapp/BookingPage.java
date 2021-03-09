@@ -1258,5 +1258,4 @@ public class BookingPage extends AppCompatActivity  {
         }
         progressDialog.dismiss();
     }
-
 }
