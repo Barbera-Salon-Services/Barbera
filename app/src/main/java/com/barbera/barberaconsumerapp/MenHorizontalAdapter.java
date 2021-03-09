@@ -33,10 +33,12 @@ import static java.lang.Integer.parseInt;
 public class MenHorizontalAdapter extends RecyclerView.Adapter {
     private List<Service> HorizontalserviceList;
     private Context activity;
+    private int flag;
 
-    public MenHorizontalAdapter(List<Service> horizontalserviceList,Context activity) {
+    public MenHorizontalAdapter(List<Service> horizontalserviceList,Context activity,int flag) {
         HorizontalserviceList = horizontalserviceList;
         this.activity=activity;
+        this.flag=flag;
     }
 
     @NonNull
@@ -151,7 +153,14 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                         itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
                     }
                     else {
-                        String ordersummary="(men)"+HorizontalserviceList.get(position).getServiceName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
+                        String ordersummary;
+                        if(flag==0){
+                            ordersummary="(men)"+HorizontalserviceList.get(position).getServiceName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
+                        }
+                        else{
+                            ordersummary="(women)"+HorizontalserviceList.get(position).getServiceName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
+                        }
+
                         int time= parseInt(HorizontalserviceList.get(position).getTime());
                         Intent intent=new Intent(activity,BookingPage.class);
                         intent.putExtra("BookingType","Cart");

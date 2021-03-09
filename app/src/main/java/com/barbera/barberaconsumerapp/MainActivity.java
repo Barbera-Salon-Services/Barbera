@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         MenTrendRecyclerView = (RecyclerView) findViewById(R.id.men_horizontal_view);
         MenTrendRecyclerView.setLayoutManager(layoutManager);
-        adapter=new MenHorizontalAdapter(menHorizontalserviceList,MainActivity.this);
+        adapter=new MenHorizontalAdapter(menHorizontalserviceList,MainActivity.this,0);
         MenTrendRecyclerView.setAdapter(adapter);
-        womenadapter=new MenHorizontalAdapter(womenHorizontalserviceList,MainActivity.this);
+        womenadapter=new MenHorizontalAdapter(womenHorizontalserviceList,MainActivity.this,1);
         WoMenTrendRecyclerView = (RecyclerView) findViewById(R.id.women_horizontal_view);
         womenlayoutManager=new LinearLayoutManager(getApplicationContext());
         womenlayoutManager.setOrientation(RecyclerView.HORIZONTAL);
