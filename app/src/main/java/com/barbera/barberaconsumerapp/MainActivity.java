@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -87,6 +88,23 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         ImageView referMain=(ImageView)findViewById(R.id.refer);
         weddingSection =(ImageView)findViewById(R.id.wedding_picture);
         NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
+
+        FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            MapSearchActivity.radius=task.getResult().getDouble("ag_radius");
+                            MapSearchActivity.radius1=task.getResult().getDouble("kal_1_radius");
+                            MapSearchActivity.radius2=task.getResult().getDouble("kal_2_radius");
+//                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
+                            MapSearchActivity.center=new LatLng(task.getResult().getDouble("c1_lat "), task.getResult().getDouble("c1_lon"));
+                            MapSearchActivity.center1=new LatLng(task.getResult().getDouble("c2_lat"), task.getResult().getDouble("c2_lon"));
+                            MapSearchActivity.center2=new LatLng(task.getResult().getDouble("c3_lat"), task.getResult().getDouble("c3_lon"));
+
+                        }
+                    }
+                });
 
         referMain.setOnClickListener(new View.OnClickListener() {
             @Override
