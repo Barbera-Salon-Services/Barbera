@@ -108,7 +108,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         client = LocationServices.getFusedLocationProviderClient(this);
 
         floatingActionButton.setOnClickListener(v -> {
-            getCurrentLocation();
+            if(ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED)
+                getCurrentLocation();
+            else
+                ActivityCompat.requestPermissions(MapsActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},4);
         });
         cont.setOnClickListener(v -> {
             storeTodb();

@@ -90,7 +90,7 @@ public class ContactUsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:+91 6378791396"));
+                intent.setData(Uri.parse("tel:+91 6377 894 199"));
                 startActivity(intent);
             }
         });

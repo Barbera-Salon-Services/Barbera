@@ -38,7 +38,7 @@ public class WeddingPreActivity extends AppCompatActivity {
         mehandi=(CardView)findViewById(R.id.mehandi_section);
         makeup=(CardView)findViewById(R.id.makeup_section);
         intent=new Intent(getApplicationContext(),WeddingActivity.class);
-        final Intent intent1 =new Intent(getApplicationContext(),ParlourActivity.class);
+        final Intent intent1 =new Intent(getApplicationContext(),MehendiMakeupActivity.class);
 
         FirebaseFirestore.getInstance().collection("AppData").document("Wedding").get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

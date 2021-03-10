@@ -52,6 +52,8 @@
 		<activity
 				android:name=".AboutPrivacyActivity"
 				android:screenOrientation="portrait" />
+		<activity android:name=".MehendiMakeupActivity"
+			android:screenOrientation="portrait"/>
 		<activity
 				android:name=".ContactUsActivity"
 				android:screenOrientation="portrait" />

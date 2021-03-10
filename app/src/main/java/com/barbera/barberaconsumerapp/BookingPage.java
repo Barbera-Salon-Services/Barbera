@@ -801,9 +801,9 @@ public class BookingPage extends AppCompatActivity  {
     }
 
     private void fetchRegion() {
-        ProgressDialog p =new ProgressDialog(BookingPage.this);
-        p.setMessage("Please Wait...");
-        p.show();
+//        ProgressDialog p =new ProgressDialog(BookingPage.this);
+//        p.setMessage("Please Wait...");
+//        p.show();
         FirebaseFirestore.getInstance().collection("Users")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnCompleteListener(task -> {
@@ -815,11 +815,10 @@ public class BookingPage extends AppCompatActivity  {
                         lon = Double.parseDouble(x[1]);
                         getRegion();
                     }catch(Exception e){
-                        p.dismiss();
-                        Toast.makeText(getApplicationContext(),"Address fields not saved!",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(BookingPage.this,ChangeLocation.class));
+                            Toast.makeText(getApplicationContext(),"Address fields not saved!",Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(BookingPage.this,ChangeLocation.class));
                     }
-                    p.dismiss();
+//                    p.dismiss();
                 });
     }
 
