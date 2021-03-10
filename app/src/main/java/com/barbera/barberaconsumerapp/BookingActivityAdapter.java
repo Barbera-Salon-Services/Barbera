@@ -130,9 +130,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                         progressDialog.setMessage("Hold On for a moment...");
                         progressDialog.show();
                         progressDialog.setCancelable(false);
-                        fetchRegion();
-                        //addtoSheet(position);
-                        dropBooking(position);
+                        fetchRegion(position);
                         sendEmailCancelationMail(position);
                     }
                 });
@@ -365,19 +363,23 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             protected Map<String, String> getParams() {
                 Map<String, String> parmas = new HashMap<>();
                 //here we pass params
-                if(region ==1){
+
+                if(region==1){
                     parmas.put("action","cancelItem1");
                 }
                 else{
                     parmas.put("action","cancelItem2");
                 }
-                parmas.put("userName",UserName);
-                parmas.put("services",bookingAdapterList.get(position).getSummary());
-                parmas.put("servicedate",bookingAdapterList.get(position).getDate());
-                parmas.put("servicetime",bookingAdapterList.get(position).getTime());
-                parmas.put("total",bookingAdapterList.get(position).getAmount());
-                parmas.put("address",bookingAdapterList.get(position).getAddress());
-                parmas.put("phone", UserPhone);
+                Log.d("region", String.valueOf(region));
+                parmas.put("randomId",bookingAdapterList.get(position).getRandomId());
+                Log.d("id",bookingAdapterList.get(position).getRandomId());
+//                parmas.put("userName",UserName);
+//                parmas.put("services",bookingAdapterList.get(position).getSummary());
+//                parmas.put("servicedate",bookingAdapterList.get(position).getDate());
+//                parmas.put("servicetime",bookingAdapterList.get(position).getTime());
+//                parmas.put("total",bookingAdapterList.get(position).getAmount());
+//                parmas.put("address",bookingAdapterList.get(position).getAddress());
+//                parmas.put("phone", UserPhone);
 
                 return parmas;
             }
@@ -388,7 +390,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(stringRequest);
     }
-    private void fetchRegion() {
+    private void fetchRegion(int position) {
         FirebaseFirestore.getInstance().collection("Users")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnCompleteListener(task -> {
@@ -399,6 +401,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 lat = Double.parseDouble(x[0]);
                 lon = Double.parseDouble(x[1]);
                 getRegion();
+                addtoSheet(position);
+                dropBooking(position);
             }catch(Exception e) {
             }
         });

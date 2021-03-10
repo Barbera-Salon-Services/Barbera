@@ -105,7 +105,7 @@ public class BookingsActivity extends AppCompatActivity {
                                     }
                                     bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString(),documentSnapshot.get("total_amount").toString(),
                                             documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
-                                            documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString()));
+                                            documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString(),documentSnapshot.get("randomId").toString()));
                                 }
 //                                checked=true;
                                 BookinglistView.setAdapter(bookingActivityAdapter);

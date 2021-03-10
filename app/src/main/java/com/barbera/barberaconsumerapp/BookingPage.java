@@ -84,7 +84,7 @@ public class BookingPage extends AppCompatActivity  {
     private long limit;
     private boolean men=false,women=false;
     private int serviceTime,slotsBooked;
-    private String bookingID;
+    private String randomId = "Barbera"+(int)(Math.random()*9000000);
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -881,6 +881,7 @@ public class BookingPage extends AppCompatActivity  {
         bookingData.put("total_amount",BookingTotalAmount);
         bookingData.put("status","pending");
         bookingData.put("total_time",serviceTime);
+        bookingData.put("randomId",randomId);
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Bookings")
                 .document().set(bookingData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -971,7 +972,7 @@ public class BookingPage extends AppCompatActivity  {
                 else if(region==2){
                     parmas.put("action","addItem2");
                 }
-
+                parmas.put("randomId",randomId);
                 parmas.put("userName",Username);
                 parmas.put("services",OrderSummary);
                 parmas.put("servicedate",finalDate);
