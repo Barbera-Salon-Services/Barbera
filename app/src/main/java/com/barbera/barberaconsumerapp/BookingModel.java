@@ -9,8 +9,9 @@ public class BookingModel {
     private String address;
     private String docId;
     private String status;
+    private String totalTime;
 
-    public BookingModel(String summary, String amount, String date,String time ,String address,String docId,String status) {
+    public BookingModel(String summary, String amount, String date,String time ,String address,String docId,String status,String totalTime) {
         this.summary = summary;
         this.amount = amount;
         this.date = date;
@@ -18,6 +19,11 @@ public class BookingModel {
         this.address = address;
         this.docId=docId;
         this.status=status;
+        this.totalTime=totalTime;
+    }
+
+    public String getTotalTime() {
+        return totalTime;
     }
 
     public String getDocId() {

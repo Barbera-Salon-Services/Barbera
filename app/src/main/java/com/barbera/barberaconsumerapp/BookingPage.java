@@ -38,12 +38,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,6 +84,7 @@ public class BookingPage extends AppCompatActivity  {
     private long limit;
     private boolean men=false,women=false;
     private int serviceTime,slotsBooked;
+    private String bookingID;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -102,10 +106,10 @@ public class BookingPage extends AppCompatActivity  {
             String sub=line.substring(line.indexOf("(") + 1, line.indexOf(")"));
             Log.d("sub", sub);
             Log.d("line", line);
-            if (sub.equals("men") || sub.equals("Groom")) {
+            if (sub.equals("men")) {
                 men = true;
             }
-            if (sub.equals("women") || sub.equals("Mehandi")|| sub.equals("WeddingMakeup") || sub.equals("Bride")) {
+            if (sub.equals("women")) {
                 women = true;
             }
         }
@@ -641,9 +645,10 @@ public class BookingPage extends AppCompatActivity  {
                     finalTime=array[1]+":00";
                     userAddress=houseAddress.getText().toString();
                    // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
-                    addTosheet();
+
                     sendemailconfirmation();
                     addtoDatabase();
+                    addTosheet();
                     if(isCouponApplied)
                         addCouponUsage();
                     if(bookingType.equals("Cart")) {
@@ -816,7 +821,6 @@ public class BookingPage extends AppCompatActivity  {
                     }
                     p.dismiss();
                 });
-
     }
 
     private void getRegion() {
@@ -877,6 +881,7 @@ public class BookingPage extends AppCompatActivity  {
         bookingData.put("address",userAddress);
         bookingData.put("total_amount",BookingTotalAmount);
         bookingData.put("status","pending");
+        bookingData.put("total_time",serviceTime);
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Bookings")
                 .document().set(bookingData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -890,6 +895,7 @@ public class BookingPage extends AppCompatActivity  {
                         public void onComplete(@NonNull Task<Void> task) {
                         }
                     });
+
                     if (serviceTime % 60 == 0) {
                         slotsBooked = serviceTime / 60;
                     } else {
@@ -903,7 +909,7 @@ public class BookingPage extends AppCompatActivity  {
                         date.put("date", mon + " " + day + ", " + selectedYear);
                         FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
                                 .collection("Region").document("Region" + region).update(date)
-                                .addOnCompleteListener(task1 -> {
+                                .addOnCompleteListener(task1 ->  {
 
                                 });
                     }
@@ -938,6 +944,7 @@ public class BookingPage extends AppCompatActivity  {
                         }
                     }
                 });
+
     }
 
     private void addTosheet(){
@@ -956,6 +963,7 @@ public class BookingPage extends AppCompatActivity  {
         }) {
             @Override
             protected Map<String, String> getParams() {
+
                 Map<String, String> parmas = new HashMap<>();
                 //here we pass params
                 if(region==1){

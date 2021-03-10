@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +26,24 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.barbera.barberaconsumerapp.network.Emailer;
+import com.barbera.barberaconsumerapp.network.JsonPlaceHolderApi;
+import com.barbera.barberaconsumerapp.network.RetrofitClientInstance;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
 
 public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivityAdapter.BookingItemViewHolder> {
     private List<BookingModel> bookingAdapterList;
@@ -41,6 +51,9 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     private String UserPhone;
     private ProgressDialog progressDialog;
     private Context context;
+    private int region;
+    private double lat,lon;
+    private boolean men=false,women=false;
 
     public BookingActivityAdapter(List<BookingModel> bookingAdapterList, Context context) {
         this.bookingAdapterList = bookingAdapterList;
@@ -117,8 +130,10 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                         progressDialog.setMessage("Hold On for a moment...");
                         progressDialog.show();
                         progressDialog.setCancelable(false);
-                        addtoSheet(position);
+                        fetchRegion();
+                        //addtoSheet(position);
                         dropBooking(position);
+                        sendEmailCancelationMail(position);
                     }
                 });
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -201,7 +216,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         Map<String,Object> user=new HashMap<>();
         user.put("status",status);
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid())
-                .collection("Bookings").document(bookingAdapterList.get(pos).getDocId()).update(user)
+                .collection("Bookings").document( bookingAdapterList.get(pos).getDocId()).update(user)
                 .addOnCompleteListener(task -> {
                     bookingAdapterList.get(pos).setStatus(status);
                     BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
@@ -267,17 +282,73 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
+                            removeBookings(position);
                             bookingAdapterList.remove(bookingAdapterList.get(position));
                             BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
+
                         }
                         else
                             Toast.makeText(context,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
+
+    }
+    private void removeBookings(int position){
+        Calendar calendar = Calendar.getInstance();
+        int curDay = calendar.get(Calendar.DAY_OF_MONTH);
+        String date = bookingAdapterList.get(position).getDate();
+        int totalTime =Integer.parseInt(bookingAdapterList.get(position).getTotalTime());
+        if(totalTime%60==0){
+            totalTime=totalTime/60;
+        }
+        else{
+            totalTime=(totalTime/60)+1;
+        }
+        int slot =Integer.parseInt(bookingAdapterList.get(position).getTime().substring(0,2));
+        Log.d("slot no", String.valueOf(slot));
+        Log.d("Total time", String.valueOf(totalTime));
+
+        String summary = bookingAdapterList.get(position).getSummary();
+        Log.d("summary",summary);
+        String [] lines = summary.split("\n");
+        for (String line : lines) {
+            String sub=line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+            Log.d("sub",sub);
+            if (sub.equals("men")) {
+                men = true;
+            }
+            if (sub.equals("women")) {
+                women = true;
+            }
+        }
+        Log.d("men,women", String.valueOf(men)+" "+ String.valueOf(women));
+        String dateNo = date.substring(4,6);
+        int day = Integer.parseInt(dateNo) - curDay+1;
+        Log.d("day",String.valueOf(day));
+        Map<String,Object> map = new HashMap<>();
+        if(men){
+            for(int i=slot;i<slot+totalTime && i<18;i++){
+                map.put(i + "_m","NB");
+
+            }
+        }
+        if(women){
+            for(int i=slot;i<slot+totalTime && i<18;i++){
+                map.put(i + "_f","NB");
+            }
+        }
+        Toast.makeText(context,"MAP"+map.get("11_m")+"day:"+day+"region: "+region,Toast.LENGTH_LONG).show();
+        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + day)
+                .collection("Region").document("Region" + region).update(map)
+                .addOnCompleteListener(task1 ->  {
+                    if(task1.isSuccessful()){
+                        Toast.makeText(context,"Success",Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void addtoSheet(final int position) {
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbyn906_iser-mdKH73SAln_nrIQLv7X7ZDB5CVKfr706j9n2Ypl/exec"
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbwtLJ3Ts_ObuVoM0iuPOj1aOvf2wIy0E0Q6J56VtdMExqUWPvn4jAOURwxfHHE8zJIUIA/exec"
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -294,7 +365,12 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             protected Map<String, String> getParams() {
                 Map<String, String> parmas = new HashMap<>();
                 //here we pass params
-                parmas.put("action","cancelItem");
+                if(region ==1){
+                    parmas.put("action","cancelItem1");
+                }
+                else{
+                    parmas.put("action","cancelItem2");
+                }
                 parmas.put("userName",UserName);
                 parmas.put("services",bookingAdapterList.get(position).getSummary());
                 parmas.put("servicedate",bookingAdapterList.get(position).getDate());
@@ -311,5 +387,84 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         stringRequest.setRetryPolicy(retryPolicy);
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(stringRequest);
+    }
+    private void fetchRegion() {
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get().addOnCompleteListener(task -> {
+            String[] x = new String[2];
+            try {
+                String coord = task.getResult().get("Address1").toString();
+                x = coord.split(",");
+                lat = Double.parseDouble(x[0]);
+                lon = Double.parseDouble(x[1]);
+                getRegion();
+            }catch(Exception e) {
+            }
+        });
+    }
+
+    private void getRegion() {
+        double radius = 8101.33;
+        double radius1 =1718.21;
+        double radius2 =1764.76;
+
+        if(getdistanceinkm(new LatLng(26.930256,75.875947))*1000<=radius){
+            region =1 ;
+        }
+        if(getdistanceinkm(new LatLng(26.949311,75.714512))*1000<=radius1 || getdistanceinkm(new LatLng(26.943649,75.748845))*1000<=radius2){
+            region =2;
+        }
+//        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
+    }
+    private double getdistanceinkm( LatLng latLng) {
+        double lat1= latLng.latitude;
+        double lon1= latLng.longitude;
+        double lat2= lat;
+        double lon2 = lon;
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private void sendEmailCancelationMail(int position){
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        JsonPlaceHolderApi jsonPlaceholderApi =retrofit.create(JsonPlaceHolderApi.class);
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    String email = task.getResult().get("Email Address").toString();
+                    //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
+                    Emailer emailer = new Emailer(email,bookingAdapterList.get(position).getSummary());
+                    Call<Emailer> call = jsonPlaceholderApi.cancelEmail(emailer);
+                    call.enqueue(new Callback<Emailer>() {
+                        @Override
+                        public void onResponse(Call<Emailer> call, retrofit2.Response<Emailer> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Emailer> call, Throwable t) {
+
+                        }
+                    });
+                });
     }
 }

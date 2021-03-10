@@ -27,7 +27,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class BookingsActivity extends AppCompatActivity {
@@ -44,6 +46,7 @@ public class BookingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookings);
         sharedPreferences=getSharedPreferences("UserInfo",MODE_PRIVATE);
+
 
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigation);
        // ImageView cart=(ImageView)findViewById(R.id.cartONBooking);
@@ -102,7 +105,7 @@ public class BookingsActivity extends AppCompatActivity {
                                     }
                                     bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString(),documentSnapshot.get("total_amount").toString(),
                                             documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
-                                            documentSnapshot.getId(),status));
+                                            documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString()));
                                 }
 //                                checked=true;
                                 BookinglistView.setAdapter(bookingActivityAdapter);
