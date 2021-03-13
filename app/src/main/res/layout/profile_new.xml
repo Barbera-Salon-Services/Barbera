@@ -82,14 +82,16 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@id/coup"
 						android:text="my coupons"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/coup"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
@@ -107,14 +109,16 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@id/refer"
 						android:text="refer and earn"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/refer"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
@@ -132,14 +136,16 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@id/contact"
 						android:text="contact us"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/contact"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
@@ -157,14 +163,16 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@+id/user"
 						android:text="user privacy"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/user"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
@@ -182,14 +190,16 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@+id/about"
 						android:text="about us"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/about"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
@@ -207,14 +217,16 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@id/logout"
 						android:text="logout"
+						android:layout_margin="20dp"
 						android:textAllCaps="true"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/logout"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
