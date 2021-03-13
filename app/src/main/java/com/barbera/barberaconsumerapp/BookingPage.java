@@ -758,7 +758,7 @@ public class BookingPage extends AppCompatActivity  {
                                         couponcodeEditText.requestFocus();
                                     }
                                     else{
-                                        BookingTotalAmount=(BookingTotalAmount>=100?BookingTotalAmount-50:BookingTotalAmount/2);
+                                        BookingTotalAmount=(BookingTotalAmount>100?BookingTotalAmount-30:BookingTotalAmount/2);
                                         totalAmount.setText("Total Amount Rs" +BookingTotalAmount+"(Coupon Applied)");
                                         isCouponApplied=true;
                                         Toast.makeText(getApplicationContext(),"Coupon Applied Successfully.",Toast.LENGTH_LONG).show();
