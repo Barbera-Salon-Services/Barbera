@@ -412,12 +412,52 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         double radius = 8101.33;
         double radius1 =1718.21;
         double radius2 =1764.76;
+        double radius3 =1685.09;
+        double radius4 =1361.44;
+        double radius5 =2351.31;
+        double radius6 =2080.72;
+        double radius7 =1854.92;
+        double radius8 =2448.73;
+        double radius9 =1655.59;
+        double radius10 =1399.92;
+        double radius11=2227.10;
+        double radius12 =1881.67;
 
         if(getdistanceinkm(new LatLng(26.930256,75.875947))*1000<=radius){
             region =1 ;
         }
         if(getdistanceinkm(new LatLng(26.949311,75.714512))*1000<=radius1 || getdistanceinkm(new LatLng(26.943649,75.748845))*1000<=radius2){
             region =2;
+        }
+        if(getdistanceinkm(new LatLng(26.956962,75.77664))*1000<=radius3){
+            region =3 ;
+        }
+        if(getdistanceinkm(new LatLng(26.939211,75.795793))*1000<=radius4){
+            region =4 ;
+        }
+        if(getdistanceinkm(new LatLng(26.896277,75.783537))*1000<=radius5){
+            region =5 ;
+        }
+        if(getdistanceinkm(new LatLng(26.858152,75.765343))*1000<=radius6){
+            region =6 ;
+        }
+        if(getdistanceinkm(new LatLng(26.822310,75.769312))*1000<=radius7){
+            region =7 ;
+        }
+        if(getdistanceinkm(new LatLng(26.823396,75.862217))*1000<=radius8){
+            region =8 ;
+        }
+        if(getdistanceinkm(new LatLng(26.900915,75.829059))*1000<=radius9){
+            region =9 ;
+        }
+        if(getdistanceinkm(new LatLng(26.880131,75.812279))*1000<=radius10){
+            region =10 ;
+        }
+        if(getdistanceinkm(new LatLng(26.814549,75.820629))*1000<=radius11){
+            region =11 ;
+        }
+        if(getdistanceinkm(new LatLng(26.850078,75.804790))*1000<=radius12){
+            region =12 ;
         }
 //        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
     }
