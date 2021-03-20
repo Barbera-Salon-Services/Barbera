@@ -12,8 +12,7 @@
 			android:layout_centerInParent="true"
 			android:visibility="invisible" />
 
-	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-			xmlns:tools="http://schemas.android.com/tools"
+	<ScrollView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_above="@id/bottomNavigation">
@@ -22,7 +21,7 @@
 				android:id="@+id/profile_section_main_view"
 
 				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+				android:layout_height="wrap_content">
 
 			<RelativeLayout
 					android:id="@+id/profile_card_section"
@@ -32,8 +31,8 @@
 
 				<ImageView
 						android:id="@+id/profile_image"
-						android:layout_width="100dp"
-						android:layout_height="100dp"
+						android:layout_width="95dp"
+						android:layout_height="95dp"
 						android:layout_centerVertical="true"
 						android:src="@drawable/ic_baseline_account_circle_24" />
 
@@ -41,8 +40,9 @@
 						android:id="@+id/NameInProfile"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_centerHorizontal="true"
 						android:textColor="@color/white"
+						android:layout_above="@+id/EmailInProfile"
 						android:textSize="20sp"
 						android:textStyle="bold"
 						tools:text="Krishna Balram" />
@@ -51,9 +51,7 @@
 						android:id="@+id/EmailInProfile"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_below="@id/NameInProfile"
-						android:layout_centerHorizontal="true"
-						android:layout_marginTop="5dp"
+						android:layout_centerInParent="true"
 						android:textColor="@color/white"
 						android:textSize="15sp"
 						tools:text="radhakrishnabalramfgkjdfgjdfjgfdgdkfgk@gmail.com" />
@@ -75,26 +73,30 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_below="@id/profile_card_section"
-					android:layout_marginTop="40dp"
+					android:layout_marginTop="10dp"
 					android:clickable="true"
-					android:foreground="?android:attr/selectableItemBackground">
+					android:foreground="?android:attr/selectableItemBackground"
+					android:focusable="true">
 
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@id/coup"
 						android:text="my coupons"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/coup"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
-						android:src="@drawable/coupons_vector" />
+						android:src="@drawable/coupon" />
 			</RelativeLayout>
+
 
 			<RelativeLayout
 					android:id="@+id/refer_rel_layout"
@@ -107,18 +109,20 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@id/refer"
 						android:text="refer and earn"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/refer"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
-						android:src="@drawable/share_vector" />
+						android:src="@drawable/refer" />
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -132,18 +136,20 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@id/contact"
 						android:text="contact us"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/contact"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
-						android:src="@drawable/contact_us_vector" />
+						android:src="@drawable/contact" />
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -157,19 +163,22 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@+id/user"
 						android:text="user privacy"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/user"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
-						android:src="@drawable/privacy_vector" />
+						android:src="@drawable/user" />
 			</RelativeLayout>
+
 
 			<RelativeLayout
 					android:id="@+id/aboutUs_rel_layout"
@@ -182,18 +191,20 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@+id/about"
 						android:text="about us"
 						android:textAllCaps="true"
+						android:layout_margin="20dp"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/about"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
-						android:src="@drawable/about_us_vector" />
+						android:src="@drawable/about" />
 			</RelativeLayout>
 
 			<RelativeLayout
@@ -207,19 +218,22 @@
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
+						android:layout_toRightOf="@id/logout"
 						android:text="logout"
+						android:layout_margin="20dp"
 						android:textAllCaps="true"
 						android:textColor="@color/colorAccent"
 						android:textSize="20sp"
 						android:textStyle="bold" />
 
 				<ImageView
+						android:id="@+id/logout"
 						android:layout_width="50dp"
 						android:layout_height="50dp"
 						android:layout_margin="10dp"
-						android:src="@drawable/logout_vector" />
+						android:src="@drawable/logout" />
 			</RelativeLayout>
+
 
 		</RelativeLayout>
 	</ScrollView>
