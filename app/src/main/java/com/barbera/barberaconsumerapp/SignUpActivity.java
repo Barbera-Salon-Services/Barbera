@@ -56,12 +56,8 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText address;
     private EditText password;
     private CardView signup;
-    public static LatLng center;
-    public static LatLng center1;
-    public static LatLng center2;
-    public static double radius1;
-    public static double radius;
-    public static double radius2;
+    public static LatLng center,center1,center2,center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
+    public static double radius, radius1,radius2, radius3,radius4,radius7,radius5,radius6,radius8,radius9,radius10,radius11,radius12;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore fstore;
     private DocumentReference documentReference;
@@ -392,10 +388,30 @@ public class SignUpActivity extends AppCompatActivity {
                             radius=task.getResult().getDouble("ag_radius");
                             radius1=task.getResult().getDouble("kal_1_radius");
                             radius2=task.getResult().getDouble("kal_2_radius");
+                            radius3=task.getResult().getDouble("kal_3_radius");
+                            radius4=task.getResult().getDouble("kal_4_radius");
+                            radius5=task.getResult().getDouble("kal_5_radius");
+                            radius6=task.getResult().getDouble("kal_6_radius");
+                            radius7=task.getResult().getDouble("kal_7_radius");
+                            radius8=task.getResult().getDouble("kal_8_radius");
+                            radius9=task.getResult().getDouble("kal_9_radius");
+                            radius10=task.getResult().getDouble("kal_10_radius");
+                            radius11=task.getResult().getDouble("kal_11_radius");
+                            radius12=task.getResult().getDouble("kal_12_radius");
 //                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
                             center=new LatLng(task.getResult().getDouble("c1_lat "), task.getResult().getDouble("c1_lon"));
                             center1=new LatLng(task.getResult().getDouble("c2_lat"), task.getResult().getDouble("c2_lon"));
                             center2=new LatLng(task.getResult().getDouble("c3_lat"), task.getResult().getDouble("c3_lon"));
+                            center3=new LatLng(task.getResult().getDouble("c4_lat"), task.getResult().getDouble("c4_lon"));
+                            center4=new LatLng(task.getResult().getDouble("c5_lat"), task.getResult().getDouble("c5_lon"));
+                            center5=new LatLng(task.getResult().getDouble("c6_lat"), task.getResult().getDouble("c6_lon"));
+                            center6=new LatLng(task.getResult().getDouble("c7_lat"), task.getResult().getDouble("c7_lon"));
+                            center7=new LatLng(task.getResult().getDouble("c8_lat"), task.getResult().getDouble("c8_lon"));
+                            center8=new LatLng(task.getResult().getDouble("c9_lat"), task.getResult().getDouble("c9_lon"));
+                            center9=new LatLng(task.getResult().getDouble("c10_lat"), task.getResult().getDouble("c10_lon"));
+                            center10=new LatLng(task.getResult().getDouble("c11_lat"), task.getResult().getDouble("c11_lon"));
+                            center11=new LatLng(task.getResult().getDouble("c12_lat"), task.getResult().getDouble("c12_lon"));
+                            center12=new LatLng(task.getResult().getDouble("c13_lat"), task.getResult().getDouble("c13_lon"));
 
                         }
                     }

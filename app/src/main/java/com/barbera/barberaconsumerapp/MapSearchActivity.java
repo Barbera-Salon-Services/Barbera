@@ -59,6 +59,27 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import static com.barbera.barberaconsumerapp.SignUpActivity.center10;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center11;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center12;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center3;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center4;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center5;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center6;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center7;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center8;
+import static com.barbera.barberaconsumerapp.SignUpActivity.center9;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius10;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius11;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius12;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius3;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius4;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius5;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius6;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius7;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius8;
+import static com.barbera.barberaconsumerapp.SignUpActivity.radius9;
+
 public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnCameraMoveListener ,GoogleMap.OnCameraMoveCanceledListener,
         GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener {
     private GoogleMap mMap;
@@ -142,24 +163,84 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         key = mMap.getCameraPosition();
 
-//        Circle circle = mMap.addCircle(new CircleOptions()
-//                .center(center)
-//                .radius(radius)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle1 = mMap.addCircle(new CircleOptions()
-//                .center(center1)
-//                .radius(radius1)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle2 = mMap.addCircle(new CircleOptions()
-//                .center(center2)
-//                .radius(radius2)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
+        Circle circle = mMap.addCircle(new CircleOptions()
+                .center(center)
+                .radius(radius)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle1 = mMap.addCircle(new CircleOptions()
+                .center(center1)
+                .radius(radius1)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle2 = mMap.addCircle(new CircleOptions()
+                .center(center2)
+                .radius(radius2)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle3 = mMap.addCircle(new CircleOptions()
+                .center(center3)
+                .radius(radius3)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle4 = mMap.addCircle(new CircleOptions()
+                .center(center4)
+                .radius(radius4)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle5 = mMap.addCircle(new CircleOptions()
+                .center(center5)
+                .radius(radius5)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle6 = mMap.addCircle(new CircleOptions()
+                .center(center6)
+                .radius(radius6)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle7 = mMap.addCircle(new CircleOptions()
+                .center(center7)
+                .radius(radius7)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle8 = mMap.addCircle(new CircleOptions()
+                .center(center8)
+                .radius(radius8)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle9 = mMap.addCircle(new CircleOptions()
+                .center(center9)
+                .radius(radius9)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle10 = mMap.addCircle(new CircleOptions()
+                .center(center10)
+                .radius(radius10)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle11 = mMap.addCircle(new CircleOptions()
+                .center(center11)
+                .radius(radius11)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
+        Circle circle12 = mMap.addCircle(new CircleOptions()
+                .center(center12)
+                .radius(radius12)
+                .strokeWidth(5.0f)
+                .fillColor(0x1A0066FF)
+                .strokeColor(0xFF0066FF));
         mMap.setMyLocationEnabled(true);
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraIdleListener (this);
@@ -302,7 +383,20 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         double distanceInMeters =getdistanceinkm(location)*1000;
         double distanceInMeters1 = getdistanceinkm1(location)*1000;
         double distanceInMeters2 = getdistanceinkm2(location)*1000;
-        if(distanceInMeters<= radius || distanceInMeters1<=radius1 || distanceInMeters2<=radius2){
+        double distanceInMeters3 = getdistanceinkm3(location)*1000;
+        double distanceInMeters4 = getdistanceinkm4(location)*1000;
+        double distanceInMeters5 = getdistanceinkm5(location)*1000;
+        double distanceInMeters6 = getdistanceinkm6(location)*1000;
+        double distanceInMeters7 = getdistanceinkm7(location)*1000;
+        double distanceInMeters8 = getdistanceinkm8(location)*1000;
+        double distanceInMeters9 = getdistanceinkm9(location)*1000;
+        double distanceInMeters10 = getdistanceinkm10(location)*1000;
+        double distanceInMeters11 = getdistanceinkm11(location)*1000;
+        double distanceInMeters12 = getdistanceinkm12(location)*1000;
+        if(distanceInMeters<= radius || distanceInMeters1<=radius1 || distanceInMeters2<=radius2 || distanceInMeters3<=radius3
+                || distanceInMeters4<=radius4 || distanceInMeters5<=radius5 || distanceInMeters6<=radius6 ||
+                distanceInMeters7<=radius7 || distanceInMeters8<=radius8 || distanceInMeters9<=radius9 || distanceInMeters10<=radius10
+                || distanceInMeters11<=radius11 || distanceInMeters12<=radius12){
             cardView.setVisibility(View.VISIBLE);
             Geocoder geocoder =  new Geocoder(this, Locale.getDefault());
             List<Address> addressList = geocoder.getFromLocation(location.latitude,location.longitude, 1);
@@ -380,6 +474,276 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     private double getdistanceinkm2(LatLng location) {
         double lat1= center2.latitude;
         double lon1= center2. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm3(LatLng location) {
+        double lat1= center3.latitude;
+        double lon1= center3. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm4(LatLng location) {
+        double lat1= center4.latitude;
+        double lon1= center4. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm5(LatLng location) {
+        double lat1= center5.latitude;
+        double lon1= center5. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm6(LatLng location) {
+        double lat1= center6.latitude;
+        double lon1= center6. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm7(LatLng location) {
+        double lat1= center7.latitude;
+        double lon1= center7. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm8(LatLng location) {
+        double lat1= center8.latitude;
+        double lon1= center8. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm9(LatLng location) {
+        double lat1= center9.latitude;
+        double lon1= center9. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm10(LatLng location) {
+        double lat1= center10.latitude;
+        double lon1= center10. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm11(LatLng location) {
+        double lat1= center11.latitude;
+        double lon1= center11. longitude;
+        double lat2= location.latitude;
+        double lon2 = location.longitude;
+
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
+    }
+    private double getdistanceinkm12(LatLng location) {
+        double lat1= center12.latitude;
+        double lon1= center12. longitude;
         double lat2= location.latitude;
         double lon2 = location.longitude;
 
