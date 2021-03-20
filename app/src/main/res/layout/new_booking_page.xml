@@ -223,7 +223,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="9:00AM"
+                                android:text="8:00AM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -241,7 +241,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10:00AM"
+                                android:text="9:00AM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -259,7 +259,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="11:00AM"
+                                android:text="10:00AM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -277,7 +277,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="12:00PM"
+                                android:text="11:00AM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -295,7 +295,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1:00PM"
+                                android:text="12:00PM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -313,7 +313,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2:00PM"
+                                android:text="4:00PM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -331,7 +331,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="3:00PM"
+                                android:text="5:00PM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -349,7 +349,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="4:00PM"
+                                android:text="6:00PM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -367,7 +367,7 @@
                                 android:padding="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="5:00PM"
+                                android:text="7:00PM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                             />
@@ -386,7 +386,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot1"
+                            android:id="@+id/slot1_f"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -404,7 +404,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot2"
+                            android:id="@+id/slot2_f"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -422,7 +422,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot3"
+                            android:id="@+id/slot3_f"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -438,7 +438,7 @@
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot4"
+                            android:id="@+id/slot4_f"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
@@ -456,7 +456,7 @@
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot5"
+                            android:id="@+id/slot5_f"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
@@ -474,7 +474,7 @@
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot6"
+                            android:id="@+id/slot6_f"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
@@ -492,7 +492,7 @@
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot7"
+                            android:id="@+id/slot7_f"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
@@ -511,7 +511,7 @@
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
-                            android:id="@+id/slot8"
+                            android:id="@+id/slot8_f"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -529,7 +529,7 @@
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
-                            android:id="@+id/slot9"
+                            android:id="@+id/slot9_f"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -558,7 +558,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot1"
+                            android:id="@+id/slot1_mf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -576,7 +576,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot2"
+                            android:id="@+id/slot2_mf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -594,7 +594,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot3"
+                            android:id="@+id/slot3_mf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -610,7 +610,7 @@
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot4"
+                            android:id="@+id/slot4_mf"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
@@ -628,62 +628,8 @@
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot5"
                             android:layout_marginStart="90dp"
-                            android:layout_marginEnd="90dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-                        <TextView
-                                android:padding="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="1:00PM"
-                                android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                />
-                    </androidx.cardview.widget.CardView>
-                    <androidx.cardview.widget.CardView
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/slot6"
-                            android:layout_marginStart="90dp"
-                            android:layout_marginEnd="90dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-                        <TextView
-                                android:padding="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2:00PM"
-                                android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                />
-                    </androidx.cardview.widget.CardView>
-                    <androidx.cardview.widget.CardView
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/slot7"
-                            android:layout_marginStart="90dp"
-                            android:layout_marginEnd="90dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-                        <TextView
-                                android:padding="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="3:00PM"
-                                android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                />
-                    </androidx.cardview.widget.CardView>
-                    <androidx.cardview.widget.CardView
-                            android:layout_marginTop="10dp"
-                            android:layout_marginStart="90dp"
-                            android:id="@+id/slot8"
+                            android:id="@+id/slot5_mf"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -701,7 +647,7 @@
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
-                            android:id="@+id/slot9"
+                            android:id="@+id/slot6_mf"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
