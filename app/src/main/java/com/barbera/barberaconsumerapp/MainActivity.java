@@ -94,9 +94,6 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            MapSearchActivity.radius=task.getResult().getDouble("ag_radius");
-                            MapSearchActivity.radius1=task.getResult().getDouble("kal_1_radius");
-                            MapSearchActivity.radius2=task.getResult().getDouble("kal_2_radius");
                             MapSearchActivity.radius3=task.getResult().getDouble("kal_3_radius");
                             MapSearchActivity.radius4=task.getResult().getDouble("kal_4_radius");
                             MapSearchActivity.radius5=task.getResult().getDouble("kal_5_radius");
@@ -108,9 +105,6 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                             MapSearchActivity.radius11=task.getResult().getDouble("kal_11_radius");
                             MapSearchActivity.radius12=task.getResult().getDouble("kal_12_radius");
 //                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
-                            MapSearchActivity.center=new LatLng(task.getResult().getDouble("c1_lat "), task.getResult().getDouble("c1_lon"));
-                            MapSearchActivity.center1=new LatLng(task.getResult().getDouble("c2_lat"), task.getResult().getDouble("c2_lon"));
-                            MapSearchActivity.center2=new LatLng(task.getResult().getDouble("c3_lat"), task.getResult().getDouble("c3_lon"));
                             MapSearchActivity.center3=new LatLng(task.getResult().getDouble("c4_lat"), task.getResult().getDouble("c4_lon"));
                             MapSearchActivity.center4=new LatLng(task.getResult().getDouble("c5_lat"), task.getResult().getDouble("c5_lon"));
                             MapSearchActivity.center5=new LatLng(task.getResult().getDouble("c6_lat"), task.getResult().getDouble("c6_lon"));

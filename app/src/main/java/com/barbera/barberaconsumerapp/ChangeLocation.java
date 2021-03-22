@@ -80,13 +80,9 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
     private SharedPreferences sharedPreferences;
     private Boolean withinzone;
 
-    private LatLng center;
-    private LatLng center1;
-    private LatLng center2,center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
+    private LatLng center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
 
-    private double radius;
-    private double radius1;
-    private double radius2,radius3,radius4,radius5,radius6,radius7,radius8,radius9,radius10,radius11,radius12;
+    private double radius3,radius4,radius5,radius6,radius7,radius8,radius9,radius10,radius11,radius12;
 
     private double Lat;
     private double Lon;
@@ -105,9 +101,6 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
 
-        center=MapSearchActivity.center;
-        center1=MapSearchActivity.center1;
-        center2=MapSearchActivity.center2;
         center3 =MapSearchActivity.center3;
         center4 =MapSearchActivity.center4;
         center5=MapSearchActivity.center5;
@@ -119,9 +112,6 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         center11 =MapSearchActivity.center11;
         center12 =MapSearchActivity.center12;
 
-        radius =MapSearchActivity.radius;
-        radius1=MapSearchActivity.radius1;
-        radius2=MapSearchActivity.radius2;
         radius3 =MapSearchActivity.radius3;
         radius4 =MapSearchActivity.radius4;
         radius5 =MapSearchActivity.radius5;
@@ -222,24 +212,6 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         mMap.setMyLocationEnabled(true);
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
 
-        Circle circle = mMap.addCircle(new CircleOptions()
-                .center(center)
-                .radius(radius)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle1 = mMap.addCircle(new CircleOptions()
-                .center(center1)
-                .radius(radius1)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle2 = mMap.addCircle(new CircleOptions()
-                .center(center2)
-                .radius(radius2)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
         Circle circle3 = mMap.addCircle(new CircleOptions()
                 .center(center3)
                 .radius(radius3)
@@ -351,9 +323,6 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         return false;
     }
     private void checkWithinZone(LatLng location) throws IOException {
-        double distanceInMeters = getdistanceinkm(location) * 1000;
-        double distanceInMeters1 = getdistanceinkm1(location) * 1000;
-        double distanceInMeters2 = getdistanceinkm2(location) * 1000;
         double distanceInMeters3 = getdistanceinkm3(location)*1000;
         double distanceInMeters4 = getdistanceinkm4(location)*1000;
         double distanceInMeters5 = getdistanceinkm5(location)*1000;
@@ -367,8 +336,7 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         documentReference = fileStore.collection("Users").document(firebaseAuth.getCurrentUser().getUid());
         sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
-        if (distanceInMeters <= radius || distanceInMeters1 <= radius1 || distanceInMeters2 <= radius2 || distanceInMeters3<=radius3
-                || distanceInMeters4<=radius4 || distanceInMeters5<=radius5 || distanceInMeters6<=radius6 ||
+        if (distanceInMeters3<=radius3 || distanceInMeters4<=radius4 || distanceInMeters5<=radius5 || distanceInMeters6<=radius6 ||
                 distanceInMeters7<=radius7 || distanceInMeters8<=radius8 || distanceInMeters9<=radius9 || distanceInMeters10<=radius10
                 || distanceInMeters11<=radius11 || distanceInMeters12<=radius12) {
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -441,93 +409,10 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         });
     }
 
-    private double getdistanceinkm2(LatLng location) {
-        double lat1= center2.latitude;
-        double lon1= center2. longitude;
-        double lat2= location.latitude;
-        double lon2 = location.longitude;
-
-        lon1 = Math.toRadians(lon1);
-        lon2 = Math.toRadians(lon2);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
-
-        // Haversine formula
-        double dlon = lon2 - lon1;
-        double dlat = lat2 - lat1;
-        double a = Math.pow(Math.sin(dlat / 2), 2)
-                + Math.cos(lat1) * Math.cos(lat2)
-                * Math.pow(Math.sin(dlon / 2),2);
-
-        double c = 2 * Math.asin(Math.sqrt(a));
-
-        // Radius of earth in kilometers. Use 3956
-        // for miles
-        double r = 6371;
-
-        // calculate the result
-        return(c * r);
-    }
-
-    private double getdistanceinkm1(LatLng location) {
-        double lat1= center1.latitude;
-        double lon1= center1. longitude;
-        double lat2= location.latitude;
-        double lon2 = location.longitude;
-
-        lon1 = Math.toRadians(lon1);
-        lon2 = Math.toRadians(lon2);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
-
-        // Haversine formula
-        double dlon = lon2 - lon1;
-        double dlat = lat2 - lat1;
-        double a = Math.pow(Math.sin(dlat / 2), 2)
-                + Math.cos(lat1) * Math.cos(lat2)
-                * Math.pow(Math.sin(dlon / 2),2);
-
-        double c = 2 * Math.asin(Math.sqrt(a));
-
-        // Radius of earth in kilometers. Use 3956
-        // for miles
-        double r = 6371;
-
-        // calculate the result
-        return(c * r);
-    }
-
     private void sendToBookingPage() {
         finish();
     }
 
-    private double getdistanceinkm(LatLng location) {
-        double lat1= center.latitude;
-        double lon1= center. longitude;
-        double lat2= location.latitude;
-        double lon2 = location.longitude;
-
-        lon1 = Math.toRadians(lon1);
-        lon2 = Math.toRadians(lon2);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
-
-        // Haversine formula
-        double dlon = lon2 - lon1;
-        double dlat = lat2 - lat1;
-        double a = Math.pow(Math.sin(dlat / 2), 2)
-                + Math.cos(lat1) * Math.cos(lat2)
-                * Math.pow(Math.sin(dlon / 2),2);
-
-        double c = 2 * Math.asin(Math.sqrt(a));
-
-        // Radius of earth in kilometers. Use 3956
-        // for miles
-        double r = 6371;
-
-        // calculate the result
-        return(c * r);
-    }
     private double getdistanceinkm3(LatLng location) {
         double lat1= center3.latitude;
         double lon1= center3. longitude;

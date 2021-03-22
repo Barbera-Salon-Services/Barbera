@@ -1046,7 +1046,7 @@ public class BookingPage extends AppCompatActivity  {
 
                                 });
                     }
-                    if (women && !men) {
+                    else if (women && !men) {
                         Map<String, Object> date = new HashMap<>();
                         for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
                             date.put(i + "_f", "B");
@@ -1172,21 +1172,6 @@ public class BookingPage extends AppCompatActivity  {
     protected void onStart() {
         super.onStart();
         extractDataFromUser();
-        FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            MapSearchActivity.radius=task.getResult().getDouble("ag_radius");
-                            MapSearchActivity.radius1=task.getResult().getDouble("kal_1_radius");
-                            MapSearchActivity.radius2=task.getResult().getDouble("kal_2_radius");
-                            MapSearchActivity.center=new LatLng(task.getResult().getDouble("c1_lat "), task.getResult().getDouble("c1_lon"));
-                            MapSearchActivity.center1=new LatLng(task.getResult().getDouble("c2_lat"), task.getResult().getDouble("c2_lon"));
-                            MapSearchActivity.center2=new LatLng(task.getResult().getDouble("c3_lat"), task.getResult().getDouble("c3_lon"));
-
-                        }
-                    }
-                });
     }
 
     private void addCouponUsage(){

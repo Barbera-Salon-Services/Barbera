@@ -56,8 +56,8 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText address;
     private EditText password;
     private CardView signup;
-    public static LatLng center,center1,center2,center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
-    public static double radius, radius1,radius2, radius3,radius4,radius7,radius5,radius6,radius8,radius9,radius10,radius11,radius12;
+    public static LatLng center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
+    public static double radius3,radius4,radius7,radius5,radius6,radius8,radius9,radius10,radius11,radius12;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore fstore;
     private DocumentReference documentReference;
@@ -385,9 +385,6 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            radius=task.getResult().getDouble("ag_radius");
-                            radius1=task.getResult().getDouble("kal_1_radius");
-                            radius2=task.getResult().getDouble("kal_2_radius");
                             radius3=task.getResult().getDouble("kal_3_radius");
                             radius4=task.getResult().getDouble("kal_4_radius");
                             radius5=task.getResult().getDouble("kal_5_radius");
@@ -399,9 +396,6 @@ public class SignUpActivity extends AppCompatActivity {
                             radius11=task.getResult().getDouble("kal_11_radius");
                             radius12=task.getResult().getDouble("kal_12_radius");
 //                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
-                            center=new LatLng(task.getResult().getDouble("c1_lat "), task.getResult().getDouble("c1_lon"));
-                            center1=new LatLng(task.getResult().getDouble("c2_lat"), task.getResult().getDouble("c2_lon"));
-                            center2=new LatLng(task.getResult().getDouble("c3_lat"), task.getResult().getDouble("c3_lon"));
                             center3=new LatLng(task.getResult().getDouble("c4_lat"), task.getResult().getDouble("c4_lon"));
                             center4=new LatLng(task.getResult().getDouble("c5_lat"), task.getResult().getDouble("c5_lon"));
                             center5=new LatLng(task.getResult().getDouble("c6_lat"), task.getResult().getDouble("c6_lon"));
