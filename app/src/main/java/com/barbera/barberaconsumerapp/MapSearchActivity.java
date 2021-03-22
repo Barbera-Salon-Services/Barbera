@@ -90,12 +90,8 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     private double Lat;
     private double Lon;
     private CameraPosition key;
-    public static LatLng center;
-    public static LatLng center1;
-    public static LatLng center2;
-    public static double radius1;
-    public static double radius;
-    public static double radius2;
+    public static LatLng center,center1,center2,center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
+    public static double radius, radius1,radius2, radius3,radius4,radius7,radius5,radius6,radius8,radius9,radius10,radius11,radius12;
     private FloatingActionButton floatingActionButton;
     private FusedLocationProviderClient client;
 

@@ -61,27 +61,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.barbera.barberaconsumerapp.SignUpActivity.center10;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center11;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center12;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center3;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center4;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center5;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center6;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center7;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center8;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center9;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius10;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius11;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius12;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius3;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius4;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius5;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius6;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius7;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius8;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius9;
-
 public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnCameraMoveListener ,GoogleMap.OnCameraMoveCanceledListener,
         GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener{
     private GoogleMap mMap;
@@ -103,11 +82,11 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
 
     private LatLng center;
     private LatLng center1;
-    private LatLng center2;
+    private LatLng center2,center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
 
     private double radius;
     private double radius1;
-    private double radius2;
+    private double radius2,radius3,radius4,radius5,radius6,radius7,radius8,radius9,radius10,radius11,radius12;
 
     private double Lat;
     private double Lon;
@@ -129,10 +108,31 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         center=MapSearchActivity.center;
         center1=MapSearchActivity.center1;
         center2=MapSearchActivity.center2;
+        center3 =MapSearchActivity.center3;
+        center4 =MapSearchActivity.center4;
+        center5=MapSearchActivity.center5;
+        center6= MapSearchActivity.center6;
+        center7 =MapSearchActivity.center7;
+        center8 =MapSearchActivity.center8;
+        center9 =MapSearchActivity.center9;
+        center10 = MapSearchActivity.center10;
+        center11 =MapSearchActivity.center11;
+        center12 =MapSearchActivity.center12;
 
         radius =MapSearchActivity.radius;
         radius1=MapSearchActivity.radius1;
         radius2=MapSearchActivity.radius2;
+        radius3 =MapSearchActivity.radius3;
+        radius4 =MapSearchActivity.radius4;
+        radius5 =MapSearchActivity.radius5;
+        radius6 =MapSearchActivity.radius6;
+        radius7 =MapSearchActivity.radius7;
+        radius8 = MapSearchActivity.radius8;
+        radius9 =MapSearchActivity.radius9;
+        radius10 = MapSearchActivity.radius10;
+        radius11 = MapSearchActivity.radius11;
+        radius12 =MapSearchActivity.radius12;
+
         fileStore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         client = LocationServices.getFusedLocationProviderClient(this);
