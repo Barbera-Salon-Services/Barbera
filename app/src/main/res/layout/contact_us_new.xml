@@ -70,6 +70,7 @@
             android:layout_margin="10dp"/>
     </RelativeLayout>
     <RelativeLayout
+            android:visibility="gone"
         android:id="@+id/phone_in_contact_us_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,8 +102,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="barbera.salon@gmail.com"
-            android:textSize="20sp"
+            android:text="barberahomesaloon@gmail.com"
+            android:textSize="18sp"
             android:textColor="@color/colorAccent"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/mail"
@@ -116,6 +117,7 @@
             android:layout_margin="10dp"/>
     </RelativeLayout>
     <TextView
+            android:visibility="gone"
         android:id="@+id/social_media_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -151,6 +153,7 @@
             android:layout_margin="10dp"/>
     </RelativeLayout>
     <RelativeLayout
+            android:visibility="gone"
         android:id="@+id/insta_in_contact_us_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

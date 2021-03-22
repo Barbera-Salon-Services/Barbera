@@ -48,13 +48,15 @@
 						tools:text="Krishna Balram" />
 
 				<TextView
+						android:visibility="invisible"
 						android:id="@+id/EmailInProfile"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_centerInParent="true"
+						android:maxEms="12"
 						android:textColor="@color/white"
 						android:textSize="15sp"
-						tools:text="radhakrishnabalramfgkjdfgjdfjgfdgdkfgk@gmail.com" />
+						tools:text="sumitkumawat12188@gmail.com" />
 
 				<TextView
 						android:id="@+id/PhoneInProfile"
