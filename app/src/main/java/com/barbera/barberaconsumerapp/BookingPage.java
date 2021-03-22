@@ -62,7 +62,7 @@ public class BookingPage extends AppCompatActivity  {
     private int region;
     private double lat,lon;
     private TextView day1, day2, day3, day4, day5, day6, day7;
-    private CardView slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8;
+    private CardView slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9,slot10;
     private String mon1,mon2,mon3,mon4,mon5,mon6,mon7,mon,day;
     private SharedPreferences sharedPreferences;
     private int array[];
@@ -125,6 +125,8 @@ public class BookingPage extends AppCompatActivity  {
             slot6= findViewById(R.id.slot6);
             slot7= findViewById(R.id.slot7);
             slot8= findViewById(R.id.slot8);
+            slot9=findViewById(R.id.slot9);
+            slot10=findViewById(R.id.slot10);
         }
         else if(women && !men){
             slot1= findViewById(R.id.slot1_f);
@@ -135,12 +137,15 @@ public class BookingPage extends AppCompatActivity  {
             slot6= findViewById(R.id.slot6_f);
             slot7= findViewById(R.id.slot7_f);
             slot8= findViewById(R.id.slot8_f);
+            slot9=findViewById(R.id.slot9_f);
         }
         else{
             slot1= findViewById(R.id.slot1_mf);
             slot2= findViewById(R.id.slot2_mf);
             slot3= findViewById(R.id.slot3_mf);
             slot4= findViewById(R.id.slot4_mf);
+            slot5= findViewById(R.id.slot5_mf);
+            slot6= findViewById(R.id.slot6_mf);
         }
 //        Toast.makeText(this, men+" "+women, Toast.LENGTH_SHORT).show();
         array = new int[2];
@@ -160,10 +165,6 @@ public class BookingPage extends AppCompatActivity  {
         day5 =  findViewById(R.id.day5);
         day6 =  findViewById(R.id.day6);
         day7 = findViewById(R.id.day7);
-
-
-
-
 
 
         houseAddress=findViewById(R.id.booking_edit_address);
@@ -540,7 +541,7 @@ public class BookingPage extends AppCompatActivity  {
                 }
             });
             if(men && !women){
-                array[1]=8;
+                array[1]=7;
             }
             else{
                 array[1]=9;
@@ -559,7 +560,7 @@ public class BookingPage extends AppCompatActivity  {
                 }
             });
             if(men && !women){
-                array[1]=9;
+                array[1]=8;
             }
             else{
                 array[1]=10;
@@ -578,7 +579,7 @@ public class BookingPage extends AppCompatActivity  {
                 }
             });
             if(men && !women){
-                array[1]=10;
+                array[1]=9;
             }
             else{
                 array[1]=11;
@@ -596,34 +597,33 @@ public class BookingPage extends AppCompatActivity  {
                     }
                 }
             });
-            if(men && !women){
-                array[1]=11;
-            }
-            else if(women && !men){
-                array[1]=12;
+            if(men && !women) {
+                array[1] = 10;
             }
             else{
-                array[1]=16;
+                array[1]=12;
             }
         });
-        if(!(men && women)){
-            slot5.setOnClickListener(v -> {
+        slot5.setOnClickListener(v -> {
             FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
                     .collection("Region").document("Region"+region)
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        slots(task);
-                        slot5.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                    }
-                }
-            });
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                slots(task);
+                                slot5.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                            }
+                        }
+                    });
             if(men && !women){
-                array[1]=16;
+                array[1]=11;
+            }
+            else if(women && !men) {
+                array[1]=13;
             }
             else{
-                array[1]=13;
+                array[1]=16;
             }
         });
         slot6.setOnClickListener(v -> {
@@ -639,50 +639,89 @@ public class BookingPage extends AppCompatActivity  {
                 }
             });
             if(men && !women){
-                array[1]=17;
+                array[1]=12;
             }
-            else{
+            else if(women && !men) {
                 array[1]=14;
             }
+            else{
+                array[1]=17;
+            }
         });
-        slot7.setOnClickListener(v -> {
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
-                    .collection("Region").document("Region"+region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        slots(task);
-                        slot7.setCardBackgroundColor(Color.parseColor("#27AE60"));
+        if(!(men && women)){
+            slot7.setOnClickListener(v -> {
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                        .collection("Region").document("Region"+region)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                            slot7.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                        }
                     }
+                });
+                if(men && !women){
+                    array[1]=16;
+                }
+                else{
+                    array[1]=15;
                 }
             });
-            if(men && !women){
-                array[1]=18;
-            }
-            else{
-                array[1]=15;
-            }
-        });
-        slot8.setOnClickListener(v -> {
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
-                    .collection("Region").document("Region"+region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        slots(task);
-                        slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));
+            slot8.setOnClickListener(v -> {
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                        .collection("Region").document("Region"+region)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                            slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                        }
                     }
+                });
+                if(men && !women){
+                    array[1]=17;
+                }
+                else{
+                    array[1]=16;
                 }
             });
-            if(men && !women){
-                array[1]=19;
+            slot9.setOnClickListener(v -> {
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day"+array[0])
+                        .collection("Region").document("Region"+region)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            slots(task);
+                            slot9.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                        }
+                    }
+                });
+                if(men && !women){
+                    array[1]=18;
+                }
+                else{
+                    array[1]=17;
+                }
+            });
+            if(men && !women) {
+                slot10.setOnClickListener(v -> {
+                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
+                            .collection("Region").document("Region" + region)
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                slots(task);
+                                slot10.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                            }
+                        }
+                    });
+                    array[1] = 19;
+                });
             }
-            else{
-                array[1]=16;
-            }
-        });
         }
 
 
@@ -878,9 +917,6 @@ public class BookingPage extends AppCompatActivity  {
     }
 
     private void getRegion() {
-        double radius = 8101.33;
-        double radius1 =1718.21;
-        double radius2 =1764.76;
         double radius3 =1685.09;
         double radius4 =1361.44;
         double radius5 =2351.31;
@@ -892,41 +928,35 @@ public class BookingPage extends AppCompatActivity  {
         double radius11=2227.10;
         double radius12 =1881.67;
 
-        if(getdistanceinkm(new LatLng(26.930256,75.875947))*1000<=radius){
+        if(getdistanceinkm(new LatLng(26.956962,75.77664))*1000<=radius3){
             region =1 ;
         }
-        if(getdistanceinkm(new LatLng(26.949311,75.714512))*1000<=radius1 || getdistanceinkm(new LatLng(26.943649,75.748845))*1000<=radius2){
-            region =2;
-        }
-        if(getdistanceinkm(new LatLng(26.956962,75.77664))*1000<=radius3){
-            region =3 ;
-        }
         if(getdistanceinkm(new LatLng(26.939211,75.795793))*1000<=radius4){
-            region =4 ;
+            region =2 ;
         }
         if(getdistanceinkm(new LatLng(26.896277,75.783537))*1000<=radius5){
-            region =5 ;
+            region =3 ;
         }
         if(getdistanceinkm(new LatLng(26.858152,75.765343))*1000<=radius6){
-            region =6 ;
+            region =4 ;
         }
         if(getdistanceinkm(new LatLng(26.822310,75.769312))*1000<=radius7){
-            region =7 ;
+            region =5 ;
         }
         if(getdistanceinkm(new LatLng(26.823396,75.862217))*1000<=radius8){
-            region =8 ;
+            region =6 ;
         }
         if(getdistanceinkm(new LatLng(26.900915,75.829059))*1000<=radius9){
-            region =9 ;
+            region =7 ;
         }
         if(getdistanceinkm(new LatLng(26.880131,75.812279))*1000<=radius10){
-            region =10 ;
+            region =8 ;
         }
         if(getdistanceinkm(new LatLng(26.814549,75.820629))*1000<=radius11){
-            region =11 ;
+            region =9 ;
         }
         if(getdistanceinkm(new LatLng(26.850078,75.804790))*1000<=radius12){
-            region =12 ;
+            region =10 ;
         }
 
 //        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
@@ -1005,11 +1035,10 @@ public class BookingPage extends AppCompatActivity  {
                             }
                         }
                         else{
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 12; i++) {
+                            for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
                                 date.put(i + "_m", "B");
                             }
                         }
-
                         date.put("date", mon + " " + day + ", " + selectedYear);
                         FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
                                 .collection("Region").document("Region" + region).update(date)
@@ -1032,18 +1061,18 @@ public class BookingPage extends AppCompatActivity  {
                     else{
                         Map<String, Object> date = new HashMap<>();
                         if(array[1]>=16){
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 17; i++) {
+                            for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
                                 date.put(i + "_m", "B");
                             }
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 17; i++) {
+                            for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
                                 date.put(i + "_f", "B");
                             }
                         }
                         else{
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 12; i++) {
+                            for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
                                 date.put(i + "_m", "B");
                             }
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 12; i++) {
+                            for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
                                 date.put(i + "_f", "B");
                             }
                         }
@@ -1214,63 +1243,75 @@ public class BookingPage extends AppCompatActivity  {
             female_slots.setVisibility(View.INVISIBLE);
             mf_slots.setVisibility(View.VISIBLE);
         }
-
             if (men && !women) {
-                if (task.getResult().get("8_m").toString().equals("B")) {
+                if (task.getResult().get("7_m").toString().equals("B")) {
                     slot1.setEnabled(false);
                     slot1.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot1.setEnabled(true);
                     slot1.setCardBackgroundColor(Color.BLACK);
                 }
-                if (task.getResult().get("9_m").toString().equals("B")) {
+                if (task.getResult().get("8_m").toString().equals("B")) {
                     slot2.setEnabled(false);
                     slot2.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot2.setEnabled(true);
                     slot2.setCardBackgroundColor(Color.BLACK);
                 }
-                if (task.getResult().get("10_m").toString().equals("B")) {
+                if (task.getResult().get("9_m").toString().equals("B")) {
                     slot3.setEnabled(false);
                     slot3.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot3.setEnabled(true);
                     slot3.setCardBackgroundColor(Color.BLACK);
                 }
-                if (task.getResult().get("11_m").toString().equals("B")) {
+                if (task.getResult().get("10_m").toString().equals("B")) {
                     slot4.setEnabled(false);
                     slot4.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot4.setEnabled(true);
                     slot4.setCardBackgroundColor(Color.BLACK);
                 }
-                if (task.getResult().get("16_m").toString().equals("B")) {
+                if (task.getResult().get("11_m").toString().equals("B")) {
                     slot5.setEnabled(false);
                     slot5.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot5.setEnabled(true);
                     slot5.setCardBackgroundColor(Color.BLACK);
-                }
-                if (task.getResult().get("17_m").toString().equals("B")) {
+                }if (task.getResult().get("12_m").toString().equals("B")) {
                     slot6.setEnabled(false);
                     slot6.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot6.setEnabled(true);
                     slot6.setCardBackgroundColor(Color.BLACK);
                 }
-                if (task.getResult().get("18_m").toString().equals("B")) {
+                if (task.getResult().get("16_m").toString().equals("B")) {
                     slot7.setEnabled(false);
                     slot7.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot7.setEnabled(true);
                     slot7.setCardBackgroundColor(Color.BLACK);
                 }
-                if (task.getResult().get("19_m").toString().equals("B")) {
+                if (task.getResult().get("17_m").toString().equals("B")) {
                     slot8.setEnabled(false);
                     slot8.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot8.setEnabled(true);
                     slot8.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("18_m").toString().equals("B")) {
+                    slot9.setEnabled(false);
+                    slot9.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot9.setEnabled(true);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("19_m").toString().equals("B")) {
+                    slot10.setEnabled(false);
+                    slot10.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot10.setEnabled(true);
+                    slot10.setCardBackgroundColor(Color.BLACK);
                 }
             } else if (women && !men) {
                 if (task.getResult().get("9_f").toString().equals("B")) {
@@ -1329,6 +1370,13 @@ public class BookingPage extends AppCompatActivity  {
                     slot8.setEnabled(true);
                     slot8.setCardBackgroundColor(Color.BLACK);
                 }
+                if (task.getResult().get("17_f").toString().equals("B")) {
+                    slot9.setEnabled(false);
+                    slot9.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot9.setEnabled(true);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                }
 
             } else {
                 if (task.getResult().get("9_m").toString().equals("B") || task.getResult().get("9_f").toString().equals("B")) {
@@ -1352,12 +1400,26 @@ public class BookingPage extends AppCompatActivity  {
                     slot3.setEnabled(true);
                     slot3.setCardBackgroundColor(Color.BLACK);
                 }
-                if (task.getResult().get("16_m").toString().equals("B") || task.getResult().get("16_f").toString().equals("B")) {
+                if (task.getResult().get("12_m").toString().equals("B") || task.getResult().get("12_f").toString().equals("B")) {
                     slot4.setEnabled(false);
                     slot4.setCardBackgroundColor(Color.GRAY);
                 } else {
                     slot4.setEnabled(true);
                     slot4.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("16_m").toString().equals("B") || task.getResult().get("16_f").toString().equals("B")) {
+                    slot5.setEnabled(false);
+                    slot5.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot5.setEnabled(true);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                }
+                if (task.getResult().get("17_m").toString().equals("B") || task.getResult().get("17_f").toString().equals("B")) {
+                    slot6.setEnabled(false);
+                    slot6.setCardBackgroundColor(Color.GRAY);
+                } else {
+                    slot6.setEnabled(true);
+                    slot6.setCardBackgroundColor(Color.BLACK);
                 }
         }
         progressDialog.dismiss();

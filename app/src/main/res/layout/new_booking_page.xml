@@ -209,12 +209,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="90dp"
+                        android:layout_marginEnd="90dp"
+                        android:id="@+id/slot1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/colorAccent"
+                        app:cardCornerRadius="8dp">
+                    <TextView
+                        android:padding="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7:00AM"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        />
+                    </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot1"
+                            android:id="@+id/slot2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -232,7 +249,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot2"
+                            android:id="@+id/slot3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -250,7 +267,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
-                            android:id="@+id/slot3"
+                            android:id="@+id/slot4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/colorAccent"
@@ -266,7 +283,7 @@
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot4"
+                            android:id="@+id/slot5"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
@@ -282,10 +299,28 @@
                                 android:layout_gravity="center"
                             />
                     </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/slot6"
+                        android:layout_marginStart="90dp"
+                        android:layout_marginEnd="90dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/colorAccent"
+                        app:cardCornerRadius="8dp">
+                        <TextView
+                            android:padding="8dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12:00AM"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center"
+                            />
+                    </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot5"
+                            android:id="@+id/slot7"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
@@ -303,7 +338,7 @@
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
-                            android:id="@+id/slot6"
+                            android:id="@+id/slot8"
                             android:layout_marginStart="90dp"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
@@ -322,7 +357,7 @@
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
-                            android:id="@+id/slot7"
+                            android:id="@+id/slot9"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -340,7 +375,7 @@
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
-                            android:id="@+id/slot8"
+                            android:id="@+id/slot10"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -509,6 +544,24 @@
                                 android:layout_gravity="center"
                                 />
                     </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="90dp"
+                        android:id="@+id/slot9_f"
+                        android:layout_marginEnd="90dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/colorAccent"
+                        app:cardCornerRadius="8dp">
+                        <TextView
+                            android:padding="8dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5:00PM"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center"
+                            />
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
                 <LinearLayout
                         android:id="@+id/ll3"
@@ -573,11 +626,29 @@
                                 android:layout_gravity="center"
                                 />
                     </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="90dp"
+                        android:layout_marginEnd="90dp"
+                        android:id="@+id/slot4_mf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/colorAccent"
+                        app:cardCornerRadius="8dp">
+                        <TextView
+                            android:padding="8dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12:00AM"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center"
+                            />
+                    </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="90dp"
-                            android:id="@+id/slot4_mf"
+                            android:id="@+id/slot5_mf"
                             android:layout_marginEnd="90dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -588,6 +659,24 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="4:00PM"
+                                android:textColor="@color/white"
+                                android:layout_gravity="center"
+                                />
+                    </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="90dp"
+                            android:id="@+id/slot6_mf"
+                            android:layout_marginEnd="90dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardBackgroundColor="@color/colorAccent"
+                            app:cardCornerRadius="8dp">
+                        <TextView
+                                android:padding="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5:00PM"
                                 android:textColor="@color/white"
                                 android:layout_gravity="center"
                                 />
