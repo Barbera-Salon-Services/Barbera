@@ -362,7 +362,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     }
 
     private void addtoSheet(final int position) {
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbwtLJ3Ts_ObuVoM0iuPOj1aOvf2wIy0E0Q6J56VtdMExqUWPvn4jAOURwxfHHE8zJIUIA/exec"
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbz51m2pbU5EybiHtMJIVs7EKzipenWeT92ErfjBMJoirFNts-IcOuWJooP4p5H14Cq5tQ/exec"
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -379,16 +379,11 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             protected Map<String, String> getParams() {
                 Map<String, String> parmas = new HashMap<>();
                 //here we pass params
-
-                if(region==1){
-                    parmas.put("action","cancelItem1");
-                }
-                else{
-                    parmas.put("action","cancelItem2");
-                }
-                Log.d("region", String.valueOf(region));
-                parmas.put("randomId",bookingAdapterList.get(position).getRandomId());
-                Log.d("id",bookingAdapterList.get(position).getRandomId());
+                    parmas.put("action","cancelItem");
+                    parmas.put("region",String.valueOf(region));
+                //Log.d("region", String.valueOf(region));
+                    parmas.put("randomId",bookingAdapterList.get(position).getRandomId());
+                //Log.d("id",bookingAdapterList.get(position).getRandomId());
 //                parmas.put("userName",UserName);
 //                parmas.put("services",bookingAdapterList.get(position).getSummary());
 //                parmas.put("servicedate",bookingAdapterList.get(position).getDate());
