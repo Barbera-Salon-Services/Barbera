@@ -90,8 +90,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             holder.end.setVisibility(View.VISIBLE);
             holder.cancelBooking.setVisibility(View.INVISIBLE);
         }
-       /* else if(bookingModel.getStatus().equals("started")){
-            holder.start.setVisibility(View.INVISIBLE);
+        if(bookingModel.getStatus().equals("pending")){
+            holder.start.setVisibility(View.VISIBLE);
             holder.end.setVisibility(View.VISIBLE);
             holder.cancelBooking.setVisibility(View.INVISIBLE);
             holder.status.setVisibility(View.INVISIBLE);
@@ -351,7 +351,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 }
             }
         }
-        Toast.makeText(context,"MAP"+map.get("11_m")+"day:"+day+"region: "+region,Toast.LENGTH_LONG).show();
+        //Toast.makeText(context,"MAP"+map.get("11_m")+"day:"+day+"region: "+region,Toast.LENGTH_LONG).show();
         FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + day)
                 .collection("Region").document("Region" + region).update(map)
                 .addOnCompleteListener(task1 ->  {

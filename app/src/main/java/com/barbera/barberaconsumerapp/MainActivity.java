@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     public static List<Service> menHorizontalserviceList=new ArrayList<Service>();
     private RecyclerView MenTrendRecyclerView;
     private MenHorizontalAdapter adapter;
+    public static LatLng center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
+    public static double  radius3,radius4,radius7,radius5,radius6,radius8,radius9,radius10,radius11,radius12;
     public static List<Service> womenHorizontalserviceList=new ArrayList<Service>();
     public MenHorizontalAdapter womenadapter;
     public RecyclerView WoMenTrendRecyclerView;
@@ -94,27 +96,27 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            MapSearchActivity.radius3=task.getResult().getDouble("kal_3_radius");
-                            MapSearchActivity.radius4=task.getResult().getDouble("kal_4_radius");
-                            MapSearchActivity.radius5=task.getResult().getDouble("kal_5_radius");
-                            MapSearchActivity.radius6=task.getResult().getDouble("kal_6_radius");
-                            MapSearchActivity.radius7=task.getResult().getDouble("kal_7_radius");
-                            MapSearchActivity.radius8=task.getResult().getDouble("kal_8_radius");
-                            MapSearchActivity.radius9=task.getResult().getDouble("kal_9_radius");
-                            MapSearchActivity.radius10=task.getResult().getDouble("kal_10_radius");
-                            MapSearchActivity.radius11=task.getResult().getDouble("kal_11_radius");
-                            MapSearchActivity.radius12=task.getResult().getDouble("kal_12_radius");
+                            radius3=task.getResult().getDouble("kal_3_radius");
+                            radius4=task.getResult().getDouble("kal_4_radius");
+                            radius5=task.getResult().getDouble("kal_5_radius");
+                            radius6=task.getResult().getDouble("kal_6_radius");
+                            radius7=task.getResult().getDouble("kal_7_radius");
+                            radius8=task.getResult().getDouble("kal_8_radius");
+                            radius9=task.getResult().getDouble("kal_9_radius");
+                            radius10=task.getResult().getDouble("kal_10_radius");
+                            radius11=task.getResult().getDouble("kal_11_radius");
+                            radius12=task.getResult().getDouble("kal_12_radius");
 //                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
-                            MapSearchActivity.center3=new LatLng(task.getResult().getDouble("c4_lat"), task.getResult().getDouble("c4_lon"));
-                            MapSearchActivity.center4=new LatLng(task.getResult().getDouble("c5_lat"), task.getResult().getDouble("c5_lon"));
-                            MapSearchActivity.center5=new LatLng(task.getResult().getDouble("c6_lat"), task.getResult().getDouble("c6_lon"));
-                            MapSearchActivity.center6=new LatLng(task.getResult().getDouble("c7_lat"), task.getResult().getDouble("c7_lon"));
-                            MapSearchActivity.center7=new LatLng(task.getResult().getDouble("c8_lat"), task.getResult().getDouble("c8_lon"));
-                            MapSearchActivity.center8=new LatLng(task.getResult().getDouble("c9_lat"), task.getResult().getDouble("c9_lon"));
-                            MapSearchActivity.center9=new LatLng(task.getResult().getDouble("c10_lat"), task.getResult().getDouble("c10_lon"));
-                            MapSearchActivity.center10=new LatLng(task.getResult().getDouble("c11_lat"), task.getResult().getDouble("c11_lon"));
-                            MapSearchActivity.center11=new LatLng(task.getResult().getDouble("c12_lat"), task.getResult().getDouble("c12_lon"));
-                            MapSearchActivity.center12=new LatLng(task.getResult().getDouble("c13_lat"), task.getResult().getDouble("c13_lon"));
+                            center3=new LatLng(task.getResult().getDouble("c4_lat"), task.getResult().getDouble("c4_lon"));
+                            center4=new LatLng(task.getResult().getDouble("c5_lat"), task.getResult().getDouble("c5_lon"));
+                            center5=new LatLng(task.getResult().getDouble("c6_lat"), task.getResult().getDouble("c6_lon"));
+                            center6=new LatLng(task.getResult().getDouble("c7_lat"), task.getResult().getDouble("c7_lon"));
+                            center7=new LatLng(task.getResult().getDouble("c8_lat"), task.getResult().getDouble("c8_lon"));
+                            center8=new LatLng(task.getResult().getDouble("c9_lat"), task.getResult().getDouble("c9_lon"));
+                            center9=new LatLng(task.getResult().getDouble("c10_lat"), task.getResult().getDouble("c10_lon"));
+                            center10=new LatLng(task.getResult().getDouble("c11_lat"), task.getResult().getDouble("c11_lon"));
+                            center11=new LatLng(task.getResult().getDouble("c12_lat"), task.getResult().getDouble("c12_lon"));
+                            center12=new LatLng(task.getResult().getDouble("c13_lat"), task.getResult().getDouble("c13_lon"));
 
                         }
                     }

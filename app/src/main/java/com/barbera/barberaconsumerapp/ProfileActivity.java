@@ -43,8 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.profile_new);
 
        // ImageView cart=(ImageView)findViewById(R.id.cartINProfile);
-        Name=(TextView)findViewById(R.id.NameInProfile);
-        email=(TextView)findViewById(R.id.EmailInProfile);
+        Name=(TextView)findViewById(R.id.EmailInProfile);
+//        email=(TextView)findViewById(R.id.EmailInProfile);
         phone=(TextView)findViewById(R.id.PhoneInProfile);
        // address=(TextView)findViewById(R.id.ProfileAddress);
         baronprofile=(ProgressBar)findViewById(R.id.progressBarOnProfile) ;
@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 //profile_address=task.getResult().get("Address").toString();
                                 Name.setText(profile_name);
                                 phone.setText(profile_phone);
-                                email.setText(profile_email);
+//                                email.setText(profile_email);
                                 profileMainLayout.setVisibility(View.VISIBLE);
                                 baronprofile.setVisibility(View.INVISIBLE);
                             }

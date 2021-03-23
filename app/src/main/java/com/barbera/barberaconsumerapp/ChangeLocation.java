@@ -101,27 +101,27 @@ public class ChangeLocation extends AppCompatActivity implements OnMapReadyCallb
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
 
-        center3 =MapSearchActivity.center3;
-        center4 =MapSearchActivity.center4;
-        center5=MapSearchActivity.center5;
-        center6= MapSearchActivity.center6;
-        center7 =MapSearchActivity.center7;
-        center8 =MapSearchActivity.center8;
-        center9 =MapSearchActivity.center9;
-        center10 = MapSearchActivity.center10;
-        center11 =MapSearchActivity.center11;
-        center12 =MapSearchActivity.center12;
+        center3 =MainActivity.center3;
+        center4 =MainActivity.center4;
+        center5=MainActivity.center5;
+        center6= MainActivity.center6;
+        center7 =MainActivity.center7;
+        center8 =MainActivity.center8;
+        center9 =MainActivity.center9;
+        center10 = MainActivity.center10;
+        center11 =MainActivity.center11;
+        center12 =MainActivity.center12;
 
-        radius3 =MapSearchActivity.radius3;
-        radius4 =MapSearchActivity.radius4;
-        radius5 =MapSearchActivity.radius5;
-        radius6 =MapSearchActivity.radius6;
-        radius7 =MapSearchActivity.radius7;
-        radius8 = MapSearchActivity.radius8;
-        radius9 =MapSearchActivity.radius9;
-        radius10 = MapSearchActivity.radius10;
-        radius11 = MapSearchActivity.radius11;
-        radius12 =MapSearchActivity.radius12;
+        radius3 = MainActivity.radius3;
+        radius4 =MainActivity.radius4;
+        radius5 =MainActivity.radius5;
+        radius6 =MainActivity.radius6;
+        radius7 =MainActivity.radius7;
+        radius8 = MainActivity.radius8;
+        radius9 = MainActivity.radius9;
+        radius10 = MainActivity.radius10;
+        radius11 = MainActivity.radius11;
+        radius12 =MainActivity.radius12;
 
         fileStore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();

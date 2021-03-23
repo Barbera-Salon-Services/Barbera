@@ -37,6 +37,7 @@
 						android:src="@drawable/ic_baseline_account_circle_24" />
 
 				<TextView
+						android:visibility="invisible"
 						android:id="@+id/NameInProfile"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -48,15 +49,14 @@
 						tools:text="Krishna Balram" />
 
 				<TextView
-						android:visibility="invisible"
 						android:id="@+id/EmailInProfile"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_centerInParent="true"
-						android:maxEms="12"
 						android:textColor="@color/white"
-						android:textSize="15sp"
-						tools:text="sumitkumawat12188@gmail.com" />
+						android:textSize="18sp"
+						android:textStyle="bold"
+						tools:text="Krishna Balram" />
 
 				<TextView
 						android:id="@+id/PhoneInProfile"
