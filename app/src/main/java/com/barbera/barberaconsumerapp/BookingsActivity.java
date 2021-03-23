@@ -103,10 +103,13 @@ public class BookingsActivity extends AppCompatActivity {
                                     }catch (Exception ignored){
                                         status ="pending";
                                     }
+                                    try{
                                     bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString(),documentSnapshot.get("total_amount").toString(),
                                             documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
                                             documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString(),documentSnapshot.get("randomId").toString()));
-                                }
+                                    }catch (Exception ignored){
+
+                                    }                                }
 //                                checked=true;
                                 BookinglistView.setAdapter(bookingActivityAdapter);
                                 if(bookingActivityList.size()==0){

@@ -22,7 +22,7 @@ public class ContactUsActivity extends AppCompatActivity {
         RelativeLayout fb=(RelativeLayout)findViewById(R.id.fb_in_contact_us);
         RelativeLayout web=(RelativeLayout)findViewById(R.id.web_in_contact_us);
         RelativeLayout phoneSumit=(RelativeLayout)findViewById(R.id.phone_in_contact_us_1);
-        RelativeLayout phoneHimanshu=(RelativeLayout)findViewById(R.id.phone_in_contact_us_2);
+//        RelativeLayout phoneHimanshu=(RelativeLayout)findViewById(R.id.phone_in_contact_us_2);
         RelativeLayout contactMail=(RelativeLayout)findViewById(R.id.mail_in_contact_us);
         ImageView contactUsLogo=(ImageView)findViewById(R.id.contact_us_logo);
 
@@ -74,7 +74,7 @@ public class ContactUsActivity extends AppCompatActivity {
         web.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://barbera.netlify.app")));
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://barbera.co.in")));
             }
         });
 
@@ -86,18 +86,18 @@ public class ContactUsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        phoneHimanshu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:+91 6377 894 199"));
-                startActivity(intent);
-            }
-        });
+//        phoneHimanshu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent=new Intent(Intent.ACTION_DIAL);
+//                intent.setData(Uri.parse("tel:+91 6377 894 199"));
+//                startActivity(intent);
+//            }
+//        });
         contactMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] emailAddress=new String[]{"barbera.salon@gmail.com"};
+                String[] emailAddress=new String[]{"barberahomesaloon@gmail.com"};
                 Intent intent=new Intent(Intent.ACTION_SEND);
                 intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_EMAIL,emailAddress);
