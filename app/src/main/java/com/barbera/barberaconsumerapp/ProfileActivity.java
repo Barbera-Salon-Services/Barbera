@@ -89,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
         else{
             Name.setText(profile_name);
             phone.setText(profile_phone);
-            email.setText(profile_email);
+//            email.setText(profile_email);
             profileMainLayout.setVisibility(View.VISIBLE);
         }
 
