@@ -92,8 +92,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         }
         if(bookingModel.getStatus().equals("pending")){
             holder.start.setVisibility(View.VISIBLE);
-            holder.end.setVisibility(View.VISIBLE);
-            holder.cancelBooking.setVisibility(View.INVISIBLE);
+            holder.end.setVisibility(View.INVISIBLE);
+            holder.cancelBooking.setVisibility(View.VISIBLE);
             holder.status.setVisibility(View.INVISIBLE);
         }
        /* else if(bookingModel.getStatus().equals("")){
@@ -498,7 +498,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 .addOnCompleteListener(task -> {
                     String email = task.getResult().get("Email Address").toString();
                     //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
-                    Emailer emailer = new Emailer(email,bookingAdapterList.get(position).getSummary());
+                    Emailer emailer = new Emailer(email,bookingAdapterList.get(position).getSummary(),bookingAdapterList.get(position).getTime()+"  "+
+                            bookingAdapterList.get(position).getDate(),bookingAdapterList.get(position).getAmount());
                     Call<Emailer> call = jsonPlaceholderApi.cancelEmail(emailer);
                     call.enqueue(new Callback<Emailer>() {
                         @Override

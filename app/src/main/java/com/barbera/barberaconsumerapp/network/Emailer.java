@@ -7,10 +7,16 @@ public class Emailer {
     private String email;
     @SerializedName("summary")
     private String summary;
+    @SerializedName("datTime")
+    private String dateTime;
+    @SerializedName("amount")
+    private String amount;
 
-    public Emailer(String email, String summary) {
+    public Emailer(String email, String summary,String dateTime,String amount) {
         this.email = email;
         this.summary = summary;
+        this.dateTime  = dateTime;
+        this.amount = amount;
     }
 
     public String getEmail() {
@@ -19,5 +25,12 @@ public class Emailer {
 
     public String getSummary() {
         return summary;
+    }
+    public String getDateTime(){
+        return dateTime;
+    }
+    public String getAmountt(){
+        return amount;
+
     }
 }

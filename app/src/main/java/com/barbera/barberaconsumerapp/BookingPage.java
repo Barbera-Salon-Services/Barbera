@@ -882,7 +882,7 @@ public class BookingPage extends AppCompatActivity  {
                 .addOnCompleteListener(task -> {
                     email = task.getResult().get("Email Address").toString();
                     //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
-                    Emailer emailer = new Emailer(email,OrderSummary);
+                    Emailer emailer = new Emailer(email,OrderSummary,finalTime+ "  "+finalDate,BookingTotalAmount+"");
                     Call<Emailer> call = jsonPlaceholderApi.sendEmail(emailer);
                     call.enqueue(new Callback<Emailer>() {
                         @Override
