@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:text="9887048857"
             android:textAllCaps="true"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/colorAccent"
             android:layout_centerInParent="true"
             android:textStyle="bold"/>
@@ -127,7 +127,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
     <RelativeLayout
         android:id="@+id/insta_in_contact_us_1"
         android:layout_width="match_parent"
@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="barbera_online_salon"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/colorAccent"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/insta1"
@@ -164,7 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="barbera_agra_road"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/colorAccent"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/insta2"
@@ -188,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Barbera"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/colorAccent"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/fb"
@@ -212,7 +212,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Barbera"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/colorAccent"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/web"

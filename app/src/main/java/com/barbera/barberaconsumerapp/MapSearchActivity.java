@@ -104,6 +104,28 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         cardView = findViewById(R.id.continueToBooking);
         floatingActionButton = findViewById(R.id.floatingBtn);
 
+        center3 =MainActivity.center3;
+        center4 =MainActivity.center4;
+        center5=MainActivity.center5;
+        center6= MainActivity.center6;
+        center7 =MainActivity.center7;
+        center8 =MainActivity.center8;
+        center9 =MainActivity.center9;
+        center10 = MainActivity.center10;
+        center11 =MainActivity.center11;
+        center12 =MainActivity.center12;
+
+        radius3 = MainActivity.radius3;
+        radius4 =MainActivity.radius4;
+        radius5 =MainActivity.radius5;
+        radius6 =MainActivity.radius6;
+        radius7 =MainActivity.radius7;
+        radius8 = MainActivity.radius8;
+        radius9 = MainActivity.radius9;
+        radius10 = MainActivity.radius10;
+        radius11 = MainActivity.radius11;
+        radius12 =MainActivity.radius12;
+
       /*  //agra road region
         center =new LatLng(26.930256, 75.875947);
         radius =8101.33;
@@ -224,7 +246,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         mMap.setOnCameraIdleListener (this);
         mMap.setOnCameraMoveListener  (this);
         fetchLocation();
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center3, 17));
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center3, 17));
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
