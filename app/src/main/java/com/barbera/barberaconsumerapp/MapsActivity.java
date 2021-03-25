@@ -112,7 +112,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         fileStore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
-      /*  center =new LatLng(22.640268, 88.390115);
+        /*center =new LatLng(22.640268, 88.390115);
         radius =10000;
         center1 = new LatLng(21.640268, 88.390115);
         radius1=10000;
