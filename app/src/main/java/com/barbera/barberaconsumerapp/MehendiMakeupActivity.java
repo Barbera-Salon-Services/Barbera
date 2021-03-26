@@ -245,28 +245,28 @@ public class MehendiMakeupActivity extends AppCompatActivity {
         super.onBackPressed();
         checkeditemList.clear();
     }
-    public static void loadNumberOnCartParlour(){
-        if(FirebaseAuth.getInstance().getCurrentUser()==null)
-            numberCartParlour.setText("0");
-        else {
-            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .collection("UserData").document("MyCart").get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                // NumberOnCartMain.setText(task.getResult().get("cart_list_size").toString());
-                                //numberCartCategory.setText(task.getResult().get("cart_list_size").toString());
-                                numberCartParlour.setText(task.getResult().get("cart_list_size").toString());
-                            }
-                        }
-                    });
-        }
-    }
+//    public static void loadNumberOnCartParlour(){
+//        if(FirebaseAuth.getInstance().getCurrentUser()==null)
+//            numberCartParlour.setText("0");
+//        else {
+//            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                    .collection("UserData").document("MyCart").get()
+//                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                // NumberOnCartMain.setText(task.getResult().get("cart_list_size").toString());
+//                                //numberCartCategory.setText(task.getResult().get("cart_list_size").toString());
+//                                numberCartParlour.setText(task.getResult().get("cart_list_size").toString());
+//                            }
+//                        }
+//                    });
+//        }
+//    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        loadNumberOnCartParlour();
+        //loadNumberOnCartParlour();
     }
 }

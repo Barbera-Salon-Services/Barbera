@@ -24,25 +24,6 @@
 					android:textStyle="bold"
 					android:textSize="20sp" />
 
-			<ImageView
-					android:id="@+id/new_service_cart"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginRight="10dp"
-					android:src="@drawable/ic_cart"
-					android:layout_alignParentRight="true"
-					android:layout_centerVertical="true"
-					android:layout_centerHorizontal="true"/>
-			<TextView
-					android:id="@+id/numberOnCartParlour"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					tools:text="0"
-					android:textSize="20sp"
-					android:textColor="@color/white"
-					android:layout_toLeftOf="@id/new_service_cart"
-					android:layout_centerVertical="true"
-					android:textStyle="bold"/>
 		</RelativeLayout>
 
 	</androidx.cardview.widget.CardView>
@@ -59,6 +40,7 @@
 				android:layout_height="0dp"
 				android:layout_weight="2"
 				tools:src="@drawable/wedding_bridal"/>
+
 		<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="0dp"

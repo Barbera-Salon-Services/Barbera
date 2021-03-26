@@ -181,66 +181,66 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         key = mMap.getCameraPosition();
 
-        Circle circle3 = mMap.addCircle(new CircleOptions()
-                .center(center3)
-                .radius(radius3)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle4 = mMap.addCircle(new CircleOptions()
-                .center(center4)
-                .radius(radius4)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle5 = mMap.addCircle(new CircleOptions()
-                .center(center5)
-                .radius(radius5)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle6 = mMap.addCircle(new CircleOptions()
-                .center(center6)
-                .radius(radius6)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle7 = mMap.addCircle(new CircleOptions()
-                .center(center7)
-                .radius(radius7)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle8 = mMap.addCircle(new CircleOptions()
-                .center(center8)
-                .radius(radius8)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle9 = mMap.addCircle(new CircleOptions()
-                .center(center9)
-                .radius(radius9)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle10 = mMap.addCircle(new CircleOptions()
-                .center(center10)
-                .radius(radius10)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle11 = mMap.addCircle(new CircleOptions()
-                .center(center11)
-                .radius(radius11)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
-        Circle circle12 = mMap.addCircle(new CircleOptions()
-                .center(center12)
-                .radius(radius12)
-                .strokeWidth(5.0f)
-                .fillColor(0x1A0066FF)
-                .strokeColor(0xFF0066FF));
+//        Circle circle3 = mMap.addCircle(new CircleOptions()
+//                .center(center3)
+//                .radius(radius3)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle4 = mMap.addCircle(new CircleOptions()
+//                .center(center4)
+//                .radius(radius4)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle5 = mMap.addCircle(new CircleOptions()
+//                .center(center5)
+//                .radius(radius5)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle6 = mMap.addCircle(new CircleOptions()
+//                .center(center6)
+//                .radius(radius6)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle7 = mMap.addCircle(new CircleOptions()
+//                .center(center7)
+//                .radius(radius7)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle8 = mMap.addCircle(new CircleOptions()
+//                .center(center8)
+//                .radius(radius8)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle9 = mMap.addCircle(new CircleOptions()
+//                .center(center9)
+//                .radius(radius9)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle10 = mMap.addCircle(new CircleOptions()
+//                .center(center10)
+//                .radius(radius10)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle11 = mMap.addCircle(new CircleOptions()
+//                .center(center11)
+//                .radius(radius11)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
+//        Circle circle12 = mMap.addCircle(new CircleOptions()
+//                .center(center12)
+//                .radius(radius12)
+//                .strokeWidth(5.0f)
+//                .fillColor(0x1A0066FF)
+//                .strokeColor(0xFF0066FF));
         mMap.setMyLocationEnabled(true);
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraIdleListener (this);
