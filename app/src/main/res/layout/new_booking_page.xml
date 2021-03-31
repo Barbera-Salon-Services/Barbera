@@ -772,6 +772,7 @@
 			<androidx.cardview.widget.CardView
 					android:id="@+id/viscoup"
 					android:visibility="invisible"
+					android:padding="2dp"
 					app:cardCornerRadius="10dp"
 					android:layout_width="match_parent"
 					android:backgroundTint="@color/white"
@@ -795,9 +796,18 @@
 						android:textColor="#4B9302"
 						android:textSize="16sp"
 						android:textStyle="bold" />
-                
-
 			</androidx.cardview.widget.CardView>
+			<TextView
+					android:id="@+id/line_coupon_text"
+					android:visibility="invisible"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+				android:layout_below="@id/viscoup"
+				android:layout_marginStart="19dp"
+				android:layout_marginTop="8dp"
+				android:maxLines="5"
+				android:textColor="@color/colorAccent"
+				android:text="T/c : 1. Minimum amount should be Rs.70 to avail \n              this coupon. \n          2. FLat Rs.50 off on amount above Rs.100. \n          3. This offer is valid for limited customers "/>
 		</RelativeLayout>
 	</ScrollView>
 
@@ -809,7 +819,7 @@
 			android:layout_margin="20dp"
 			android:background="@color/colorAccent"
 			android:text="confirm booking"
-			android:textColor="@color/white" />-->
+			android:textColor="@color/white" />
 
 
 </RelativeLayout>

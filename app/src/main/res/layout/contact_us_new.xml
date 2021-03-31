@@ -184,7 +184,7 @@
                     android:layout_toLeftOf="@id/fic"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/instagram"
+                    android:src="@drawable/instagram1"
                     android:layout_margin="14dp"/>
             <ImageView
                     android:id="@+id/fic"
