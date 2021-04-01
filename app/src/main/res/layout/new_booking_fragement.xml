@@ -122,10 +122,10 @@
                 android:backgroundTint="@color/colorAccent"/>
             <Button
                     android:id="@+id/endtOtp"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="End"
+                    android:text="End otp"
                     android:layout_below="@id/booking_service_total"
                     android:layout_toRightOf="@id/startOtp"
                     android:layout_marginTop="15dp"
