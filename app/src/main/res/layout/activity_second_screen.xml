@@ -14,7 +14,7 @@
         android:layout_alignParentBottom="true"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="50dp"
         android:text="New User"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
@@ -28,7 +28,7 @@
         android:layout_alignParentBottom="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="110dp"
         app:cardElevation="50dp"
         android:layout_marginLeft="30dp"
         app:cardBackgroundColor="@color/colorAccent">
@@ -62,7 +62,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
         app:cardElevation="50dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="110dp"
         android:layout_marginRight="30dp"
         app:cardBackgroundColor="@color/colorAccent">
         <LinearLayout
