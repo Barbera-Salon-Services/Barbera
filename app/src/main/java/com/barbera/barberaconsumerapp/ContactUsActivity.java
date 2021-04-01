@@ -1,6 +1,7 @@
 package com.barbera.barberaconsumerapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -17,13 +18,12 @@ public class ContactUsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_us_new);
 
-        RelativeLayout insta1=(RelativeLayout)findViewById(R.id.insta_in_contact_us_1);
-        RelativeLayout insta2=(RelativeLayout)findViewById(R.id.insta_in_contact_us_2);
-        RelativeLayout fb=(RelativeLayout)findViewById(R.id.fb_in_contact_us);
-        RelativeLayout web=(RelativeLayout)findViewById(R.id.web_in_contact_us);
-        RelativeLayout phoneSumit=(RelativeLayout)findViewById(R.id.phone_in_contact_us_1);
+        ImageView insta1=findViewById(R.id.ins);
+        ImageView fb=findViewById(R.id.fic);
+        ConstraintLayout web= findViewById(R.id.website);
+        ConstraintLayout phoneSumit=findViewById(R.id.phone_in_contact_us_1);
 //        RelativeLayout phoneHimanshu=(RelativeLayout)findViewById(R.id.phone_in_contact_us_2);
-        RelativeLayout contactMail=(RelativeLayout)findViewById(R.id.mail_in_contact_us);
+       ConstraintLayout contactMail=findViewById(R.id.mail_in_contact_us);
         ImageView contactUsLogo=(ImageView)findViewById(R.id.contact_us_logo);
 
 
@@ -31,20 +31,6 @@ public class ContactUsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Uri uri=Uri.parse("https://www.instagram.com/barbera_online_salon/");
-                Intent instagram=new Intent(Intent.ACTION_VIEW,uri);
-                instagram.setPackage("com.instagram.android");
-                try{
-                    startActivity(instagram);
-                }
-                catch (ActivityNotFoundException e){
-                    startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.instagram.com/barbera_online_salon/")));
-                }
-            }
-        });
-        insta2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri=Uri.parse("https://www.instagram.com/barbera_agra_road/");
                 Intent instagram=new Intent(Intent.ACTION_VIEW,uri);
                 instagram.setPackage("com.instagram.android");
                 try{

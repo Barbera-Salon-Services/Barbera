@@ -81,6 +81,8 @@ public class BookingPage extends AppCompatActivity  {
     private List<String> users;
     private TextView BookingOrders;
     private long limit;
+    private CardView couponApl;
+    private TextView text;
     private boolean men=false,women=false;
     private int serviceTime,slotsBooked;
     private String randomId = "Barbera"+(int)(Math.random()*9000000);
@@ -96,6 +98,8 @@ public class BookingPage extends AppCompatActivity  {
         female_slots=(LinearLayout)findViewById(R.id.ll2);
         mf_slots=(LinearLayout)findViewById(R.id.ll3);
         Intent intent=getIntent();
+        couponApl = findViewById(R.id.viscoup);
+        text = findViewById(R.id.line_coupon_text);
         //or =(TextView)findViewById(R.id.or);
         bookingType+=intent.getStringExtra("BookingType");
         listPosition=intent.getIntExtra("Position",-1);
@@ -837,28 +841,35 @@ public class BookingPage extends AppCompatActivity  {
                                     String couponCode=task.getResult().get("CouponName").toString();
                                     limit=task.getResult().getLong("CouponLimit");
                                     users=(List<String>)task.getResult().get("users");
-                                    if(!couponcodeEditText.getText().toString().equals(couponCode)){
+                                    if(!couponcodeEditText.getText().toString().trim().equals(couponCode)){
                                         couponcodeEditText.setError("No Such Coupon Exists");
                                         couponcodeEditText.requestFocus();
+                                        couponApl.setVisibility(View.INVISIBLE);
                                         progressDialog.dismiss();
                                     }
                                     else if(users.contains(FirebaseAuth.getInstance().getUid())){
                                         progressDialog.dismiss();
+                                        couponApl.setVisibility(View.INVISIBLE);
                                         Toast.makeText(getApplicationContext(),"You have already used this coupon",Toast.LENGTH_LONG).show();
                                     }
                                     else if(limit==0){
+                                        couponApl.setVisibility(View.INVISIBLE);
                                         progressDialog.dismiss();
                                         Toast.makeText(getApplicationContext(),"Sorry, it has reached its limit!!",Toast.LENGTH_LONG).show();
                                     }
                                     else if(BookingTotalAmount<69){
                                         progressDialog.dismiss();
+                                        couponApl.setVisibility(View.INVISIBLE);
                                         couponcodeEditText.setError("Total Amount should be greater than or equal to 69");
                                         couponcodeEditText.requestFocus();
                                     }
                                     else{
-                                        BookingTotalAmount=(BookingTotalAmount>100?BookingTotalAmount-30:BookingTotalAmount/2);
+                                        BookingTotalAmount=(BookingTotalAmount>100?BookingTotalAmount-50:BookingTotalAmount/2);
                                         totalAmount.setText("Total Amount Rs" +BookingTotalAmount+"(Coupon Applied)");
                                         isCouponApplied=true;
+                                        couponApl.setVisibility(View.VISIBLE);
+                                        text.setVisibility(View.VISIBLE);
+                                        couponApply.setEnabled(false);
                                         Toast.makeText(getApplicationContext(),"Coupon Applied Successfully.",Toast.LENGTH_LONG).show();
                                         progressDialog.dismiss();
                                     }
