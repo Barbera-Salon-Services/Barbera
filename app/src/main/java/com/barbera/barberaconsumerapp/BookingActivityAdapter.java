@@ -104,45 +104,25 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         }*/
 
 
-        holder.start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateStartOtp(v,holder,position);
-            }
-        });
-        holder.end.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateEndOtp(v,position,holder);
-            }
-        });
+        holder.start.setOnClickListener(v -> generateStartOtp(v,holder,position));
+        holder.end.setOnClickListener(v -> generateEndOtp(v,position,holder));
 
-        holder.cancelBooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage("Really!!You Want to Cancel..");
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @SuppressLint("ResourceAsColor")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        progressDialog = new ProgressDialog(v.getContext());
-                        progressDialog.setMessage("Hold On for a moment...");
-                        progressDialog.show();
-                        progressDialog.setCancelable(false);
-                        fetchRegion(position);
-                        sendEmailCancelationMail(position);
-                    }
-                });
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        holder.cancelBooking.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setMessage("Really!!You Want to Cancel..");
+            builder.setPositiveButton("YES", (dialog, which) -> {
+                progressDialog = new ProgressDialog(v.getContext());
+                progressDialog.setMessage("Hold On for a moment...");
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+                fetchRegion(position);
+                sendEmailCancelationMail(position);
+            });
+            builder.setNegativeButton("NO", (dialog, which) -> {
 
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
     }
@@ -152,14 +132,14 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         return  bookingAdapterList.size();
     }
 
-    public class BookingItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView dateTime;
-        private TextView totalAmount;
-        private TextView serviceSummary;
-        private Button end;
-        private Button cancelBooking;
-        private Button start;
-        private TextView status;
+    public static class BookingItemViewHolder extends RecyclerView.ViewHolder {
+        private final TextView dateTime;
+        private final TextView totalAmount;
+        private final TextView serviceSummary;
+        private final Button end;
+        private final Button cancelBooking;
+        private final Button start;
+        private final TextView status;
         public BookingItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
