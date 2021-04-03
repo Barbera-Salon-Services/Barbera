@@ -319,7 +319,12 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         }
         Log.d("men,women", String.valueOf(men)+" "+ String.valueOf(women));
         String dateNo = date.substring(4,6);
-        int day = Integer.parseInt(dateNo) - curDay+1;
+        int day;
+        if(dateNo.charAt(1) != ','){
+           day = Integer.parseInt(dateNo) - curDay+1;
+        }else{
+            day = Integer.parseInt(dateNo.charAt(0)+"") - curDay+1;
+        }
         Log.d("day",String.valueOf(day));
         Map<String,Object> map = new HashMap<>();
         if(men && !women){
