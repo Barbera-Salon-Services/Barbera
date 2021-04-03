@@ -1126,7 +1126,7 @@ public class BookingPage extends AppCompatActivity  {
     }
 
     private void addTosheet(){
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbyB6evpJe8mtrq9mBiq9CfyJBPNpHgd3N2RICgRGL32zmXWlqZVww0MJAQH_VUkE_xf5Q/exec"
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycby1SfaKLmW0BdbeRUp4fZ3h-AJ5KpYEr5qFmgHBCrwIOuza231jKYxzZLqpXfNB42-h8A/exec"
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -1154,6 +1154,7 @@ public class BookingPage extends AppCompatActivity  {
                 parmas.put("address",userAddress);
                 parmas.put("phone", UserPhone);
                 parmas.put("region",String.valueOf(region));
+                parmas.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 if(isCouponApplied)
                     parmas.put("covid_warrior","Yes");
                 else
