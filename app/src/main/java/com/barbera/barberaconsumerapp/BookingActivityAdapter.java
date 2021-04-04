@@ -1,6 +1,6 @@
  package com.barbera.barberaconsumerapp;
 
-import android.annotation.SuppressLint;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +35,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     private String UserPhone;
     private ProgressDialog progressDialog;
     private Context context;
+    private static int sotp;
+    private int eotp;
     private int region;
     private double lat,lon;
     private boolean men=false,women=false;
@@ -66,6 +69,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     @Override
     public BookingActivityAdapter.BookingItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.new_booking_fragement,parent,false);
+
         return new BookingItemViewHolder(v);
     }
 
@@ -77,11 +81,12 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         holder.totalAmount.setText("Total Amount Rs "+bookingModel.getAmount());
         holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime());
 
-        extractNameAndContact();
+        extractNameAndContact(holder);
 
         if(bookingModel.getStatus().equals("done")){
             holder.start.setVisibility(View.INVISIBLE);
             holder.end.setVisibility(View.INVISIBLE);
+            holder.otp.setVisibility(View.INVISIBLE);
             holder.cancelBooking.setVisibility(View.INVISIBLE);
             holder.status.setVisibility(View.VISIBLE);
         }
@@ -89,10 +94,13 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             holder.start.setVisibility(View.INVISIBLE);
             holder.end.setVisibility(View.VISIBLE);
             holder.cancelBooking.setVisibility(View.INVISIBLE);
+            holder.otp.setVisibility(View.VISIBLE);
+            holder.otp.setText("Start Otp:"+sotp);
         }
         if(bookingModel.getStatus().equals("pending")){
             holder.start.setVisibility(View.VISIBLE);
             holder.end.setVisibility(View.INVISIBLE);
+            holder.otp.setVisibility(View.INVISIBLE);
             holder.cancelBooking.setVisibility(View.VISIBLE);
             holder.status.setVisibility(View.INVISIBLE);
         }
@@ -140,6 +148,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         private final Button cancelBooking;
         private final Button start;
         private final TextView status;
+        private final TextView otp;
         public BookingItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -150,12 +159,14 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             start = itemView.findViewById(R.id.startOtp);
             end = itemView.findViewById(R.id.endtOtp);
             status =itemView.findViewById(R.id.status);
+            otp = itemView.findViewById(R.id.otp);
         }
     }
 
 
     private void generateEndOtp(View v,int pos, BookingItemViewHolder holder) {
         final int otp = (int)(Math.random()*9000)+1000;
+        eotp =otp;
         Map<String,Object> user=new HashMap<>();
         user.put("endOtp",otp);
         progressDialog = new ProgressDialog(v.getContext());
@@ -208,6 +219,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 
     private void generateStartOtp(View view, BookingItemViewHolder holder,int pos) {
         final int otp = (int)(Math.random()*9000)+1000;
+        sotp = otp;
         Map<String,Object> user=new HashMap<>();
         user.put("startOtp",otp);
         progressDialog = new ProgressDialog(view.getContext());
@@ -238,13 +250,20 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 });
     }
 
-    private void extractNameAndContact() {
+    private void extractNameAndContact(BookingItemViewHolder holder) {
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         UserName=task.getResult().get("Name").toString();
                         UserPhone=task.getResult().get("Phone").toString();
+                        try{
+                            sotp = Integer.parseInt(task.getResult().get("startOtp").toString());
+                            eotp = Integer.parseInt(task.getResult().get("endOtp").toString());
+                        }catch (Exception ignored){
+
+                        }
+                        holder.otp.setText("Start OTP:"+sotp);
                     }
                 });
     }
