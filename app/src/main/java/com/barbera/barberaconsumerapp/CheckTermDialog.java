@@ -46,7 +46,6 @@ public class CheckTermDialog extends AppCompatDialogFragment {
         }catch (ClassCastException w){
             throw new ClassCastException(context.toString()+"Must");
         }
-
     }
 
     public interface CheckTerms{
