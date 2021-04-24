@@ -818,6 +818,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 //                        editor.putString("New_Address", "");
 //                        editor.commit();
 //                    }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Not Checked",Toast.LENGTH_SHORT).show();
                 }
             }
         });
