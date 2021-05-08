@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -56,11 +61,13 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     private int eotp;
     private int region;
     private double lat,lon;
+    private FragmentManager fragmentManager;
     private boolean men=false,women=false;
 
-    public BookingActivityAdapter(List<BookingModel> bookingAdapterList, Context context) {
+    public BookingActivityAdapter(List<BookingModel> bookingAdapterList, Context context, FragmentManager fragmentManager) {
         this.bookingAdapterList = bookingAdapterList;
         this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
 
@@ -111,7 +118,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             holder.status.setVisibility(View.INVISIBLE);
         }*/
 
-
+        holder.barber.setOnClickListener(v -> { fetchAndShowContact(bookingModel.getDocId());});
         holder.start.setOnClickListener(v -> generateStartOtp(v,holder,position));
         holder.end.setOnClickListener(v -> generateEndOtp(v,position,holder));
 
@@ -135,6 +142,26 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 
     }
 
+    private void fetchAndShowContact(String docId) {
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).collection("Bookings")
+                .document(docId).get().addOnCompleteListener(task -> {
+                    try {
+                        String barberId = task.getResult().get("assignedTo").toString();
+                        FirebaseFirestore.getInstance().collection("Service").document(barberId).get()
+                                .addOnCompleteListener(task1 -> {
+                                    String name = task1.getResult().get("name").toString();
+                                    String phone = task1.getResult().get("phone").toString();
+                                    BarberDetailDialog bb = new BarberDetailDialog(name, phone);
+                                    bb.show(fragmentManager,"true");
+                                    bb.setCancelable(true);
+
+                                });
+                    }catch (Exception e ){
+                        Toast.makeText(context,"Barber Not asigned",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     @Override
     public int getItemCount() {
         return  bookingAdapterList.size();
@@ -147,6 +174,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         private final Button end;
         private final Button cancelBooking;
         private final Button start;
+        private TextView barber;
         private final TextView status;
         private final TextView otp;
         public BookingItemViewHolder(@NonNull View itemView) {
@@ -159,6 +187,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             start = itemView.findViewById(R.id.startOtp);
             end = itemView.findViewById(R.id.endtOtp);
             status =itemView.findViewById(R.id.status);
+            barber = itemView.findViewById(R.id.barberDetails);
             otp = itemView.findViewById(R.id.otp);
         }
     }

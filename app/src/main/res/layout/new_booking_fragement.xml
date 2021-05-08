@@ -88,9 +88,23 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/colorAccent"
                 android:layout_marginBottom="10dp"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 tools:text="Rs 251" />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/barberDetails"
+                    android:background="@color/CartBlack"
+                    android:layout_toRightOf="@id/booking_service_total"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="7dp"
+                    android:padding="6dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_below="@id/dateandtimeview"
+                    android:text="Contact" />
+
 
             <Button
                     android:id="@+id/cancel_button"

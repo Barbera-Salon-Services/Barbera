@@ -56,7 +56,7 @@ public class BookingsActivity extends AppCompatActivity {
         progressBarONBookingActivity=(ProgressBar)findViewById(R.id.progressBarOnBookingActivity);
         emptyLayout=(RelativeLayout)findViewById(R.id.empty_booking_layout);
         Button newBooking=(Button)findViewById(R.id.add_a_booking);
-        bookingActivityAdapter=new BookingActivityAdapter(bookingActivityList,getApplicationContext());
+        bookingActivityAdapter=new BookingActivityAdapter(bookingActivityList,getApplicationContext(),getSupportFragmentManager());
 
         newBooking.setOnClickListener(new View.OnClickListener() {
             @Override
