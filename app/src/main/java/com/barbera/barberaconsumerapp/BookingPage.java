@@ -93,94 +93,94 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     public void extractBool(Boolean selected) {
         checkterms = selected;
         if (checkterms) {
-            Toast.makeText(getApplicationContext(),"Checked",Toast.LENGTH_SHORT).show();
-                    if (checkUserData()) {
-                        final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
-                        progressDialog.setMessage("Hold on for a moment...");
-                        progressDialog.show();
-                        progressDialog.setCancelable(false);
-                        String dt = mon + " " + day + ", " + selectedYear;
-                        finalDate = dt;
-                        finalTime = array[1] + ":00";
-                        userAddress = houseAddress.getText().toString();
-                        // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Checked", Toast.LENGTH_SHORT).show();
+            if (checkUserData()) {
+                final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
+                progressDialog.setMessage("Hold on for a moment...");
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+                String dt = mon + " " + day + ", " + selectedYear;
+                finalDate = dt;
+                finalTime = array[1] + ":00";
+                userAddress = houseAddress.getText().toString();
+                // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
 
-                        sendemailconfirmation();
-                        addtoDatabase();
-                        addTosheet();
-                        if (isCouponApplied)
-                            addCouponUsage();
-                        if (bookingType.equals("Cart")) {
-                            Map<String, Object> updateCart = new HashMap<>();
-                            updateCart.put("cart_list_size", (long) 0);
-                            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .collection("UserData").document("MyCart").set(updateCart)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                progressDialog.dismiss();
-                                                dbQueries.cartList.clear();
-                                                dbQueries.cartItemModelList.clear();
-                                                BookingsActivity.checked = false;
+                sendemailconfirmation();
+                addtoDatabase();
+                addTosheet();
+                if (isCouponApplied)
+                    addCouponUsage();
+                if (bookingType.equals("Cart")) {
+                    Map<String, Object> updateCart = new HashMap<>();
+                    updateCart.put("cart_list_size", (long) 0);
+                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .collection("UserData").document("MyCart").set(updateCart)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        progressDialog.dismiss();
+                                        dbQueries.cartList.clear();
+                                        dbQueries.cartItemModelList.clear();
+                                        BookingsActivity.checked = false;
 //                                            BookingsActivity.bookingActivityList.clear();
-                                                MainActivity.cartAdapter.notifyDataSetChanged();
-                                                Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                                intent1.putExtra("Booking Amount", BookingTotalAmount);
-                                                intent1.putExtra("Order Summary", OrderSummary);
-                                                startActivity(intent1);
-                                                finish();
-                                            } else
-                                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        MainActivity.cartAdapter.notifyDataSetChanged();
+                                        Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                                        intent1.putExtra("Booking Amount", BookingTotalAmount);
+                                        intent1.putExtra("Order Summary", OrderSummary);
+                                        startActivity(intent1);
+                                        finish();
+                                    } else
+                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                        }
-                                    });
-                        } else if (bookingType.equals("Coupon")) {
-                            MyCoupons.couponItemModelList.remove(MyCoupons.couponItemModelList.get(listPosition));
-                            Map<String, Object> updateCouponData = new HashMap<>();
-                            for (int i = 0; i < MyCoupons.couponItemModelList.size(); i++) {
-                                updateCouponData.put("service_" + i + 1, MyCoupons.couponItemModelList.get(i).getServiceName());
-                                updateCouponData.put("service_" + i + 1 + "_type", MyCoupons.couponItemModelList.get(i).getType());
-                                updateCouponData.put("service_" + i + 1 + "_price", MyCoupons.couponItemModelList.get(i).getServicePrice());
-                                updateCouponData.put("service_" + i + 1 + "_icon", MyCoupons.couponItemModelList.get(i).getImageId());
-                            }
-                            updateCouponData.put("coupons", (long) MyCoupons.couponItemModelList.size());
-                            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .collection("UserData").document("MyCoupons").set(updateCouponData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                progressDialog.dismiss();
-                                                BookingsActivity.checked = false;
-//                                            BookingsActivity.bookingActivityList.clear();
-                                                MyCoupons.couponsChecked = false;
-                                                MyCoupons.couponItemModelList.clear();
-                                                Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                                intent1.putExtra("Booking Amount", BookingTotalAmount);
-                                                intent1.putExtra("Order Summary", OrderSummary);
-                                                startActivity(intent1);
-                                                finish();
-                                            }
-                                        }
-                                    });
-                        } else {
-                            progressDialog.dismiss();
-                            BookingsActivity.checked = false;
-//                        BookingsActivity.bookingActivityList.clear();
-                            Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                            intent1.putExtra("Booking Amount", BookingTotalAmount);
-                            intent1.putExtra("Order Summary", OrderSummary);
-                            startActivity(intent1);
-                            finish();
-                        }
-                        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("New_Address", "");
-                        editor.commit();
+                                }
+                            });
+                } else if (bookingType.equals("Coupon")) {
+                    MyCoupons.couponItemModelList.remove(MyCoupons.couponItemModelList.get(listPosition));
+                    Map<String, Object> updateCouponData = new HashMap<>();
+                    for (int i = 0; i < MyCoupons.couponItemModelList.size(); i++) {
+                        updateCouponData.put("service_" + i + 1, MyCoupons.couponItemModelList.get(i).getServiceName());
+                        updateCouponData.put("service_" + i + 1 + "_type", MyCoupons.couponItemModelList.get(i).getType());
+                        updateCouponData.put("service_" + i + 1 + "_price", MyCoupons.couponItemModelList.get(i).getServicePrice());
+                        updateCouponData.put("service_" + i + 1 + "_icon", MyCoupons.couponItemModelList.get(i).getImageId());
                     }
-        }else{
-            Toast.makeText(getApplicationContext(),"Not Checked",Toast.LENGTH_SHORT).show();
+                    updateCouponData.put("coupons", (long) MyCoupons.couponItemModelList.size());
+                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .collection("UserData").document("MyCoupons").set(updateCouponData)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        progressDialog.dismiss();
+                                        BookingsActivity.checked = false;
+//                                            BookingsActivity.bookingActivityList.clear();
+                                        MyCoupons.couponsChecked = false;
+                                        MyCoupons.couponItemModelList.clear();
+                                        Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                                        intent1.putExtra("Booking Amount", BookingTotalAmount);
+                                        intent1.putExtra("Order Summary", OrderSummary);
+                                        startActivity(intent1);
+                                        finish();
+                                    }
+                                }
+                            });
+                } else {
+                    progressDialog.dismiss();
+                    BookingsActivity.checked = false;
+//                        BookingsActivity.bookingActivityList.clear();
+                    Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                    intent1.putExtra("Booking Amount", BookingTotalAmount);
+                    intent1.putExtra("Order Summary", OrderSummary);
+                    startActivity(intent1);
+                    finish();
+                }
+                SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("New_Address", "");
+                editor.commit();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Not Checked", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -838,11 +838,35 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                     limit = task.getResult().getLong("CouponLimit");
                                     users = (List<String>) task.getResult().get("users");
                                     if (!couponcodeEditText.getText().toString().trim().equals(couponCode)) {
-                                        couponcodeEditText.setError("No Such Coupon Exists");
-                                        couponcodeEditText.requestFocus();
+                                        try {
+                                            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
+                                                    .collection("EligibleCustomers")
+                                                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+                                                    .addOnCompleteListener(task1 -> {
+                                                        if (task1.getResult().get("couponCode").toString().equals(couponcodeEditText.getText().toString().trim())) {
+//                                                            Toast.makeText(getApplicationContext(), task1.getResult().get("couponCode").toString(), Toast.LENGTH_SHORT).show();
+                                                            BookingTotalAmount = (BookingTotalAmount > 100 ? BookingTotalAmount - 50 : BookingTotalAmount / 2);
+                                                            totalAmount.setText("Total Amount Rs" + BookingTotalAmount + "(Coupon Applied)");
+                                                            isCouponApplied = true;
+                                                            couponApl.setVisibility(View.VISIBLE);
+                                                            text.setText(task1.getResult().get("description").toString());
+                                                            text.setVisibility(View.VISIBLE);
+                                                            couponApply.setEnabled(false);
+                                                            Toast.makeText(getApplicationContext(), "Coupon Applied Successfully.", Toast.LENGTH_LONG).show();
+                                                        } else {
+                                                            couponcodeEditText.setError("No Such Coupons Exist");
+                                                            couponcodeEditText.requestFocus();
+                                                        }
+
+                                                    });
+                                        }catch (Exception e) {
+                                            couponcodeEditText.setError("No Such Coupons Exist");
+                                            couponcodeEditText.requestFocus();
+                                        }
                                         couponApl.setVisibility(View.INVISIBLE);
                                         progressDialog.dismiss();
-                                    } else if (users.contains(FirebaseAuth.getInstance().getUid())) {
+                                    } else
+                                    if (users.contains(FirebaseAuth.getInstance().getUid())) {
                                         progressDialog.dismiss();
                                         couponApl.setVisibility(View.INVISIBLE);
                                         Toast.makeText(getApplicationContext(), "You have already used this coupon", Toast.LENGTH_LONG).show();
@@ -868,19 +892,19 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                 }
                             }
                         });
-            } else {
+            } else{
                 couponcodeEditText.setError("Please enter a coupon code first");
                 couponcodeEditText.requestFocus();
             }
         });
     }
 
-    private void checkDialog() {
+    private void checkDialog () {
         CheckTermDialog checkTermDialog = new CheckTermDialog();
         checkTermDialog.show(getSupportFragmentManager(), "test");
     }
 
-    private void sendemailconfirmation() {
+    private void sendemailconfirmation () {
         Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
         JsonPlaceHolderApi jsonPlaceholderApi = retrofit.create(JsonPlaceHolderApi.class);
         FirebaseFirestore.getInstance().collection("Users")
@@ -905,7 +929,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 });
     }
 
-    private void fetchRegion() {
+    private void fetchRegion () {
 //        ProgressDialog p =new ProgressDialog(BookingPage.this);
 //        p.setMessage("Please Wait...");
 //        p.show();
@@ -927,7 +951,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         });
     }
 
-    private void getRegion() {
+    private void getRegion () {
         double radius3 = 1685.09;
         double radius4 = 1361.44;
         double radius5 = 2351.31;
@@ -969,7 +993,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 //        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
     }
 
-    private double getdistanceinkm(LatLng latLng) {
+    private double getdistanceinkm (LatLng latLng){
         double lat1 = latLng.latitude;
         double lon1 = latLng.longitude;
         double lat2 = lat;
@@ -997,7 +1021,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     }
 
     @Override
-    protected void onRestart() {
+    protected void onRestart () {
         super.onRestart();
        /* SharedPreferences sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
         if(!sharedPreferences.getString("New_Address","").equals("")) {
@@ -1005,7 +1029,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         }*/
     }
 
-    private void addtoDatabase() {
+    private void addtoDatabase () {
         Map<String, Object> bookingData = new HashMap<>();
         bookingData.put("service", OrderSummary);
         bookingData.put("date", finalDate);
@@ -1093,7 +1117,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         });
     }
 
-    private void extractDataFromUser() {
+    private void extractDataFromUser () {
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -1107,7 +1131,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
     }
 
-    private void addTosheet() {
+    private void addTosheet () {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbynnJCsAja8_NPhqBVhc9wB2vsrw2lHRpIQIgoqCiw1_d5geLuUDzm-ibTVN1pSzrQ-oA/exec"
                 , new Response.Listener<String>() {
             @Override
@@ -1152,7 +1176,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         queue.add(stringRequest);
     }
 
-    private boolean checkUserData() {
+    private boolean checkUserData () {
         if (houseAddress.getText().toString().isEmpty()) {
             houseAddress.setError("Please Enter an Address");
             houseAddress.requestFocus();
@@ -1167,12 +1191,12 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart () {
         super.onStart();
         extractDataFromUser();
     }
 
-    private void addCouponUsage() {
+    private void addCouponUsage () {
         HashMap<String, Object> data = new HashMap<>();
         users.add(FirebaseAuth.getInstance().getUid());
         data.put("CouponLimit", --limit);
@@ -1191,7 +1215,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
     }
 
-    private void useCurrentAddress() {
+    private void useCurrentAddress () {
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -1209,7 +1233,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     }
 
 
-    private void slots(Task<DocumentSnapshot> task) {
+    private void slots (Task < DocumentSnapshot > task) {
         if (men && !women) {
             male_slots.setVisibility(View.VISIBLE);
             female_slots.setVisibility(View.INVISIBLE);

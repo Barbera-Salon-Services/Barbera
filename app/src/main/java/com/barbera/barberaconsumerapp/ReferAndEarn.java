@@ -1,6 +1,7 @@
 package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -17,7 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReferAndEarn extends AppCompatActivity {
     private Button refer;
@@ -87,8 +92,9 @@ public class ReferAndEarn extends AppCompatActivity {
                             intent.putExtra(Intent.EXTRA_TEXT,msg);
                            // intent.putExtra(Intent.EXTRA_TEXT,shortLink.toString());
                             intent.setType("text/plain");
-                            startActivity(intent);
                             progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Return to this page after sending invite",Toast.LENGTH_SHORT).show();
+                            startActivityForResult(intent,23);
                             refer.setEnabled(true);
                         }
                         else {
@@ -97,6 +103,30 @@ public class ReferAndEarn extends AppCompatActivity {
                             progressDialog.dismiss();
                         }
                     }
+                });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 23){
+            AddUserToReferAndEarn();
+        }
+    }
+
+    private void AddUserToReferAndEarn() {
+        ProgressDialog progressDialog=new ProgressDialog(ReferAndEarn.this);
+        progressDialog.setMessage("Hold on for a moment...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        Map<String, Object> map = new HashMap<>();
+        String coupon = "BARBERA"+(int)(Math.random()*1000);
+        map.put("couponCode",coupon);
+        map.put("description","10% off on bookings upto Rs.200");
+        FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer").collection("EligibleCustomers")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(map).addOnCompleteListener(task -> {
+                    Toast.makeText(getApplicationContext(), "Congrats! Eligible for Refer and Earn Coupon!",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                 });
     }
 }
