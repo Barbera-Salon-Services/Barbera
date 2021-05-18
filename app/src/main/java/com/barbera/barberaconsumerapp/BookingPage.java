@@ -32,6 +32,7 @@ import com.barbera.barberaconsumerapp.network.JsonPlaceHolderApi;
 import com.barbera.barberaconsumerapp.network.RetrofitClientInstance;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -74,6 +75,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private String UserPhone;
     private ProgressDialog progressDialog;
     public static boolean isCouponApplied;
+    public static boolean isReferApplied;
     private String bookingType = "";
     private int listPosition;
     public int BookingTotalAmount;
@@ -843,16 +845,21 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                                     .collection("EligibleCustomers")
                                                     .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
                                                     .addOnCompleteListener(task1 -> {
-                                                        if (task1.getResult().get("couponCode").toString().equals(couponcodeEditText.getText().toString().trim())) {
-//                                                            Toast.makeText(getApplicationContext(), task1.getResult().get("couponCode").toString(), Toast.LENGTH_SHORT).show();
-                                                            BookingTotalAmount = (BookingTotalAmount > 100 ? BookingTotalAmount - 50 : BookingTotalAmount / 2);
-                                                            totalAmount.setText("Total Amount Rs" + BookingTotalAmount + "(Coupon Applied)");
-                                                            isCouponApplied = true;
-                                                            couponApl.setVisibility(View.VISIBLE);
-                                                            text.setText(task1.getResult().get("description").toString());
-                                                            text.setVisibility(View.VISIBLE);
-                                                            couponApply.setEnabled(false);
-                                                            Toast.makeText(getApplicationContext(), "Coupon Applied Successfully.", Toast.LENGTH_LONG).show();
+                                                        if (task1.getResult().get("couponCode").toString().equals(couponcodeEditText.getText().toString().trim())){
+                                                            if(task1.getResult().get("used").toString().equals("N")) {
+                                                                BookingTotalAmount = (BookingTotalAmount > 100 ? BookingTotalAmount - 50 : BookingTotalAmount / 2);
+                                                                totalAmount.setText("Total Amount Rs" + BookingTotalAmount + "(Coupon Applied)");
+                                                                isReferApplied =true;
+                                                                isCouponApplied = true;
+                                                                couponApl.setVisibility(View.VISIBLE);
+                                                                text.setText(task1.getResult().get("description").toString());
+                                                                text.setVisibility(View.VISIBLE);
+                                                                couponApply.setEnabled(false);
+                                                                Toast.makeText(getApplicationContext(), "Coupon Applied Successfully.", Toast.LENGTH_LONG).show();
+                                                            }else{
+                                                                couponcodeEditText.setError("Already Used");
+                                                                couponcodeEditText.requestFocus();
+                                                            }
                                                         } else {
                                                             couponcodeEditText.setError("No Such Coupons Exist");
                                                             couponcodeEditText.requestFocus();
@@ -1213,6 +1220,15 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
         });
 
+        if(isReferApplied) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("used", "Y");
+            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
+                    .collection("EligibleCustomers")
+                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(map).addOnCompleteListener(task -> {
+
+            });
+        }
     }
 
     private void useCurrentAddress () {
