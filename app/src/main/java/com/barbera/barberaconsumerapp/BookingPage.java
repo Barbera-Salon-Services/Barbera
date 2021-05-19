@@ -59,9 +59,10 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private String email;
     private TextView totalAmount;
     private TextView changeLocation;
-    private int region;
+    private int region,typesel=0;
     private Boolean checkterms = false;
     private double lat, lon;
+    private TextView btype1,btype2,btype3;
     private TextView day1, day2, day3, day4, day5, day6, day7;
     private CardView slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10;
     private String mon1, mon2, mon3, mon4, mon5, mon6, mon7, mon, day;
@@ -264,6 +265,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         day6 = findViewById(R.id.day6);
         day7 = findViewById(R.id.day7);
 
+        btype1=findViewById(R.id.daytoday);
+        btype2=findViewById(R.id.weekly);
+        btype3=findViewById(R.id.monthly);
 
         houseAddress = findViewById(R.id.booking_edit_address);
         ConfirmBooking = findViewById(R.id.booking_confirm_booking);
@@ -367,244 +371,101 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
         fetchRegion();
 
+        btype1.setOnClickListener(v -> {
+            btype1.setTextColor(getResources().getColor(R.color.white));
+            btype1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btype2.setTextColor(getResources().getColor(R.color.colorAccent));
+            btype2.setBackgroundColor(getResources().getColor(R.color.white));
+            btype3.setTextColor(getResources().getColor(R.color.colorAccent));
+            btype3.setBackgroundColor(getResources().getColor(R.color.white));
+            typesel=1;
+        });
+        btype2.setOnClickListener(v -> {
+            btype2.setTextColor(getResources().getColor(R.color.white));
+            btype2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btype1.setTextColor(getResources().getColor(R.color.colorAccent));
+            btype1.setBackgroundColor(getResources().getColor(R.color.white));
+            btype3.setTextColor(getResources().getColor(R.color.colorAccent));
+            btype3.setBackgroundColor(getResources().getColor(R.color.white));
+            typesel=1;
+        });
+        btype3.setOnClickListener(v -> {
+            btype3.setTextColor(getResources().getColor(R.color.white));
+            btype3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btype2.setTextColor(getResources().getColor(R.color.colorAccent));
+            btype2.setBackgroundColor(getResources().getColor(R.color.white));
+            btype1.setTextColor(getResources().getColor(R.color.colorAccent));
+            btype1.setBackgroundColor(getResources().getColor(R.color.white));
+            typesel=1;
+        });
+
         day1.setOnClickListener(v -> {
-            day1.setTextColor(getResources().getColor(R.color.white));
-            day1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            mon = mon1;
-            day = day1.getText().toString();
-            progressDialog.show();
+            if(typesel==0){
+                Toast.makeText(this,"Please select the type of booking you want to make",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                day1.setTextColor(getResources().getColor(R.color.white));
+                day1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                mon = mon1;
+                day = day1.getText().toString();
+                progressDialog.show();
 //            setDefault();
 
-            array[0] = 1;
-            day2.setTextColor(getResources().getColor(R.color.colorAccent));
-            day2.setBackgroundColor(getResources().getColor(R.color.white));
-            day3.setTextColor(getResources().getColor(R.color.colorAccent));
-            day3.setBackgroundColor(getResources().getColor(R.color.white));
-            day4.setTextColor(getResources().getColor(R.color.colorAccent));
-            day4.setBackgroundColor(getResources().getColor(R.color.white));
-            day5.setTextColor(getResources().getColor(R.color.colorAccent));
-            day5.setBackgroundColor(getResources().getColor(R.color.white));
-            day6.setTextColor(getResources().getColor(R.color.colorAccent));
-            day6.setBackgroundColor(getResources().getColor(R.color.white));
-            day7.setTextColor(getResources().getColor(R.color.colorAccent));
-            day7.setBackgroundColor(getResources().getColor(R.color.white));
+                array[0] = 1;
+                day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                day2.setBackgroundColor(getResources().getColor(R.color.white));
+                day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                day3.setBackgroundColor(getResources().getColor(R.color.white));
+                day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                day4.setBackgroundColor(getResources().getColor(R.color.white));
+                day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                day5.setBackgroundColor(getResources().getColor(R.color.white));
+                day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                day6.setBackgroundColor(getResources().getColor(R.color.white));
+                day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day1")
-                    .collection("Region").document("Region" + region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        slots(task);
+                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day1")
+                        .collection("Region").document("Region" + region)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            slots(task);
+                        }
                     }
-                }
-            });
+                });
+            }
         });
         day2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                day2.setTextColor(getResources().getColor(R.color.white));
-                day2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                mon = mon2;
-                day = day2.getText().toString();
-
-                progressDialog.show();
-//                setDefault();
-                array[0] = 2;
-                day1.setTextColor(getResources().getColor(R.color.colorAccent));
-                day1.setBackgroundColor(getResources().getColor(R.color.white));
-                day3.setTextColor(getResources().getColor(R.color.colorAccent));
-                day3.setBackgroundColor(getResources().getColor(R.color.white));
-                day4.setTextColor(getResources().getColor(R.color.colorAccent));
-                day4.setBackgroundColor(getResources().getColor(R.color.white));
-                day5.setTextColor(getResources().getColor(R.color.colorAccent));
-                day5.setBackgroundColor(getResources().getColor(R.color.white));
-                day6.setTextColor(getResources().getColor(R.color.colorAccent));
-                day6.setBackgroundColor(getResources().getColor(R.color.white));
-                day7.setTextColor(getResources().getColor(R.color.colorAccent));
-                day7.setBackgroundColor(getResources().getColor(R.color.white));
-
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day2")
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                        }
-                    }
-                });
+                if(typesel==0){
+                Toast.makeText(getApplicationContext(),"Please select the type of booking you want to make",Toast.LENGTH_SHORT).show();
             }
-        });
-        day3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day3.setTextColor(getResources().getColor(R.color.white));
-                day3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                mon = mon3;
-                day = day3.getText().toString();
+            else {
+                    day2.setTextColor(getResources().getColor(R.color.white));
+                    day2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    mon = mon2;
+                    day = day2.getText().toString();
 
-                progressDialog.show();
+                    progressDialog.show();
 //                setDefault();
-                array[0] = 3;
-                day1.setTextColor(getResources().getColor(R.color.colorAccent));
-                day1.setBackgroundColor(getResources().getColor(R.color.white));
-                day2.setTextColor(getResources().getColor(R.color.colorAccent));
-                day2.setBackgroundColor(getResources().getColor(R.color.white));
-                day4.setTextColor(getResources().getColor(R.color.colorAccent));
-                day4.setBackgroundColor(getResources().getColor(R.color.white));
-                day5.setTextColor(getResources().getColor(R.color.colorAccent));
-                day5.setBackgroundColor(getResources().getColor(R.color.white));
-                day6.setTextColor(getResources().getColor(R.color.colorAccent));
-                day6.setBackgroundColor(getResources().getColor(R.color.white));
-                day7.setTextColor(getResources().getColor(R.color.colorAccent));
-                day7.setBackgroundColor(getResources().getColor(R.color.white));
+                    array[0] = 2;
+                    day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day1.setBackgroundColor(getResources().getColor(R.color.white));
+                    day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day3.setBackgroundColor(getResources().getColor(R.color.white));
+                    day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day4.setBackgroundColor(getResources().getColor(R.color.white));
+                    day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day5.setBackgroundColor(getResources().getColor(R.color.white));
+                    day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day6.setBackgroundColor(getResources().getColor(R.color.white));
+                    day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day3")
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                        }
-                    }
-                });
-            }
-        });
-        day4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day4.setTextColor(getResources().getColor(R.color.white));
-                day4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                mon = mon4;
-                day = day4.getText().toString();
-
-                progressDialog.show();
-//                setDefault();
-                array[0] = 4;
-                day1.setTextColor(getResources().getColor(R.color.colorAccent));
-                day1.setBackgroundColor(getResources().getColor(R.color.white));
-                day2.setTextColor(getResources().getColor(R.color.colorAccent));
-                day2.setBackgroundColor(getResources().getColor(R.color.white));
-                day3.setTextColor(getResources().getColor(R.color.colorAccent));
-                day3.setBackgroundColor(getResources().getColor(R.color.white));
-                day5.setTextColor(getResources().getColor(R.color.colorAccent));
-                day5.setBackgroundColor(getResources().getColor(R.color.white));
-                day6.setTextColor(getResources().getColor(R.color.colorAccent));
-                day6.setBackgroundColor(getResources().getColor(R.color.white));
-                day7.setTextColor(getResources().getColor(R.color.colorAccent));
-                day7.setBackgroundColor(getResources().getColor(R.color.white));
-
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day4")
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                        }
-                    }
-                });
-            }
-        });
-        day5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day5.setTextColor(getResources().getColor(R.color.white));
-                day5.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                mon = mon5;
-                day = day5.getText().toString();
-
-                progressDialog.show();
-//                setDefault();
-                array[0] = 5;
-                day1.setTextColor(getResources().getColor(R.color.colorAccent));
-                day1.setBackgroundColor(getResources().getColor(R.color.white));
-                day2.setTextColor(getResources().getColor(R.color.colorAccent));
-                day2.setBackgroundColor(getResources().getColor(R.color.white));
-                day3.setTextColor(getResources().getColor(R.color.colorAccent));
-                day3.setBackgroundColor(getResources().getColor(R.color.white));
-                day4.setTextColor(getResources().getColor(R.color.colorAccent));
-                day4.setBackgroundColor(getResources().getColor(R.color.white));
-                day6.setTextColor(getResources().getColor(R.color.colorAccent));
-                day6.setBackgroundColor(getResources().getColor(R.color.white));
-                day7.setTextColor(getResources().getColor(R.color.colorAccent));
-                day7.setBackgroundColor(getResources().getColor(R.color.white));
-
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day5")
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                        }
-                    }
-                });
-            }
-        });
-        day6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day6.setTextColor(getResources().getColor(R.color.white));
-                day6.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                mon = mon6;
-                day = day6.getText().toString();
-
-                progressDialog.show();
-//                setDefault();
-                array[0] = 6;
-                day1.setTextColor(getResources().getColor(R.color.colorAccent));
-                day1.setBackgroundColor(getResources().getColor(R.color.white));
-                day2.setTextColor(getResources().getColor(R.color.colorAccent));
-                day2.setBackgroundColor(getResources().getColor(R.color.white));
-                day3.setTextColor(getResources().getColor(R.color.colorAccent));
-                day3.setBackgroundColor(getResources().getColor(R.color.white));
-                day5.setTextColor(getResources().getColor(R.color.colorAccent));
-                day5.setBackgroundColor(getResources().getColor(R.color.white));
-                day4.setTextColor(getResources().getColor(R.color.colorAccent));
-                day4.setBackgroundColor(getResources().getColor(R.color.white));
-                day7.setTextColor(getResources().getColor(R.color.colorAccent));
-                day7.setBackgroundColor(getResources().getColor(R.color.white));
-
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day6")
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                        }
-                    }
-                });
-            }
-        });
-        day7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day7.setTextColor(getResources().getColor(R.color.white));
-                day7.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                mon = mon7;
-                day = day7.getText().toString();
-                progressDialog.show();
-
-                array[0] = 7;
-                day1.setTextColor(getResources().getColor(R.color.colorAccent));
-                day1.setBackgroundColor(getResources().getColor(R.color.white));
-                day2.setTextColor(getResources().getColor(R.color.colorAccent));
-                day2.setBackgroundColor(getResources().getColor(R.color.white));
-                day3.setTextColor(getResources().getColor(R.color.colorAccent));
-                day3.setBackgroundColor(getResources().getColor(R.color.white));
-                day4.setTextColor(getResources().getColor(R.color.colorAccent));
-                day4.setBackgroundColor(getResources().getColor(R.color.white));
-                day5.setTextColor(getResources().getColor(R.color.colorAccent));
-                day5.setBackgroundColor(getResources().getColor(R.color.white));
-                day6.setTextColor(getResources().getColor(R.color.colorAccent));
-                day6.setBackgroundColor(getResources().getColor(R.color.white));
-
-                if (region != 0) {
-                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day7")
+                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day2")
                             .collection("Region").document("Region" + region)
                             .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -614,8 +475,213 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                             }
                         }
                     });
+                }
+            }
+        });
+        day3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(typesel==0){
+                Toast.makeText(getApplicationContext(),"Please select the type of booking you want to make",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                    day3.setTextColor(getResources().getColor(R.color.white));
+                    day3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    mon = mon3;
+                    day = day3.getText().toString();
+
+                    progressDialog.show();
+//                setDefault();
+                    array[0] = 3;
+                    day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day1.setBackgroundColor(getResources().getColor(R.color.white));
+                    day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day2.setBackgroundColor(getResources().getColor(R.color.white));
+                    day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day4.setBackgroundColor(getResources().getColor(R.color.white));
+                    day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day5.setBackgroundColor(getResources().getColor(R.color.white));
+                    day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day6.setBackgroundColor(getResources().getColor(R.color.white));
+                    day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day3")
+                            .collection("Region").document("Region" + region)
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                slots(task);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        day4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(typesel==0){
+                Toast.makeText(getApplicationContext(),"Please select the type of booking you want to make",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                    day4.setTextColor(getResources().getColor(R.color.white));
+                    day4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    mon = mon4;
+                    day = day4.getText().toString();
+
+                    progressDialog.show();
+//                setDefault();
+                    array[0] = 4;
+                    day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day1.setBackgroundColor(getResources().getColor(R.color.white));
+                    day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day2.setBackgroundColor(getResources().getColor(R.color.white));
+                    day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day3.setBackgroundColor(getResources().getColor(R.color.white));
+                    day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day5.setBackgroundColor(getResources().getColor(R.color.white));
+                    day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day6.setBackgroundColor(getResources().getColor(R.color.white));
+                    day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day4")
+                            .collection("Region").document("Region" + region)
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                slots(task);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        day5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(typesel==0){
+                Toast.makeText(getApplicationContext(),"Please select the type of booking you want to make",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                    day5.setTextColor(getResources().getColor(R.color.white));
+                    day5.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    mon = mon5;
+                    day = day5.getText().toString();
+
+                    progressDialog.show();
+//                setDefault();
+                    array[0] = 5;
+                    day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day1.setBackgroundColor(getResources().getColor(R.color.white));
+                    day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day2.setBackgroundColor(getResources().getColor(R.color.white));
+                    day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day3.setBackgroundColor(getResources().getColor(R.color.white));
+                    day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day4.setBackgroundColor(getResources().getColor(R.color.white));
+                    day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day6.setBackgroundColor(getResources().getColor(R.color.white));
+                    day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day5")
+                            .collection("Region").document("Region" + region)
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                slots(task);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        day6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(typesel==0){
+                Toast.makeText(getApplicationContext(),"Please select the type of booking you want to make",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                    day6.setTextColor(getResources().getColor(R.color.white));
+                    day6.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    mon = mon6;
+                    day = day6.getText().toString();
+
+                    progressDialog.show();
+//                setDefault();
+                    array[0] = 6;
+                    day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day1.setBackgroundColor(getResources().getColor(R.color.white));
+                    day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day2.setBackgroundColor(getResources().getColor(R.color.white));
+                    day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day3.setBackgroundColor(getResources().getColor(R.color.white));
+                    day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day5.setBackgroundColor(getResources().getColor(R.color.white));
+                    day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day4.setBackgroundColor(getResources().getColor(R.color.white));
+                    day7.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day7.setBackgroundColor(getResources().getColor(R.color.white));
+
+                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day6")
+                            .collection("Region").document("Region" + region)
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                slots(task);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        day7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (typesel == 0) {
+                    Toast.makeText(getApplicationContext(), "Please select the type of booking you want to make", Toast.LENGTH_SHORT).show();
                 } else {
-                    startActivity(new Intent(BookingPage.this, ChangeLocation.class));
+                    day7.setTextColor(getResources().getColor(R.color.white));
+                    day7.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    mon = mon7;
+                    day = day7.getText().toString();
+                    progressDialog.show();
+
+                    array[0] = 7;
+                    day1.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day1.setBackgroundColor(getResources().getColor(R.color.white));
+                    day2.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day2.setBackgroundColor(getResources().getColor(R.color.white));
+                    day3.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day3.setBackgroundColor(getResources().getColor(R.color.white));
+                    day4.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day4.setBackgroundColor(getResources().getColor(R.color.white));
+                    day5.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day5.setBackgroundColor(getResources().getColor(R.color.white));
+                    day6.setTextColor(getResources().getColor(R.color.colorAccent));
+                    day6.setBackgroundColor(getResources().getColor(R.color.white));
+
+                    if (region != 0) {
+                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day7")
+                                .collection("Region").document("Region" + region)
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    slots(task);
+                                }
+                            }
+                        });
+                    } else {
+                        startActivity(new Intent(BookingPage.this, ChangeLocation.class));
+                    }
                 }
             }
         });
