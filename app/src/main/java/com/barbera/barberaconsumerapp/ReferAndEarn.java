@@ -123,6 +123,7 @@ public class ReferAndEarn extends AppCompatActivity {
         String coupon = "BARBERA"+(int)(Math.random()*1000);
         map.put("couponCode",coupon);
         map.put("description","10% off on bookings upto Rs.200");
+        map.put("used","N");
         FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer").collection("EligibleCustomers")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(map).addOnCompleteListener(task -> {
                     Toast.makeText(getApplicationContext(), "Congrats! Eligible for Refer and Earn Coupon!",Toast.LENGTH_SHORT).show();
