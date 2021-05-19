@@ -389,7 +389,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             btype1.setBackgroundColor(getResources().getColor(R.color.white));
             btype3.setTextColor(getResources().getColor(R.color.colorAccent));
             btype3.setBackgroundColor(getResources().getColor(R.color.white));
-            typesel=1;
+            typesel=2;
         });
         btype3.setOnClickListener(v -> {
             btype3.setTextColor(getResources().getColor(R.color.white));
@@ -398,7 +398,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             btype2.setBackgroundColor(getResources().getColor(R.color.white));
             btype1.setTextColor(getResources().getColor(R.color.colorAccent));
             btype1.setBackgroundColor(getResources().getColor(R.color.white));
-            typesel=1;
+            typesel=3;
         });
 
         day1.setOnClickListener(v -> {
@@ -1112,82 +1112,99 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         bookingData.put("status", "pending");
         bookingData.put("total_time", serviceTime);
         bookingData.put("randomId", randomId);
-        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Bookings")
-                .document().set(bookingData).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Map<String, Object> addressMap = new HashMap<>();
-                    addressMap.put("house_address", houseAddress.getText().toString());
-                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .update(addressMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+        if(typesel==1){
+            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Bookings")
+                    .document().set(bookingData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> addressMap = new HashMap<>();
+                        addressMap.put("house_address", houseAddress.getText().toString());
+                        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .update(addressMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                            }
+                        });
+
+                        if (serviceTime % 60 == 0) {
+                            slotsBooked = serviceTime / 60;
+                        } else {
+                            slotsBooked = (serviceTime / 60) + 1;
                         }
+                        if (men && !women) {
+                            Map<String, Object> date = new HashMap<>();
+                            if (array[1] >= 16) {
+                                for (int i = array[1]; i < array[1] + slotsBooked && i < 20; i++) {
+                                    date.put(i + "_m", "B");
+                                }
+                            } else {
+                                for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
+                                    date.put(i + "_m", "B");
+                                }
+                            }
+                            date.put("date", mon + " " + day + ", " + selectedYear);
+                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
+                                    .collection("Region").document("Region" + region).update(date)
+                                    .addOnCompleteListener(task1 -> {
+
+                                    });
+                        } else if (women && !men) {
+                            Map<String, Object> date = new HashMap<>();
+                            for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
+                                date.put(i + "_f", "B");
+                            }
+                            date.put("date", mon + " " + day + ", " + selectedYear);
+                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
+                                    .collection("Region").document("Region" + region).update(date)
+                                    .addOnCompleteListener(task1 -> {
+
+                                    });
+                        } else {
+                            Map<String, Object> date = new HashMap<>();
+                            if (array[1] >= 16) {
+                                for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
+                                    date.put(i + "_m", "B");
+                                }
+                                for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
+                                    date.put(i + "_f", "B");
+                                }
+                            } else {
+                                for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
+                                    date.put(i + "_m", "B");
+                                }
+                                for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
+                                    date.put(i + "_f", "B");
+                                }
+                            }
+                            date.put("date", mon + " " + day + ", " + selectedYear);
+                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
+                                    .collection("Region").document("Region" + region).update(date)
+                                    .addOnCompleteListener(task1 -> {
+
+                                    });
+                        }
+                    } else
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+        else if(typesel==2){
+            FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .collection("Weekly booking").document().set(bookingData)
+                    .addOnCompleteListener(task -> {
+
                     });
+        }
+        else{
+            FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .collection("Monthly booking").document().set(bookingData)
+                    .addOnCompleteListener(task -> {
 
-                    if (serviceTime % 60 == 0) {
-                        slotsBooked = serviceTime / 60;
-                    } else {
-                        slotsBooked = (serviceTime / 60) + 1;
-                    }
-                    if (men && !women) {
-                        Map<String, Object> date = new HashMap<>();
-                        if (array[1] >= 16) {
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 20; i++) {
-                                date.put(i + "_m", "B");
-                            }
-                        } else {
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
-                                date.put(i + "_m", "B");
-                            }
-                        }
-                        date.put("date", mon + " " + day + ", " + selectedYear);
-                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                                .collection("Region").document("Region" + region).update(date)
-                                .addOnCompleteListener(task1 -> {
+                    });
+        }
 
-                                });
-                    } else if (women && !men) {
-                        Map<String, Object> date = new HashMap<>();
-                        for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
-                            date.put(i + "_f", "B");
-                        }
-                        date.put("date", mon + " " + day + ", " + selectedYear);
-                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                                .collection("Region").document("Region" + region).update(date)
-                                .addOnCompleteListener(task1 -> {
-
-                                });
-                    } else {
-                        Map<String, Object> date = new HashMap<>();
-                        if (array[1] >= 16) {
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
-                                date.put(i + "_m", "B");
-                            }
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
-                                date.put(i + "_f", "B");
-                            }
-                        } else {
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
-                                date.put(i + "_m", "B");
-                            }
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
-                                date.put(i + "_f", "B");
-                            }
-                        }
-                        date.put("date", mon + " " + day + ", " + selectedYear);
-                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                                .collection("Region").document("Region" + region).update(date)
-                                .addOnCompleteListener(task1 -> {
-
-                                });
-                    }
-                } else
-                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
     private void extractDataFromUser () {

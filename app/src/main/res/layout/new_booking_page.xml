@@ -92,7 +92,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:id="@+id/daytoday"
-					android:text="Day to Day"
+					android:text="DaytoDay"
 					android:textSize="23sp"
 					android:textColor="@color/colorAccent"
 					/>
