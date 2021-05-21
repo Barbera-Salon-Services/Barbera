@@ -24,6 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.LighteningDeals.LightenDealItem;
+import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     private LinearLayoutManager womenlayoutManager;
     private ImageView weddingSection;
     private static TextView NumberOnCartMain;
+    private CardView Light;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
 
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigation);
         Cart=(ImageView)findViewById(R.id.cart);
+        Light = findViewById(R.id.Light);
         cartAdapter=new CartAdapter();
         Button menSalon=(Button) findViewById(R.id.view_men_salon);
         Button womenSalon=(Button) findViewById(R.id.view_women_salon);
@@ -127,6 +131,11 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),ReferAndEarn.class));
             }
+        });
+
+        Light.setOnClickListener(v -> {
+            Intent intent=new Intent(MainActivity.this, LighteningDeal.class);
+            startActivity(intent);
         });
 
         menSalon.setOnClickListener(new View.OnClickListener() {
