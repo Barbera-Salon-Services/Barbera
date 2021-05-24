@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:backgroundTint="#E3E3E3"
+		android:layout_height="match_parent"
+		tools:context=".LighteningDeals.LighteningDeal">
+
+	<androidx.cardview.widget.CardView
+			android:id="@+id/cardView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:cardBackgroundColor="@color/CartBlack"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent">
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Deals of the Day"
+			    android:textColor="@color/white"
+				android:textSize="24sp"
+				android:textStyle="bold"
+				android:layout_margin="20sp"/>
+	</androidx.cardview.widget.CardView>
+
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+		<TextView
+				android:id="@+id/men"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="20sp"
+				android:text="Men"
+				android:textColor="@color/CartBlack"
+				android:textSize="32sp"
+				android:textStyle="bold" />
+
+		<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/new_men_recycler_view"
+				android:layout_width="match_parent"
+				android:layout_height="300dp"
+				android:layout_below="@id/men"
+				tools:listitem="@layout/service_item" />
+
+		<TextView
+				android:id="@+id/women"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/new_men_recycler_view"
+				android:layout_margin="20sp"
+				android:text="Women"
+				android:textColor="@color/CartBlack"
+				android:textSize="32sp"
+				android:textStyle="bold" />
+
+		<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/new_women_recycler_view"
+				android:layout_width="match_parent"
+				android:layout_height="300dp"
+				android:layout_below="@id/women"
+				tools:listitem="@layout/service_item" />
+
+
+	</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

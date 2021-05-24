@@ -12,7 +12,8 @@
 			android:roundIcon="@drawable/logo"
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme">
-		<activity android:name=".ChangeLocation"></activity>
+		<activity android:name=".LighteningDeals.LighteningDeal"></activity>
+		<activity android:name=".ChangeLocation" />
 		<activity android:name=".Rating" />
 		<activity android:name=".SubCategoryActivity" />
 		<activity android:name=".WeddingActivity" />
@@ -52,8 +53,9 @@
 		<activity
 				android:name=".AboutPrivacyActivity"
 				android:screenOrientation="portrait" />
-		<activity android:name=".MehendiMakeupActivity"
-			android:screenOrientation="portrait"/>
+		<activity
+				android:name=".MehendiMakeupActivity"
+				android:screenOrientation="portrait" />
 		<activity
 				android:name=".ContactUsActivity"
 				android:screenOrientation="portrait" />
