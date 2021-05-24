@@ -78,7 +78,22 @@
                   android:layout_toRightOf="@id/booking_address_vector"
                   android:textSize="15sp"
                   android:textColor="@color/colorAccent"/>
+
               </RelativeLayout>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/booking_type"-->
+<!--                android:textSize="17sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/colorAccent"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:textAllCaps="true"-->
+<!--                android:text="Daalenge"-->
+<!--                android:layout_below="@+id/dateandtimeview"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:visibility="gone"/>-->
             <TextView
                 android:id="@+id/booking_service_total"
                 android:layout_width="wrap_content"

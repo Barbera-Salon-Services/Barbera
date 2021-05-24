@@ -315,7 +315,6 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                             Toast.makeText(context,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
     private void removeBookings(int position){
         Calendar calendar = Calendar.getInstance();
@@ -446,10 +445,60 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 lon = Double.parseDouble(x[1]);
                 getRegion();
                 addtoSheet(position);
-                dropBooking(position);
+                String summary=bookingAdapterList.get(position).getSummary();
+                String end=summary.substring(summary.length()-4);
+                String last=end.substring(end.length()-1);
+                String mid=end.substring(0,end.length()-1);
+                if(last.equals(")")){
+                    if(mid.equals("kly")){
+                        dropweekly(position);
+                    }
+                    else{
+                        dropmonthly(position);
+                    }
+                }
+                else{
+                    dropBooking(position);
+                }
+
             }catch(Exception e) {
             }
         });
+    }
+    private void dropweekly(int position){
+        FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Weekly booking")
+                .document(bookingAdapterList.get(position).getDocId()).delete().
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            removeBookings(position);
+                            bookingAdapterList.remove(bookingAdapterList.get(position));
+                            BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
+
+                        }
+                        else
+                            Toast.makeText(context,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void dropmonthly(int position){
+        FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Monthly booking")
+                .document(bookingAdapterList.get(position).getDocId()).delete().
+                addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            removeBookings(position);
+                            bookingAdapterList.remove(bookingAdapterList.get(position));
+                            BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
+
+                        }
+                        else
+                            Toast.makeText(context,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void getRegion() {
