@@ -10,8 +10,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,6 +93,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private int serviceTime, slotsBooked;
     private String randomId = "Barbera" + (int) (Math.random() * 9000000);
     private LinearLayout male_slots, female_slots, mf_slots;
+    private RelativeLayout rl;
+    private CheckBox checkBox;
 
     @Override
     public void extractBool(Boolean selected) {
@@ -193,6 +197,17 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_booking_page);
 
+        int count = 0;
+
+        houseAddress = findViewById(R.id.booking_edit_address);
+        ConfirmBooking = findViewById(R.id.booking_confirm_booking);
+        totalAmount = findViewById(R.id.booking_total_amount);
+        sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+        couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
+        Button couponApply = findViewById(R.id.booking_coupon_apply_button);
+        isCouponApplied = false;
+        BookingOrders = findViewById(R.id.booking_order_summary);
+
         male_slots = (LinearLayout) findViewById(R.id.ll);
         female_slots = (LinearLayout) findViewById(R.id.ll2);
         mf_slots = (LinearLayout) findViewById(R.id.ll3);
@@ -200,12 +215,56 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         couponApl = findViewById(R.id.viscoup);
         text = findViewById(R.id.line_coupon_text);
         //or =(TextView)findViewById(R.id.or);
+        rl=findViewById(R.id.dispose);
+        checkBox = findViewById(R.id.apron);
         bookingType += intent.getStringExtra("BookingType");
         listPosition = intent.getIntExtra("Position", -1);
         BookingTotalAmount = intent.getIntExtra("Booking Amount", 0);
         OrderSummary = intent.getStringExtra("Order Summary");
         serviceTime = intent.getIntExtra("Time", 0);
         Log.d("Order", OrderSummary + "  " + serviceTime);
+
+        if(bookingType.equals("trend")){
+            if(OrderSummary.equals("(men)Simple Hair Cut  Rs79") || OrderSummary.equals("(men)Stylish Hair Cut  Rs99")
+                || OrderSummary.equals("(women)Hair Cut(U , V , straight)  Rs99")
+                    || OrderSummary.equals("(women)Stylish Hair Cut(StepCut,LayerCut)  Rs199")){
+                rl.setVisibility(View.VISIBLE);
+                count =1;
+            }
+        }
+        if(bookingType.equals("direct")){
+            String[] Orders = OrderSummary.split("\n", 5);
+            for(String Order: Orders) {
+                if (Order.equals("(men)Simple Hair Cut\t\t\tRs79") || Order.equals("(men)Stylish Hair Cut\t\t\tRs99")
+                        || Order.equals("(women)Hair Cut(U , V , straight)\t\t\tRs99") || Order.equals("(women)Stylish Hair Cut(StepCut, LayerCut)\t\t\tRs199")) {
+                    if(count == 0){
+                        rl.setVisibility(View.VISIBLE);
+                    }
+                    count++;
+                }
+            }
+        }
+        if(bookingType.equals("Cart")){
+            String[] Orders = OrderSummary.split("\n",10);
+            for(String Order: Orders){
+                if(Order.startsWith("(men)Simple Hair Cut") || Order.startsWith("(men)Stylish Hair Cut") || Order.startsWith("(women)Hair Cut(U , V , straight)") ||
+                Order.startsWith("(women)Stylish Hair Cut(StepCut, LayerCut)")){
+                    if(count == 0){
+                        rl.setVisibility(View.VISIBLE);
+                    }
+                    count+= Integer.parseInt(Order.substring(Order.lastIndexOf('(')+1,Order.lastIndexOf(')')));
+//                    Toast.makeText(getApplicationContext(), "test 1 pass"+count, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        int finalCount = count;
+        checkBox.setOnClickListener(v -> {
+            if(checkBox.isChecked())
+                BookingTotalAmount+= 15* finalCount;
+            else
+                BookingTotalAmount-=15* finalCount;
+            totalAmount.setText("Total Amount Rs " + BookingTotalAmount);
+        });
 
         String[] lines = OrderSummary.split("\n");
         for (String line : lines) {
@@ -271,14 +330,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         btype2=findViewById(R.id.weekly);
         btype3=findViewById(R.id.monthly);
 
-        houseAddress = findViewById(R.id.booking_edit_address);
-        ConfirmBooking = findViewById(R.id.booking_confirm_booking);
-        totalAmount = findViewById(R.id.booking_total_amount);
-        sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
-        couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
-        Button couponApply = findViewById(R.id.booking_coupon_apply_button);
-        isCouponApplied = false;
-        BookingOrders = findViewById(R.id.booking_order_summary);
 
         String addres = sharedPreferences.getString("Address", "");
 
@@ -372,34 +423,34 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         progressDialog.setMessage("Loading...");
 
         fetchRegion();
-
-        btype1.setOnClickListener(v -> {
-            btype1.setTextColor(getResources().getColor(R.color.white));
-            btype1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btype2.setTextColor(getResources().getColor(R.color.colorAccent));
-            btype2.setBackgroundColor(getResources().getColor(R.color.white));
-            btype3.setTextColor(getResources().getColor(R.color.colorAccent));
-            btype3.setBackgroundColor(getResources().getColor(R.color.white));
-            typesel=1;
-        });
-        btype2.setOnClickListener(v -> {
-            btype2.setTextColor(getResources().getColor(R.color.white));
-            btype2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btype1.setTextColor(getResources().getColor(R.color.colorAccent));
-            btype1.setBackgroundColor(getResources().getColor(R.color.white));
-            btype3.setTextColor(getResources().getColor(R.color.colorAccent));
-            btype3.setBackgroundColor(getResources().getColor(R.color.white));
-            typesel=2;
-        });
-        btype3.setOnClickListener(v -> {
-            btype3.setTextColor(getResources().getColor(R.color.white));
-            btype3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btype2.setTextColor(getResources().getColor(R.color.colorAccent));
-            btype2.setBackgroundColor(getResources().getColor(R.color.white));
-            btype1.setTextColor(getResources().getColor(R.color.colorAccent));
-            btype1.setBackgroundColor(getResources().getColor(R.color.white));
-            typesel=3;
-        });
+        typesel=1;
+//        btype1.setOnClickListener(v -> {
+//            btype1.setTextColor(getResources().getColor(R.color.white));
+//            btype1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+//            btype2.setTextColor(getResources().getColor(R.color.colorAccent));
+//            btype2.setBackgroundColor(getResources().getColor(R.color.white));
+//            btype3.setTextColor(getResources().getColor(R.color.colorAccent));
+//            btype3.setBackgroundColor(getResources().getColor(R.color.white));
+//            typesel=1;
+//        });
+//        btype2.setOnClickListener(v -> {
+//            btype2.setTextColor(getResources().getColor(R.color.white));
+//            btype2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+//            btype1.setTextColor(getResources().getColor(R.color.colorAccent));
+//            btype1.setBackgroundColor(getResources().getColor(R.color.white));
+//            btype3.setTextColor(getResources().getColor(R.color.colorAccent));
+//            btype3.setBackgroundColor(getResources().getColor(R.color.white));
+//            typesel=2;
+//        });
+//        btype3.setOnClickListener(v -> {
+//            btype3.setTextColor(getResources().getColor(R.color.white));
+//            btype3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+//            btype2.setTextColor(getResources().getColor(R.color.colorAccent));
+//            btype2.setBackgroundColor(getResources().getColor(R.color.white));
+//            btype1.setTextColor(getResources().getColor(R.color.colorAccent));
+//            btype1.setBackgroundColor(getResources().getColor(R.color.white));
+//            typesel=3;
+//        });
 
         day1.setOnClickListener(v -> {
             if(typesel==0){

@@ -163,7 +163,7 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
 
                         int time= parseInt(HorizontalserviceList.get(position).getTime());
                         Intent intent=new Intent(activity,BookingPage.class);
-                        intent.putExtra("BookingType","Cart");
+                        intent.putExtra("BookingType","trend");
                         intent.putExtra("Booking Amount", parseInt(HorizontalserviceList.get(position).getPrice()));
                         intent.putExtra("Order Summary",ordersummary);
                         intent.putExtra("Time",time);

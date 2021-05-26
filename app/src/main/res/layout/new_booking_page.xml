@@ -60,12 +60,32 @@
 					android:textColor="@color/colorAccent"
 					android:textSize="20sp"
 					tools:text="(Men) Hair Cut Rs 240\n\n(Men) Shaving Rs 260" />
+			<RelativeLayout
+					android:id="@+id/dispose"
+					android:visibility="gone"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_below="@id/booking_order_summary">
+				<CheckBox
+					android:id="@+id/apron"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="16dp"/>
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:paddingTop="5dp"
+						android:layout_toRightOf="@id/apron"
+						android:textSize="15sp"
+					    android:text="Add Disposable Apron(Rs.15 each)"/>
+
+			</RelativeLayout>
 
 			<TextView
 					android:id="@+id/booking_total_amount"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_below="@id/booking_order_summary"
+					android:layout_below="@id/dispose"
 					android:layout_marginLeft="20dp"
 					android:layout_marginTop="10dp"
 					android:textColor="@color/colorAccent"
@@ -81,6 +101,7 @@
 					android:layout_margin="5dp"
 					android:background="#80B3B0B0" />
 			<LinearLayout
+					android:visibility="gone"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
