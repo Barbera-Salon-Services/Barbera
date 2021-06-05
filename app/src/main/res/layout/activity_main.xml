@@ -109,6 +109,25 @@
                         android:padding="12dp"/>
 
             </androidx.cardview.widget.CardView>
+            <RelativeLayout
+                    android:id="@+id/Offers"
+                    android:background="@drawable/ofc"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_below="@id/Light">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Offers &amp; Coupons"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:padding="12dp"/>
+
+            </RelativeLayout>
 
 
             <TextView
@@ -120,7 +139,7 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_below="@id/Light"
+                android:layout_below="@id/Offers"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"/>
             <RelativeLayout
@@ -139,11 +158,6 @@
                        android:text="View All"
                        android:textSize="20sp"
                        android:textColor="@color/colorAccent"/>-->
-                <ImageView
-       android:id="@+id/arrow_vector_men"
-       android:layout_width="30dp"
-       android:layout_height="30dp"
-       android:src="@drawable/more_vector"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -199,11 +213,6 @@
                 android:text="View All"
                 android:textSize="20sp"
                 android:textColor="@color/colorAccent"/>-->
-            <ImageView
-                android:id="@+id/arrow_vector_women"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/more_vector"/>
         </RelativeLayout>
 
             <RelativeLayout

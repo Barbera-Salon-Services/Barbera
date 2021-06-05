@@ -92,91 +92,85 @@ public class BookingsActivity extends AppCompatActivity {
             progressBarONBookingActivity.setVisibility(View.VISIBLE);
             FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .collection("Bookings").get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()) {
-                                for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                                    String status = "";
-                                    try {
-                                        status = documentSnapshot.get("status").toString();
-                                    } catch (Exception ignored) {
-                                        status = "pending";
-                                    }
-                                    try {
-                                        bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString(), documentSnapshot.get("total_amount").toString(),
-                                                documentSnapshot.get("date").toString(), documentSnapshot.get("time").toString(), documentSnapshot.get("address").toString(),
-                                                documentSnapshot.getId(), status, documentSnapshot.get("total_time").toString(), documentSnapshot.get("randomId").toString()));
-                                    } catch (Exception ignored) {
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                                String status = "";
+                                try {
+                                    status = documentSnapshot.get("status").toString();
+                                    bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString(), documentSnapshot.get("total_amount").toString(),
+                                            documentSnapshot.get("date").toString(), documentSnapshot.get("time").toString(), documentSnapshot.get("address").toString(),
+                                            documentSnapshot.getId(), status, documentSnapshot.get("total_time").toString(), documentSnapshot.get("randomId").toString()));
+                                } catch (Exception ignored) {
 
-                                    }
-                                    FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                            .collection("Weekly booking").get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
-                                                        for(QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())){
-                                                            String status = "";
-                                                            try{
-                                                                status =documentSnapshot.get("status").toString();
-                                                            }catch (Exception ignored){
-                                                                status ="pending";
-                                                            }
-                                                            try{
-                                                                bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString()+"(Weekly)",documentSnapshot.get("total_amount").toString(),
-                                                                        documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
-                                                                        documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString(),documentSnapshot.get("randomId").toString()));
-                                                            }catch (Exception ignored){
-
-                                                            }
-                                                        }
-                                                    }
-                                                    else{
-                                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
-                                    FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                            .collection("Monthly booking").get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
-                                                        for(QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())){
-                                                            String status = "";
-                                                            try{
-                                                                status =documentSnapshot.get("status").toString();
-                                                            }catch (Exception ignored){
-                                                                status ="pending";
-                                                            }
-                                                            try{
-                                                                bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString()+"(Monthly)",documentSnapshot.get("total_amount").toString(),
-                                                                        documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
-                                                                        documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString(),documentSnapshot.get("randomId").toString()));
-                                                            }catch (Exception ignored){
-
-                                                            }
-                                                        }
-                                                    }
-                                                    else{
-                                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
-                                    checked=true;
-                                    BookinglistView.setAdapter(bookingActivityAdapter);
-                                    if(bookingActivityList.size()==0){
-                                        //Toast.makeText(getApplicationContext(),"No Bookings Yet",Toast.LENGTH_LONG).show();
-                                        BookinglistView.setVisibility(View.INVISIBLE);
-                                        emptyLayout.setVisibility(View.VISIBLE);
-                                    }
-                                    progressBarONBookingActivity.setVisibility(View.INVISIBLE);
                                 }
                             }
-                            else
-                                Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+//                                    FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                            .collection("Weekly booking").get()
+//                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                                                @Override
+//                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                                    if(task.isSuccessful()){
+//                                                        for(QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())){
+//                                                            String status = "";
+//                                                            try{
+//                                                                status =documentSnapshot.get("status").toString();
+//                                                            }catch (Exception ignored){
+//                                                                status ="pending";
+//                                                            }
+//                                                            try{
+//                                                                bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString()+"(Weekly)",documentSnapshot.get("total_amount").toString(),
+//                                                                        documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
+//                                                                        documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString(),documentSnapshot.get("randomId").toString()));
+//                                                            }catch (Exception ignored){
+//
+//                                                            }
+//                                                        }
+//                                                    }
+//                                                    else{
+//                                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+//                                                    }
+//                                                }
+//                                            });
+//                                    FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                            .collection("Monthly booking").get()
+//                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                                                @Override
+//                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                                    if(task.isSuccessful()){
+//                                                        for(QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())){
+//                                                            String status = "";
+//                                                            try{
+//                                                                status =documentSnapshot.get("status").toString();
+//                                                            }catch (Exception ignored){
+//                                                                status ="pending";
+//                                                            }
+//                                                            try{
+//                                                                bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString()+"(Monthly)",documentSnapshot.get("total_amount").toString(),
+//                                                                        documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
+//                                                                        documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString(),documentSnapshot.get("randomId").toString()));
+//                                                            }catch (Exception ignored){
+//
+//                                                            }
+//                                                        }
+//                                                    }
+//                                                    else{
+//                                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+//                                                    }
+//                                                }
+//                                            });
+                                checked=true;
+                                BookinglistView.setAdapter(bookingActivityAdapter);
+                                if(bookingActivityList.size()==0){
+                                    //Toast.makeText(getApplicationContext(),"No Bookings Yet",Toast.LENGTH_LONG).show();
+                                    BookinglistView.setVisibility(View.INVISIBLE);
+                                    emptyLayout.setVisibility(View.VISIBLE);
+                                }
+                                progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+
                         }
+                        else
+                            Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                     });
 
         }

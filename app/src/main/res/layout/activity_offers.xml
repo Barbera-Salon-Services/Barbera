@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".Offers">
+
+	<TextView
+			android:id="@+id/textView9"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="24dp"
+			android:text="Offers Exclusively for You"
+			android:textColor="@color/CancellationColor"
+			android:textColorHint="@color/CancellationColor"
+			android:textSize="32sp"
+			android:textStyle="bold"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+			android:id="@+id/textView10"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="24dp"
+			android:layout_marginTop="32dp"
+			android:textStyle="bold"
+			android:text="Refer &amp; Earn Coupon: "
+			android:textColor="@color/colorAccent"
+			android:textSize="25sp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/textView9" />
+	<RelativeLayout
+			android:id="@+id/cccard"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="48dp"
+			android:layout_marginTop="24dp"
+			android:padding="15sp"
+			android:background="#61888888"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+	<TextView
+			android:id="@+id/textView11"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="link"
+			android:textColor="@color/colorAccent"
+			android:textSize="25sp" />
+
+	<ImageView
+			android:id="@+id/link1"
+			android:layout_width="30sp"
+			android:layout_marginStart="25dp"
+			android:layout_height="30sp"
+			android:layout_toRightOf="@id/textView11"
+			android:src="@drawable/ic_copy" />
+	</RelativeLayout>
+	<TextView
+			android:id="@+id/textView12"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="24dp"
+			android:layout_marginTop="32dp"
+			android:textStyle="bold"
+			android:text="Special Coupons: "
+			android:textColor="@color/colorAccent"
+			android:textSize="25sp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/cccard" />
+
+	<RelativeLayout
+			android:id="@+id/relativeLayout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="48dp"
+			android:layout_marginTop="24dp"
+			android:background="#61888888"
+			android:padding="15sp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/textView12">
+
+		<TextView
+				android:id="@+id/textView13"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="link"
+				android:textColor="@color/colorAccent"
+				android:textSize="25sp" />
+
+		<ImageView
+				android:id="@+id/link2"
+				android:layout_width="30sp"
+				android:layout_height="30sp"
+				android:layout_marginStart="25dp"
+				android:layout_toRightOf="@id/textView13"
+				android:src="@drawable/ic_copy" />
+
+
+	</RelativeLayout>
+
+
+	<ImageView
+			android:layout_width="200dp"
+			android:layout_height="200dp"
+			android:src="@drawable/logo"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

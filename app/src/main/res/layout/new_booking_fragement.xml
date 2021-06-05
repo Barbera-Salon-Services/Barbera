@@ -118,7 +118,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:layout_below="@id/dateandtimeview"
-                    android:text="Contact" />
+                    android:text="      Call\nProfessional" />
 
 
             <Button

@@ -50,9 +50,9 @@ public class LighteningDealAdapter extends RecyclerView.Adapter<LighteningDealAd
     public void onBindViewHolder(@NonNull DealItemHolder holder, int position) {
         LightenDealItem lightenDealItem = list.get(position);
         holder.name.setText(lightenDealItem.getTitle());
-        holder.time.setText("Duration: "+lightenDealItem.getTime());
+        holder.time.setText(lightenDealItem.getTime()+" min");
         holder.price.setText("Original Price: "+lightenDealItem.getPrice());
-        holder.discount.setText("Discounted Price: "+(lightenDealItem.getPrice()- lightenDealItem.getDiscount()));
+        holder.discount.setText("Offer Price: "+(lightenDealItem.getPrice()- lightenDealItem.getDiscount()));
 
         Glide.with(activity).load(lightenDealItem.getImage_url())
                 .apply(new RequestOptions().placeholder(R.drawable.logo)).into(holder.img);

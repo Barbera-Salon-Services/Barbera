@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_margin="16dp"
@@ -24,43 +25,55 @@
 
 		<ImageView
 				android:id="@+id/icon_img"
-				android:padding="24dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/about"
+				android:padding="24dp"
+
+				app:layout_constraintBottom_toBottomOf="@+id/discount"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toTopOf="parent" />
+				app:layout_constraintTop_toBottomOf="@+id/service_name" />
+
+		<ImageView
+				android:id="@+id/imageView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="16dp"
+				android:src="@drawable/service_timer_vector"
+				app:layout_constraintBottom_toTopOf="@+id/price"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/service_name" />
 
 		<TextView
 				android:id="@+id/time_dur"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="16dp"
-				android:text="time"
+				android:layout_marginStart="8dp"
+				android:text="bl"
 				android:textColor="@color/colorAccent"
-				android:textSize="22sp"
+				android:textSize="18sp"
 				android:textStyle="normal"
-				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintStart_toEndOf="@+id/imageView"
 				app:layout_constraintTop_toBottomOf="@+id/service_name" />
+
 		<TextView
 				android:id="@+id/price"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-			    android:text="Price"
 				android:layout_marginStart="16dp"
-				android:textColor="@color/colorAccent"
-				android:textSize="22sp"
+				android:text="Price"
+				android:textColor="@color/gray"
+				android:textSize="18sp"
 				android:textStyle="normal"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/time_dur"/>
+				app:layout_constraintTop_toBottomOf="@+id/time_dur" />
 		<TextView
 				android:id="@+id/discount"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Discounted Price"
+				android:text="Offer Price"
 				android:layout_marginStart="16dp"
 				android:textColor="@color/colorAccent"
-				android:textSize="22sp"
+				android:textSize="18sp"
 				android:textStyle="normal"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/price"/>

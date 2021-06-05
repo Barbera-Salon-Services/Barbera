@@ -64,8 +64,10 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     public RecyclerView WoMenTrendRecyclerView;
     private LinearLayoutManager womenlayoutManager;
     private ImageView weddingSection;
+    private ImageView off;
     private static TextView NumberOnCartMain;
     private CardView Light;
+    private RelativeLayout Offers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigation);
         Cart=(ImageView)findViewById(R.id.cart);
         Light = findViewById(R.id.Light);
+        Offers  =findViewById(R.id.Offers);
         cartAdapter=new CartAdapter();
         Button menSalon=(Button) findViewById(R.id.view_men_salon);
         Button womenSalon=(Button) findViewById(R.id.view_women_salon);
@@ -135,6 +138,11 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
 
         Light.setOnClickListener(v -> {
             Intent intent=new Intent(MainActivity.this, LighteningDeal.class);
+            startActivity(intent);
+        });
+
+        Offers.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Offers.class);
             startActivity(intent);
         });
 

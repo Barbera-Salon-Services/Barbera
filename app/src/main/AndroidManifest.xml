@@ -7,12 +7,13 @@
 
 	<application
 			android:allowBackup="true"
-			android:icon="@drawable/logo"
+			android:icon="@drawable/barbera_logo"
 			android:label="@string/app_name"
-			android:roundIcon="@drawable/logo"
+			android:roundIcon="@drawable/barbera_logo"
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme">
-		<activity android:name=".LighteningDeals.LighteningDeal"></activity>
+		<activity android:name=".Offers"></activity>
+		<activity android:name=".LighteningDeals.LighteningDeal" />
 		<activity android:name=".ChangeLocation" />
 		<activity android:name=".Rating" />
 		<activity android:name=".SubCategoryActivity" />
