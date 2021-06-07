@@ -130,7 +130,7 @@ public class MehendiMakeupActivity extends AppCompatActivity {
                                                                     documentSnapshot.get("Service_title").toString(),
                                                                     documentSnapshot.get("price").toString(), documentSnapshot.getId(),
                                                                     documentSnapshot.get("type").toString(),
-                                                                    documentSnapshot.get("cut_price").toString(), documentSnapshot.get("Time").toString()));
+                                                                    documentSnapshot.get("cut_price").toString(), documentSnapshot.get("Time").toString(),documentSnapshot.get("details").toString()));
                                                             listView.setAdapter(adapter);
                                                             progressBarOnServiceList.setVisibility(View.INVISIBLE);
                                                         }
@@ -162,7 +162,8 @@ public class MehendiMakeupActivity extends AppCompatActivity {
                                                                     documentSnapshot.get("Service_title").toString(),
                                                                     documentSnapshot.get("price").toString(), documentSnapshot.getId(), documentSnapshot.get("type").toString(),
                                                                     documentSnapshot.get("cut_price").toString(),
-                                                                    documentSnapshot.get("Time") != null ? documentSnapshot.get("Time").toString() : null));
+                                                                    documentSnapshot.get("Time") != null ? documentSnapshot.get("Time").toString() : null
+                                                                    ,documentSnapshot.get("details").toString()));
                                                             listView.setAdapter(adapter);
                                                             progressBarOnServiceList.setVisibility(View.INVISIBLE);
 
@@ -202,7 +203,7 @@ public class MehendiMakeupActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                             serviceList.add(new Service(documentSnapshot.get("icon").toString(),documentSnapshot.getId(),documentSnapshot.get("price").toString(),
-                                    documentSnapshot.getId(),salontype,documentSnapshot.get("cut_price").toString(),null));
+                                    documentSnapshot.getId(),salontype,documentSnapshot.get("cut_price").toString(),null,documentSnapshot.get("details").toString()));
                         }
                         listView.setAdapter(adapter);
                         progressBarOnServiceList.setVisibility(View.INVISIBLE);

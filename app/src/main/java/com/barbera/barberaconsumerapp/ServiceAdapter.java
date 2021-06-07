@@ -74,7 +74,8 @@ public class ServiceAdapter extends BaseAdapter {
         final CheckBox checkBox=view.findViewById(R.id.service_fragement_check_box);
         TextView time=view.findViewById(R.id.service_fragement_time);
         ImageView timeImage=view.findViewById(R.id.timer);
-        View line=view.findViewById(R.id.line);
+        TextView details = view.findViewById(R.id.details);
+
       //  final Button addToCart = view.findViewById(R.id.new_service_add_to_cart);
       //  Button bookNow=view.findViewById(R.id.new_service_book_now_button);
 
@@ -89,6 +90,8 @@ public class ServiceAdapter extends BaseAdapter {
         title.setText(serviceList.get(position).getServiceName());
         price.setText(amount);
         cutPrice.setText(CutAmount);
+        String x= serviceList.get(position).getDetails().replaceAll("/n","\n");
+        details.setText(x);
         time.setText(serviceList.get(position).getTime()+" Min");
         final Service adapterList=serviceList.get(position);
 

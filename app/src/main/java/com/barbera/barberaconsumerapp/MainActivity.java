@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                                                             documentSnapshot.get("Service_title").toString(),
                                                             documentSnapshot.get("price").toString(), documentSnapshot.getId(),
                                                             documentSnapshot.get("type").toString(),documentSnapshot.get("cut_price").toString()
-                                                            ,documentSnapshot.get("Time").toString()));
+                                                            ,documentSnapshot.get("Time").toString(),documentSnapshot.get("details").toString()));
                                                     womenadapter.notifyDataSetChanged();
                                                     womenBar.setVisibility(View.INVISIBLE);
 
@@ -351,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                                                             documentSnapshot.get("Service_title").toString(),
                                                             documentSnapshot.get("price").toString(), documentSnapshot.getId(),
                                                             documentSnapshot.get("type").toString(),documentSnapshot.get("cut_price").toString()
-                                                            ,documentSnapshot.get("Time").toString()));
+                                                            ,documentSnapshot.get("Time").toString(),documentSnapshot.get("details").toString()));
                                                     adapter.notifyDataSetChanged();
                                                     menBar.setVisibility(View.INVISIBLE);
 

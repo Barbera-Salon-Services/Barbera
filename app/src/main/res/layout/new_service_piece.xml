@@ -2,8 +2,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+        android:layout_margin="10dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <TextView
         android:id="@+id/service_fragement_title"
         android:layout_width="wrap_content"
@@ -41,7 +42,7 @@
         android:layout_height="wrap_content"
         tools:text="Rs 2100"
         android:layout_below="@id/service_fragement_title"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
         android:textSize="15sp"/>
@@ -69,7 +70,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/service_timer_vector"
         android:layout_below="@id/service_fragement_price"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/service_fragement_time"
@@ -81,6 +82,17 @@
         android:layout_marginTop="12dp"
         android:textColor="#009688"
         android:layout_marginLeft="5dp"/>
+
+    <TextView
+            android:id="@+id/details"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timer"
+            android:layout_marginStart="15dp"
+            android:text="- perfect haircut by stylist\n- 5 minute free head relaxation after haircut \n- 100% mess free experience(post service cleanup gurantee with no hair on the floor"
+        />
+
 
 
 </RelativeLayout>

@@ -8,8 +8,9 @@ public class Service {
     private String serviceType;
     private String cutPrice;
     private String time;
+    private String details;
 
-    public Service(String imageId, String serviceName, String price, String serviceId, String serviceType,String cutPrice,String itime) {
+    public Service(String imageId, String serviceName, String price, String serviceId, String serviceType,String cutPrice,String itime,String details) {
         ImageId = imageId;
         ServiceName = serviceName;
         Price = price;
@@ -17,6 +18,7 @@ public class Service {
         this.serviceType = serviceType;
         this.cutPrice=cutPrice;
         this.time=itime;
+        this.details=details;
     }
 
     public String getServiceId() {
@@ -46,4 +48,6 @@ public class Service {
     public String getTime() {
         return time;
     }
+
+    public String getDetails() {return details;}
 }
