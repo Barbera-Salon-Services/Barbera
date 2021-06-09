@@ -55,7 +55,7 @@ public class LighteningDealAdapter extends RecyclerView.Adapter<LighteningDealAd
         holder.discount.setText("Offer Price: "+(lightenDealItem.getPrice()- lightenDealItem.getDiscount()));
 
         Glide.with(activity).load(lightenDealItem.getImage_url())
-                .apply(new RequestOptions().placeholder(R.drawable.logo)).into(holder.img);
+                .apply(new RequestOptions().placeholder(R.drawable.logo_small1)).into(holder.img);
 
         String ordersummary;
         if(flag==0){

@@ -77,7 +77,13 @@
 						android:paddingTop="5dp"
 						android:layout_toRightOf="@id/apron"
 						android:textSize="15sp"
-					    android:text="Add Disposable Apron(Rs.15 each)"/>
+					    android:text="Add Disposable Apron(Rs.10 each)"/>
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@id/apron"
+						android:layout_marginStart="20dp"
+						android:text=" Or Use Regular Apron for Free"/>
 
 			</RelativeLayout>
 

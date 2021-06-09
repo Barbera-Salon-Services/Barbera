@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
                             Glide.with(getApplicationContext()).load(task.getResult().get("Offer1"))
-                                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(weddingSection);
+                                    .apply(new RequestOptions().placeholder(R.drawable.log)).into(weddingSection);
                         }
                     }
                 });

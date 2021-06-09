@@ -260,9 +260,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         int finalCount = count;
         checkBox.setOnClickListener(v -> {
             if(checkBox.isChecked())
-                BookingTotalAmount+= 15* finalCount;
+                BookingTotalAmount+= 10* finalCount;
             else
-                BookingTotalAmount-=15* finalCount;
+                BookingTotalAmount-=10* finalCount;
             totalAmount.setText("Total Amount Rs " + BookingTotalAmount);
         });
 

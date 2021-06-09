@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/dateandtimeview"
-                android:layout_centerHorizontal="true"
+                    android:layout_marginStart="50dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/colorAccent"
                 android:layout_marginBottom="10dp"
@@ -118,7 +118,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:layout_below="@id/dateandtimeview"
-                    android:text="      Call\nProfessional" />
+                    android:text="Call Professional" />
 
 
             <Button
