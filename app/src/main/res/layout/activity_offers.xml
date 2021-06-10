@@ -11,10 +11,12 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="24dp"
+		android:layout_marginStart="20dp"
+		
 			android:text="Offers Exclusively for You"
 			android:textColor="@color/CancellationColor"
 			android:textColorHint="@color/CancellationColor"
-			android:textSize="32sp"
+			android:textSize="25sp"
 			android:textStyle="bold"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +31,7 @@
 			android:textStyle="bold"
 			android:text="Refer &amp; Earn Coupon: "
 			android:textColor="@color/colorAccent"
-			android:textSize="25sp"
+			android:textSize="20sp"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/textView9" />
 	<RelativeLayout
@@ -49,7 +51,7 @@
 			android:layout_height="wrap_content"
 			android:text="link"
 			android:textColor="@color/colorAccent"
-			android:textSize="25sp" />
+			android:textSize="20sp" />
 
 	<ImageView
 			android:id="@+id/link1"
@@ -68,7 +70,7 @@
 			android:textStyle="bold"
 			android:text="Special Coupons: "
 			android:textColor="@color/colorAccent"
-			android:textSize="25sp"
+			android:textSize="20sp"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/cccard" />
 
@@ -78,6 +80,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginStart="48dp"
 			android:layout_marginTop="24dp"
+		android:layout_marginEnd="10dp"
 			android:background="#61888888"
 			android:padding="15sp"
 			app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +92,7 @@
 				android:layout_height="wrap_content"
 				android:text="link"
 				android:textColor="@color/colorAccent"
-				android:textSize="25sp" />
+				android:textSize="20sp" />
 
 		<ImageView
 				android:id="@+id/link2"

@@ -36,7 +36,8 @@
 				android:id="@+id/men"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="20sp"
+				android:layout_marginTop="30dp"
+			android:layout_marginStart="20dp"
 				android:text="Men"
 				android:textColor="@color/CartBlack"
 				android:textSize="32sp"
@@ -45,7 +46,7 @@
 		<androidx.recyclerview.widget.RecyclerView
 				android:id="@+id/new_men_recycler_view"
 				android:layout_width="match_parent"
-				android:layout_height="300dp"
+				android:layout_height="wrap_content"
 				android:layout_below="@id/men"
 				tools:listitem="@layout/service_item" />
 
@@ -54,7 +55,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_below="@id/new_men_recycler_view"
-				android:layout_margin="20sp"
+				android:layout_marginStart="20sp"
 				android:text="Women"
 				android:textColor="@color/CartBlack"
 				android:textSize="32sp"
@@ -63,7 +64,7 @@
 		<androidx.recyclerview.widget.RecyclerView
 				android:id="@+id/new_women_recycler_view"
 				android:layout_width="match_parent"
-				android:layout_height="300dp"
+				android:layout_height="wrap_content"
 				android:layout_below="@id/women"
 				tools:listitem="@layout/service_item" />
 
