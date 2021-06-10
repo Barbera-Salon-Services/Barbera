@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.LighteningDeals.LightenDealItem;
 import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
+import com.barbera.barberaconsumerapp.Service50.Service_50;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     private static TextView NumberOnCartMain;
     private CardView Light;
     private RelativeLayout Offers;
+    private RelativeLayout Service50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         Cart=(ImageView)findViewById(R.id.cart);
         Light = findViewById(R.id.Light);
         Offers  =findViewById(R.id.Offers);
+        Service50 = findViewById(R.id.Service50);
         cartAdapter=new CartAdapter();
         Button menSalon=(Button) findViewById(R.id.view_men_salon);
         Button womenSalon=(Button) findViewById(R.id.view_women_salon);
@@ -143,6 +146,11 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
 
         Offers.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, Offers.class);
+            startActivity(intent);
+        });
+
+        Service50.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Service_50.class);
             startActivity(intent);
         });
 

@@ -12,7 +12,8 @@
 			android:roundIcon="@drawable/logo"
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme">
-		<activity android:name=".Offers"></activity>
+		<activity android:name=".Service50.Service_50"></activity>
+		<activity android:name=".Offers" />
 		<activity android:name=".LighteningDeals.LighteningDeal" />
 		<activity android:name=".ChangeLocation" />
 		<activity android:name=".Rating" />
