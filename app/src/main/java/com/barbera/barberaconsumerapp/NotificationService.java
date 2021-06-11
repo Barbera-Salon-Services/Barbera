@@ -30,7 +30,7 @@ public class NotificationService extends FirebaseMessagingService {
         }
 
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this,"Barbera")
-                .setSmallIcon(R.drawable.logo)
+                .setSmallIcon(R.drawable.log)
                 .setContentTitle(title)
                 .setAutoCancel(true)
                 .setContentText(message);

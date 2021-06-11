@@ -100,7 +100,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     public void extractBool(Boolean selected) {
         checkterms = selected;
         if (checkterms) {
-            Toast.makeText(getApplicationContext(), "Checked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Checked", Toast.LENGTH_SHORT).show();
             if (checkUserData()) {
                 final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
                 progressDialog.setMessage("Hold on for a moment...");
@@ -228,7 +228,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             if(OrderSummary.equals("(men)Simple Hair Cut  Rs79") || OrderSummary.equals("(men)Stylish Hair Cut  Rs99")
                 || OrderSummary.equals("(women)Hair Cut(U , V , straight)  Rs99")
                     || OrderSummary.equals("(women)Stylish Hair Cut(StepCut,LayerCut)  Rs199")){
-                rl.setVisibility(View.VISIBLE);
+                rl.setVisibility(View.GONE);
                 count =1;
             }
         }
@@ -238,7 +238,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 if (Order.equals("(men)Simple Hair Cut\t\t\tRs79") || Order.equals("(men)Stylish Hair Cut\t\t\tRs99")
                         || Order.equals("(women)Hair Cut(U , V , straight)\t\t\tRs99") || Order.equals("(women)Stylish Hair Cut(StepCut, LayerCut)\t\t\tRs199")) {
                     if(count == 0){
-                        rl.setVisibility(View.VISIBLE);
+                        rl.setVisibility(View.GONE);
                     }
                     count++;
                 }
@@ -250,7 +250,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 if(Order.startsWith("(men)Simple Hair Cut") || Order.startsWith("(men)Stylish Hair Cut") || Order.startsWith("(women)Hair Cut(U , V , straight)") ||
                 Order.startsWith("(women)Stylish Hair Cut(StepCut, LayerCut)")){
                     if(count == 0){
-                        rl.setVisibility(View.VISIBLE);
+                        rl.setVisibility(View.GONE);
                     }
                     count+= Integer.parseInt(Order.substring(Order.lastIndexOf('(')+1,Order.lastIndexOf(')')));
 //                    Toast.makeText(getApplicationContext(), "test 1 pass"+count, Toast.LENGTH_SHORT).show();

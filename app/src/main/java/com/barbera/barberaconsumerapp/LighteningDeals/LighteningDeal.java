@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp.LighteningDeals;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +10,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,8 @@ public class LighteningDeal extends AppCompatActivity {
     private  List<LightenDealItem> womenList;
     private LighteningDealAdapter menAdapter;
     private LighteningDealAdapter womenAdapter;
+    private RelativeLayout rel;
+    private CardView cc;
     private TextView m;
     private TextView w;
 
@@ -38,8 +42,11 @@ public class LighteningDeal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lightening_deal);
 
+        cc =findViewById(R.id.cardView);
         m=findViewById(R.id.men);
         w= findViewById(R.id.women);
+
+        rel = findViewById(R.id.rell);
 
         men = findViewById(R.id.new_men_recycler_view);
         women = findViewById(R.id.new_women_recycler_view);
@@ -57,6 +64,7 @@ public class LighteningDeal extends AppCompatActivity {
         womenAdapter  = new LighteningDealAdapter(womenList, getApplicationContext(),1);
 
         fetchDeals();
+//        rel.setBackgroundResource(R.drawable.dealsoftheday2);
     }
 
     private void fetchDeals() {
@@ -103,6 +111,13 @@ public class LighteningDeal extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
 
+                }
+                if(menList.size()==0 && womenList.size()==0)
+                {
+                    m.setVisibility(View.INVISIBLE);
+                    w.setVisibility(View.INVISIBLE);
+                    cc.setVisibility(View.INVISIBLE);
+                    rel.setBackgroundResource(R.drawable.dealsoftheday2);
                 }
             });
         });

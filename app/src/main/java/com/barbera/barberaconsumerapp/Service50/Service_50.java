@@ -18,6 +18,7 @@ public class Service_50 extends AppCompatActivity {
     private CardView c5;
     private CardView c6;
     private CardView c7;
+    private CardView c8;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,7 @@ public class Service_50 extends AppCompatActivity {
         c5= findViewById(R.id.c5);
         c6= findViewById(R.id.c6);
         c7=findViewById(R.id.c7);
+        c8=findViewById(R.id.c8);
 
         Intent intent = new Intent(Service_50.this, BookingPage.class);
         c1.setOnClickListener(v -> {
@@ -105,8 +107,16 @@ public class Service_50 extends AppCompatActivity {
             startActivity(intent);
         });
         c7.setOnClickListener(v -> {
-            String orderSummary ="(men)Haircut\n(men)hair-color";
-            intent.putExtra("Booking Amount",199);
+            String orderSummary ="(men)Kid haircut(upto 5 year)\n(men)haircut(adult)";
+            intent.putExtra("Booking Amount",114);
+            intent.putExtra("BookingType","direct");
+            intent.putExtra("Order Summary",orderSummary);
+            intent.putExtra("Time",60);
+            startActivity(intent);
+        });
+        c8.setOnClickListener(v -> {
+            String orderSummary ="(men)Gold facial \n(men) garnier hair-color ";
+            intent.putExtra("Booking Amount",599);
             intent.putExtra("BookingType","direct");
             intent.putExtra("Order Summary",orderSummary);
             intent.putExtra("Time",60);
