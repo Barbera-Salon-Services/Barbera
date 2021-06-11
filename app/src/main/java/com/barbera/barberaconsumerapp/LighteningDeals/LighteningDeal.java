@@ -92,32 +92,31 @@ public class LighteningDeal extends AppCompatActivity {
                 }
             }
             FirebaseFirestore.getInstance().collection("Women's Salon").get().addOnCompleteListener(task1 -> {
-                if(task1.isSuccessful()){
-                    try{
-                        for(DocumentSnapshot documentSnapshot : task1.getResult()){
+                if(task1.isSuccessful()) {
+                    try {
+                        for (DocumentSnapshot documentSnapshot : task1.getResult()) {
                             if (documentSnapshot.get("isDealsOfDay").toString().equals("yes")) {
                                 womenList.add(new LightenDealItem(documentSnapshot.get("Service_title").toString(), documentSnapshot.get("icon").toString()
                                         , Integer.parseInt(documentSnapshot.get("Time").toString()), Integer.parseInt(documentSnapshot.get("price").toString()),
                                         Integer.parseInt(documentSnapshot.get("discount").toString())));
                             }
                         }
-                        if(womenList.size()!= 0)
+                        if (womenList.size() != 0)
                             women.setAdapter(womenAdapter);
                         else
                             w.setVisibility(View.INVISIBLE);
+                        if(menList.size()==0 && womenList.size()==0)
+                        {
+                            m.setVisibility(View.INVISIBLE);
+                            w.setVisibility(View.INVISIBLE);
+                            cc.setVisibility(View.INVISIBLE);
+                            rel.setBackgroundResource(R.drawable.dealsoftheday2);
+                        }
                         progressDialog.dismiss();
-                    }catch (Exception e){
-                        Toast.makeText(getApplicationContext(),"Something Went Wrong",Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Something Went Wrong", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                     }
-
-                }
-                if(menList.size()==0 && womenList.size()==0)
-                {
-                    m.setVisibility(View.INVISIBLE);
-                    w.setVisibility(View.INVISIBLE);
-                    cc.setVisibility(View.INVISIBLE);
-                    rel.setBackgroundResource(R.drawable.dealsoftheday2);
                 }
             });
         });
