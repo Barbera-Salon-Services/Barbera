@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#F9F9F1"
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
@@ -129,6 +129,26 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                    android:id="@+id/Service50"
+                    android:background="@drawable/ofc"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_below="@id/Offers">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Services at 50% "
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:padding="12dp"/>
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/trend_in_men"
@@ -139,7 +159,7 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_below="@id/Offers"
+                android:layout_below="@id/Service50"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"/>
             <RelativeLayout
@@ -250,8 +270,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bottomNavigation"
-        android:background="@color/NavigationBlack"
         android:layout_alignParentBottom="true"
+        android:background="#D9D8D6"
         app:menu="@menu/menu_navigation"/>
 
 </RelativeLayout>

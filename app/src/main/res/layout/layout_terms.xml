@@ -4,6 +4,7 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_margin="16dp"
+	android:background="#F9F9F1"
 		android:layout_width="match_parent" android:layout_height="wrap_content">
 
 	<TextView
@@ -23,7 +24,9 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="16dp"
-			android:text="1. Conditions ...."
+		android:layout_marginStart="16dp"
+		android:layout_marginEnd="8dp"
+			android:text="    1. Covid safety protocols must be strictly followed\n    2. Proper use of sanitizers and effective mask is recommended\n    3. Before booking any service make sure you don't have any covid symptoms"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -32,7 +35,7 @@
 			android:id="@+id/checkBox"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="32dp"
+			android:layout_marginStart="18dp"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -40,9 +43,10 @@
 			android:id="@+id/textView8"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:padding="6sp"
 			android:text="Accept Terms &amp; conditions"
 			android:textColor="@color/colorAccent"
-			android:textSize="22sp"
+			android:textSize="16sp"
 			app:layout_constraintStart_toEndOf="@+id/checkBox"
 			app:layout_constraintTop_toBottomOf="@+id/textView7" />
 

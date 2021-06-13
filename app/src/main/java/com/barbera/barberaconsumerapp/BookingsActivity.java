@@ -159,7 +159,6 @@ public class BookingsActivity extends AppCompatActivity {
 //                                                    }
 //                                                }
 //                                            });
-                                checked=true;
                                 BookinglistView.setAdapter(bookingActivityAdapter);
                                 if(bookingActivityList.size()==0){
                                     //Toast.makeText(getApplicationContext(),"No Bookings Yet",Toast.LENGTH_LONG).show();

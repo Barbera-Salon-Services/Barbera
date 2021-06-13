@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_margin="10dp"
+		app:cardCornerRadius="28dp"
+		xmlns:android="http://schemas.android.com/apk/res/android">
+	<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<TextView
+				android:id="@+id/one"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Package 1"
+				android:padding="8dp"
+				android:textColor="@color/colorAccent"
+				android:textSize="30sp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+		<TextView
+				android:layout_marginTop="12sp"
+				android:id="@+id/textView14"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="5dp"
+				android:layout_marginStart="20sp"
+				android:text="1. Fruit Facial"
+				android:textColor="@color/colorAccent"
+				android:textSize="22sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/one" />
+
+		<TextView
+				android:id="@+id/n3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="5dp"
+				android:text="2. Normal full arm wax"
+				android:textColor="@color/colorAccent"
+				android:textSize="22sp"
+				android:layout_marginStart="20sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/textView14" />
+		<TextView
+				android:id="@+id/n4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="5dp"
+				android:layout_marginStart="20sp"
+				android:text="3. Normal full leg wax"
+				android:textColor="@color/colorAccent"
+				android:textSize="22sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n3"/>
+		<TextView
+				android:id="@+id/n5"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20sp"
+				android:padding="5dp"
+				android:text="4. Under arm wax"
+				android:textColor="@color/colorAccent"
+				android:textSize="22sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n4"/>
+
+		<TextView
+				android:id="@+id/n6"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20sp"
+				android:padding="5dp"
+				android:text="5. Haircut (u,v)"
+				android:textColor="@color/colorAccent"
+				android:textSize="22sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n5"/>
+
+		<TextView
+				android:id="@+id/n7"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20sp"
+				android:padding="5dp"
+				android:text="6. Threading "
+				android:textColor="@color/colorAccent"
+				android:textSize="22sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n6"/>
+
+		<TextView
+				android:id="@+id/n8"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20sp"
+				android:padding="5dp"
+				android:text="7. Blowdry"
+				android:textColor="@color/colorAccent"
+				android:textSize="22sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n7"/>
+		<View
+				android:id="@+id/view"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:layout_marginStart="13dp"
+				android:layout_marginEnd="13dp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n8"
+				android:background="#808080"/>
+
+		<TextView
+				android:id="@+id/n9"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20sp"
+				android:padding="5dp"
+				android:text="Total: Rs. 1500"
+				android:textColor="@color/gray"
+				android:textSize="22sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/view"/>
+
+		<TextView
+				android:id="@+id/n10"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20sp"
+				android:padding="5dp"
+				android:text="Offer Price: Rs.699"
+				android:textStyle="bold"
+				android:textColor="@color/CartBlack"
+				android:textSize="22sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n9"/>
+
+		<ImageView
+				android:layout_margin="12dp"
+				android:id="@+id/imageView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/service_timer_vector"
+				app:layout_constraintEnd_toStartOf="@+id/time_dur"
+				app:layout_constraintTop_toBottomOf="@+id/n8" />
+
+		<TextView
+				android:id="@+id/time_dur"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="150 min"
+				android:layout_marginEnd="20dp"
+				android:layout_marginTop="12dp"
+				android:textColor="@color/colorAccent"
+				android:textSize="18sp"
+				android:textStyle="normal"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n8" />
+
+		<androidx.cardview.widget.CardView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="12dp"
+				app:cardCornerRadius="20sp"
+				android:layout_marginBottom="16dp"
+				android:backgroundTint="@color/colorAccent"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/n10">
+
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingTop="12dp"
+					android:paddingBottom="12dp"
+					android:paddingStart="24dp"
+					android:paddingEnd="24dp"
+					android:text="BOOK NOW"
+					android:textColor="@color/white"
+					android:textSize="18sp"
+					android:textStyle="bold"/>
+		</androidx.cardview.widget.CardView>
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
