@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F9F9F1"
     tools:context=".MainActivity">
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -95,7 +96,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/NavigationBlack"
+        android:background="#D9D8D6"
         android:id="@+id/bottomNavigation"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_navigation"/>
