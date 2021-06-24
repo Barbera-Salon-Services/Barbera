@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/mail_login"
+        android:layout_alignTop="@id/new_user_signup"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="4dp"
@@ -27,76 +27,12 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         android:layout_marginBottom="50dp"
-        android:text="New User"
+        android:text="Login"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:background="@color/colorAccent"
         android:textColor="@color/white"/>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/mail_login"
-        app:cardCornerRadius="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:layout_marginBottom="110dp"
-        app:cardElevation="50dp"
-        android:layout_marginLeft="30dp"
-        app:cardBackgroundColor="@color/colorAccent">
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:padding="2dp"
-           android:orientation="horizontal">
-           <ImageView
-               android:layout_width="40dp"
-               android:layout_height="40dp"
-               android:src="@drawable/mail_white_vector"/>
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Mail Login"
-               android:layout_marginLeft="10dp"
-               android:layout_marginRight="5dp"
-               android:textColor="@color/white"
-               android:layout_gravity="center_vertical"
-               android:textSize="15sp"/>
-       </LinearLayout>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/phone_login"
-        app:cardCornerRadius="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        app:cardElevation="50dp"
-        android:layout_marginBottom="110dp"
-        android:layout_marginRight="30dp"
-        app:cardBackgroundColor="@color/colorAccent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="2dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/phone_white_vector"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phone Login"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:textColor="@color/white"
-                android:layout_gravity="center_vertical"
-                android:textSize="15sp"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/skip_login"
         android:layout_width="wrap_content"

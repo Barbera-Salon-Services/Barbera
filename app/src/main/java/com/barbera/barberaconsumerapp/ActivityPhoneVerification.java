@@ -1,18 +1,29 @@
-package com.barbera.barberaconsumerapp;
+ package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.Register;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
+import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -25,16 +36,26 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class ActivityPhoneVerification extends AppCompatActivity {
+    private FusedLocationProviderClient client;
+    private Location currentLocation;
+    private Address address;
     private EditText phoneNumber;
     private CardView get_code;
     private ProgressDialog progressDialog;
     private EditText veri_code;
     private CardView continue_to_signup;
     private FirebaseAuth mauth;
-    private String contact;
     private ProgressBar progressBar;
     private String verificationId;
     private PhoneAuthProvider.ForceResendingToken token;
@@ -58,6 +79,23 @@ public class ActivityPhoneVerification extends AppCompatActivity {
         progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
 
         sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
+        client = LocationServices.getFusedLocationProviderClient(this);
+
+        @SuppressLint("MissingPermission") Task<Location> task =client.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if(location!=null){
+                    Geocoder geocoder =  new Geocoder(getApplicationContext(), Locale.getDefault());
+                    try {
+                        List<Address> addressList = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                        address = addressList.get(0);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         get_code.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,30 +116,53 @@ public class ActivityPhoneVerification extends AppCompatActivity {
                 if(verifyUserOTP()){
                     continue_to_signup.setEnabled(false);
                     progressBar.setVisibility(View.VISIBLE);
-                    PhoneAuthCredential credential=PhoneAuthProvider.getCredential(verificationId,veri_code.getText().toString());
-                    verifyUser(credential);
+                    //PhoneAuthCredential credential=PhoneAuthProvider.getCredential(verificationId,veri_code.getText().toString());
+                    Toast.makeText(getApplicationContext(),"In",Toast.LENGTH_SHORT).show();
+                    verifyUser();
                 }
 
             }
         });
     }
 
-    private void verifyUser(PhoneAuthCredential credential) {
-        mauth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void verifyUser() {
+//        mauth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if(task.isSuccessful()){
+//                    progressDialog.setMessage("Verification Completed...");
+//                    progressDialog.show();
+//                    progressDialog.setCancelable(false);
+//                    whetherNewOrOldUser();
+//                }
+//                else{
+//                    sendToastmsg(task.getException().getMessage());
+//                    continue_to_signup.setEnabled(true);
+//                    progressBar.setVisibility(View.INVISIBLE);
+//                    get_code.setEnabled(true);
+//                }
+//            }
+//        });
+        Retrofit retrofit= RetrofitClientInstance2.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences sharedPreferences = getSharedPreferences("Token",MODE_PRIVATE);
+        String token = sharedPreferences.getString("token",null);
+        Call<Register> call= jsonPlaceHolderApi2.checkOtp(new Register(null,veri_code.getText().toString(),null,null,null,null,null,null),token);
+        call.enqueue(new Callback<Register>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    progressDialog.setMessage("Verification Completed...");
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
-                    whetherNewOrOldUser();
+            public void onResponse(Call<Register> call, Response<Register> response) {
+                if(response.code()==200){
+                    //sendToastmsg("Welcome");
+                    Intent intent=new Intent(ActivityPhoneVerification.this,MapsActivity.class);
+                    startActivity(intent);
                 }
                 else{
-                    sendToastmsg(task.getException().getMessage());
-                    continue_to_signup.setEnabled(true);
-                    progressBar.setVisibility(View.INVISIBLE);
-                    get_code.setEnabled(true);
+                    Toast.makeText(getApplicationContext(),"Request not sent", Toast.LENGTH_SHORT).show();
                 }
+            }
+            @Override
+            public void onFailure(Call<Register> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -125,14 +186,40 @@ public class ActivityPhoneVerification extends AppCompatActivity {
        }
     }
     private void sendfVerificationCode(){
-        contact="+91"+phoneNumber.getText().toString();
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-               contact,
-               60,
-               TimeUnit.SECONDS,
-               this,
-               mCallbacks
-        );
+//        contact="+91"+phoneNumber.getText().toString();
+//        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+//               contact,
+//               60,
+//               TimeUnit.SECONDS,
+//               this,
+//               mCallbacks
+//        );
+        Retrofit retrofit= RetrofitClientInstance2.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+        Call<Register> call=jsonPlaceHolderApi2.getToken(new Register(phoneNumber.getText().toString(),null,null,null,null,null,null,null));
+        call.enqueue(new Callback<Register>() {
+            @Override
+            public void onResponse(Call<Register> call, Response<Register> response) {
+                if(response.code()==200){
+                    Register register=response.body();
+                    SharedPreferences sharedPreferences = getSharedPreferences("Token",MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putString("token",register.getToken());
+                    editor.apply();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    veri_code.setVisibility(View.VISIBLE);
+                    continue_to_signup.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Request not sent", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Register> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override

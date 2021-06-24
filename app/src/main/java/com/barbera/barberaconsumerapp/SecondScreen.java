@@ -2,27 +2,43 @@ package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+
 public class SecondScreen extends AppCompatActivity {
+    private Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +49,10 @@ public class SecondScreen extends AppCompatActivity {
         locationRequest.setInterval(500);
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if(ActivityCompat.checkSelfPermission(SecondScreen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(SecondScreen.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
+        }
 
         // If check required for location enabled, un-comment the following lines code
 
@@ -61,9 +81,7 @@ public class SecondScreen extends AppCompatActivity {
 //        });
 
         CardView skipLogin=(CardView)findViewById(R.id.skip_login);
-        Button NewUser=(Button)findViewById(R.id.new_user_signup);
-        CardView MailLogin=(CardView)findViewById(R.id.mail_login);
-        CardView PhoneLogin=(CardView)findViewById(R.id.phone_login);
+        login=(Button)findViewById(R.id.new_user_signup);
 
         skipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,24 +89,49 @@ public class SecondScreen extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
         });
-        NewUser.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),ActivityPhoneVerification.class));
             }
         });
-        MailLogin.setOnClickListener(new View.OnClickListener() {
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==4){
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+                finish();
+                startActivity(new Intent(this, SecondScreen.class));
+            }
+            else if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED){
+                displayNeverAskAgainDialog();
+            }
+        }
+    }
+    private void displayNeverAskAgainDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("We need to send SMS for performing necessary task. Please permit the permission through "
+                + "Settings screen.\n\nSelect Permissions -> Enable permission");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Permit Manually", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent();
+                intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
             }
         });
-        PhoneLogin.setOnClickListener(new View.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ActivityPhoneVerification.class));
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"App will not work unless location permission is provided from settings",Toast.LENGTH_SHORT).show();
+                login.setEnabled(false);
             }
         });
+        builder.show();
     }
 
     @Override
@@ -109,4 +152,5 @@ public class SecondScreen extends AppCompatActivity {
 
         }
     }
+
 }

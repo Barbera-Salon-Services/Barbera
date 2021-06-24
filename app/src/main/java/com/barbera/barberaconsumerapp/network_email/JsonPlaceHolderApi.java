@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp.network;
+package com.barbera.barberaconsumerapp.network_email;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
