@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Profile;
 
 public class CouponItemModel {
     private String ImageId;

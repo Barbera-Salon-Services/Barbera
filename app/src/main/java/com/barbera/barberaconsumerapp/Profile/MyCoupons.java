@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,8 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.ReferAndEarn;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -56,7 +57,7 @@ public class MyCoupons extends AppCompatActivity {
         addCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 startActivity(new Intent(getApplicationContext(),ReferAndEarn.class));
+                 startActivity(new Intent(getApplicationContext(), ReferAndEarn.class));
             }
         });
 

@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -153,4 +154,13 @@ public class SecondScreen extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
+        String isRegistered = preferences.getString("token","no");
+        if(!isRegistered.equals("no")){
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
 }

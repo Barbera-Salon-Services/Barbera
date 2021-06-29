@@ -70,12 +70,40 @@
 						android:textSize="15sp"
 						tools:text="+916378791396" />
 			</RelativeLayout>
+			<RelativeLayout
+				android:id="@+id/my_profile_rel_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/profile_card_section"
+				android:layout_marginTop="10dp"
+				android:clickable="true"
+				android:foreground="?android:attr/selectableItemBackground"
+				android:focusable="true">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_toRightOf="@id/my_profile"
+					android:text="my profile"
+					android:textAllCaps="true"
+					android:layout_margin="20dp"
+					android:textColor="@color/colorAccent"
+					android:textSize="20sp"
+					android:textStyle="bold" />
+
+				<ImageView
+					android:id="@+id/my_profile"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:layout_margin="10dp"
+					android:src="@drawable/myprofile" />
+			</RelativeLayout>
 
 			<RelativeLayout
 					android:id="@+id/coupons_rel_layout"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_below="@id/profile_card_section"
+					android:layout_below="@id/my_profile_rel_layout"
 					android:layout_marginTop="10dp"
 					android:clickable="true"
 					android:foreground="?android:attr/selectableItemBackground"

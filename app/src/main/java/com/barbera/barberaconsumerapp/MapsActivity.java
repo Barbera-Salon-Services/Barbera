@@ -112,13 +112,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         fileStore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
-        /*center =new LatLng(22.640268, 88.390115);
-        radius =10000;
-        center1 = new LatLng(21.640268, 88.390115);
-        radius1=10000;
-        center2 =new LatLng(26.474001, 75.341022);
-        radius2=10000;*/
-
         client = LocationServices.getFusedLocationProviderClient(this);
 
         floatingActionButton.setOnClickListener(v -> {
@@ -172,77 +165,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         key = mMap.getCameraPosition();
 
-        //LatLng mylocation = new LatLng(Lat,Lon);
-
         mMap.setMyLocationEnabled(true);
 
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 10));
-
-//        Circle circle3 = mMap.addCircle(new CircleOptions()
-//                .center(center3)
-//                .radius(radius3)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle4 = mMap.addCircle(new CircleOptions()
-//                .center(center4)
-//                .radius(radius4)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle5 = mMap.addCircle(new CircleOptions()
-//                .center(center5)
-//                .radius(radius5)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle6 = mMap.addCircle(new CircleOptions()
-//                .center(center6)
-//                .radius(radius6)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle7 = mMap.addCircle(new CircleOptions()
-//                .center(center7)
-//                .radius(radius7)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle8 = mMap.addCircle(new CircleOptions()
-//                .center(center8)
-//                .radius(radius8)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle9 = mMap.addCircle(new CircleOptions()
-//                .center(center9)
-//                .radius(radius9)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle10 = mMap.addCircle(new CircleOptions()
-//                .center(center10)
-//                .radius(radius10)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle11 = mMap.addCircle(new CircleOptions()
-//                .center(center11)
-//                .radius(radius11)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        Circle circle12 = mMap.addCircle(new CircleOptions()
-//                .center(center12)
-//                .radius(radius12)
-//                .strokeWidth(5.0f)
-//                .fillColor(0x1A0066FF)
-//                .strokeColor(0xFF0066FF));
-//        try {
-//            checkWithinZone(mylocation);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraIdleListener (this);

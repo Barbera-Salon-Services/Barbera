@@ -6,6 +6,12 @@ public class Register {
     @SerializedName("phone")
     private String phone;
 
+    @SerializedName("latitude")
+    private double latitude;
+
+    @SerializedName("longitude")
+    private double longitude;
+
     @SerializedName("message")
     private String message;
 
@@ -30,7 +36,8 @@ public class Register {
     @SerializedName("role")
     private String role;
 
-    public Register(String phone, String otp, String email, String name, String password, String address, String role,String message) {
+    public Register(String phone, String otp, String email, String name, String password,
+                    String address, String role,String message,double latitude,double longitude) {
         this.phone = phone;
         this.otp = otp;
         this.email = email;
@@ -39,6 +46,25 @@ public class Register {
         this.address = address;
         this.role = role;
         this.message=message;
+        this.latitude=latitude;
+        this.longitude=longitude;
+    }
+    public Register(String phone, String otp, String email, String name, String password,
+                    String address) {
+        this.phone = phone;
+        this.otp = otp;
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.address = address;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     public String getMessage() {

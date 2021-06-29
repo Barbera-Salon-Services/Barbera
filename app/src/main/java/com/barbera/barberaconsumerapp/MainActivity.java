@@ -3,18 +3,12 @@ package com.barbera.barberaconsumerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,20 +18,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.barbera.barberaconsumerapp.LighteningDeals.LightenDealItem;
 import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
+import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Service50.Service_50;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -70,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     private CardView Light;
     private RelativeLayout Offers;
     private RelativeLayout Service50;
+    private String isRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         ImageView referMain=(ImageView)findViewById(R.id.refer);
         weddingSection =(ImageView)findViewById(R.id.wedding_picture);
         NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
+
+        SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
+        isRegistered = preferences.getString("token","no");
 
         FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -190,9 +186,6 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
 
 
 
-
-
-
         FirebaseMessaging.getInstance().subscribeToTopic("general")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -211,28 +204,26 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id. booking:
-                        if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                        if(isRegistered.equals("no")){
                             Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(),SecondScreen.class));
-                            finish();
                         }
                         else {
                             startActivity(new Intent(getApplicationContext(), BookingsActivity.class));
                             overridePendingTransition(0, 0);
-                            finish();
                         }
+                        finish();
                         return true;
                     case R.id. profile:
-                        if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                        if(isRegistered.equals("no")){
                             Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(),SecondScreen.class));
-                            finish();
                         }
                         else {
                             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                             overridePendingTransition(0, 0);
-                            finish();
                         }
+                        finish();
                         return true;
                     case R.id.home:
                         return true;
@@ -245,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         Cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                if(isRegistered.equals("no")){
                     Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(),SecondScreen.class));
                 }

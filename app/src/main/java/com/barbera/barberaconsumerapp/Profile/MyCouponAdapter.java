@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Profile;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barbera.barberaconsumerapp.BookingPage;
+import com.barbera.barberaconsumerapp.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -79,7 +81,7 @@ public class MyCouponAdapter extends RecyclerView.Adapter {
                             "\t\t\tRs "+couponItemModels.get(position).getServicePrice();
                     //BookingPage.BookingTotalAmount=couponItemModels.get(position).getServicePrice();
 
-                    Intent intent=new Intent(itemView.getContext(),BookingPage.class);
+                    Intent intent=new Intent(itemView.getContext(), BookingPage.class);
                     intent.putExtra("BookingType","Coupon");
                     intent.putExtra("Position",position);
                     intent.putExtra("Booking Amount",Integer.parseInt(couponItemModels.get(position).getServicePrice()));

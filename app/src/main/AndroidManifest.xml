@@ -1,144 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		package="com.barbera.barberaconsumerapp">
+    package="com.barbera.barberaconsumerapp">
 
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Profile.EditProfile"></activity>
+        <activity android:name=".Profile.MyProfile" />
+        <activity android:name=".Service50.Service_50" />
+        <activity android:name=".Offers" />
+        <activity android:name=".LighteningDeals.LighteningDeal" />
+        <activity android:name=".ChangeLocation" />
+        <activity android:name=".Rating" />
+        <activity android:name=".SubCategoryActivity" />
+        <activity android:name=".WeddingActivity" />
+        <activity android:name=".WeddingPreActivity" />
+        <activity android:name=".MapSearchActivity" />
+        <activity
+            android:name=".MapsActivity"
+            android:label="Map" />
 
-	<application
-			android:allowBackup="true"
-			android:icon="@drawable/logo"
-			android:label="@string/app_name"
-			android:roundIcon="@drawable/logo"
-			android:supportsRtl="true"
-			android:theme="@style/AppTheme">
-		<activity android:name=".Service50.Service_50"></activity>
-		<activity android:name=".Offers" />
-		<activity android:name=".LighteningDeals.LighteningDeal" />
-		<activity android:name=".ChangeLocation" />
-		<activity android:name=".Rating" />
-		<activity android:name=".SubCategoryActivity" />
-		<activity android:name=".WeddingActivity" />
-		<activity android:name=".WeddingPreActivity" />
-		<activity android:name=".MapSearchActivity" />
-		<activity
-				android:name=".MapsActivity"
-				android:label="Map" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
-		<meta-data
-				android:name="com.google.android.geo.API_KEY"
-				android:value="@string/google_maps_key" />
+        <activity
+            android:name=".CategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ReferAndEarn"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-		<activity
-				android:name=".CategoryActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".ReferAndEarn"
-				android:screenOrientation="portrait">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="barbera.page.link"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SecondScreen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Profile.MyCoupons"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Profile.AboutPrivacyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MehendiMakeupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Profile.ContactUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CongratulationsPage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BookingPage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ParlourActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Profile.ProfileActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-				<data
-						android:host="barbera.page.link"
-						android:scheme="https" />
-			</intent-filter>
-		</activity>
-		<activity
-				android:name=".SecondScreen"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".MyCoupons"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".AboutPrivacyActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".MehendiMakeupActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".ContactUsActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".CongratulationsPage"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".BookingPage"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".CartActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".ParlourActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".ProfileActivity"
-				android:screenOrientation="portrait">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="barbera.page.link"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".BookingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityPhoneVerification"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-				<data
-						android:host="barbera.page.link"
-						android:scheme="https" />
-			</intent-filter>
-		</activity>
-		<activity
-				android:name=".BookingsActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".ActivityPhoneVerification"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".MainActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".SignUpActivity"
-				android:screenOrientation="portrait">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="barbera.page.link"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<data
-						android:host="barbera.page.link"
-						android:scheme="https" />
-			</intent-filter>
-		</activity>
-		<activity
-				android:name=".LoginActivity"
-				android:screenOrientation="portrait" />
-		<activity
-				android:name=".SplashActivity"
-				android:screenOrientation="portrait"
-				android:theme="@style/SplashTheme">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="barbera.page.link"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
 
-				<data
-						android:host="barbera.page.link"
-						android:scheme="https" />
-			</intent-filter>
-		</activity>
-
-		<service android:name=".NotificationService">
-			<intent-filter>
-				<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-			</intent-filter>
-		</service>
-	</application>
+        <service android:name=".NotificationService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
 
 </manifest>

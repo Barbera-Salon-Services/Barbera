@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Profile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.BookingsActivity;
+import com.barbera.barberaconsumerapp.MainActivity;
+import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.ReferAndEarn;
+import com.barbera.barberaconsumerapp.SecondScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -42,26 +48,18 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_new);
 
-       // ImageView cart=(ImageView)findViewById(R.id.cartINProfile);
         Name=(TextView)findViewById(R.id.EmailInProfile);
-//        email=(TextView)findViewById(R.id.EmailInProfile);
         phone=(TextView)findViewById(R.id.PhoneInProfile);
-       // address=(TextView)findViewById(R.id.ProfileAddress);
         baronprofile=(ProgressBar)findViewById(R.id.progressBarOnProfile) ;
         RelativeLayout AboutUs=(RelativeLayout) findViewById(R.id.aboutUs_rel_layout);
         RelativeLayout contactus=(RelativeLayout)findViewById(R.id.contact_rel_layout);
         RelativeLayout logout=(RelativeLayout)findViewById(R.id.logout_rel_layout);
         RelativeLayout privacyPOlicy=(RelativeLayout)findViewById(R.id.privacy_rel_layout);
+        RelativeLayout myProfile = (RelativeLayout) findViewById(R.id.my_profile_rel_layout);
         shareAndEarn=(RelativeLayout)findViewById(R.id.refer_rel_layout);
         profileMainLayout=(RelativeLayout)findViewById(R.id.profile_section_main_view);
         RelativeLayout couponsLayout=(RelativeLayout)findViewById(R.id.coupons_rel_layout);
 
-/*        cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,CartActivity.class));
-            }
-        });*/
 
         if(profile_name == ""&&FirebaseAuth.getInstance().getCurrentUser()!=null){
             baronprofile.setVisibility(View.VISIBLE);
@@ -92,6 +90,12 @@ public class ProfileActivity extends AppCompatActivity {
 //            email.setText(profile_email);
             profileMainLayout.setVisibility(View.VISIBLE);
         }
+        myProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this,MyProfile.class));
+            }
+        });
 
         AboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
         contactus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ContactUsActivity.class));
+                startActivity(new Intent(getApplicationContext(), ContactUsActivity.class));
             }
         });
 
@@ -123,7 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
         couponsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MyCoupons.class));
+                startActivity(new Intent(getApplicationContext(), MyCoupons.class));
             }
         });
 
@@ -143,14 +147,14 @@ public class ProfileActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id. booking:
-                        startActivity(new Intent(getApplicationContext(),BookingsActivity.class));
+                        startActivity(new Intent(getApplicationContext(), BookingsActivity.class));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
                     case R.id. profile:
                         return true;
                     case R.id.home:
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
@@ -161,7 +165,7 @@ public class ProfileActivity extends AppCompatActivity {
         shareAndEarn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ReferAndEarn.class));
+                startActivity(new Intent(getApplicationContext(), ReferAndEarn.class));
             }
         });
     }
@@ -179,7 +183,11 @@ public class ProfileActivity extends AppCompatActivity {
                 MyCoupons.couponItemModelList.clear();
                 MyCoupons.couponsChecked=false;
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ProfileActivity.this,SecondScreen.class));
+                SharedPreferences preferences =getSharedPreferences("Token",MODE_PRIVATE);
+                SharedPreferences.Editor editor=preferences.edit();
+                editor.putString("token","no");
+                editor.apply();
+                startActivity(new Intent(ProfileActivity.this, SecondScreen.class));
                 overridePendingTransition(0,0);
                 finish();
             }
