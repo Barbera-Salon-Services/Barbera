@@ -66,24 +66,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ActivityPhoneVerification extends AppCompatActivity implements LocationListener {
-    private FusedLocationProviderClient client;
-    private Location currentLocation;
+    private LocationManager locationManager;
     private Address address;
     private EditText phoneNumber;
     private CardView get_code;
     private ProgressDialog progressDialog;
     private EditText veri_code;
     private CardView continue_to_signup;
-    private FirebaseAuth mauth;
     private ProgressBar progressBar;
-    private String verificationId;
-    private PhoneAuthProvider.ForceResendingToken token;
-    private FirebaseFirestore fstore;
-    private DocumentReference documentReference;
     private String tempToken;
     private String phonePattern;
-    private SharedPreferences sharedPreferences;
-    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +86,10 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         get_code = (CardView) findViewById(R.id.get_code);
         veri_code = (EditText) findViewById(R.id.veri_code);
         continue_to_signup = findViewById(R.id.continue_to_signup_page);
-        mauth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBarInVerificationPage);
-        fstore = FirebaseFirestore.getInstance();
         phonePattern = "^[6789]\\d{9}$";
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
 
-        sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(500);
@@ -152,7 +141,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
 
         // Now create a location manager
-        final LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
         // This is the Best And IMPORTANT part
         final Looper looper = null;
@@ -274,85 +263,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        @Override
-        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-            progressDialog.setMessage("Verification Completed...");
-            progressDialog.show();
-            progressDialog.setCancelable(false);
-            mauth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        whetherNewOrOldUser();
-                    } else {
-                        sendToastmsg(task.getException().getMessage());
-                        progressBar.setVisibility(View.INVISIBLE);
-                        get_code.setEnabled(true);
-
-                    }
-                }
-
-            });
-
-        }
-
-        @Override
-        public void onVerificationFailed(@NonNull FirebaseException e) {
-            sendToastmsg(e.getMessage());
-            progressBar.setVisibility(View.INVISIBLE);
-            get_code.setEnabled(true);
-        }
-
-        @Override
-        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            super.onCodeSent(s, forceResendingToken);
-            progressBar.setVisibility(View.INVISIBLE);
-            veri_code.setVisibility(View.VISIBLE);
-            continue_to_signup.setVisibility(View.VISIBLE);
-            verificationId = s;
-            token = forceResendingToken;
-        }
-    };
-
-    private void whetherNewOrOldUser() {
-        documentReference = fstore.collection("Users").document(mauth.getCurrentUser().getUid());
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    sendToastmsg("Welcome");
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("Name", documentSnapshot.get("Name").toString());
-                    editor.putString("Email", documentSnapshot.get("Email Address").toString());
-                    editor.putString("Phone", documentSnapshot.get("Phone").toString());
-                    if (documentSnapshot.get("Address") != null)
-                        editor.putString("Address", documentSnapshot.get("Address").toString());
-                    editor.commit();
-                    progressDialog.dismiss();
-                    sendToMainActivity();
-                } else {
-                    progressDialog.dismiss();
-                    sendToSignUPActivity();
-                }
-            }
-        });
-    }
-
-    private void sendToSignUPActivity() {
-        Intent intent = new Intent(ActivityPhoneVerification.this, SignUpActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void sendToMainActivity() {
-        CartActivity.updateCartItemModelList();
-        Intent intent = new Intent(ActivityPhoneVerification.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-
     }
 
     private void sendToastmsg(String text) {

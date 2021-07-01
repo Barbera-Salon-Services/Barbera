@@ -304,7 +304,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("New_Address", address.getAddressLine(0));
-        editor.commit();
+        editor.apply();
         BookingPage.houseAddress.setText(address.getAddressLine(0));
         finish();
     }

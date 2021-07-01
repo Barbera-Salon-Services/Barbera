@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp.Profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.Register;
@@ -40,30 +42,43 @@ public class MyProfile extends AppCompatActivity {
         Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Call<Register> call=jsonPlaceHolderApi2.getProfile(token);
+        ProgressDialog progressDialog = new ProgressDialog(MyProfile.this);
+        progressDialog.setMessage("Hold on for a moment...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
-                Register register=response.body();
+                if(response.code()==200){
+                    Register register=response.body();
 
-                String nm=register.getName();
-                String ph=register.getPhone();
-                String add=register.getAddress();
-                String em=register.getEmail();
-                if(nm!=null){
-                    name.setText(nm);
+                    String nm=register.getName();
+                    String ph=register.getPhone();
+                    String add=register.getAddress();
+                    String em=register.getEmail();
+                    if(nm!=null){
+                        name.setText(nm);
+                    }
+                    if(ph!=null){
+                        phone.setText(ph);
+                    }
+                    if(add!=null){
+                        address.setText(add);
+                    }
+                    if(em!=null){
+                        email.setText(em);
+                    }
+                    progressDialog.dismiss();
                 }
-                if(ph!=null){
-                    phone.setText(ph);
+                else{
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"Could not load profile",Toast.LENGTH_SHORT).show();
                 }
-                if(add!=null){
-                    address.setText(add);
-                }
-                if(em!=null){
-                    email.setText(em);
-                }
+
             }
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -84,12 +99,18 @@ public class MyProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MyProfile.this,EditProfile.class);
-                intent.putExtra("name",name.getText().toString());
-                intent.putExtra("email",email.getText().toString());
-                intent.putExtra("address",address.getText().toString());
-                intent.putExtra("phone",phone.getText().toString());
+//                intent.putExtra("name",name.getText().toString());
+//                intent.putExtra("email",email.getText().toString());
+//                intent.putExtra("address",address.getText().toString());
+//                intent.putExtra("phone",phone.getText().toString());
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(MyProfile.this,ProfileActivity.class));
     }
 }

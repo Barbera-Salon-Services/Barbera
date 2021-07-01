@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp.Profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,6 +40,10 @@ public class EditProfile extends AppCompatActivity {
         Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Call<Register> call=jsonPlaceHolderApi2.getProfile(token);
+        ProgressDialog progressDialog = new ProgressDialog(EditProfile.this);
+        progressDialog.setMessage("Hold on for a moment...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
@@ -60,13 +65,16 @@ public class EditProfile extends AppCompatActivity {
                     if(em!=null){
                         editEmail.setText(em);
                     }
+                    progressDialog.dismiss();
                 }
                 else{
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Could not get data", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
