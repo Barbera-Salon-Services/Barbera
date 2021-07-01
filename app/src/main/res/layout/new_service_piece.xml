@@ -101,7 +101,7 @@
             android:layout_below="@id/timer"
             android:layout_marginStart="20dp"
         android:textSize="15sp"
-            android:text="- perfect haircut by stylist\n- 5 minute free head relaxation after haircut \n- 100% mess free experience(post service cleanup gurantee with no hair on the floor"
+            android:text="- perfect haircut by stylist\n- 5 minute free head relaxation after haircut \n- 100% mess free experience(post serviceItem cleanup gurantee with no hair on the floor"
         />
 </RelativeLayout>
 </androidx.cardview.widget.CardView>

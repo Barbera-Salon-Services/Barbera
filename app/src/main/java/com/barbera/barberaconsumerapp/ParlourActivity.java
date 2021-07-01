@@ -94,7 +94,7 @@ public class ParlourActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                             Toast.makeText(getApplicationContext(), "You Must Log In to continue", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            startActivity(new Intent(getApplicationContext(), ActivityPhoneVerification.class));
                         } else {
                             startActivity(new Intent(ParlourActivity.this, CartActivity.class));
                         }

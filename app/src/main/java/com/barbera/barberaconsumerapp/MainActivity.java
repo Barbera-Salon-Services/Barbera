@@ -21,6 +21,10 @@ import android.widget.Toast;
 import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Service50.Service_50;
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
+import com.barbera.barberaconsumerapp.Utils.ServiceList;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -40,6 +44,10 @@ import java.util.List;
 import eu.dkaratzas.android.inapp.update.Constants;
 import eu.dkaratzas.android.inapp.update.InAppUpdateManager;
 import eu.dkaratzas.android.inapp.update.InAppUpdateStatus;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements InAppUpdateManager.InAppUpdateHandler {
     private ImageView Cart;
@@ -47,12 +55,12 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     private ImageSlider imageSlider;
     private InAppUpdateManager inAppUpdateManager;
     private LinearLayoutManager layoutManager;
-    public static List<Service> menHorizontalserviceList=new ArrayList<Service>();
+    public static List<ServiceItem> menHorizontalserviceList=new ArrayList<ServiceItem>();
     private RecyclerView MenTrendRecyclerView;
     private MenHorizontalAdapter adapter;
     public static LatLng center3,center4,center5,center6,center7,center8,center9,center10,center11,center12;
     public static double  radius3,radius4,radius7,radius5,radius6,radius8,radius9,radius10,radius11,radius12;
-    public static List<Service> womenHorizontalserviceList=new ArrayList<Service>();
+    public static List<ServiceItem> womenHorizontalserviceList=new ArrayList<ServiceItem>();
     public MenHorizontalAdapter womenadapter;
     public RecyclerView WoMenTrendRecyclerView;
     private LinearLayoutManager womenlayoutManager;
@@ -281,46 +289,50 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         imageSlider.setImageList(dbQueries.slideModelList,true);
     }
 
-    private void loadWomenTrendingList() {
-        final ProgressBar womenBar=(ProgressBar)findViewById(R.id.bar_at_women_horizontal);
-        womenBar.setVisibility(View.VISIBLE);
-        FirebaseFirestore.getInstance().collection("AppData").document("TrendingWomen").get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(long i=1;i<=(long)task.getResult().get("trending");i++){
-                                String documentName=task.getResult().get("trending_"+i).toString();
-                                FirebaseFirestore.getInstance().collection("Women\'s Salon").document(documentName).get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    DocumentSnapshot documentSnapshot=task.getResult();
-                                                    womenHorizontalserviceList.add(new Service(documentSnapshot.get("icon").toString(),
-                                                            documentSnapshot.get("Service_title").toString(),
-                                                            documentSnapshot.get("price").toString(), documentSnapshot.getId(),
-                                                            documentSnapshot.get("type").toString(),documentSnapshot.get("cut_price").toString()
-                                                            ,documentSnapshot.get("Time").toString(),documentSnapshot.get("details").toString()));
-                                                    womenadapter.notifyDataSetChanged();
-                                                    womenBar.setVisibility(View.INVISIBLE);
-
-                                                }
-                                            }
-                                        });
-                            }
-                        }
-                    }
-                });
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(menHorizontalserviceList.size()==0)
-            loadMenTrendingList();
-        if(womenHorizontalserviceList.size()==0)
-            loadWomenTrendingList();
+        if(menHorizontalserviceList.size()==0 && womenHorizontalserviceList.size()==0){
+            Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+            JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+            Call<ServiceList> call =jsonPlaceHolderApi2.getTrending(isRegistered);
+            final ProgressBar menBar=(ProgressBar)findViewById(R.id.bar_at_men_horizontal);
+            menBar.setVisibility(View.VISIBLE);
+            final ProgressBar womenBar=(ProgressBar)findViewById(R.id.bar_at_women_horizontal);
+            womenBar.setVisibility(View.VISIBLE);
+            call.enqueue(new Callback<ServiceList>() {
+                @Override
+                public void onResponse(Call<ServiceList> call, Response<ServiceList> response) {
+                    if(response.code()==200){
+                        ServiceList serviceList=response.body();
+                        List<ServiceItem> list=serviceList.getServices();
+                        for(ServiceItem serviceItem :list){
+                            if(serviceItem.getGender().equals("male")){
+                                menHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
+                                        ,serviceItem.getDetail(),serviceItem.getDiscount(),serviceItem.getGender(),serviceItem.getType(),
+                                        serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend()));
+                            }
+                            else{
+                                womenHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
+                                        ,serviceItem.getDetail(),serviceItem.getDiscount(),serviceItem.getGender(),serviceItem.getType(),
+                                        serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend()));
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                        menBar.setVisibility(View.INVISIBLE);
+                        womenadapter.notifyDataSetChanged();
+                        womenBar.setVisibility(View.INVISIBLE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ServiceList> call, Throwable t) {
+
+                }
+            });
+        }
+
         if (FirebaseAuth.getInstance().getCurrentUser()!=null&&dbQueries.cartList.size() == 0) {
             dbQueries.loadCartList();
         }
@@ -328,40 +340,6 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
             dbQueries.loadslideModelList();
         loadImageSlider();
         loadNumberOnCart();
-    }
-
-    private void loadMenTrendingList() {
-        final ProgressBar menBar=(ProgressBar)findViewById(R.id.bar_at_men_horizontal);
-        menBar.setVisibility(View.VISIBLE);
-        FirebaseFirestore.getInstance().collection("AppData").document("TrendingMen").get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(long i=1;i<=(long)task.getResult().get("trending");i++){
-                                String documentName=task.getResult().get("trending_"+i).toString();
-                                FirebaseFirestore.getInstance().collection("Men\'s Salon").document(documentName).get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    DocumentSnapshot documentSnapshot=task.getResult();
-                                                    menHorizontalserviceList.add(new Service(documentSnapshot.get("icon").toString(),
-                                                            documentSnapshot.get("Service_title").toString(),
-                                                            documentSnapshot.get("price").toString(), documentSnapshot.getId(),
-                                                            documentSnapshot.get("type").toString(),documentSnapshot.get("cut_price").toString()
-                                                            ,documentSnapshot.get("Time").toString(),documentSnapshot.get("details").toString()));
-                                                    adapter.notifyDataSetChanged();
-                                                    menBar.setVisibility(View.INVISIBLE);
-
-                                                }
-                                            }
-                                        });
-                            }
-                        }
-                    }
-                });
-
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,11 +32,11 @@ import java.util.Map;
 import static java.lang.Integer.parseInt;
 
 public class MenHorizontalAdapter extends RecyclerView.Adapter {
-    private List<Service> HorizontalserviceList;
+    private List<ServiceItem> HorizontalserviceList;
     private Context activity;
     private int flag;
 
-    public MenHorizontalAdapter(List<Service> horizontalserviceList,Context activity,int flag) {
+    public MenHorizontalAdapter(List<ServiceItem> horizontalserviceList, Context activity, int flag) {
         HorizontalserviceList = horizontalserviceList;
         this.activity=activity;
         this.flag=flag;
@@ -50,13 +51,13 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        String title=HorizontalserviceList.get(position).getServiceName();
-        String imgResource=HorizontalserviceList.get(position).getImageId();
+        String title=HorizontalserviceList.get(position).getName();
+        //String imgResource=HorizontalserviceList.get(position).getImageId();
         String price=HorizontalserviceList.get(position).getPrice();
-        String cutPrice=HorizontalserviceList.get(position).getCutPrice();
+        String cutPrice=HorizontalserviceList.get(position).getDiscount();
         String TIME=HorizontalserviceList.get(position).getTime();
 
-        ((MenItemViewHolder)holder).setDetails(title,imgResource,price,cutPrice,position,TIME);
+        //((MenItemViewHolder)holder).setDetails(title,imgResource,price,cutPrice,position,TIME);
 
     }
 
@@ -88,7 +89,7 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
         }
 
         private void setDetails(String Title,String imgLink,String Price,String CutPrice,final int position,String iTime){
-            final Service adapterList=HorizontalserviceList.get(position);
+            final ServiceItem adapterList=HorizontalserviceList.get(position);
             title.setText(Title);
             price.setText("Rs "+Price);
             cutPrice.setText("Rs "+CutPrice);
@@ -105,7 +106,7 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                         itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
                     }
                     else{
-                        if(!dbQueries.cartList.contains(adapterList.getServiceId())){
+                        if(!dbQueries.cartList.contains(adapterList.getId())){
                             final ProgressDialog progressDialog=new ProgressDialog(itemView.getContext());
                             progressDialog.show();
                             // SplashActivity.progressText.setText("Adding Service To Cart");
@@ -115,15 +116,15 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                             DocumentReference documentReference=   FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .collection("UserData").document("MyCart");
                             Map<String,Object> cartData=new HashMap<>();
-                            cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1),adapterList.getServiceId());
-                            cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1)+"_type",adapterList.getServiceType());
+                            cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1),adapterList.getId());
+                            cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1)+"_type",adapterList.getType());
                             cartData.put("cart_list_size",(long)(dbQueries.cartList.size()+1));
                             documentReference.update(cartData)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                dbQueries.cartList.add(adapterList.getServiceId());
+                                                dbQueries.cartList.add(adapterList.getId());
                                                 dbQueries.cartItemModelList.clear();
                                                 MainActivity.loadNumberOnCart();
                                                 CartActivity.updateCartItemModelList();
@@ -155,10 +156,10 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                     else {
                         String ordersummary;
                         if(flag==0){
-                            ordersummary="(men)"+HorizontalserviceList.get(position).getServiceName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
+                            ordersummary="(men)"+HorizontalserviceList.get(position).getName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
                         }
                         else{
-                            ordersummary="(women)"+HorizontalserviceList.get(position).getServiceName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
+                            ordersummary="(women)"+HorizontalserviceList.get(position).getName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
                         }
 
                         int time= parseInt(HorizontalserviceList.get(position).getTime());

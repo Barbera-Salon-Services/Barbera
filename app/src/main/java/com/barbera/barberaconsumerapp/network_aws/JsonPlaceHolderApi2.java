@@ -1,6 +1,8 @@
 package com.barbera.barberaconsumerapp.network_aws;
 
 import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.Service;
+import com.barbera.barberaconsumerapp.Utils.ServiceList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,13 +23,8 @@ public interface JsonPlaceHolderApi2 {
     @GET("getuser")
     Call<Register> getProfile(@Header("token") String token);
 
-//    @POST("signup")
-//    Call<Register> registerUser(@Body Register register,@Header("token") String token);
-//
-//    @POST("loginemail")
-//    Call<Register> emailLogin(@Body Register register,@Header("token") String token);
+    @GET("gettrend")
+    Call<ServiceList> getTrending(@Header("token") String token);
 
-//    @POST("loginpass")
-//    Call<Register> passwordLogin(@Body Register register, @Header("token") String token);
 
 }

@@ -113,9 +113,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
@@ -136,11 +133,11 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".NotificationService">
+        <serviceItem android:name=".NotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>
+        </serviceItem>
     </application>
 
 </manifest>
