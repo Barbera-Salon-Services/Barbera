@@ -32,7 +32,7 @@ public class WeddingPreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wedding_pre);
-
+        //test comment
         bridal=(CardView)findViewById(R.id.bridal_section);
         groom=(CardView)findViewById(R.id.groom_section);
         mehandi=(CardView)findViewById(R.id.mehandi_section);
