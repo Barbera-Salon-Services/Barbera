@@ -133,11 +133,11 @@
             </intent-filter>
         </activity>
 
-        <serviceItem android:name=".NotificationService">
+        <service android:name=".NotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </serviceItem>
+        </service>
     </application>
 
 </manifest>
