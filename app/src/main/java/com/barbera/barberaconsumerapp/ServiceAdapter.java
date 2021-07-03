@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,10 +31,10 @@ import java.util.Objects;
 import static java.lang.Integer.parseInt;
 
 public class ServiceAdapter extends BaseAdapter {
-    private List<Service> serviceList;
+    private List<ServiceItem> serviceList;
     private Context con;
 
-    public ServiceAdapter(Context context,List<Service> serviceList) {
+    public ServiceAdapter(Context context,List<ServiceItem> serviceList) {
         con=context;
         this.serviceList = serviceList;
     }
@@ -86,21 +87,21 @@ public class ServiceAdapter extends BaseAdapter {
             time.setVisibility(View.GONE);
         }
         final String amount = "Rs " + serviceList.get(position).getPrice();
-        String CutAmount="Rs " +serviceList.get(position).getCutPrice();
-        title.setText(serviceList.get(position).getServiceName());
+        String CutAmount="Rs " +serviceList.get(position).getDiscount();
+        title.setText(serviceList.get(position).getName());
         price.setText(amount);
         cutPrice.setText(CutAmount);
-        String x= serviceList.get(position).getDetails().replaceAll("/n","\n");
+        String x= serviceList.get(position).getDetail().replaceAll("/n","\n");
         details.setText(x);
         time.setText(serviceList.get(position).getTime()+" Min");
-        final Service adapterList=serviceList.get(position);
+        final ServiceItem adapterList=serviceList.get(position);
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(checkBox.isChecked()){
                    // Toast.makeText(view.getContext(),"Checked",Toast.LENGTH_LONG).show();
-                    ParlourActivity.checkeditemList.add(new CheckedModel(serviceList.get(position).getServiceId(),serviceList.get(position).getServiceName(),
+                    ParlourActivity.checkeditemList.add(new CheckedModel(serviceList.get(position).getId(),serviceList.get(position).getName(),
                             serviceList.get(position).getPrice(),parseInt(serviceList.get(position).getTime())));
                     checkBox.setChecked(true);
                 }
@@ -110,7 +111,7 @@ public class ServiceAdapter extends BaseAdapter {
                          //   ,serviceList.get(position).getPrice());
                   //  ParlourActivity.checkeditemList.remove(serviceList.get(position).getServiceId());
                     for (int i=0;i<ParlourActivity.checkeditemList.size();i++)
-                        if(ParlourActivity.checkeditemList.get(i).getId().equals(serviceList.get(position).getServiceId())){
+                        if(ParlourActivity.checkeditemList.get(i).getId().equals(serviceList.get(position).getId())){
                             ParlourActivity.checkeditemList.remove(i);
                             break;
                         }
@@ -209,7 +210,7 @@ public class ServiceAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(checkBox.isChecked()){
                    // Toast.makeText(view.getContext(),"Checked",Toast.LENGTH_LONG).show();
-                    ParlourActivity.checkeditemList.add(new CheckedModel(serviceList.get(position).getServiceId(),serviceList.get(position).getServiceName(),
+                    ParlourActivity.checkeditemList.add(new CheckedModel(serviceList.get(position).getId(),serviceList.get(position).getName(),
                             serviceList.get(position).getPrice(),parseInt(serviceList.get(position).getTime())));
                     checkBox.setChecked(true);
                 }
@@ -219,7 +220,7 @@ public class ServiceAdapter extends BaseAdapter {
                          //   ,serviceList.get(position).getPrice());
                   //  ParlourActivity.checkeditemList.remove(serviceList.get(position).getServiceId());
                     for (int i=0;i<ParlourActivity.checkeditemList.size();i++)
-                        if(ParlourActivity.checkeditemList.get(i).getId().equals(serviceList.get(position).getServiceId())){
+                        if(ParlourActivity.checkeditemList.get(i).getId().equals(serviceList.get(position).getId())){
                             ParlourActivity.checkeditemList.remove(i);
                             break;
                         }

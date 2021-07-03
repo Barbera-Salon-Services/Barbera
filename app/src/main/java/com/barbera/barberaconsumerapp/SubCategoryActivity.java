@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
+import com.barbera.barberaconsumerapp.Utils.TypeList;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,6 +32,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class SubCategoryActivity extends AppCompatActivity {
     private ListView sublistview;
     public static ProgressBar progressBarOnSubCategory;
@@ -37,7 +47,7 @@ public class SubCategoryActivity extends AppCompatActivity {
     private String collecton;
     private List<String> subCategoryList=new ArrayList<>();
     private SubCategoryAdapter subCategoryAdapter;
-    private String serViceType;
+    private String serViceType,token;
     private String subCategoryImage;
 
     @Override
@@ -62,6 +72,10 @@ public class SubCategoryActivity extends AppCompatActivity {
         cartAndBookLayout.setVisibility(View.GONE);
         cart.setVisibility(View.GONE);
 
+        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
+        token = preferences.getString("token","no");
 
       /* cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,19 +97,30 @@ public class SubCategoryActivity extends AppCompatActivity {
 
         if(subCategoryList.size()==0){
             progressBarOnSubCategory.setVisibility(View.VISIBLE);
-            FirebaseFirestore.getInstance().collection(collecton).document(Category).collection("SubCategories").get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot documentSnapshot:task.getResult()) {
-                                    subCategoryList.add(documentSnapshot.getId());
-                                }
-                                sublistview.setAdapter(subCategoryAdapter);
-                                progressBarOnSubCategory.setVisibility(View.INVISIBLE);
-                            }
+            Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes(salontype,new ServiceItem(null,null,null,null,null,null,Category,
+                    false,null,false,null),token);
+            call.enqueue(new Callback<TypeList>() {
+                @Override
+                public void onResponse(Call<TypeList> call, Response<TypeList> response) {
+                    if(response.code()==200){
+                        TypeList serviceList=response.body();
+                        List<String> list=serviceList.getTypeList();
+                        for(String item:list){
+                            subCategoryList.add(item);
                         }
-                    });
+                        sublistview.setAdapter(subCategoryAdapter);
+                        progressBarOnSubCategory.setVisibility(View.INVISIBLE);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Could not load services",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TypeList> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         sublistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

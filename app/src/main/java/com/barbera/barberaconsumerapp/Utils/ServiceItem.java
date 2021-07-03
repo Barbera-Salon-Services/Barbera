@@ -17,6 +17,8 @@ public class ServiceItem {
     private String gender;
     @SerializedName("type")
     private String type;
+    @SerializedName("subtype")
+    private String subtype;
     @SerializedName("dod")
     private boolean dod;
     @SerializedName("trending")
@@ -26,7 +28,7 @@ public class ServiceItem {
 
 
     public ServiceItem(String name, String price, String time, String detail, String discount,
-                       String gender, String type, boolean dod, String id, boolean trend) {
+                       String gender, String type, boolean dod, String id, boolean trend,String subtype) {
         this.name = name;
         this.price = price;
         this.time = time;
@@ -37,6 +39,11 @@ public class ServiceItem {
         this.dod = dod;
         this.id=id;
         this.trend=trend;
+        this.subtype=subtype;
+    }
+
+    public String getSubtype() {
+        return subtype;
     }
 
     public boolean isTrend() {

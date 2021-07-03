@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
+import com.barbera.barberaconsumerapp.Utils.ServiceList;
+import com.barbera.barberaconsumerapp.Utils.TypeList;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,12 +31,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class CategoryActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private GridView gridView;
-    public static List<CategoryDesign> menCategoryList=new ArrayList<>();
-    public static List<CategoryDesign> womenCategoryList=new ArrayList<>();
-    private String type;
+    public static List<String> menCategoryList=new ArrayList<>();
+    public static List<String> womenCategoryList=new ArrayList<>();
+    private String type,token;
     private static TextView numberCartCategory;
 
     @SuppressLint("SetTextI18n")
@@ -49,6 +60,10 @@ public class CategoryActivity extends AppCompatActivity {
         final CategoryAdapter womenadapter=new CategoryAdapter(womenCategoryList);
         numberCartCategory=(TextView)findViewById(R.id.numberOfCartCategory);
 
+        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
+        token = preferences.getString("token","no");
 
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,38 +83,55 @@ public class CategoryActivity extends AppCompatActivity {
 
         if(type.equals("Men\'s Salon")&&menCategoryList.size()==0){
             progressBar.setVisibility(View.VISIBLE);
-            FirebaseFirestore.getInstance().collection("MenCategory").orderBy("key").get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
-                                   menCategoryList.add(new CategoryDesign(documentSnapshot.get("Category_icon").toString(),documentSnapshot.getId(),
-                                           documentSnapshot.get("Category_image").toString(),documentSnapshot.getBoolean("SubCategory")));
-                                }
-                                gridView.setAdapter(adapter);
-                                progressBar.setVisibility(View.INVISIBLE);
-                            }
+            Call<TypeList> call=jsonPlaceHolderApi2.getTypes("male",token);
+            call.enqueue(new Callback<TypeList>() {
+                @Override
+                public void onResponse(Call<TypeList> call, Response<TypeList> response) {
+                    if(response.code()==200){
+                        TypeList serviceList=response.body();
+                        List<String> list=serviceList.getTypeList();
+                        for(String item:list){
+                            menCategoryList.add(item);
                         }
-                    });
+                        gridView.setAdapter(adapter);
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Could not get services",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TypeList> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         else if(type.equals("Women\'s Salon")&&womenCategoryList.size()==0){
             progressBar.setVisibility(View.VISIBLE);
-            FirebaseFirestore.getInstance().collection("WomenCategory").orderBy("key").get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
-                                    womenCategoryList.add(new CategoryDesign(documentSnapshot.get("Category_icon").toString(),documentSnapshot.getId(),
-                                            documentSnapshot.get("Category_image").toString(),documentSnapshot.getBoolean("SubCategory")));
-                                }
-                                gridView.setAdapter(womenadapter);
-                                progressBar.setVisibility(View.INVISIBLE);
-                            }
+            Call<TypeList> call=jsonPlaceHolderApi2.getTypes("female",token);
+            call.enqueue(new Callback<TypeList>() {
+                @Override
+                public void onResponse(Call<TypeList> call, Response<TypeList> response) {
+                    if(response.code()==200){
+                        TypeList serviceList=response.body();
+                        List<String> list=serviceList.getTypeList();
+                        for(String item:list){
+                            womenCategoryList.add(item);
                         }
-                    });
+                        gridView.setAdapter(womenadapter);
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Could not get services",Toast.LENGTH_SHORT).show();
+                    }
+                }
 
+                @Override
+                public void onFailure(Call<TypeList> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         else if(type.equals("Men\'s Salon")&&menCategoryList.size()!=0){
             gridView.setAdapter(adapter);
@@ -110,45 +142,88 @@ public class CategoryActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent;
-                if(type.equals("Men\'s Salon")&&!menCategoryList.get(position).HavesubCategory()) {
-                    intent = new Intent(CategoryActivity.this, ParlourActivity.class);
-                    intent.putExtra("Category", menCategoryList.get(position).getCategoryName());
-                    intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
-                    intent.putExtra("SalonType","men");
-                    intent.putExtra("Collection","MenCategory");
-                    intent.putExtra("ServiceType",type);
-                    intent.putExtra("SubCategDoc","Null");
-                    startActivity(intent);
+                if(type.equals("Men\'s Salon")) {
+                    Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes("male",new ServiceItem(null,null,null,null,null,null,menCategoryList.get(position),
+                            false,null,false,null),token);
+                    call.enqueue(new Callback<TypeList>() {
+                        @Override
+                        public void onResponse(Call<TypeList> call, Response<TypeList> response) {
+                            if(response.code()==200){
+                                TypeList serviceList=response.body();
+                                List<String> list=serviceList.getTypeList();
+                                if(list.size()==0){
+                                    Intent intent = new Intent(CategoryActivity.this, ParlourActivity.class);
+                                    intent.putExtra("Category", menCategoryList.get(position));
+                                    //intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
+                                    intent.putExtra("SalonType","men");
+                                    intent.putExtra("Collection","MenCategory");
+                                    intent.putExtra("ServiceType",type);
+                                    intent.putExtra("SubCategDoc","Null");
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Intent intent = new Intent(CategoryActivity.this, SubCategoryActivity.class);
+                                    intent.putExtra("Category", menCategoryList.get(position));
+                                    //intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
+                                    intent.putExtra("SalonType","men");
+                                    intent.putExtra("Collection","MenCategory");
+                                    intent.putExtra("ServiceType",type);
+                                    startActivity(intent);
+                                }
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(),"Could not load this service",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<TypeList> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
-                else if(type.equals("Women\'s Salon")&&!womenCategoryList.get(position).HavesubCategory()){
-                    intent = new Intent(CategoryActivity.this, ParlourActivity.class);
-                    intent.putExtra("Category", womenCategoryList.get(position).getCategoryName());
-                    intent.putExtra("CategoryIMage",womenCategoryList.get(position).getCategoryImage());
-                    intent.putExtra("SalonType","women");
-                    intent.putExtra("Collection","WomenCategory");
-                    intent.putExtra("ServiceType",type);
-                    intent.putExtra("SubCategDoc","Null");
-                    startActivity(intent);
+                else{
+                    Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes("female",new ServiceItem(null,null,null,null,null,null,womenCategoryList.get(position),
+                            false,null,false,null),token);
+                    call.enqueue(new Callback<TypeList>() {
+                        @Override
+                        public void onResponse(Call<TypeList> call, Response<TypeList> response) {
+                            if(response.code()==200){
+                                TypeList serviceList=response.body();
+                                List<String> list=serviceList.getTypeList();
+                                if(list.size()==0){
+                                    Intent intent = new Intent(CategoryActivity.this, ParlourActivity.class);
+                                    intent.putExtra("Category", womenCategoryList.get(position));
+                                    //intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
+                                    intent.putExtra("SalonType","women");
+                                    intent.putExtra("Collection","WomenCategory");
+                                    intent.putExtra("ServiceType",type);
+                                    intent.putExtra("SubCategDoc","Null");
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Intent intent = new Intent(CategoryActivity.this, SubCategoryActivity.class);
+                                    intent.putExtra("Category", womenCategoryList.get(position));
+                                    //intent.putExtra("CategoryIMage",womenCategoryList.get(position).getCategoryImage());
+                                    intent.putExtra("SalonType","women");
+                                    intent.putExtra("Collection","WomenCategory");
+                                    intent.putExtra("ServiceType",type);
+                                    startActivity(intent);
+                                }
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(),"Could not load this service",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<TypeList> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-                else if(type.equals("Men\'s Salon")&&menCategoryList.get(position).HavesubCategory()){
-                    intent = new Intent(CategoryActivity.this, SubCategoryActivity.class);
-                    intent.putExtra("Category", menCategoryList.get(position).getCategoryName());
-                    intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
-                    intent.putExtra("SalonType","men");
-                    intent.putExtra("Collection","MenCategory");
-                    intent.putExtra("ServiceType",type);
-                    startActivity(intent);
-                }
-                else if(type.equals("Women\'s Salon")&&womenCategoryList.get(position).HavesubCategory()){
-                    intent = new Intent(CategoryActivity.this, SubCategoryActivity.class);
-                    intent.putExtra("Category", womenCategoryList.get(position).getCategoryName());
-                    intent.putExtra("CategoryIMage",womenCategoryList.get(position).getCategoryImage());
-                    intent.putExtra("SalonType","women");
-                    intent.putExtra("Collection","WomenCategory");
-                    intent.putExtra("ServiceType",type);
-                    startActivity(intent);
-                }
+
             }
         });
     }

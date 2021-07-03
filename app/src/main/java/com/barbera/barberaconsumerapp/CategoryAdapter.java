@@ -5,8 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -14,9 +16,9 @@ import java.util.List;
 
 public class CategoryAdapter extends BaseAdapter {
 
-    private List<CategoryDesign> list;
+    private List<String> list;
 
-    public CategoryAdapter(List<CategoryDesign> list) {
+    public CategoryAdapter(List<String> list) {
         this.list = list;
     }
 
@@ -52,9 +54,9 @@ public class CategoryAdapter extends BaseAdapter {
         ImageView img=view.findViewById(R.id.category_image);
         TextView text=view.findViewById(R.id.category_text);
 
-        Glide.with(view.getContext()).load(list.get(position).getCategoryIcon())
-                .apply(new RequestOptions().placeholder(R.drawable.logo)).into(img);
-        text.setText(list.get(position).getCategoryName());
+//        Glide.with(view.getContext()).load(list.get(position).getCategoryIcon())
+//                .apply(new RequestOptions().placeholder(R.drawable.logo)).into(img);
+        text.setText(list.get(position));
         return view;
     }
 }

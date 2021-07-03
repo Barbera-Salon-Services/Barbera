@@ -311,12 +311,12 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                             if(serviceItem.getGender().equals("male")){
                                 menHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
                                         ,serviceItem.getDetail(),serviceItem.getDiscount(),serviceItem.getGender(),serviceItem.getType(),
-                                        serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend()));
+                                        serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype()));
                             }
                             else{
                                 womenHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
                                         ,serviceItem.getDetail(),serviceItem.getDiscount(),serviceItem.getGender(),serviceItem.getType(),
-                                        serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend()));
+                                        serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype()));
                             }
                         }
                         adapter.notifyDataSetChanged();
@@ -324,11 +324,14 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                         womenadapter.notifyDataSetChanged();
                         womenBar.setVisibility(View.INVISIBLE);
                     }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Could not load salon",Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<ServiceList> call, Throwable t) {
-
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
         }

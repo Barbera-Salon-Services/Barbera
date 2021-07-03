@@ -57,7 +57,7 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
         String cutPrice=HorizontalserviceList.get(position).getDiscount();
         String TIME=HorizontalserviceList.get(position).getTime();
 
-        //((MenItemViewHolder)holder).setDetails(title,imgResource,price,cutPrice,position,TIME);
+        ((MenItemViewHolder)holder).setDetails(title,null,price,cutPrice,position,TIME);
 
     }
 
@@ -94,8 +94,8 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
             price.setText("Rs "+Price);
             cutPrice.setText("Rs "+CutPrice);
             time.setText(iTime+" Min");
-            Glide.with(itemView.getContext()).load(imgLink)
-                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(photo);
+//            Glide.with(itemView.getContext()).load(imgLink)
+//                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(photo);
 
             add.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("ResourceType")
