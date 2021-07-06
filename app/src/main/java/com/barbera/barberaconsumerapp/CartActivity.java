@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +15,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Utils.CartList;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static com.barbera.barberaconsumerapp.MainActivity.cartAdapter;
 
@@ -34,6 +45,8 @@ public class CartActivity extends AppCompatActivity {
     public static Button continueToBooking;
     public static RelativeLayout emptyCart;
     public static RelativeLayout cartTotalAmtLayout;
+    private String token;
+    private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
 
 
     @Override
@@ -54,6 +67,8 @@ public class CartActivity extends AppCompatActivity {
         Button addInEmptyCart=(Button)findViewById(R.id.add_a_service);
         cartTotalAmtLayout=(RelativeLayout)findViewById(R.id.cart_total_amount_layout);
 
+        updateCartItemModelList();
+
         addInEmptyCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,11 +76,6 @@ public class CartActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-        documentReference=fstore.collection("Users").document(firebaseAuth.getCurrentUser().getUid())
-                .collection("UserData").document("MyCart");
 
         if(dbQueries.cartItemModelList.size()==0){
             cartItemRecyclerView.setVisibility(View.INVISIBLE);
@@ -81,77 +91,58 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    public static void updateCartItemModelList(){
+    public void updateCartItemModelList(){
+        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+        String token = preferences.getString("token", "no");
         //CartActivity.progressBarMyCart.setVisibility(View.VISIBLE);
         dbQueries.cartItemModelList.clear();
-        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
-        final FirebaseFirestore fstore=FirebaseFirestore.getInstance();
-        fstore.collection("Users").document(firebaseAuth.getCurrentUser().getUid())
-                .collection("UserData").document("MyCart").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Call<CartList> call= jsonPlaceHolderApi2.getCart(token);
+        call.enqueue(new Callback<CartList>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (int i = 1; i <= (long) task.getResult().get("cart_list_size"); i++) {
-                        if (task.getResult().get("service_id_" + i + "_type").toString().equals("men")) {
-                            final int finalI = i;
-                            fstore.collection("Men\'s Salon").document(task.getResult().get("service_id_" + i).toString()).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            DocumentSnapshot documentSnapshot = task.getResult();
-                                            if(documentSnapshot.exists()) {
-                                                dbQueries.cartItemModelList.add(new CartItemModel(documentSnapshot.get("icon").toString(),
-                                                        documentSnapshot.get("Service_title").toString(),
-                                                        documentSnapshot.get("price").toString(), documentSnapshot.get("type").toString(),
-                                                        documentSnapshot.getId(), finalI,documentSnapshot.get("Time").toString()));
-                                                MainActivity.cartAdapter.notifyDataSetChanged();
-                                            }
-                                        }
-                                    });
+            public void onResponse(Call<CartList> call, Response<CartList> response) {
+                if(response.code()==200){
+                    CartList cartList=response.body();
+                    List<CartItemModel> list=cartList.getList();
+                    if(list.get(0)!=null){
+                        for(CartItemModel itemModel:list) {
+                            dbQueries.cartItemModelList.add(new CartItemModel(null,itemModel.getServiceName(),itemModel.getServicePrice(),
+                                    itemModel.getType(),itemModel.getServiceId(),0,itemModel.getTime()));
                         }
-                        else if (task.getResult().get("service_id_" + i + "_type").toString().equals("women")) {
-                            final int finalI1 = i;
-                            fstore.collection("Women\'s Salon").document(task.getResult().get("service_id_" + i).toString()).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            DocumentSnapshot documentSnapshot = task.getResult();
-                                            if (documentSnapshot.exists()) {
-                                                dbQueries.cartItemModelList.add(new CartItemModel
-                                                        (documentSnapshot.get("icon").toString(),
-                                                                documentSnapshot.get("Service_title").toString(),
-                                                                documentSnapshot.get("price").toString(), documentSnapshot.get("type").toString(),
-                                                                documentSnapshot.getId(), finalI1,documentSnapshot.get("Time").toString()));
-                                                MainActivity.cartAdapter.notifyDataSetChanged();
-                                            }
-                                        }
-                                    });
-                        }
-                        else{
-                            final String serviceType=task.getResult().get("service_id_" + i + "_type").toString();
-                            final int finalI2 = i;
-                            fstore.collection(serviceType).document(task.getResult().get("service_id_" + i).toString())
-                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    DocumentSnapshot documentSnapshot = task.getResult();
-                                    if (documentSnapshot.exists()) {
-                                        dbQueries.cartItemModelList.add(new CartItemModel(documentSnapshot.get("icon").toString(),
-                                                documentSnapshot.getId(),
-                                                documentSnapshot.get("price").toString(), serviceType,
-                                                documentSnapshot.getId(), finalI2,documentSnapshot.get("Time").toString()));
-                                        MainActivity.cartAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            });
-                        }
+                        MainActivity.cartAdapter.notifyDataSetChanged();
                     }
-                    //cartItemRecyclerView.setAdapter(MainActivity.cartAdapter);
-                    //CartActivity.progressBarMyCart.setVisibility(View.INVISIBLE);
-                    // MainActivity.cartAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Could not load cart",Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            public void onFailure(Call<CartList> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
         });
+
+//                        else{
+//                            final String serviceType=task.getResult().get("service_id_" + i + "_type").toString();
+//                            final int finalI2 = i;
+//                            fstore.collection(serviceType).document(task.getResult().get("service_id_" + i).toString())
+//                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                    DocumentSnapshot documentSnapshot = task.getResult();
+//                                    if (documentSnapshot.exists()) {
+//                                        dbQueries.cartItemModelList.add(new CartItemModel(documentSnapshot.get("icon").toString(),
+//                                                documentSnapshot.getId(),
+//                                                documentSnapshot.get("price").toString(), serviceType,
+//                                                documentSnapshot.getId(), finalI2,documentSnapshot.get("Time").toString()));
+//                                        MainActivity.cartAdapter.notifyDataSetChanged();
+//                                    }
+//                                }
+//                            });
+//                        }
+
     }
     @Override
     protected void onStart() {

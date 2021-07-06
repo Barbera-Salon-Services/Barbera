@@ -119,12 +119,12 @@ public class ParlourActivity extends AppCompatActivity {
         else
             title.setText(Category);
 
-        if (salontype.equals("men") || salontype.equals("women")) {
+        if (salontype.equals("male") || salontype.equals("female")) {
             progressBarOnServiceList.setVisibility(View.VISIBLE);
             Glide.with(getApplicationContext()).load(CategoryIMage)
                     .apply(new RequestOptions().placeholder(R.drawable.logo)).into(image);
             Call<ServiceList> call = jsonPlaceHolderApi2.getAllServices(salontype, new ServiceItem(null, null, null, null, null, null, Category,
-                    false, null, false, subCategoryDocument), token);
+                    false, null, false, null), "Bearer "+token);
             call.enqueue(new Callback<ServiceList>() {
                 @Override
                 public void onResponse(Call<ServiceList> call, Response<ServiceList> response) {
@@ -133,7 +133,7 @@ public class ParlourActivity extends AppCompatActivity {
                         List<ServiceItem> list = serviceList1.getServices();
                         for (ServiceItem item : list) {
                             serviceList.add(new ServiceItem(item.getName(), item.getPrice(), item.getTime(), item.getDetail(),
-                                    item.getDiscount(), item.getGender(), item.getType(), item.isDod(), item.getId(), item.isTrend(), item.getSubtype()));
+                                    item.getCutprice(), item.getGender(), item.getType(), item.isDod(), item.getId(), item.isTrend(), item.getSubtype()));
                         }
                         listView.setAdapter(adapter);
                         progressBarOnServiceList.setVisibility(View.INVISIBLE);
@@ -163,24 +163,6 @@ public class ParlourActivity extends AppCompatActivity {
                             }
                         }
                     });
-          /*  if(salontype.equals("Mehandi"))
-                image.setImageResource(R.drawable.wedding_mehandi);
-            else
-                image.setImageResource(R.drawable.make_up_wedding);*/
-
-//            fstore.collection(salontype).orderBy("price").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                    if(task.isSuccessful()){
-//                        for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
-//                            serviceList.add(new Service(documentSnapshot.get("icon").toString(),documentSnapshot.getId(),documentSnapshot.get("price").toString(),
-//                                    documentSnapshot.getId(),salontype,documentSnapshot.get("cut_price").toString(),null,documentSnapshot.get("details").toString()));
-//                        }
-//                        listView.setAdapter(adapter);
-//                        progressBarOnServiceList.setVisibility(View.INVISIBLE);
-//                    }
-//                }
-//            });
         }
 
     }

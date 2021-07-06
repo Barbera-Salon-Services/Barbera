@@ -83,7 +83,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         if(type.equals("Men\'s Salon")&&menCategoryList.size()==0){
             progressBar.setVisibility(View.VISIBLE);
-            Call<TypeList> call=jsonPlaceHolderApi2.getTypes("male",token);
+            Call<TypeList> call=jsonPlaceHolderApi2.getTypes("male","Bearer "+token);
             call.enqueue(new Callback<TypeList>() {
                 @Override
                 public void onResponse(Call<TypeList> call, Response<TypeList> response) {
@@ -109,7 +109,7 @@ public class CategoryActivity extends AppCompatActivity {
         }
         else if(type.equals("Women\'s Salon")&&womenCategoryList.size()==0){
             progressBar.setVisibility(View.VISIBLE);
-            Call<TypeList> call=jsonPlaceHolderApi2.getTypes("female",token);
+            Call<TypeList> call=jsonPlaceHolderApi2.getTypes("female","Bearer "+token);
             call.enqueue(new Callback<TypeList>() {
                 @Override
                 public void onResponse(Call<TypeList> call, Response<TypeList> response) {
@@ -144,28 +144,29 @@ public class CategoryActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(type.equals("Men\'s Salon")) {
                     Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes("male",new ServiceItem(null,null,null,null,null,null,menCategoryList.get(position),
-                            false,null,false,null),token);
+                            false,null,false,null),"Bearer "+token);
                     call.enqueue(new Callback<TypeList>() {
                         @Override
                         public void onResponse(Call<TypeList> call, Response<TypeList> response) {
                             if(response.code()==200){
                                 TypeList serviceList=response.body();
                                 List<String> list=serviceList.getTypeList();
-                                if(list.size()==0){
+
+                                if(list.get(0)==null){
                                     Intent intent = new Intent(CategoryActivity.this, ParlourActivity.class);
                                     intent.putExtra("Category", menCategoryList.get(position));
                                     //intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
-                                    intent.putExtra("SalonType","men");
+                                    intent.putExtra("SalonType","male");
                                     intent.putExtra("Collection","MenCategory");
                                     intent.putExtra("ServiceType",type);
-                                    intent.putExtra("SubCategDoc","Null");
+                                    intent.putExtra("SubCategDoc","null");
                                     startActivity(intent);
                                 }
                                 else{
                                     Intent intent = new Intent(CategoryActivity.this, SubCategoryActivity.class);
                                     intent.putExtra("Category", menCategoryList.get(position));
                                     //intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
-                                    intent.putExtra("SalonType","men");
+                                    intent.putExtra("SalonType","male");
                                     intent.putExtra("Collection","MenCategory");
                                     intent.putExtra("ServiceType",type);
                                     startActivity(intent);
@@ -185,28 +186,28 @@ public class CategoryActivity extends AppCompatActivity {
                 }
                 else{
                     Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes("female",new ServiceItem(null,null,null,null,null,null,womenCategoryList.get(position),
-                            false,null,false,null),token);
+                            false,null,false,null),"Bearer "+token);
                     call.enqueue(new Callback<TypeList>() {
                         @Override
                         public void onResponse(Call<TypeList> call, Response<TypeList> response) {
                             if(response.code()==200){
                                 TypeList serviceList=response.body();
                                 List<String> list=serviceList.getTypeList();
-                                if(list.size()==0){
+                                if(list.get(0)==null){
                                     Intent intent = new Intent(CategoryActivity.this, ParlourActivity.class);
                                     intent.putExtra("Category", womenCategoryList.get(position));
                                     //intent.putExtra("CategoryIMage",menCategoryList.get(position).getCategoryImage());
-                                    intent.putExtra("SalonType","women");
+                                    intent.putExtra("SalonType","female");
                                     intent.putExtra("Collection","WomenCategory");
                                     intent.putExtra("ServiceType",type);
-                                    intent.putExtra("SubCategDoc","Null");
+                                    intent.putExtra("SubCategDoc","null");
                                     startActivity(intent);
                                 }
                                 else{
                                     Intent intent = new Intent(CategoryActivity.this, SubCategoryActivity.class);
                                     intent.putExtra("Category", womenCategoryList.get(position));
                                     //intent.putExtra("CategoryIMage",womenCategoryList.get(position).getCategoryImage());
-                                    intent.putExtra("SalonType","women");
+                                    intent.putExtra("SalonType","female");
                                     intent.putExtra("Collection","WomenCategory");
                                     intent.putExtra("ServiceType",type);
                                     startActivity(intent);

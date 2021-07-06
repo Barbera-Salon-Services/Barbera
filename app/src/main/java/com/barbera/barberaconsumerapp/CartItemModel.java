@@ -1,13 +1,19 @@
 package com.barbera.barberaconsumerapp;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CartItemModel {
     private String ImageId;
+    @SerializedName("name")
     private String ServiceName;
+    @SerializedName("price")
     private String ServicePrice;
+    @SerializedName("quantity")
     private int Quantity;
     private String type;
     private String serviceId;
     private int index;
+    @SerializedName("time")
     private String Time;
 
     public CartItemModel(String imageId, String serviceName, String servicePrice, String type,String ServiceId,int Index, String time) {

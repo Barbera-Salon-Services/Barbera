@@ -55,7 +55,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
-                    CartActivity.updateCartItemModelList();
+                    //CartActivity.updateCartItemModelList();
                     sendToMainActivity();
                 }
                 else

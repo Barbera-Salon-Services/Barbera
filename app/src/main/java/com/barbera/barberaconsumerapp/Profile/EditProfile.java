@@ -39,7 +39,7 @@ public class EditProfile extends AppCompatActivity {
         String token=preferences.getString("token",null);
         Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
-        Call<Register> call=jsonPlaceHolderApi2.getProfile(token);
+        Call<Register> call=jsonPlaceHolderApi2.getProfile("Bearer "+token);
         ProgressDialog progressDialog = new ProgressDialog(EditProfile.this);
         progressDialog.setMessage("Hold on for a moment...");
         progressDialog.show();
@@ -89,7 +89,7 @@ public class EditProfile extends AppCompatActivity {
                     Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
                     JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
                     Call<Register> call1=jsonPlaceHolderApi2.updateProfile(new Register(editPhone.getText().toString(),null,editEmail.getText().toString(),
-                            editName.getText().toString(),null,editAddress.getText().toString()),token);
+                            editName.getText().toString(),null,editAddress.getText().toString()),"Bearer "+token);
                     call1.enqueue(new Callback<Register>() {
                         @Override
                         public void onResponse(Call<Register> call, Response<Register> response) {

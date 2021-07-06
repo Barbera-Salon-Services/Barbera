@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance2 {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://cf6zbnyf2d.execute-api.ap-southeast-1.amazonaws.com/Prod/";
+    private static final String BASE_URL = "https://ndk29oo1v5.execute-api.ap-south-1.amazonaws.com/Prod/";
 
     public static Retrofit getRetrofitInstance() {
         Gson gson = new GsonBuilder().serializeNulls().create();

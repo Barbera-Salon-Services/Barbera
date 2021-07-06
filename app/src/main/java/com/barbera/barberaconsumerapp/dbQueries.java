@@ -1,11 +1,14 @@
 package com.barbera.barberaconsumerapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,14 +21,22 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Retrofit;
+
+import static android.content.Context.MODE_PRIVATE;
+
 public class dbQueries {
     public static List<String> cartList=new ArrayList<>();
     public static List<CartItemModel> cartItemModelList=new ArrayList<>();
     public static List<SlideModel> slideModelList=new ArrayList<>();
-
+    private static String token;
 
     public static void loadCartList(){
         cartList.clear();
+//        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+//        JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
+//        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+//        token = preferences.getString("token", "no");
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .collection("UserData").document("MyCart").get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

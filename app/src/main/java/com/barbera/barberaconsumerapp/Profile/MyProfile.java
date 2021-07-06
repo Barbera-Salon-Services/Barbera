@@ -41,7 +41,7 @@ public class MyProfile extends AppCompatActivity {
         String token=preferences.getString("token",null);
         Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
-        Call<Register> call=jsonPlaceHolderApi2.getProfile(token);
+        Call<Register> call=jsonPlaceHolderApi2.getProfile("Bearer "+token);
         ProgressDialog progressDialog = new ProgressDialog(MyProfile.this);
         progressDialog.setMessage("Hold on for a moment...");
         progressDialog.show();

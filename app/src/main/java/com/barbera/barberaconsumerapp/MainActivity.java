@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         if(menHorizontalserviceList.size()==0 && womenHorizontalserviceList.size()==0){
             Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
             JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-            Call<ServiceList> call =jsonPlaceHolderApi2.getTrending(isRegistered);
+            Call<ServiceList> call =jsonPlaceHolderApi2.getTrending("Bearer "+isRegistered);
             final ProgressBar menBar=(ProgressBar)findViewById(R.id.bar_at_men_horizontal);
             menBar.setVisibility(View.VISIBLE);
             final ProgressBar womenBar=(ProgressBar)findViewById(R.id.bar_at_women_horizontal);
@@ -307,22 +307,28 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                     if(response.code()==200){
                         ServiceList serviceList=response.body();
                         List<ServiceItem> list=serviceList.getServices();
-                        for(ServiceItem serviceItem :list){
-                            if(serviceItem.getGender().equals("male")){
-                                menHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
-                                        ,serviceItem.getDetail(),serviceItem.getDiscount(),serviceItem.getGender(),serviceItem.getType(),
-                                        serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype()));
-                            }
-                            else{
-                                womenHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
-                                        ,serviceItem.getDetail(),serviceItem.getDiscount(),serviceItem.getGender(),serviceItem.getType(),
-                                        serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype()));
-                            }
+                        if(list.size()==0){
+                            Toast.makeText(getApplicationContext(),"No trending services",Toast.LENGTH_SHORT).show();
                         }
-                        adapter.notifyDataSetChanged();
-                        menBar.setVisibility(View.INVISIBLE);
-                        womenadapter.notifyDataSetChanged();
-                        womenBar.setVisibility(View.INVISIBLE);
+                        else{
+                            for(ServiceItem serviceItem :list){
+                                if(serviceItem.getGender().equals("male")){
+                                    menHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
+                                            ,serviceItem.getDetail(),serviceItem.getCutprice(),serviceItem.getGender(),serviceItem.getType(),
+                                            serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype()));
+                                }
+                                else{
+                                    womenHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
+                                            ,serviceItem.getDetail(),serviceItem.getCutprice(),serviceItem.getGender(),serviceItem.getType(),
+                                            serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype()));
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                            menBar.setVisibility(View.INVISIBLE);
+                            womenadapter.notifyDataSetChanged();
+                            womenBar.setVisibility(View.INVISIBLE);
+                        }
+
                     }
                     else{
                         Toast.makeText(getApplicationContext(),"Could not load salon",Toast.LENGTH_SHORT).show();

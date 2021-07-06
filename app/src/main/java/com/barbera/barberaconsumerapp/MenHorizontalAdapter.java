@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
+import com.barbera.barberaconsumerapp.network_aws.Success;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,9 +29,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static java.lang.Integer.parseInt;
 
@@ -54,10 +64,12 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
         String title=HorizontalserviceList.get(position).getName();
         //String imgResource=HorizontalserviceList.get(position).getImageId();
         String price=HorizontalserviceList.get(position).getPrice();
-        String cutPrice=HorizontalserviceList.get(position).getDiscount();
+        String cutPrice=HorizontalserviceList.get(position).getCutprice();
         String TIME=HorizontalserviceList.get(position).getTime();
+        String id=HorizontalserviceList.get(position).getId();
+        //Toast.makeText(activity,title+" "+id,Toast.LENGTH_SHORT).show();
 
-        ((MenItemViewHolder)holder).setDetails(title,null,price,cutPrice,position,TIME);
+        ((MenItemViewHolder)holder).setDetails(title,null,price,cutPrice,position,TIME,id);
 
     }
 
@@ -88,60 +100,62 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
             time=(TextView)itemView.findViewById(R.id.serviceTime);
         }
 
-        private void setDetails(String Title,String imgLink,String Price,String CutPrice,final int position,String iTime){
+        private void setDetails(String Title,String imgLink,String Price,String CutPrice,final int position,String iTime,String id){
             final ServiceItem adapterList=HorizontalserviceList.get(position);
             title.setText(Title);
             price.setText("Rs "+Price);
             cutPrice.setText("Rs "+CutPrice);
             time.setText(iTime+" Min");
+            Toast.makeText(activity,id,Toast.LENGTH_SHORT).show();
 //            Glide.with(itemView.getContext()).load(imgLink)
 //                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(photo);
+            Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+            JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
+            SharedPreferences preferences = activity.getSharedPreferences("Token", activity.MODE_PRIVATE);
+            String token = preferences.getString("token", "no");
 
             add.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("ResourceType")
                 @Override
                 public void onClick(View v) {
-                    if(FirebaseAuth.getInstance().getCurrentUser()==null){
-                        Toast.makeText(itemView.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                        itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
+                    if(token.equals("no")){
+                        Toast.makeText(activity,"You Must Log In to continue",Toast.LENGTH_LONG).show();
+                        activity.startActivity(new Intent(activity,SecondScreen.class));
                     }
-                    else{
-                        if(!dbQueries.cartList.contains(adapterList.getId())){
-                            final ProgressDialog progressDialog=new ProgressDialog(itemView.getContext());
+                    else {
+                            final ProgressDialog progressDialog = new ProgressDialog(activity);
                             progressDialog.show();
-                            // SplashActivity.progressText.setText("Adding Service To Cart");
                             progressDialog.setContentView(R.layout.progress_dialog);
                             progressDialog.setCancelable(false);
-                            add.setEnabled(false);
-                            DocumentReference documentReference=   FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .collection("UserData").document("MyCart");
-                            Map<String,Object> cartData=new HashMap<>();
-                            cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1),adapterList.getId());
-                            cartData.put("service_id_"+String.valueOf(dbQueries.cartList.size()+1)+"_type",adapterList.getType());
-                            cartData.put("cart_list_size",(long)(dbQueries.cartList.size()+1));
-                            documentReference.update(cartData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                dbQueries.cartList.add(adapterList.getId());
-                                                dbQueries.cartItemModelList.clear();
-                                                MainActivity.loadNumberOnCart();
-                                                CartActivity.updateCartItemModelList();
-                                                Toast.makeText(itemView.getContext(),"Service Added to Cart",Toast.LENGTH_SHORT).show();
-                                                add.setEnabled(true);
-                                                progressDialog.dismiss();
-                                            }
-                                            else {
-                                                Toast.makeText(itemView.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                progressDialog.dismiss();
-                                                add.setEnabled(true);
-                                            }
+                            List<String> idList = new ArrayList<>();
+                            idList.add(id);
+                            Call<Success> call=jsonPlaceHolderApi2.addToCart(new Success(false,null,idList),"Bearer "+token);
+                            call.enqueue(new Callback<Success>() {
+                                @Override
+                                public void onResponse(Call<Success> call, Response<Success> response) {
+                                    if(response.code()==200){
+                                        Success success=response.body();
+                                        if(success.isSuccess()){
+                                            progressDialog.dismiss();
+                                            Toast.makeText(activity,"Added to cart",Toast.LENGTH_SHORT).show();
                                         }
-                                    });
-                        }
-                        else
-                            Toast.makeText(itemView.getContext(),"Already Added to Cart",Toast.LENGTH_SHORT).show();
+                                        else{
+                                            progressDialog.dismiss();
+                                            Toast.makeText(activity,success.getMessage(),Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    else{
+                                        progressDialog.dismiss();
+                                        Toast.makeText(activity,"Could not add to cart",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Success> call, Throwable t) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(activity,t.getMessage(),Toast.LENGTH_SHORT).show();
+                                }
+                            });
                     }
                 }
             });

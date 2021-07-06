@@ -195,7 +195,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
-        Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null, address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude()), tempToken);
+        Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null,
+                address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude()), "Bearer "+tempToken);
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
@@ -218,7 +219,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private boolean verifyUserOTP() {

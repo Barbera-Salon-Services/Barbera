@@ -98,27 +98,31 @@ public class SubCategoryActivity extends AppCompatActivity {
         if(subCategoryList.size()==0){
             progressBarOnSubCategory.setVisibility(View.VISIBLE);
             Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes(salontype,new ServiceItem(null,null,null,null,null,null,Category,
-                    false,null,false,null),token);
+                    false,null,false,null),"Bearer "+token);
             call.enqueue(new Callback<TypeList>() {
                 @Override
                 public void onResponse(Call<TypeList> call, Response<TypeList> response) {
                     if(response.code()==200){
                         TypeList serviceList=response.body();
                         List<String> list=serviceList.getTypeList();
-                        for(String item:list){
-                            subCategoryList.add(item);
-                        }
-                        sublistview.setAdapter(subCategoryAdapter);
-                        progressBarOnSubCategory.setVisibility(View.INVISIBLE);
+
+                            for(String item:list){
+                                subCategoryList.add(item);
+                            }
+                            sublistview.setAdapter(subCategoryAdapter);
+                            progressBarOnSubCategory.setVisibility(View.INVISIBLE);
+
                     }
                     else{
                         Toast.makeText(getApplicationContext(),"Could not load services",Toast.LENGTH_SHORT).show();
+                        progressBarOnSubCategory.setVisibility(View.INVISIBLE);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<TypeList> call, Throwable t) {
                     Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    progressBarOnSubCategory.setVisibility(View.INVISIBLE);
                 }
             });
         }
