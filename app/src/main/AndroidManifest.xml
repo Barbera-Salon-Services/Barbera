@@ -67,7 +67,7 @@
             android:name=".CongratulationsPage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BookingPage"
+            android:name=".Bookings.BookingPage"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CartActivity"
@@ -90,7 +90,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BookingsActivity"
+            android:name=".Bookings.BookingsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityPhoneVerification"

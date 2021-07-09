@@ -4,20 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CartList {
-    @SerializedName("data")
+public class CartList2 {
+    @SerializedName("service")
     private List<CartItemModel> list;
 
-    @SerializedName("count")
-    private int count;
-
-    public CartList(List<CartItemModel> list,int count) {
+    public CartList2(List<CartItemModel> list) {
         this.list = list;
-        this.count=count;
-    }
-
-    public int getCount() {
-        return count;
     }
 
     public List<CartItemModel> getList() {

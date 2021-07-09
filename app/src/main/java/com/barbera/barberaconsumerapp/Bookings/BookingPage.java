@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Bookings;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -29,7 +29,14 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.barbera.barberaconsumerapp.ChangeLocation;
+import com.barbera.barberaconsumerapp.CheckTermDialog;
+import com.barbera.barberaconsumerapp.CongratulationsPage;
+import com.barbera.barberaconsumerapp.MainActivity;
+import com.barbera.barberaconsumerapp.MapSearchActivity;
 import com.barbera.barberaconsumerapp.Profile.MyCoupons;
+import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.dbQueries;
 import com.barbera.barberaconsumerapp.network_email.Emailer;
 import com.barbera.barberaconsumerapp.network_email.JsonPlaceHolderApi;
 import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;

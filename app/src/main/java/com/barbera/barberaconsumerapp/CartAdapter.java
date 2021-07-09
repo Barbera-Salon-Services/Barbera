@@ -1,7 +1,7 @@
 package com.barbera.barberaconsumerapp;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,28 +13,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
+import com.barbera.barberaconsumerapp.network_aws.SuccessReturn;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
-import static com.barbera.barberaconsumerapp.CartActivity.cartItemRecyclerView;
-import static com.barbera.barberaconsumerapp.CartActivity.cartTotalAmtLayout;
-import static com.barbera.barberaconsumerapp.CartActivity.emptyCart;
 import static java.lang.Integer.parseInt;
 
 public class CartAdapter extends RecyclerView.Adapter {
-
-    public CartAdapter() {
+    private Context context;
+    public CartAdapter(Context context) {
         super();
+        this.context=context;
     }
+    private int q,totalCount;
 
     @NonNull
     @Override
@@ -64,8 +61,9 @@ public class CartAdapter extends RecyclerView.Adapter {
             String price = dbQueries.cartItemModelList.get(position).getServicePrice();
             int quantity = dbQueries.cartItemModelList.get(position).getQuantity();
             String type = dbQueries.cartItemModelList.get(position).getType();
+            String id=dbQueries.cartItemModelList.get(position).getId();
 
-            ((CartItemViewHolder) holder).setServiceDetails(imageResource, title, price, quantity, type, position);
+            ((CartItemViewHolder) holder).setServiceDetails(imageResource, title, price, quantity, type, position,id);
 
     }
 
@@ -95,33 +93,80 @@ public class CartAdapter extends RecyclerView.Adapter {
             decreaseIncart = (Button) itemView.findViewById(R.id.decreaseInCart);
         }
 
-        private void setServiceDetails(String resource, String Service, String amount, int Quantity, String Type, final int position) {
-
+        private void setServiceDetails(String resource, String Service, String amount, int Quantity, String Type, final int position,String id) {
             title.setText(Service);
             price.setText("Rs " + amount);
-            quantity.setText("" + Quantity);
+            quantity.setText(""+Quantity);
             type.setText(Type);
-            Glide.with(itemView.getContext()).load(resource)
-                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(logo);
+            q = Quantity;
+//            Glide.with(itemView.getContext()).load(resource)
+//                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(logo);
             //updateTotalAmount();
-
-//            increaseIncart.setOnClickListener(new View.OnClickListener() {
+            Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
+            JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
+            SharedPreferences preferences = context.getSharedPreferences("Token", context.MODE_PRIVATE);
+            String token = preferences.getString("token", "no");
+            increaseIncart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    q++;
+                    quantity.setText(""+q);
+                }
+            });
+//            Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,null,null,null,0,null,true,id),"Bearer "+token);
+//            call.enqueue(new Callback<Void>() {
 //                @Override
-//                public void onClick(View v) {
-//                    dbQueries.cartItemModelList.get(position).setQuantity(dbQueries.cartItemModelList.get(position).getQuantity()+1);
-//                    updateQuantity(position);
-//                    updateTotalAmount();
+//                public void onResponse(Call<Void> call, Response<Void> response) {
+//                    if(response.code()==200){
+//                        q++;
+//                        quantity.setText(""+ q);
+//                    }
+//                    else{
+//                        Toast.makeText(context,"Could not increase cart",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Void> call, Throwable t) {
+//                    Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
 //                }
 //            });
-//
-//            decreaseIncart.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
+
+            decreaseIncart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //                    dbQueries.cartItemModelList.get(position).setQuantity(dbQueries.cartItemModelList.get(position).getQuantity()-1);
 //                    updateQuantity(position);
 //                    updateTotalAmount();
-//                }
-//            });
+                    if (q == 1) {
+                        Call<SuccessReturn> call = jsonPlaceHolderApi2.deleteFromCart(id, token);
+                        call.enqueue(new Callback<SuccessReturn>() {
+                            @Override
+                            public void onResponse(Call<SuccessReturn> call, Response<SuccessReturn> response) {
+                                if (response.code() == 200) {
+                                    SuccessReturn successReturn = response.body();
+                                    totalCount = successReturn.getCount();
+                                    SharedPreferences sharedPreferences= context.getSharedPreferences("Count",context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                                    editor.putInt("count",totalCount);
+                                    editor.apply();
+                                    Toast.makeText(context, "Service deleted from cart", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, "Could not decrease cart", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<SuccessReturn> call, Throwable t) {
+                                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        q--;
+                        quantity.setText("" + q);
+                    }
+                }
+            });
 //            CartActivity.continueToBooking.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {

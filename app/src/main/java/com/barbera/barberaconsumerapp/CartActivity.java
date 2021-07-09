@@ -1,6 +1,5 @@
-package com.barbera.barberaconsumerapp;
+ package com.barbera.barberaconsumerapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,24 +14,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.CartList;
+import com.barbera.barberaconsumerapp.Utils.CartList2;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-import static com.barbera.barberaconsumerapp.MainActivity.cartAdapter;
 
 public class CartActivity extends AppCompatActivity {
     public static RecyclerView cartItemRecyclerView;
@@ -46,6 +44,7 @@ public class CartActivity extends AppCompatActivity {
     public static RelativeLayout emptyCart;
     public static RelativeLayout cartTotalAmtLayout;
     private String token;
+    private Button save;
     private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
 
 
@@ -66,6 +65,7 @@ public class CartActivity extends AppCompatActivity {
         emptyCart=(RelativeLayout)findViewById(R.id.empty_cart);
         Button addInEmptyCart=(Button)findViewById(R.id.add_a_service);
         cartTotalAmtLayout=(RelativeLayout)findViewById(R.id.cart_total_amount_layout);
+        save=findViewById(R.id.save_cart);
 
         updateCartItemModelList();
 
@@ -77,40 +77,72 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        if(dbQueries.cartItemModelList.size()==0){
-            cartItemRecyclerView.setVisibility(View.INVISIBLE);
-            emptyCart.setVisibility(View.VISIBLE);
-            cartTotalAmtLayout.setVisibility(View.INVISIBLE);
-        }
-        else if(dbQueries.cartItemModelList.size()!=0) {
-            cartItemRecyclerView.setVisibility(View.VISIBLE);
-            emptyCart.setVisibility(View.INVISIBLE);
-            cartTotalAmtLayout.setVisibility(View.VISIBLE);
-            cartItemRecyclerView.setAdapter(MainActivity.cartAdapter);
-        }
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
+                JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
+                SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+                String token = preferences.getString("token", "no");
+                List<CartItemModel> cartItemModels=new ArrayList<>();
+                for(int i=0;i<dbQueries.cartItemModelList.size();i++){
+                    cartItemModels.add(new CartItemModel(null,null,null,null,dbQueries.cartItemModelList.get(i).getQuantity(),null,dbQueries.cartItemModelList.get(i).getId()));
+                }
+                Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartList2(cartItemModels),"Bearer "+token);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.code()==200){
+                            Toast.makeText(getApplicationContext(),"Cart updated",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Could not update cart",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
 
     }
 
     public void updateCartItemModelList(){
-        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
         String token = preferences.getString("token", "no");
         //CartActivity.progressBarMyCart.setVisibility(View.VISIBLE);
         dbQueries.cartItemModelList.clear();
-        Call<CartList> call= jsonPlaceHolderApi2.getCart(token);
+        Call<CartList> call= jsonPlaceHolderApi2.getCart("Bearer "+token);
         call.enqueue(new Callback<CartList>() {
             @Override
             public void onResponse(Call<CartList> call, Response<CartList> response) {
                 if(response.code()==200){
                     CartList cartList=response.body();
-                    List<CartItemModel> list=cartList.getList();
-                    if(list.get(0)!=null){
+                    int count=cartList.getCount();
+                    if(count!=0){
+                        List<CartItemModel> list=cartList.getList();
+
                         for(CartItemModel itemModel:list) {
                             dbQueries.cartItemModelList.add(new CartItemModel(null,itemModel.getServiceName(),itemModel.getServicePrice(),
-                                    itemModel.getType(),itemModel.getServiceId(),0,itemModel.getTime()));
+                                    itemModel.getType(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId()));
                         }
                         MainActivity.cartAdapter.notifyDataSetChanged();
+                    }
+                    if(dbQueries.cartItemModelList.size()==0){
+                        cartItemRecyclerView.setVisibility(View.INVISIBLE);
+                        emptyCart.setVisibility(View.VISIBLE);
+                        cartTotalAmtLayout.setVisibility(View.INVISIBLE);
+                    }
+                    else if(dbQueries.cartItemModelList.size()!=0) {
+                        cartItemRecyclerView.setVisibility(View.VISIBLE);
+                        emptyCart.setVisibility(View.INVISIBLE);
+                        cartTotalAmtLayout.setVisibility(View.VISIBLE);
+                        cartItemRecyclerView.setAdapter(MainActivity.cartAdapter);
                     }
                 }
                 else{
@@ -147,6 +179,12 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        dbQueries.loadCartList();
+        //dbQueries.loadCartList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

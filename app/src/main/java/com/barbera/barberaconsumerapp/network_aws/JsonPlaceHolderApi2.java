@@ -1,9 +1,9 @@
 package com.barbera.barberaconsumerapp.network_aws;
 
-import com.barbera.barberaconsumerapp.CartItemModel;
-import com.barbera.barberaconsumerapp.R;
-import com.barbera.barberaconsumerapp.Service;
+import com.barbera.barberaconsumerapp.Bookings.BarberList;
+import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.CartList;
+import com.barbera.barberaconsumerapp.Utils.CartList2;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
@@ -40,15 +40,19 @@ public interface JsonPlaceHolderApi2 {
     @POST("getallserv/{gender}")
     Call<ServiceList> getAllServices(@Path ("gender") String gender,@Body ServiceItem service, @Header("Authorization") String token);
 
-    @POST("addtocart/{serviceid}")
-    Call<Success> addToCart(@Body Success model,@Header("Authorization") String token);
+    @POST("addtocart")
+    Call<SuccessReturn> addToCart(@Body Success model,@Header("Authorization") String token);
 
     @GET("getcart")
     Call<CartList> getCart(@Header("Authorization") String token);
 
-    @POST("quantity/{seviceid}")
-    Call<Void> updateQuantity(@Path("serviceid") String id,@Header("Authorization") String token);
+    @POST("quantity")
+    Call<Void> updateQuantity(@Body CartList2 cartList, @Header("Authorization") String token);
 
     @POST("deletefromcart/{serviceid}")
-    Call<Void> deleteFromCart(@Path("serviceid") String id,@Header("Authorization") String token);
+    Call<SuccessReturn> deleteFromCart(@Path("serviceid") String id,@Header("Authorization") String token);
+
+    @GET("getbarb/{date}/{slot}")
+    Call<BarberList> getBarbers(@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
+
 }

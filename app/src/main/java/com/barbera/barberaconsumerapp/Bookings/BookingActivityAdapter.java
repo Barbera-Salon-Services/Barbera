@@ -1,4 +1,4 @@
- package com.barbera.barberaconsumerapp;
+ package com.barbera.barberaconsumerapp.Bookings;
 
 
 import android.app.AlertDialog;
@@ -26,6 +26,9 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.barbera.barberaconsumerapp.BarberDetailDialog;
+import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.Rating;
 import com.barbera.barberaconsumerapp.network_email.Emailer;
 import com.barbera.barberaconsumerapp.network_email.JsonPlaceHolderApi;
 import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;
@@ -235,7 +238,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     }
 
     private void rateService(int pos) {
-        context.startActivity(new Intent(context,Rating.class)
+        context.startActivity(new Intent(context, Rating.class)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra("docId",bookingAdapterList.get(pos).getDocId()));
     }

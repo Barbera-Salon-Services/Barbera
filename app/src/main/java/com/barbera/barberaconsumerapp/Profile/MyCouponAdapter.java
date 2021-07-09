@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.barbera.barberaconsumerapp.BookingPage;
+import com.barbera.barberaconsumerapp.Bookings.BookingPage;
 import com.barbera.barberaconsumerapp.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;

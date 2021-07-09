@@ -18,13 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Service50.Service_50;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -33,7 +34,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         Light = findViewById(R.id.Light);
         Offers  =findViewById(R.id.Offers);
         Service50 = findViewById(R.id.Service50);
-        cartAdapter=new CartAdapter();
+        cartAdapter=new CartAdapter(this);
         Button menSalon=(Button) findViewById(R.id.view_men_salon);
         Button womenSalon=(Button) findViewById(R.id.view_women_salon);
         imageSlider=(ImageSlider)findViewById(R.id.slider_view);
@@ -266,22 +266,13 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         inAppUpdateManager.checkForAppUpdate();
     }
 
-    public static void loadNumberOnCart(){
-        if(FirebaseAuth.getInstance().getCurrentUser()==null)
+    public void loadNumberOnCart(){
+        if(isRegistered.equals("no"))
             NumberOnCartMain.setText("0");
         else {
-            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .collection("UserData").document("MyCart").get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                NumberOnCartMain.setText(task.getResult().get("cart_list_size").toString());
-                                //numberCartCategory.setText(task.getResult().get("cart_list_size").toString());
-                               // numberCartParlour.setText(task.getResult().get("cart_list_size").toString());
-                            }
-                        }
-                    });
+            SharedPreferences sharedPreferences=getSharedPreferences("Count",MODE_PRIVATE);
+            int count=sharedPreferences.getInt("count",0);
+            NumberOnCartMain.setText(""+count);
         }
     }
 
@@ -294,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     protected void onStart() {
         super.onStart();
         if(menHorizontalserviceList.size()==0 && womenHorizontalserviceList.size()==0){
-            Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+            Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
             JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
             Call<ServiceList> call =jsonPlaceHolderApi2.getTrending("Bearer "+isRegistered);
             final ProgressBar menBar=(ProgressBar)findViewById(R.id.bar_at_men_horizontal);
@@ -342,12 +333,12 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
             });
         }
 
-        if (FirebaseAuth.getInstance().getCurrentUser()!=null&&dbQueries.cartList.size() == 0) {
-            dbQueries.loadCartList();
-        }
-        if(dbQueries.slideModelList.size()==0)
-            dbQueries.loadslideModelList();
-        loadImageSlider();
+//        if (FirebaseAuth.getInstance().getCurrentUser()!=null&&dbQueries.cartList.size() == 0) {
+//            dbQueries.loadCartList();
+//        }
+//        if(dbQueries.slideModelList.size()==0)
+//            dbQueries.loadslideModelList();
+//        loadImageSlider();
         loadNumberOnCart();
     }
 

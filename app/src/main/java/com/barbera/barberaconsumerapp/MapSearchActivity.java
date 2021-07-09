@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -24,10 +23,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Bookings.BookingPage;
 import com.barbera.barberaconsumerapp.Utils.PermissionUtils;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -42,8 +41,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -51,34 +48,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-
-import static com.barbera.barberaconsumerapp.SignUpActivity.center10;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center11;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center12;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center3;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center4;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center5;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center6;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center7;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center8;
-import static com.barbera.barberaconsumerapp.SignUpActivity.center9;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius10;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius11;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius12;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius3;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius4;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius5;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius6;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius7;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius8;
-import static com.barbera.barberaconsumerapp.SignUpActivity.radius9;
 
 public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnCameraMoveListener ,GoogleMap.OnCameraMoveCanceledListener,
         GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener {

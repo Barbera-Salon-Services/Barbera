@@ -1,6 +1,5 @@
 package com.barbera.barberaconsumerapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,15 +17,10 @@ import android.widget.Toast;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +65,7 @@ public class SubCategoryActivity extends AppCompatActivity {
         cartAndBookLayout.setVisibility(View.GONE);
         cart.setVisibility(View.GONE);
 
-        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
         token = preferences.getString("token","no");
@@ -105,7 +98,6 @@ public class SubCategoryActivity extends AppCompatActivity {
                     if(response.code()==200){
                         TypeList serviceList=response.body();
                         List<String> list=serviceList.getTypeList();
-
                             for(String item:list){
                                 subCategoryList.add(item);
                             }
@@ -139,8 +131,5 @@ public class SubCategoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 }

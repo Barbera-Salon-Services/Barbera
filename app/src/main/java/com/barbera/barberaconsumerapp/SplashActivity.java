@@ -29,12 +29,12 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(dbQueries.slideModelList.size()==0)
-         dbQueries.loadslideModelList();
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-            whetherNewOrOldUser();
-        }
-        else
+//        if(dbQueries.slideModelList.size()==0)
+//         dbQueries.loadslideModelList();
+//        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+//            whetherNewOrOldUser();
+//        }
+//        else
             sendToSecondActivity();
     }
 
@@ -46,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashActivity.this,SecondScreen.class));
                 finish();
             }
-        },5000);
+        },3000);
     }
     private void whetherNewOrOldUser() {
 

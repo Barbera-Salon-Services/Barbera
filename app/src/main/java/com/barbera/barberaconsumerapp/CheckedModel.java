@@ -4,16 +4,16 @@ public class CheckedModel {
     private String serviceId;
     private String servicePrice;
     private String serviceName;
-    private int serviceTime;
+    private String serviceTime;
 
-    public CheckedModel(String serviceId,String serviceName ,String servicePrice,int serviceTime) {
+    public CheckedModel(String serviceId,String serviceName ,String servicePrice,String serviceTime) {
         this.serviceName=serviceName;
         this.serviceId = serviceId;
         this.servicePrice = servicePrice;
         this.serviceTime = serviceTime;
     }
 
-    public int getTime() {
+    public String getTime() {
         return serviceTime;
     }
 

@@ -7,7 +7,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -30,35 +29,20 @@ import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.Register;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
-import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -192,7 +176,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     }
 
     private void verifyUser() {
-        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
         Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null,
@@ -241,7 +225,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     }
 
     private void sendfVerificationCode() {
-        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumber.getText().toString(), null, null, null, null, null, null, null, 0.0, 0.0));
         call.enqueue(new Callback<Register>() {

@@ -1,6 +1,8 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Utils;
 
 import com.google.gson.annotations.SerializedName;
+
+import javax.xml.namespace.QName;
 
 public class CartItemModel {
     private String ImageId;
@@ -11,28 +13,30 @@ public class CartItemModel {
     @SerializedName("quantity")
     private int Quantity;
     private String type;
-    private String serviceId;
-    private int index;
+
     @SerializedName("time")
     private String Time;
+    @SerializedName("serviceId")
+    private String id;
 
-    public CartItemModel(String imageId, String serviceName, String servicePrice, String type,String ServiceId,int Index, String time) {
+
+    public CartItemModel(String imageId, String serviceName, String servicePrice, String type,
+                         int quantity, String time,String id) {
         ImageId = imageId;
         ServiceName = serviceName;
         ServicePrice =  servicePrice;
         this.type = type;
-        serviceId=ServiceId;
-        index=Index;
-        Quantity=1;
+        this.Quantity= quantity;
         Time=time;
+        this.id=id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTime() {
         return Time;
-    }
-
-    public int getIndex() {
-        return index;
     }
 
     public String getImageId() {
@@ -41,10 +45,6 @@ public class CartItemModel {
 
     public String getType() {
         return type;
-    }
-
-    public String getServiceId() {
-        return serviceId;
     }
 
     public String getServiceName() {

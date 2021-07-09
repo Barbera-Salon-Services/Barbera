@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
+import com.barbera.barberaconsumerapp.Bookings.BookingPage;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
 import com.barbera.barberaconsumerapp.network_aws.Success;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.barbera.barberaconsumerapp.network_aws.SuccessReturn;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,7 +80,7 @@ public class ServiceAdapter extends BaseAdapter {
         ImageView timeImage=view.findViewById(R.id.timer);
         TextView details = view.findViewById(R.id.details);
 
-        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         SharedPreferences preferences = con.getSharedPreferences("Token", con.MODE_PRIVATE);
         String token = preferences.getString("token", "no");
@@ -117,7 +111,7 @@ public class ServiceAdapter extends BaseAdapter {
                 if(checkBox.isChecked()){
                    // Toast.makeText(view.getContext(),"Checked",Toast.LENGTH_LONG).show();
                     ParlourActivity.checkeditemList.add(new CheckedModel(serviceList.get(position).getId(),serviceList.get(position).getName(),
-                            serviceList.get(position).getPrice(),parseInt(serviceList.get(position).getTime())));
+                            serviceList.get(position).getPrice(),serviceList.get(position).getTime()));
                     checkBox.setChecked(true);
                 }
                 else{
@@ -149,18 +143,19 @@ public class ServiceAdapter extends BaseAdapter {
                         progressDialog.show();
                         progressDialog.setContentView(R.layout.progress_dialog);
                         progressDialog.setCancelable(false);
-                        List<String> idList = null;
+                        List<String> idList = new ArrayList<>();
                         for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
                             idList.add(ParlourActivity.checkeditemList.get(i).getId());
+                            Log.d("Item",ParlourActivity.checkeditemList.get(i).getId());
                             ParlourActivity.checkeditemList.remove(i);
                             i--;
                         }
-                        Call<Success> call=jsonPlaceHolderApi2.addToCart(new Success(false,null,idList),token);
-                        call.enqueue(new Callback<Success>() {
+                        Call<SuccessReturn> call=jsonPlaceHolderApi2.addToCart(new Success(idList),"Bearer "+token);
+                        call.enqueue(new Callback<SuccessReturn>() {
                             @Override
-                            public void onResponse(Call<Success> call, Response<Success> response) {
+                            public void onResponse(Call<SuccessReturn> call, Response<SuccessReturn> response) {
                                 if(response.code()==200){
-                                    Success success=response.body();
+                                    SuccessReturn success=response.body();
                                     if(success.isSuccess()){
                                         progressDialog.dismiss();
                                         Toast.makeText(con,"Added to cart",Toast.LENGTH_SHORT).show();
@@ -177,7 +172,7 @@ public class ServiceAdapter extends BaseAdapter {
                             }
 
                             @Override
-                            public void onFailure(Call<Success> call, Throwable t) {
+                            public void onFailure(Call<SuccessReturn> call, Throwable t) {
                                 progressDialog.dismiss();
                                 Toast.makeText(con,t.getMessage(),Toast.LENGTH_SHORT).show();
                             }
@@ -204,7 +199,7 @@ public class ServiceAdapter extends BaseAdapter {
                             ordersummary += "(" + ParlourActivity.salontype + ")" + ParlourActivity.checkeditemList.get(i).getName()
                                     + "\t\t\tRs" + ParlourActivity.checkeditemList.get(i).getPrice() + "\n";
                             amount += parseInt(ParlourActivity.checkeditemList.get(i).getPrice());
-                            Time+=ParlourActivity.checkeditemList.get(i).getTime();
+                            //Time+=ParlourActivity.checkeditemList.get(i).getTime();
                         }
                         //BookingPage.BookingTotalAmount = amount;
                         Intent intent = new Intent(view.getContext(), BookingPage.class);
@@ -221,113 +216,7 @@ public class ServiceAdapter extends BaseAdapter {
                 }
             }
         });
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(checkBox.isChecked()){
-                   // Toast.makeText(view.getContext(),"Checked",Toast.LENGTH_LONG).show();
-                    ParlourActivity.checkeditemList.add(new CheckedModel(serviceList.get(position).getId(),serviceList.get(position).getName(),
-                            serviceList.get(position).getPrice(),parseInt(serviceList.get(position).getTime())));
-                    checkBox.setChecked(true);
-                }
-                else{
-                    //Toast.makeText(view.getContext(),"UnChecked",Toast.LENGTH_LONG).show();
-                  //  CheckedModel model=new CheckedModel(serviceList.get(position).getServiceId(),serviceList.get(position).getServiceName()
-                         //   ,serviceList.get(position).getPrice());
-                  //  ParlourActivity.checkeditemList.remove(serviceList.get(position).getServiceId());
-                    for (int i=0;i<ParlourActivity.checkeditemList.size();i++)
-                        if(ParlourActivity.checkeditemList.get(i).getId().equals(serviceList.get(position).getId())){
-                            ParlourActivity.checkeditemList.remove(i);
-                            break;
-                        }
-                    checkBox.setChecked(false);
-                }
-            }
-        });
 
-        ParlourActivity.addToCart.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void onClick(View v) {
-                if(FirebaseAuth.getInstance().getCurrentUser()==null){
-                    Toast.makeText(view.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                    view.getContext().startActivity(new Intent(view.getContext(),SecondScreen.class));
-                }
-                else {
-                     if(ParlourActivity.checkeditemList.size()!=0){
-                    final ProgressDialog progressDialog = new ProgressDialog(view.getContext());
-                    progressDialog.show();
-                    progressDialog.setContentView(R.layout.progress_dialog);
-                    progressDialog.setCancelable(false);
-                    DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .collection("UserData").document("MyCart");
-                    Map<String, Object> cartData = new HashMap<>();
-                    for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
-                        if(!dbQueries.cartList.contains(ParlourActivity.checkeditemList.get(i).getId())) {
-                            cartData.put("service_id_" + String.valueOf(dbQueries.cartList.size() + i + 1), ParlourActivity.checkeditemList.get(i).getId());
-                            cartData.put("service_id_" + String.valueOf(dbQueries.cartList.size() + i + 1) + "_type", ParlourActivity.salontype);
-                        }
-                        else{
-                            ParlourActivity.checkeditemList.remove(i);
-                            --i;
-                        }
-                    }
-                    cartData.put("cart_list_size", (long) (dbQueries.cartList.size() + ParlourActivity.checkeditemList.size()));
-                    documentReference.update(cartData)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        for(int i = 0; i< ParlourActivity.checkeditemList.size(); i++)
-                                          dbQueries.cartList.add(ParlourActivity.checkeditemList.get(i).getId());
-                                        dbQueries.cartItemModelList.clear();
-                                        //CartActivity.updateCartItemModelList();
-                                        ParlourActivity.loadNumberOnCartParlour();
-                                        Toast.makeText(view.getContext(), "Service Added to Cart", Toast.LENGTH_SHORT).show();
-                                        progressDialog.dismiss();
-                                    } else {
-                                        Toast.makeText(view.getContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                                        progressDialog.dismiss();
-                                    }
-                                }
-                            });
-                    }
-                     else
-                       Toast.makeText(view.getContext(),"Select Something First",Toast.LENGTH_LONG).show();
-                }}
-        });
-
-        ParlourActivity.bookNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(FirebaseAuth.getInstance().getCurrentUser()==null){
-                    Toast.makeText(view.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                    view.getContext().startActivity(new Intent(view.getContext(),SecondScreen.class));
-                }
-                else {
-                    if(ParlourActivity.checkeditemList.size()!=0) {
-                        int amount = 0;
-                        String ordersummary="";
-                        //Toast.makeText(view.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
-                        for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
-                            ordersummary += "(" + ParlourActivity.salontype + ")" + ParlourActivity.checkeditemList.get(i).getName()
-                                    + "\t\t\tRs" + ParlourActivity.checkeditemList.get(i).getPrice() + "\n";
-                            amount += Integer.parseInt(ParlourActivity.checkeditemList.get(i).getPrice());
-                        }
-                        //BookingPage.BookingTotalAmount = amount;
-                        Intent intent = new Intent(view.getContext(), BookingPage.class);
-                        intent.putExtra("Booking Amount",amount);
-                        intent.putExtra("BookingType","direct");
-                        intent.putExtra("Order Summary",ordersummary);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        view.getContext().startActivity(intent);
-                    }
-                    else
-                        Toast.makeText(view.getContext(),"Please Select Something First",Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
         return view;
     }
 }

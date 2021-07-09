@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.barbera.barberaconsumerapp.BookingsActivity;
+import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.ReferAndEarn;

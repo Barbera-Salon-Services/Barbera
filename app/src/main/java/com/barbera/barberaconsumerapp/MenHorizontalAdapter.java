@@ -1,7 +1,6 @@
 package com.barbera.barberaconsumerapp;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,22 +16,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barbera.barberaconsumerapp.Bookings.BookingPage;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
 import com.barbera.barberaconsumerapp.network_aws.Success;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.barbera.barberaconsumerapp.network_aws.SuccessReturn;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,10 +99,10 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
             price.setText("Rs "+Price);
             cutPrice.setText("Rs "+CutPrice);
             time.setText(iTime+" Min");
-            Toast.makeText(activity,id,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(activity,id,Toast.LENGTH_SHORT).show();
 //            Glide.with(itemView.getContext()).load(imgLink)
 //                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(photo);
-            Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+            Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
             JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
             SharedPreferences preferences = activity.getSharedPreferences("Token", activity.MODE_PRIVATE);
             String token = preferences.getString("token", "no");
@@ -129,12 +122,17 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                             progressDialog.setCancelable(false);
                             List<String> idList = new ArrayList<>();
                             idList.add(id);
-                            Call<Success> call=jsonPlaceHolderApi2.addToCart(new Success(false,null,idList),"Bearer "+token);
-                            call.enqueue(new Callback<Success>() {
+                            Call<SuccessReturn> call=jsonPlaceHolderApi2.addToCart(new Success(idList),"Bearer "+token);
+                            call.enqueue(new Callback<SuccessReturn>() {
                                 @Override
-                                public void onResponse(Call<Success> call, Response<Success> response) {
+                                public void onResponse(Call<SuccessReturn> call, Response<SuccessReturn> response) {
                                     if(response.code()==200){
-                                        Success success=response.body();
+                                        SuccessReturn success=response.body();
+                                        int count = success.getCount();
+                                        SharedPreferences sharedPreferences= activity.getSharedPreferences("Count",activity.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                                        editor.putInt("count",count);
+                                        editor.apply();
                                         if(success.isSuccess()){
                                             progressDialog.dismiss();
                                             Toast.makeText(activity,"Added to cart",Toast.LENGTH_SHORT).show();
@@ -151,7 +149,7 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                                 }
 
                                 @Override
-                                public void onFailure(Call<Success> call, Throwable t) {
+                                public void onFailure(Call<SuccessReturn> call, Throwable t) {
                                     progressDialog.dismiss();
                                     Toast.makeText(activity,t.getMessage(),Toast.LENGTH_SHORT).show();
                                 }
@@ -177,7 +175,7 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                         }
 
                         int time= parseInt(HorizontalserviceList.get(position).getTime());
-                        Intent intent=new Intent(activity,BookingPage.class);
+                        Intent intent=new Intent(activity, BookingPage.class);
                         intent.putExtra("BookingType","trend");
                         intent.putExtra("Booking Amount", parseInt(HorizontalserviceList.get(position).getPrice()));
                         intent.putExtra("Order Summary",ordersummary);

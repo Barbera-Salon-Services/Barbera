@@ -1,6 +1,7 @@
 package com.barbera.barberaconsumerapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -9,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.barbera.barberaconsumerapp.Utils.MehendiAdapter;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +31,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import retrofit2.Retrofit;
 
 public class MehendiMakeupActivity extends AppCompatActivity {
     private FirebaseFirestore fstore;
@@ -46,7 +50,7 @@ public class MehendiMakeupActivity extends AppCompatActivity {
     public static Button bookNow;
     private String collecton;
     private String subCategoryDocument;
-    private String serViceType;
+    private String serViceType,token;
     private static TextView numberCartParlour;
     private List<String> subCategoryList;
 
@@ -75,6 +79,11 @@ public class MehendiMakeupActivity extends AppCompatActivity {
         bookNow=(Button)findViewById(R.id.new_service_book_now_button);
         numberCartParlour=(TextView)findViewById(R.id.numberOnCartParlour);
         subCategoryList=new ArrayList<>();
+
+        Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+        token = preferences.getString("token", "no");
 
         //listView.setNumColumns(1);
 
@@ -246,28 +255,19 @@ public class MehendiMakeupActivity extends AppCompatActivity {
         super.onBackPressed();
         checkeditemList.clear();
     }
-//    public static void loadNumberOnCartParlour(){
-//        if(FirebaseAuth.getInstance().getCurrentUser()==null)
-//            numberCartParlour.setText("0");
-//        else {
-//            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                    .collection("UserData").document("MyCart").get()
-//                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                // NumberOnCartMain.setText(task.getResult().get("cart_list_size").toString());
-//                                //numberCartCategory.setText(task.getResult().get("cart_list_size").toString());
-//                                numberCartParlour.setText(task.getResult().get("cart_list_size").toString());
-//                            }
-//                        }
-//                    });
-//        }
-//    }
+    public void loadNumberOnCartParlour(){
+        if(token.equals("no"))
+            numberCartParlour.setText("0");
+        else {
+            SharedPreferences sharedPreferences=getSharedPreferences("Count",MODE_PRIVATE);
+            int count=sharedPreferences.getInt("count",0);
+            numberCartParlour.setText(""+count);
+        }
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //loadNumberOnCartParlour();
+        loadNumberOnCartParlour();
     }
 }

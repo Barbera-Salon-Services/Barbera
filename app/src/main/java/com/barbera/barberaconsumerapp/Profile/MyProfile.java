@@ -6,23 +6,20 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.Register;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.http.Body;
 
 public class MyProfile extends AppCompatActivity {
     private Button edit;
@@ -39,7 +36,7 @@ public class MyProfile extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("Token",MODE_PRIVATE);
         String token=preferences.getString("token",null);
-        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Call<Register> call=jsonPlaceHolderApi2.getProfile("Bearer "+token);
         ProgressDialog progressDialog = new ProgressDialog(MyProfile.this);

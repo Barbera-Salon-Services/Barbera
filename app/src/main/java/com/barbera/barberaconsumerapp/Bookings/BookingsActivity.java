@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Bookings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
+import com.barbera.barberaconsumerapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,7 +56,7 @@ public class BookingsActivity extends AppCompatActivity {
         newBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BookingsActivity.this,MainActivity.class));
+                startActivity(new Intent(BookingsActivity.this, MainActivity.class));
                 finish();
             }
         });

@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Bookings;
 
 public class BookingModel {
 

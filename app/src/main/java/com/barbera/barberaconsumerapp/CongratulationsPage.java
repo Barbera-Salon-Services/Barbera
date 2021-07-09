@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.barbera.barberaconsumerapp.Bookings.BookingPage;
+
 public class CongratulationsPage extends AppCompatActivity {
 
     @Override

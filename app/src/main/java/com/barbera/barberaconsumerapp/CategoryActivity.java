@@ -1,6 +1,5 @@
 package com.barbera.barberaconsumerapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -16,17 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
-import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +53,7 @@ public class CategoryActivity extends AppCompatActivity {
         final CategoryAdapter womenadapter=new CategoryAdapter(womenCategoryList);
         numberCartCategory=(TextView)findViewById(R.id.numberOfCartCategory);
 
-        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
         token = preferences.getString("token","no");
@@ -229,22 +222,13 @@ public class CategoryActivity extends AppCompatActivity {
         });
     }
 
-    public static void loadNumberOnCartCategory(){
-        if(FirebaseAuth.getInstance().getCurrentUser()==null)
+    public void loadNumberOnCartCategory(){
+        if(token.equals("no"))
             numberCartCategory.setText("0");
         else {
-            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .collection("UserData").document("MyCart").get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                //NumberOnCartMain.setText(task.getResult().get("cart_list_size").toString());
-                                numberCartCategory.setText(task.getResult().get("cart_list_size").toString());
-                                // numberCartParlour.setText(task.getResult().get("cart_list_size").toString());
-                            }
-                        }
-                    });
+            SharedPreferences sharedPreferences=getSharedPreferences("Count",MODE_PRIVATE);
+            int count=sharedPreferences.getInt("count",0);
+            numberCartCategory.setText(""+count);
         }
     }
 

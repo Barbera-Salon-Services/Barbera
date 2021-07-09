@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +17,8 @@ import android.widget.Toast;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstance2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,13 +26,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -87,26 +83,26 @@ public class ParlourActivity extends AppCompatActivity {
         subCategoryList = new ArrayList<>();
 
         //listView.setNumColumns(1);
-        Retrofit retrofit = RetrofitClientInstance2.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
         token = preferences.getString("token", "no");
 
-        FirebaseMessaging.getInstance().subscribeToTopic("men")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Successful";
-                        if (!task.isSuccessful()) {
-                            msg = "Failed";
-                        }
-                    }
-                });
+//        FirebaseMessaging.getInstance().subscribeToTopic("men")
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        String msg = "Successful";
+//                        if (!task.isSuccessful()) {
+//                            msg = "Failed";
+//                        }
+//                    }
+//                });
 
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                if (token.equals("no")) {
                     Toast.makeText(getApplicationContext(), "You Must Log In to continue", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), ActivityPhoneVerification.class));
                 } else {
@@ -171,22 +167,13 @@ public class ParlourActivity extends AppCompatActivity {
         super.onBackPressed();
         checkeditemList.clear();
     }
-    public static void loadNumberOnCartParlour(){
-        if(FirebaseAuth.getInstance().getCurrentUser()==null)
+    public void loadNumberOnCartParlour(){
+        if(token.equals("no"))
             numberCartParlour.setText("0");
         else {
-            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .collection("UserData").document("MyCart").get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                               // NumberOnCartMain.setText(task.getResult().get("cart_list_size").toString());
-                                //numberCartCategory.setText(task.getResult().get("cart_list_size").toString());
-                                 numberCartParlour.setText(task.getResult().get("cart_list_size").toString());
-                            }
-                        }
-                    });
+            SharedPreferences sharedPreferences=getSharedPreferences("Count",MODE_PRIVATE);
+            int count=sharedPreferences.getInt("count",0);
+            numberCartParlour.setText(""+count);
         }
     }
 
@@ -196,57 +183,3 @@ public class ParlourActivity extends AppCompatActivity {
         loadNumberOnCartParlour();
     }
 }
-/*progressBarOnServiceList.setVisibility(View.VISIBLE);
-           fstore.collection("Men\'s Salon").orderBy("index").get()
-                   .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                       @Override
-                       public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                           if (task.isSuccessful()) {
-                               for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                   menserviceList.add(new Service(documentSnapshot.get("icon").toString(), documentSnapshot.get("Service_title").toString(),
-                                           documentSnapshot.get("price").toString(), documentSnapshot.getId(), documentSnapshot.get("type").toString(),
-                                           documentSnapshot.get("cut_price").toString()));
-                               }
-                               ServiceAdapter adapter = new ServiceAdapter(menserviceList);
-                               progressBarOnServiceList.setVisibility(View.INVISIBLE);
-                               listView.setAdapter(adapter);
-                               if (firebaseAuth.getCurrentUser()!=null&&dbQueries.cartList.size() == 0)
-                                   dbQueries.loadCartList();
-                           } else {
-                               String msg = task.getException().getMessage();
-                               progressBarOnServiceList.setVisibility(View.INVISIBLE);
-                               Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                           }
-                       }
-                   });
-       */
-
-
-             /*   progressBarOnServiceList.setVisibility(View.VISIBLE);
-                        FirebaseFirestore.getInstance().collection(collecton).document(Category).collection("SubCategories").document("Blow Dry").get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-@Override
-public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-        if (task.isSuccessful()){
-        subCategoryList = (List<String>) task.getResult().get("Services");
-        for (int i = 0; i < subCategoryList.size(); i++) {
-        FirebaseFirestore.getInstance().collection(serViceType).document(subCategoryList.get(i).toString()).get()
-        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-@Override
-public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-        DocumentSnapshot documentSnapshot = task.getResult();
-        if (documentSnapshot.exists()) {
-        serviceList.add(new Service(Objects.requireNonNull(documentSnapshot.get("icon")).toString(),
-        documentSnapshot.get("Service_title").toString(),
-        documentSnapshot.get("price").toString(), documentSnapshot.getId(), documentSnapshot.get("type").toString(),
-        documentSnapshot.get("cut_price").toString(),
-        documentSnapshot.get("Time") != null ? documentSnapshot.get("Time").toString() : null));
-        listView.setAdapter(adapter);
-        progressBarOnServiceList.setVisibility(View.INVISIBLE);
-        }
-        }
-        });
-        }
-        }
-        }
-        });*/

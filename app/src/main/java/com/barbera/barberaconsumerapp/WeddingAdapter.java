@@ -1,6 +1,5 @@
 package com.barbera.barberaconsumerapp;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,18 +14,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.barbera.barberaconsumerapp.Bookings.BookingPage;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WeddingAdapter extends RecyclerView.Adapter {
     private List<WeddingModel> weddingList=new ArrayList<>();
@@ -155,7 +148,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                         //intent.putExtra("Position",position);
                         //itemView.getContext().startActivity(intent);
                         String ordersummary="("+WeddingActivity.weddingType+")"+weddingList.get(position).getPackageName()+"   Rs"+weddingList.get(position).getPackagePrice();
-                        Intent intent=new Intent(itemView.getContext(),BookingPage.class);
+                        Intent intent=new Intent(itemView.getContext(), BookingPage.class);
                         intent.putExtra("BookingType", "Wedding");
                         intent.putExtra("Booking Amount",Integer.parseInt(weddingList.get(position).getPackagePrice()));
                         intent.putExtra("Order Summary",ordersummary);
