@@ -97,6 +97,10 @@ public class EditProfile extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Could not edit profile", Toast.LENGTH_SHORT).show();
                             }
                             else{
+                                SharedPreferences sharedPreferences=getSharedPreferences("Profile",MODE_PRIVATE);
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putString("address",editAddress.getText().toString());
+                                editor.apply();
                                 startActivity(new Intent(EditProfile.this,MyProfile.class));
                             }
                         }

@@ -1,12 +1,16 @@
 package com.barbera.barberaconsumerapp.network_aws;
 
 import com.barbera.barberaconsumerapp.Bookings.BarberList;
+import com.barbera.barberaconsumerapp.Bookings.BookingModel;
+import com.barbera.barberaconsumerapp.Bookings.ServiceIdList;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.CartList;
 import com.barbera.barberaconsumerapp.Utils.CartList2;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
+
+import org.checkerframework.checker.nullness.compatqual.PolyNullType;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,6 +25,9 @@ public interface JsonPlaceHolderApi2 {
 
     @POST("loginotp")
     Call<Register> checkOtp(@Body Register register, @Header("Authorization") String token);
+
+    @POST("address")
+    Call<Void> updateAddress(@Body Register register,@Header("Authorization") String token);
 
     @POST("profileupd")
     Call<Register> updateProfile(@Body Register register, @Header("Authorization") String token);
@@ -54,5 +61,11 @@ public interface JsonPlaceHolderApi2 {
 
     @GET("getbarb/{date}/{slot}")
     Call<BarberList> getBarbers(@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
+
+    @POST("book/{date}/{slot}")
+    Call<Void> bookBarber(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
+
+    @GET("getbookings")
+    Call<BookingModel> getBookings(@Header("Authorization") String token);
 
 }

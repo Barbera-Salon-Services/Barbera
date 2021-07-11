@@ -9,19 +9,18 @@ public class CartItemModel {
     @SerializedName("name")
     private String ServiceName;
     @SerializedName("price")
-    private String ServicePrice;
+    private int ServicePrice;
     @SerializedName("quantity")
     private int Quantity;
     private String type;
-
     @SerializedName("time")
-    private String Time;
+    private int Time;
     @SerializedName("serviceId")
     private String id;
 
 
-    public CartItemModel(String imageId, String serviceName, String servicePrice, String type,
-                         int quantity, String time,String id) {
+    public CartItemModel(String imageId, String serviceName, int servicePrice, String type,
+                         int quantity, int time,String id) {
         ImageId = imageId;
         ServiceName = serviceName;
         ServicePrice =  servicePrice;
@@ -35,7 +34,7 @@ public class CartItemModel {
         return id;
     }
 
-    public String getTime() {
+    public int getTime() {
         return Time;
     }
 
@@ -55,7 +54,7 @@ public class CartItemModel {
         Quantity = quantity;
     }
 
-    public String getServicePrice() {
+    public int getServicePrice() {
         return ServicePrice;
     }
 

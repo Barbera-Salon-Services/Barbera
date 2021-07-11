@@ -14,11 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Utils.CheckedModel;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -119,7 +119,7 @@ public class ParlourActivity extends AppCompatActivity {
             progressBarOnServiceList.setVisibility(View.VISIBLE);
             Glide.with(getApplicationContext()).load(CategoryIMage)
                     .apply(new RequestOptions().placeholder(R.drawable.logo)).into(image);
-            Call<ServiceList> call = jsonPlaceHolderApi2.getAllServices(salontype, new ServiceItem(null, null, null, null, null, null, Category,
+            Call<ServiceList> call = jsonPlaceHolderApi2.getAllServices(salontype, new ServiceItem(null, 0, 0, null, 0, null, Category,
                     false, null, false, null), "Bearer "+token);
             call.enqueue(new Callback<ServiceList>() {
                 @Override

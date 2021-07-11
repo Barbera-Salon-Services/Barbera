@@ -48,11 +48,11 @@ public class MyProfile extends AppCompatActivity {
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if(response.code()==200){
                     Register register=response.body();
-
                     String nm=register.getName();
                     String ph=register.getPhone();
                     String add=register.getAddress();
                     String em=register.getEmail();
+
                     if(nm!=null){
                         name.setText(nm);
                     }

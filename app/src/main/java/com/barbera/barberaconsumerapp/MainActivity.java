@@ -105,37 +105,6 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
         isRegistered = preferences.getString("token","no");
 
-        FirebaseFirestore.getInstance().collection("AppData").document("CoOrdinates").get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            radius3=task.getResult().getDouble("kal_3_radius");
-                            radius4=task.getResult().getDouble("kal_4_radius");
-                            radius5=task.getResult().getDouble("kal_5_radius");
-                            radius6=task.getResult().getDouble("kal_6_radius");
-                            radius7=task.getResult().getDouble("kal_7_radius");
-                            radius8=task.getResult().getDouble("kal_8_radius");
-                            radius9=task.getResult().getDouble("kal_9_radius");
-                            radius10=task.getResult().getDouble("kal_10_radius");
-                            radius11=task.getResult().getDouble("kal_11_radius");
-                            radius12=task.getResult().getDouble("kal_12_radius");
-//                            Toast.makeText(getApplicationContext(),"asasc",Toast.LENGTH_SHORT).show();
-                            center3=new LatLng(task.getResult().getDouble("c4_lat"), task.getResult().getDouble("c4_lon"));
-                            center4=new LatLng(task.getResult().getDouble("c5_lat"), task.getResult().getDouble("c5_lon"));
-                            center5=new LatLng(task.getResult().getDouble("c6_lat"), task.getResult().getDouble("c6_lon"));
-                            center6=new LatLng(task.getResult().getDouble("c7_lat"), task.getResult().getDouble("c7_lon"));
-                            center7=new LatLng(task.getResult().getDouble("c8_lat"), task.getResult().getDouble("c8_lon"));
-                            center8=new LatLng(task.getResult().getDouble("c9_lat"), task.getResult().getDouble("c9_lon"));
-                            center9=new LatLng(task.getResult().getDouble("c10_lat"), task.getResult().getDouble("c10_lon"));
-                            center10=new LatLng(task.getResult().getDouble("c11_lat"), task.getResult().getDouble("c11_lon"));
-                            center11=new LatLng(task.getResult().getDouble("c12_lat"), task.getResult().getDouble("c12_lon"));
-                            center12=new LatLng(task.getResult().getDouble("c13_lat"), task.getResult().getDouble("c13_lon"));
-
-                        }
-                    }
-                });
-
         referMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

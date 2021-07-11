@@ -6,13 +6,13 @@ public class ServiceItem {
     @SerializedName("name")
     private String name;
     @SerializedName("price")
-    private String price;
+    private int price;
     @SerializedName("time")
-    private String time;
+    private int time;
     @SerializedName("details")
     private String detail;
     @SerializedName("cutprice")
-    private String cutprice;
+    private int cutprice;
     @SerializedName("gender")
     private String gender;
     @SerializedName("type")
@@ -27,7 +27,7 @@ public class ServiceItem {
     private String id;
 
 
-    public ServiceItem(String name, String price, String time, String detail, String cutprice,
+    public ServiceItem(String name, int price, int time, String detail, int cutprice,
                        String gender, String type, boolean dod, String id, boolean trend,String subtype) {
         this.name = name;
         this.price = price;
@@ -58,11 +58,11 @@ public class ServiceItem {
         return name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
@@ -70,7 +70,7 @@ public class ServiceItem {
         return detail;
     }
 
-    public String getCutprice() {
+    public int getCutprice() {
         return cutprice;
     }
 

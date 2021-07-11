@@ -90,7 +90,7 @@ public class SubCategoryActivity extends AppCompatActivity {
 
         if(subCategoryList.size()==0){
             progressBarOnSubCategory.setVisibility(View.VISIBLE);
-            Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes(salontype,new ServiceItem(null,null,null,null,null,null,Category,
+            Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes(salontype,new ServiceItem(null,0,0,null,0,null,Category,
                     false,null,false,null),"Bearer "+token);
             call.enqueue(new Callback<TypeList>() {
                 @Override

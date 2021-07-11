@@ -56,9 +56,9 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         String title=HorizontalserviceList.get(position).getName();
         //String imgResource=HorizontalserviceList.get(position).getImageId();
-        String price=HorizontalserviceList.get(position).getPrice();
-        String cutPrice=HorizontalserviceList.get(position).getCutprice();
-        String TIME=HorizontalserviceList.get(position).getTime();
+        int price=HorizontalserviceList.get(position).getPrice();
+        int cutPrice=HorizontalserviceList.get(position).getCutprice();
+        int TIME=HorizontalserviceList.get(position).getTime();
         String id=HorizontalserviceList.get(position).getId();
         //Toast.makeText(activity,title+" "+id,Toast.LENGTH_SHORT).show();
 
@@ -93,7 +93,7 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
             time=(TextView)itemView.findViewById(R.id.serviceTime);
         }
 
-        private void setDetails(String Title,String imgLink,String Price,String CutPrice,final int position,String iTime,String id){
+        private void setDetails(String Title,String imgLink,int Price,int CutPrice,final int position,int iTime,String id){
             final ServiceItem adapterList=HorizontalserviceList.get(position);
             title.setText(Title);
             price.setText("Rs "+Price);
@@ -161,11 +161,12 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
             bookNow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                    if(token.equals("no")){
                         Toast.makeText(itemView.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
                         itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
                     }
                     else {
+//                        activity.startActivity(new Intent(activity,MapSearchActivity.class));
                         String ordersummary;
                         if(flag==0){
                             ordersummary="(men)"+HorizontalserviceList.get(position).getName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
@@ -174,10 +175,10 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                             ordersummary="(women)"+HorizontalserviceList.get(position).getName()+"  Rs"+HorizontalserviceList.get(position).getPrice();
                         }
 
-                        int time= parseInt(HorizontalserviceList.get(position).getTime());
+                        int time= HorizontalserviceList.get(position).getTime();
                         Intent intent=new Intent(activity, BookingPage.class);
                         intent.putExtra("BookingType","trend");
-                        intent.putExtra("Booking Amount", parseInt(HorizontalserviceList.get(position).getPrice()));
+                        intent.putExtra("Booking Amount", HorizontalserviceList.get(position).getPrice());
                         intent.putExtra("Order Summary",ordersummary);
                         intent.putExtra("Time",time);
                         //Toast.makeText(itemView.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();

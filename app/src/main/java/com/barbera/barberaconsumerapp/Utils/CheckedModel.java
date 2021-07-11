@@ -1,19 +1,19 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Utils;
 
 public class CheckedModel {
     private String serviceId;
-    private String servicePrice;
+    private int servicePrice;
     private String serviceName;
-    private String serviceTime;
+    private int serviceTime;
 
-    public CheckedModel(String serviceId,String serviceName ,String servicePrice,String serviceTime) {
+    public CheckedModel(String serviceId,String serviceName ,int servicePrice,int serviceTime) {
         this.serviceName=serviceName;
         this.serviceId = serviceId;
         this.servicePrice = servicePrice;
         this.serviceTime = serviceTime;
     }
 
-    public String getTime() {
+    public int getTime() {
         return serviceTime;
     }
 
@@ -21,7 +21,7 @@ public class CheckedModel {
         return serviceId;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return servicePrice;
     }
 

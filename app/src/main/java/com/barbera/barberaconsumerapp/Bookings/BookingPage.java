@@ -224,7 +224,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         listPosition = intent.getIntExtra("Position", -1);
         BookingTotalAmount = intent.getIntExtra("Booking Amount", 0);
         OrderSummary = intent.getStringExtra("Order Summary");
-        serviceTime = intent.getIntExtra("Time", 0);
+        serviceTime = intent.getIntExtra("Time",0);
         Log.d("Order", OrderSummary + "  " + serviceTime);
 
         if(bookingType.equals("trend")){
@@ -333,12 +333,11 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         btype2=findViewById(R.id.weekly);
         btype3=findViewById(R.id.monthly);
 
-
-        String addres = sharedPreferences.getString("Address", "");
-
-        if (addres.equals("NA") || addres.equals("")) {
-            finish();
-        }
+//        String addres = sharedPreferences.getString("Address", "");
+//
+//        if (addres.equals("NA") || addres.equals("")) {
+//            finish();
+//        }
         totalAmount.setText("Total Amount Rs " + BookingTotalAmount);
         BookingOrders.setText(OrderSummary);
 
@@ -425,7 +424,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         progressDialog = new ProgressDialog(BookingPage.this);
         progressDialog.setMessage("Loading...");
 
-        fetchRegion();
+        //fetchRegion();
         typesel=1;
 //        btype1.setOnClickListener(v -> {
 //            btype1.setTextColor(getResources().getColor(R.color.white));
@@ -743,7 +742,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         });
         useCurrentAddress();
 
-
         changeLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1056,96 +1054,96 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 });
     }
 
-    private void fetchRegion () {
-//        ProgressDialog p =new ProgressDialog(BookingPage.this);
-//        p.setMessage("Please Wait...");
-//        p.show();
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .get().addOnCompleteListener(task -> {
-            String[] x = new String[2];
-            try {
-                String coord = task.getResult().get("Address1").toString();
-                x = coord.split(",");
-                lat = Double.parseDouble(x[0]);
-                lon = Double.parseDouble(x[1]);
-                getRegion();
-            } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "Address fields not saved!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(BookingPage.this, ChangeLocation.class));
-            }
-//                    p.dismiss();
-        });
-    }
+//    private void fetchRegion () {
+////        ProgressDialog p =new ProgressDialog(BookingPage.this);
+////        p.setMessage("Please Wait...");
+////        p.show();
+//        FirebaseFirestore.getInstance().collection("Users")
+//                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                .get().addOnCompleteListener(task -> {
+//            String[] x = new String[2];
+//            try {
+//                String coord = task.getResult().get("Address1").toString();
+//                x = coord.split(",");
+//                lat = Double.parseDouble(x[0]);
+//                lon = Double.parseDouble(x[1]);
+//                getRegion();
+//            } catch (Exception e) {
+//                Toast.makeText(getApplicationContext(), "Address fields not saved!", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(BookingPage.this, ChangeLocation.class));
+//            }
+////                    p.dismiss();
+//        });
+//    }
 
-    private void getRegion () {
-        double radius3 = 1685.09;
-        double radius4 = 1361.44;
-        double radius5 = 2351.31;
-        double radius6 = 2080.72;
-        double radius7 = 1854.92;
-        double radius8 = 2448.73;
-        double radius9 = 1655.59;
-        double radius10 = 1399.92;
-        double radius11 = 2227.10;
-        double radius12 = 1881.67;
-
-        if (getdistanceinkm(new LatLng(26.956962, 75.77664)) * 1000 <= radius3) {
-            region = 1;
-        } else if (getdistanceinkm(new LatLng(26.939211, 75.795793)) * 1000 <= radius4) {
-            region = 2;
-        } else if (getdistanceinkm(new LatLng(26.896277, 75.783537)) * 1000 <= radius5) {
-            region = 3;
-        } else if (getdistanceinkm(new LatLng(26.858152, 75.765343)) * 1000 <= radius6) {
-            region = 4;
-        } else if (getdistanceinkm(new LatLng(26.822310, 75.769312)) * 1000 <= radius7) {
-            region = 5;
-        } else if (getdistanceinkm(new LatLng(26.823396, 75.862217)) * 1000 <= radius8) {
-            region = 6;
-        } else if (getdistanceinkm(new LatLng(26.900915, 75.829059)) * 1000 <= radius9) {
-            region = 7;
-        } else if (getdistanceinkm(new LatLng(26.880131, 75.812279)) * 1000 <= radius10) {
-            region = 8;
-        } else if (getdistanceinkm(new LatLng(26.814549, 75.820629)) * 1000 <= radius11) {
-            region = 9;
-        } else if (getdistanceinkm(new LatLng(26.850078, 75.804790)) * 1000 <= radius12) {
-            region = 10;
-        } else if (getdistanceinkm(new LatLng(26.930256, 75.875947)) * 1000 <= 8101.33 || getdistanceinkm(new LatLng(26.943649, 75.748845)) * 1000 <= 1718.21 || getdistanceinkm(new LatLng(26.949311, 75.714512)) * 1000 <= 1764.76) {
-            region = 11;
-//            Toast.makeText(getApplicationContext(),"Special"+region,Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "You are Out of Zone Please change your location!" + region, Toast.LENGTH_SHORT).show();
-        }
-
-//        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
-    }
-
-    private double getdistanceinkm (LatLng latLng){
-        double lat1 = latLng.latitude;
-        double lon1 = latLng.longitude;
-        double lat2 = lat;
-        double lon2 = lon;
-        lon1 = Math.toRadians(lon1);
-        lon2 = Math.toRadians(lon2);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
-
-        // Haversine formula
-        double dlon = lon2 - lon1;
-        double dlat = lat2 - lat1;
-        double a = Math.pow(Math.sin(dlat / 2), 2)
-                + Math.cos(lat1) * Math.cos(lat2)
-                * Math.pow(Math.sin(dlon / 2), 2);
-
-        double c = 2 * Math.asin(Math.sqrt(a));
-
-        // Radius of earth in kilometers. Use 3956
-        // for miles
-        double r = 6371;
-
-        // calculate the result
-        return (c * r);
-    }
+//    private void getRegion () {
+//        double radius3 = 1685.09;
+//        double radius4 = 1361.44;
+//        double radius5 = 2351.31;
+//        double radius6 = 2080.72;
+//        double radius7 = 1854.92;
+//        double radius8 = 2448.73;
+//        double radius9 = 1655.59;
+//        double radius10 = 1399.92;
+//        double radius11 = 2227.10;
+//        double radius12 = 1881.67;
+//
+//        if (getdistanceinkm(new LatLng(26.956962, 75.77664)) * 1000 <= radius3) {
+//            region = 1;
+//        } else if (getdistanceinkm(new LatLng(26.939211, 75.795793)) * 1000 <= radius4) {
+//            region = 2;
+//        } else if (getdistanceinkm(new LatLng(26.896277, 75.783537)) * 1000 <= radius5) {
+//            region = 3;
+//        } else if (getdistanceinkm(new LatLng(26.858152, 75.765343)) * 1000 <= radius6) {
+//            region = 4;
+//        } else if (getdistanceinkm(new LatLng(26.822310, 75.769312)) * 1000 <= radius7) {
+//            region = 5;
+//        } else if (getdistanceinkm(new LatLng(26.823396, 75.862217)) * 1000 <= radius8) {
+//            region = 6;
+//        } else if (getdistanceinkm(new LatLng(26.900915, 75.829059)) * 1000 <= radius9) {
+//            region = 7;
+//        } else if (getdistanceinkm(new LatLng(26.880131, 75.812279)) * 1000 <= radius10) {
+//            region = 8;
+//        } else if (getdistanceinkm(new LatLng(26.814549, 75.820629)) * 1000 <= radius11) {
+//            region = 9;
+//        } else if (getdistanceinkm(new LatLng(26.850078, 75.804790)) * 1000 <= radius12) {
+//            region = 10;
+//        } else if (getdistanceinkm(new LatLng(26.930256, 75.875947)) * 1000 <= 8101.33 || getdistanceinkm(new LatLng(26.943649, 75.748845)) * 1000 <= 1718.21 || getdistanceinkm(new LatLng(26.949311, 75.714512)) * 1000 <= 1764.76) {
+//            region = 11;
+////            Toast.makeText(getApplicationContext(),"Special"+region,Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(getApplicationContext(), "You are Out of Zone Please change your location!" + region, Toast.LENGTH_SHORT).show();
+//        }
+//
+////        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
+//    }
+//
+//    private double getdistanceinkm (LatLng latLng){
+//        double lat1 = latLng.latitude;
+//        double lon1 = latLng.longitude;
+//        double lat2 = lat;
+//        double lon2 = lon;
+//        lon1 = Math.toRadians(lon1);
+//        lon2 = Math.toRadians(lon2);
+//        lat1 = Math.toRadians(lat1);
+//        lat2 = Math.toRadians(lat2);
+//
+//        // Haversine formula
+//        double dlon = lon2 - lon1;
+//        double dlat = lat2 - lat1;
+//        double a = Math.pow(Math.sin(dlat / 2), 2)
+//                + Math.cos(lat1) * Math.cos(lat2)
+//                * Math.pow(Math.sin(dlon / 2), 2);
+//
+//        double c = 2 * Math.asin(Math.sqrt(a));
+//
+//        // Radius of earth in kilometers. Use 3956
+//        // for miles
+//        double r = 6371;
+//
+//        // calculate the result
+//        return (c * r);
+//    }
 
     @Override
     protected void onRestart () {
@@ -1261,19 +1259,19 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
     }
 
-    private void extractDataFromUser () {
-        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            Username = task.getResult().get("Name").toString();
-                            UserPhone = task.getResult().get("Phone").toString();
-                        }
-                    }
-                });
-
-    }
+//    private void extractDataFromUser () {
+//        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            Username = task.getResult().get("Name").toString();
+//                            UserPhone = task.getResult().get("Phone").toString();
+//                        }
+//                    }
+//                });
+//
+//    }
 
     private void addTosheet () {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbynnJCsAja8_NPhqBVhc9wB2vsrw2lHRpIQIgoqCiw1_d5geLuUDzm-ibTVN1pSzrQ-oA/exec"
@@ -1337,7 +1335,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     @Override
     protected void onStart () {
         super.onStart();
-        extractDataFromUser();
+        //extractDataFromUser();
     }
 
     private void addCouponUsage () {
@@ -1369,20 +1367,10 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     }
 
     private void useCurrentAddress () {
-        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().get("house_address") != null) {
-                                String location = task.getResult().get("house_address").toString();
-                                houseAddress.setText(location);
-
-                            }
-                        } else
-                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        SharedPreferences preferences=getSharedPreferences("Profile",MODE_PRIVATE);
+        String address=preferences.getString("address",null);
+        Toast.makeText(getApplicationContext(),address,Toast.LENGTH_SHORT).show();
+        houseAddress.setText(address);
     }
 
 

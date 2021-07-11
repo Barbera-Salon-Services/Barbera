@@ -58,7 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter {
 
             String imageResource = dbQueries.cartItemModelList.get(position).getImageId();
             String title = dbQueries.cartItemModelList.get(position).getServiceName();
-            String price = dbQueries.cartItemModelList.get(position).getServicePrice();
+            int price = dbQueries.cartItemModelList.get(position).getServicePrice();
             int quantity = dbQueries.cartItemModelList.get(position).getQuantity();
             String type = dbQueries.cartItemModelList.get(position).getType();
             String id=dbQueries.cartItemModelList.get(position).getId();
@@ -93,7 +93,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             decreaseIncart = (Button) itemView.findViewById(R.id.decreaseInCart);
         }
 
-        private void setServiceDetails(String resource, String Service, String amount, int Quantity, String Type, final int position,String id) {
+        private void setServiceDetails(String resource, String Service, int amount, int Quantity, String Type, final int position,String id) {
             title.setText(Service);
             price.setText("Rs " + amount);
             quantity.setText(""+Quantity);

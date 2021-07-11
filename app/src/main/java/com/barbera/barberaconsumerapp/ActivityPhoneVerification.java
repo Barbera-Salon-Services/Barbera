@@ -167,7 +167,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     continue_to_signup.setEnabled(false);
                     progressBar.setVisibility(View.VISIBLE);
                     //PhoneAuthCredential credential=PhoneAuthProvider.getCredential(verificationId,veri_code.getText().toString());
-                    Toast.makeText(getApplicationContext(), "In", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "In", Toast.LENGTH_SHORT).show();
                     verifyUser();
                 }
 
@@ -178,14 +178,19 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private void verifyUser() {
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
-        Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
         Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null,
                 address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude()), "Bearer "+tempToken);
+
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if (response.code() == 200) {
-                    //sendToastmsg("Welcome");
+                    SharedPreferences sharedPreferences1=getSharedPreferences("Profile",MODE_PRIVATE);
+                    SharedPreferences.Editor editor1=sharedPreferences1.edit();
+                    editor1.putString("address",address.getAddressLine(0));
+                    editor1.apply();
+                    //sendToastmsg(address.getAddressLine(0));
                     Register register = response.body();
                     SharedPreferences sharedPreferences = getSharedPreferences("Token", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -86,7 +86,7 @@ public class CartActivity extends AppCompatActivity {
                 String token = preferences.getString("token", "no");
                 List<CartItemModel> cartItemModels=new ArrayList<>();
                 for(int i=0;i<dbQueries.cartItemModelList.size();i++){
-                    cartItemModels.add(new CartItemModel(null,null,null,null,dbQueries.cartItemModelList.get(i).getQuantity(),null,dbQueries.cartItemModelList.get(i).getId()));
+                    cartItemModels.add(new CartItemModel(null,null,0,null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId()));
                 }
                 Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartList2(cartItemModels),"Bearer "+token);
                 call.enqueue(new Callback<Void>() {

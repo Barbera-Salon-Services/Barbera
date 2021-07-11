@@ -136,7 +136,7 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(type.equals("Men\'s Salon")) {
-                    Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes("male",new ServiceItem(null,null,null,null,null,null,menCategoryList.get(position),
+                    Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes("male",new ServiceItem(null,0,0,null,0,null,menCategoryList.get(position),
                             false,null,false,null),"Bearer "+token);
                     call.enqueue(new Callback<TypeList>() {
                         @Override
@@ -178,7 +178,7 @@ public class CategoryActivity extends AppCompatActivity {
 
                 }
                 else{
-                    Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes("female",new ServiceItem(null,null,null,null,null,null,womenCategoryList.get(position),
+                    Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes("female",new ServiceItem(null,0,0,null,0,null,womenCategoryList.get(position),
                             false,null,false,null),"Bearer "+token);
                     call.enqueue(new Callback<TypeList>() {
                         @Override

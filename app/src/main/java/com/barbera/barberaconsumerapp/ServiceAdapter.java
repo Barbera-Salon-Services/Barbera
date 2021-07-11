@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.Bookings.BookingPage;
+import com.barbera.barberaconsumerapp.Utils.CheckedModel;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
@@ -89,10 +90,7 @@ public class ServiceAdapter extends BaseAdapter {
 
         /*  Glide.with(view.getContext()).load(serviceList.get(position).getImageId())
            .apply(new RequestOptions().placeholder(R.drawable.logo)).into(logo);*/
-        if(serviceList.get(position).getTime()==null){
-            timeImage.setVisibility(View.GONE);
-            time.setVisibility(View.GONE);
-        }
+
         final String amount = "Rs " + serviceList.get(position).getPrice();
         String CutAmount="Rs " +serviceList.get(position).getCutprice();
         title.setText(serviceList.get(position).getName());
@@ -198,7 +196,7 @@ public class ServiceAdapter extends BaseAdapter {
                         for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
                             ordersummary += "(" + ParlourActivity.salontype + ")" + ParlourActivity.checkeditemList.get(i).getName()
                                     + "\t\t\tRs" + ParlourActivity.checkeditemList.get(i).getPrice() + "\n";
-                            amount += parseInt(ParlourActivity.checkeditemList.get(i).getPrice());
+                            amount += ParlourActivity.checkeditemList.get(i).getPrice();
                             //Time+=ParlourActivity.checkeditemList.get(i).getTime();
                         }
                         //BookingPage.BookingTotalAmount = amount;
