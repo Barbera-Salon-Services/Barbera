@@ -49,6 +49,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +69,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private int region,typesel=0;
     private Boolean checkterms = false;
     private double lat, lon;
+    private ArrayList<String> sidlist;
     private TextView btype1,btype2,btype3;
     private TextView day1, day2, day3, day4, day5, day6, day7;
     private CardView slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10;
@@ -105,19 +107,54 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         if (checkterms) {
 //            Toast.makeText(getApplicationContext(), "Checked", Toast.LENGTH_SHORT).show();
             if (checkUserData()) {
-                final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
-                progressDialog.setMessage("Hold on for a moment...");
-                progressDialog.show();
-                progressDialog.setCancelable(false);
+//                final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
+//                progressDialog.setMessage("Hold on for a moment...");
+//                progressDialog.show();
+//                progressDialog.setCancelable(false);
                 String dt = mon + " " + day + ", " + selectedYear;
                 finalDate = dt;
+                String mn="";
+                if(mon.equals("Jul")){
+                    mn="07";
+                }
+                else if(mon.equals("Jan")){
+                    mn="01";
+                }
+                else if(mon.equals("Feb")){
+                    mn="02";
+                }else if(mon.equals("Mar")){
+                    mn="03";
+                }else if(mon.equals("Apr")){
+                    mn="04";
+                }else if(mon.equals("May")){
+                    mn="05";
+                }else if(mon.equals("Jun")){
+                    mn="06";
+                }
+                else if(mon.equals("Aug")){
+                    mn="08";
+                }
+                else if(mon.equals("Sep")){
+                    mn="09";
+                }
+                else if(mon.equals("Oct")){
+                    mn="10";
+                }
+                else if(mon.equals("Nov")){
+                    mn="11";
+                }
+                else if(mon.equals("Dec")){
+                    mn="12";
+                }
+                String dat=day+"-"+mn+"-"+selectedYear;
+                int slot=array[1];
                 finalTime = array[1] + ":00";
                 userAddress = houseAddress.getText().toString();
                 // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
 
-                sendemailconfirmation();
-                addtoDatabase();
-                addTosheet();
+                //sendemailconfirmation();
+                //addtoDatabase();
+                //addTosheet();
                 if (isCouponApplied)
                     addCouponUsage();
                 if (bookingType.equals("Cart")) {
@@ -175,19 +212,22 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                 }
                             });
                 } else {
-                    progressDialog.dismiss();
+//                    progressDialog.dismiss();
                     BookingsActivity.checked = false;
 //                        BookingsActivity.bookingActivityList.clear();
-                    Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                    Intent intent1 = new Intent(BookingPage.this, ViewBarberAcitivity.class);
                     intent1.putExtra("Booking Amount", BookingTotalAmount);
                     intent1.putExtra("Order Summary", OrderSummary);
+                    intent1.putExtra("date",dat);
+                    intent1.putExtra("slot",slot);
+                    intent1.putStringArrayListExtra("sidlist",sidlist);
                     startActivity(intent1);
                     finish();
                 }
                 SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("New_Address", "");
-                editor.commit();
+                editor.apply();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Not Checked", Toast.LENGTH_SHORT).show();
@@ -199,7 +239,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_booking_page);
-
         int count = 0;
 
         houseAddress = findViewById(R.id.booking_edit_address);
@@ -225,6 +264,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         BookingTotalAmount = intent.getIntExtra("Booking Amount", 0);
         OrderSummary = intent.getStringExtra("Order Summary");
         serviceTime = intent.getIntExtra("Time",0);
+        sidlist = intent.getStringArrayListExtra("sidlist");
         Log.d("Order", OrderSummary + "  " + serviceTime);
 
         if(bookingType.equals("trend")){
@@ -463,8 +503,21 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 day1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 mon = mon1;
                 day = day1.getText().toString();
-                progressDialog.show();
+//                progressDialog.show();
 //            setDefault();
+                if (men && !women) {
+                    male_slots.setVisibility(View.VISIBLE);
+                    female_slots.setVisibility(View.INVISIBLE);
+                    mf_slots.setVisibility(View.INVISIBLE);
+                } else if (women && !men) {
+                    male_slots.setVisibility(View.INVISIBLE);
+                    female_slots.setVisibility(View.VISIBLE);
+                    mf_slots.setVisibility(View.INVISIBLE);
+                } else {
+                    male_slots.setVisibility(View.INVISIBLE);
+                    female_slots.setVisibility(View.INVISIBLE);
+                    mf_slots.setVisibility(View.VISIBLE);
+                }
 
                 array[0] = 1;
                 day2.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -480,16 +533,16 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day1")
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                        }
-                    }
-                });
+//                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day1")
+//                        .collection("Region").document("Region" + region)
+//                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            slots(task);
+//                        }
+//                    }
+//                });
             }
         });
         day2.setOnClickListener(new View.OnClickListener() {
@@ -504,7 +557,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     mon = mon2;
                     day = day2.getText().toString();
 
-                    progressDialog.show();
+                    //progressDialog.show();
 //                setDefault();
                     array[0] = 2;
                     day1.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -520,16 +573,16 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day2")
-                            .collection("Region").document("Region" + region)
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                slots(task);
-                            }
-                        }
-                    });
+//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day2")
+//                            .collection("Region").document("Region" + region)
+//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                slots(task);
+//                            }
+//                        }
+//                    });
                 }
             }
         });
@@ -545,7 +598,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     mon = mon3;
                     day = day3.getText().toString();
 
-                    progressDialog.show();
+                    //progressDialog.show();
 //                setDefault();
                     array[0] = 3;
                     day1.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -561,16 +614,16 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day3")
-                            .collection("Region").document("Region" + region)
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                slots(task);
-                            }
-                        }
-                    });
+//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day3")
+//                            .collection("Region").document("Region" + region)
+//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                slots(task);
+//                            }
+//                        }
+//                    });
                 }
             }
         });
@@ -586,7 +639,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     mon = mon4;
                     day = day4.getText().toString();
 
-                    progressDialog.show();
+                    //progressDialog.show();
 //                setDefault();
                     array[0] = 4;
                     day1.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -602,16 +655,16 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day4")
-                            .collection("Region").document("Region" + region)
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                slots(task);
-                            }
-                        }
-                    });
+//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day4")
+//                            .collection("Region").document("Region" + region)
+//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                slots(task);
+//                            }
+//                        }
+//                    });
                 }
             }
         });
@@ -627,7 +680,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     mon = mon5;
                     day = day5.getText().toString();
 
-                    progressDialog.show();
+                    //progressDialog.show();
 //                setDefault();
                     array[0] = 5;
                     day1.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -643,16 +696,16 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day5")
-                            .collection("Region").document("Region" + region)
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                slots(task);
-                            }
-                        }
-                    });
+//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day5")
+//                            .collection("Region").document("Region" + region)
+//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                slots(task);
+//                            }
+//                        }
+//                    });
                 }
             }
         });
@@ -668,7 +721,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     mon = mon6;
                     day = day6.getText().toString();
 
-                    progressDialog.show();
+                    //progressDialog.show();
 //                setDefault();
                     array[0] = 6;
                     day1.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -684,16 +737,16 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day6")
-                            .collection("Region").document("Region" + region)
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                slots(task);
-                            }
-                        }
-                    });
+//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day6")
+//                            .collection("Region").document("Region" + region)
+//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                slots(task);
+//                            }
+//                        }
+//                    });
                 }
             }
         });
@@ -707,7 +760,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     mon = mon7;
                     day = day7.getText().toString();
-                    progressDialog.show();
+                    //progressDialog.show();
 
                     array[0] = 7;
                     day1.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -724,16 +777,16 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day6.setBackgroundColor(getResources().getColor(R.color.white));
 
                     if (region != 0) {
-                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day7")
-                                .collection("Region").document("Region" + region)
-                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    slots(task);
-                                }
-                            }
-                        });
+//                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day7")
+//                                .collection("Region").document("Region" + region)
+//                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                if (task.isSuccessful()) {
+//                                    slots(task);
+//                                }
+//                            }
+//                        });
                     } else {
                         startActivity(new Intent(BookingPage.this, ChangeLocation.class));
                     }
@@ -750,18 +803,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         });
 
         slot1.setOnClickListener(v -> {
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                    .collection("Region").document("Region" + region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "Inside task " + array[0], Toast.LENGTH_SHORT).show();
-                        slots(task);
-                        slot1.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                    }
-                }
-            });
+            slot1.setCardBackgroundColor(Color.parseColor("#27AE60"));
+            //slot2.setCardBackgroundColor();
             if (men && !women) {
                 array[1] = 7;
             } else {
@@ -769,17 +812,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
         });
         slot2.setOnClickListener(v -> {
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                    .collection("Region").document("Region" + region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        slots(task);
-                        slot2.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                    }
-                }
-            });
+            slot2.setCardBackgroundColor(Color.parseColor("#27AE60"));
             if (men && !women) {
                 array[1] = 8;
             } else {
@@ -787,17 +820,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
         });
         slot3.setOnClickListener(v -> {
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                    .collection("Region").document("Region" + region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        slots(task);
-                        slot3.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                    }
-                }
-            });
+            slot3.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
             if (men && !women) {
                 array[1] = 9;
             } else {
@@ -805,17 +829,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
         });
         slot4.setOnClickListener(v -> {
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                    .collection("Region").document("Region" + region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        slots(task);
-                        slot4.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                    }
-                }
-            });
+            slot4.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
             if (men && !women) {
                 array[1] = 10;
             } else {
@@ -823,17 +838,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
         });
         slot5.setOnClickListener(v -> {
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                    .collection("Region").document("Region" + region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        slots(task);
-                        slot5.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                    }
-                }
-            });
+            slot5.setCardBackgroundColor(Color.parseColor("#27AE60"));
             if (men && !women) {
                 array[1] = 11;
             } else if (women && !men) {
@@ -843,17 +848,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
         });
         slot6.setOnClickListener(v -> {
-            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                    .collection("Region").document("Region" + region)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        slots(task);
-                        slot6.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                    }
-                }
-            });
+            slot6.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
             if (men && !women) {
                 array[1] = 12;
             } else if (women && !men) {
@@ -864,17 +860,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         });
         if (!(men && women)) {
             slot7.setOnClickListener(v -> {
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                            slot7.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                        }
-                    }
-                });
+                slot7.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
                 if (men && !women) {
                     array[1] = 16;
                 } else {
@@ -882,17 +869,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 }
             });
             slot8.setOnClickListener(v -> {
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                            slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                        }
-                    }
-                });
+                slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));
+
                 if (men && !women) {
                     array[1] = 17;
                 } else {
@@ -900,17 +878,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 }
             });
             slot9.setOnClickListener(v -> {
-                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                        .collection("Region").document("Region" + region)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            slots(task);
-                            slot9.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                        }
-                    }
-                });
+                slot9.setCardBackgroundColor(Color.parseColor("#27AE60"));
                 if (men && !women) {
                     array[1] = 18;
                 } else {
@@ -919,17 +887,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             });
             if (men && !women) {
                 slot10.setOnClickListener(v -> {
-                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                            .collection("Region").document("Region" + region)
-                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                slots(task);
-                                slot10.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                            }
-                        }
-                    });
+                    slot10.setCardBackgroundColor(Color.parseColor("#27AE60"));
                     array[1] = 19;
                 });
             }
@@ -1389,7 +1347,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             mf_slots.setVisibility(View.VISIBLE);
         }
         if (men && !women) {
-            if (task.getResult().get("7_m").toString().equals("B")) {
+            if(task.getResult().get("7_m").toString().equals("B")) {
                 slot1.setEnabled(false);
                 slot1.setCardBackgroundColor(Color.GRAY);
             } else {

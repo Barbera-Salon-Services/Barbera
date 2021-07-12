@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,12 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class BookingsActivity extends AppCompatActivity {
     private List<BookingModel> bookingActivityList=new ArrayList<>();
     private RecyclerView BookinglistView;
     private ProgressBar progressBarONBookingActivity;
     private static RelativeLayout emptyLayout;
     public static boolean checked=false;
+    private String token;
     private SharedPreferences sharedPreferences;
     public static BookingActivityAdapter bookingActivityAdapter;
 
@@ -42,6 +50,10 @@ public class BookingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bookings);
         sharedPreferences=getSharedPreferences("UserInfo",MODE_PRIVATE);
 
+        Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+        token = preferences.getString("token", "no");
 
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigation);
        // ImageView cart=(ImageView)findViewById(R.id.cartONBooking);
@@ -85,75 +97,18 @@ public class BookingsActivity extends AppCompatActivity {
 
         if(!checked&&FirebaseAuth.getInstance().getCurrentUser()!=null){
             progressBarONBookingActivity.setVisibility(View.VISIBLE);
-            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .collection("Bookings").get()
-                    .addOnCompleteListener(task -> {
-                        if(task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                                String status = "";
-                                try {
-                                    status = documentSnapshot.get("status").toString();
-                                    bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString(), documentSnapshot.get("total_amount").toString(),
-                                            documentSnapshot.get("date").toString(), documentSnapshot.get("time").toString(), documentSnapshot.get("address").toString(),
-                                            documentSnapshot.getId(), status, documentSnapshot.get("total_time").toString(), documentSnapshot.get("randomId").toString()));
-                                } catch (Exception ignored) {
+            Call<BookingModel> call=jsonPlaceHolderApi2.getBookings("Bearer "+token);
+            call.enqueue(new Callback<BookingModel>() {
+                @Override
+                public void onResponse(Call<BookingModel> call, Response<BookingModel> response) {
 
-                                }
-                            }
-//                                    FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                                            .collection("Weekly booking").get()
-//                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                    if(task.isSuccessful()){
-//                                                        for(QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())){
-//                                                            String status = "";
-//                                                            try{
-//                                                                status =documentSnapshot.get("status").toString();
-//                                                            }catch (Exception ignored){
-//                                                                status ="pending";
-//                                                            }
-//                                                            try{
-//                                                                bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString()+"(Weekly)",documentSnapshot.get("total_amount").toString(),
-//                                                                        documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
-//                                                                        documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString(),documentSnapshot.get("randomId").toString()));
-//                                                            }catch (Exception ignored){
-//
-//                                                            }
-//                                                        }
-//                                                    }
-//                                                    else{
-//                                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-//                                                    }
-//                                                }
-//                                            });
-//                                    FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                                            .collection("Monthly booking").get()
-//                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                    if(task.isSuccessful()){
-//                                                        for(QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())){
-//                                                            String status = "";
-//                                                            try{
-//                                                                status =documentSnapshot.get("status").toString();
-//                                                            }catch (Exception ignored){
-//                                                                status ="pending";
-//                                                            }
-//                                                            try{
-//                                                                bookingActivityList.add(new BookingModel(documentSnapshot.get("service").toString()+"(Monthly)",documentSnapshot.get("total_amount").toString(),
-//                                                                        documentSnapshot.get("date").toString(),documentSnapshot.get("time").toString(),documentSnapshot.get("address").toString(),
-//                                                                        documentSnapshot.getId(),status,documentSnapshot.get("total_time").toString(),documentSnapshot.get("randomId").toString()));
-//                                                            }catch (Exception ignored){
-//
-//                                                            }
-//                                                        }
-//                                                    }
-//                                                    else{
-//                                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-//                                                    }
-//                                                }
-//                                            });
+                }
+
+                @Override
+                public void onFailure(Call<BookingModel> call, Throwable t) {
+
+                }
+            });
                                 BookinglistView.setAdapter(bookingActivityAdapter);
                                 if(bookingActivityList.size()==0){
                                     //Toast.makeText(getApplicationContext(),"No Bookings Yet",Toast.LENGTH_LONG).show();
@@ -161,12 +116,6 @@ public class BookingsActivity extends AppCompatActivity {
                                     emptyLayout.setVisibility(View.VISIBLE);
                                 }
                                 progressBarONBookingActivity.setVisibility(View.INVISIBLE);
-
-                        }
-                        else
-                            Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                    });
-
         }
         if(checked&&bookingActivityList.size()!=0){
             BookinglistView.setVisibility(View.VISIBLE);

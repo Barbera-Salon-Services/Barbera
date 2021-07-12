@@ -12,6 +12,7 @@ public class BookingModel {
     private String totalTime;
     private String randomId;
 
+
     public BookingModel(String summary, String amount, String date,String time ,String address,String docId,String status,String totalTime,String randomId) {
         this.summary = summary;
         this.amount = amount;

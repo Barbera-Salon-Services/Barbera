@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -12,7 +13,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Profile.EditProfile"></activity>
+        <activity android:name=".Bookings.ViewBarberAcitivity"></activity>
+        <activity android:name=".Profile.EditProfile" />
         <activity android:name=".Profile.MyProfile" />
         <activity android:name=".Service50.Service_50" />
         <activity android:name=".Offers" />

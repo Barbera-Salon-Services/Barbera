@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class BarberList {
-    @SerializedName("data")
+    @SerializedName("barbers")
     private List<BarberItem> list;
 
     public BarberList(List<BarberItem> list) {

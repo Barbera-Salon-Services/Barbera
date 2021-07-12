@@ -880,7 +880,7 @@
 			android:layout_alignParentBottom="true"
 			android:layout_margin="20dp"
 			android:background="@color/colorAccent"
-			android:text="confirm booking"
+			android:text="continue"
 			android:textColor="@color/white" />
 
 

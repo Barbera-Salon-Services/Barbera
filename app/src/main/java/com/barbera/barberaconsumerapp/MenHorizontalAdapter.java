@@ -181,6 +181,9 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                         intent.putExtra("Booking Amount", HorizontalserviceList.get(position).getPrice());
                         intent.putExtra("Order Summary",ordersummary);
                         intent.putExtra("Time",time);
+                        ArrayList<String> list=new ArrayList<>();
+                        list.add(HorizontalserviceList.get(position).getId());
+                        intent.putStringArrayListExtra("sidlist",list);
                         //Toast.makeText(itemView.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(intent);

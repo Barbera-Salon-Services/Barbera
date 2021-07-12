@@ -60,10 +60,10 @@ public interface JsonPlaceHolderApi2 {
     Call<SuccessReturn> deleteFromCart(@Path("serviceid") String id,@Header("Authorization") String token);
 
     @GET("getbarb/{date}/{slot}")
-    Call<BarberList> getBarbers(@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
+    Call<BarberList> getBarbers(@Path("date") String date, @Path("slot") int slot, @Header("Authorization") String token);
 
     @POST("book/{date}/{slot}")
-    Call<Void> bookBarber(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
+    Call<Void> bookBarber(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") int slot, @Header("Authorization") String token);
 
     @GET("getbookings")
     Call<BookingModel> getBookings(@Header("Authorization") String token);

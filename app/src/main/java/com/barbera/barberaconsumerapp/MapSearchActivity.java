@@ -28,6 +28,10 @@ import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.Bookings.BookingPage;
 import com.barbera.barberaconsumerapp.Utils.PermissionUtils;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.Register;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,6 +57,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnCameraMoveListener ,GoogleMap.OnCameraMoveCanceledListener,
         GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveStartedListener {
@@ -245,10 +254,25 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void addAddress() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("New_Address", address.getAddressLine(0));
-        editor.apply();
+        Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+        String token = preferences.getString("token", "no");
+        Call<Void> call=jsonPlaceHolderApi2.updateAddress(new Register(null,null,null,null,null,address.getAddressLine(0),
+                null,null,Lat,Lon),"Bearer "+token);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code()!=200){
+                    Toast.makeText(getApplicationContext(),"Could not update address",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
         BookingPage.houseAddress.setText(address.getAddressLine(0));
         finish();
     }

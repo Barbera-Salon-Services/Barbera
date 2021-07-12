@@ -34,9 +34,6 @@ import retrofit2.Retrofit;
 
 public class CartActivity extends AppCompatActivity {
     public static RecyclerView cartItemRecyclerView;
-    private DocumentReference documentReference;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore fstore;
     public static ProgressBar progressBarMyCart;
     public static TextView total_cart_amount;
     public static int totalAmount=0;
@@ -57,8 +54,6 @@ public class CartActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         cartItemRecyclerView.setLayoutManager(layoutManager);
-        firebaseAuth=FirebaseAuth.getInstance();
-        fstore=FirebaseFirestore.getInstance();
         progressBarMyCart=(ProgressBar)findViewById(R.id.progressBarOnMyCart);
         total_cart_amount=(TextView)findViewById(R.id.total_cart_amount);
         continueToBooking=(Button)findViewById(R.id.continue_from_cart_button);
