@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.Edits;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class BarberAdapter extends RecyclerView.Adapter<BarberAdapter.BarberItemViewHolder> {
     private List<BarberItem> barberItems=new ArrayList<>();
@@ -65,7 +68,7 @@ public class BarberAdapter extends RecyclerView.Adapter<BarberAdapter.BarberItem
 
         Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-        SharedPreferences preferences = context.getSharedPreferences("Token", context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("Token", MODE_PRIVATE);
         String token = preferences.getString("token", "no");
 
         holder.book.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +100,11 @@ public class BarberAdapter extends RecyclerView.Adapter<BarberAdapter.BarberItem
 
                                 }
                             });
+                            SharedPreferences sharedPreferences=context.getSharedPreferences("Count",MODE_PRIVATE);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putInt("count",0);
+                            editor.apply();
+
                             Intent intent1 = new Intent(context, CongratulationsPage.class);
                             intent1.putExtra("Booking Amount", amount);
                             intent1.putExtra("Order Summary", summary);

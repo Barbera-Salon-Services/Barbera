@@ -121,7 +121,6 @@ public class CartActivity extends AppCompatActivity {
                     int count=cartList.getCount();
                     if(count!=0){
                         List<CartItemModel> list=cartList.getList();
-
                         for(CartItemModel itemModel:list) {
                             dbQueries.cartItemModelList.add(new CartItemModel(null,itemModel.getServiceName(),itemModel.getServicePrice(),
                                     itemModel.getType(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId(),false));
