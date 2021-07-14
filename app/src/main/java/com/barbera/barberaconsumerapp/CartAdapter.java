@@ -137,7 +137,6 @@ public class CartAdapter extends RecyclerView.Adapter {
                 }
             });
 
-
             decreaseIncart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -156,7 +155,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                                     SharedPreferences.Editor editor=sharedPreferences.edit();
                                     editor.putInt("count",totalCount);
                                     editor.apply();
-
+                                    MainActivity.cartAdapter.notifyDataSetChanged();
                                     Toast.makeText(context, "Service deleted from cart", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(context, "Could not decrease cart", Toast.LENGTH_SHORT).show();

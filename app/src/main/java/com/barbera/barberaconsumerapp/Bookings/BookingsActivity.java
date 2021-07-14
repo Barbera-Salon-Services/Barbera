@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -96,11 +97,13 @@ public class BookingsActivity extends AppCompatActivity {
         });
 
         if(!checked&&!token.equals("no")){
+            //bookingActivityList=new ArrayList<>();
             progressBarONBookingActivity.setVisibility(View.VISIBLE);
             Call<BookingList> call=jsonPlaceHolderApi2.getBookings("Bearer "+token);
             call.enqueue(new Callback<BookingList>() {
                 @Override
                 public void onResponse(Call<BookingList> call, Response<BookingList> response) {
+
                     if(response.code()==200){
                         BookingList bookingList=response.body();
                         List<BookingItem> list=bookingList.getList();
@@ -108,58 +111,73 @@ public class BookingsActivity extends AppCompatActivity {
                             BookinglistView.setVisibility(View.INVISIBLE);
                             emptyLayout.setVisibility(View.VISIBLE);
                         }
-                        int i=0,amount=0;
-                        String summary="",date="",slot="";
-                        for(BookingItem item:list){
-                            if(i==0){
-                                date=item.getDate();
-                                slot=item.getSlot();
-                                String name=item.getService().getName();
-                                String gender=item.getService().getGender();
-                                int price=item.getService().getPrice();
-                                summary+="("+gender+") "+name+"   Rs: "+price;
-                                amount+=item.getService().getPrice();
-                            }
-                            else{
-                                if(item.getDate().equals(date) && item.getSlot().equals(slot)){
-                                    String name=item.getService().getName();
-                                    String gender=item.getService().getGender();
-                                    int price=item.getService().getPrice();
-                                    summary+="("+gender+") "+name+"   Rs: "+price;
-                                    amount+=item.getService().getPrice();
-                                    date=item.getDate();
-                                    slot=item.getSlot();
+                        else {
+                            Log.d("List","IN");
+                            int i = 0, amount = 0;
+                            String summary = "", date = "", slot = "", timestamp = "";
+                            for (BookingItem item : list) {
+                                if (i == 0) {
+                                    date = item.getDate();
+                                    slot = item.getSlot();
+                                    String name = item.getService().getName();
+                                    String gender = item.getService().getGender();
+                                    int price = item.getService().getPrice();
+                                    int quantity=item.getQuantity();
+                                    summary += "(" + gender + ") " + name + "   Rs: " + price + "  ("+quantity+")"+"\n";
+                                    amount += (item.getQuantity()*item.getService().getPrice());
+                                    timestamp += item.getTimestamp();
+                                    //Log.d("timestamp",timestamp);
+                                    i++;
+                                } else {
+                                    if (item.getTimestamp().equals(timestamp)) {
+                                        String name = item.getService().getName();
+                                        String gender = item.getService().getGender();
+                                        int price = item.getService().getPrice();
+                                        int quantity=item.getQuantity();
+                                        summary += "(" + gender + ") " + name + "   Rs: " + price +"  ("+quantity+")"+"\n";
+                                        amount += (item.getQuantity()*item.getService().getPrice());
+                                        date = item.getDate();
+                                        slot = item.getSlot();
+                                    } else {
+                                        //Log.d("timestamp",timestamp);
+                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot));
+                                        date = item.getDate();
+                                        slot = item.getSlot();
+                                        summary = "";
+                                        String name = item.getService().getName();
+                                        String gender = item.getService().getGender();
+                                        int price = item.getService().getPrice();
+                                        int quantity=item.getQuantity();
+                                        summary += "(" + gender + ") " + name + "   Rs: " + price +"  ("+quantity+")"+ "\n";
+                                        amount = 0;
+                                        amount += (item.getQuantity()*item.getService().getPrice());
+                                        timestamp = "";
+                                        timestamp += item.getTimestamp();
+                                    }
                                 }
-                                else{
-                                    bookingActivityList.add(new BookingModel(summary,amount,date,slot));
-                                    date=item.getDate();
-                                    slot=item.getSlot();
-                                    summary="";
-                                    String name=item.getService().getName();
-                                    String gender=item.getService().getGender();
-                                    int price=item.getService().getPrice();
-                                    summary+="("+gender+") "+name+"   Rs: "+price;
-                                    amount=0;
-                                    amount+=item.getService().getPrice();
-                                }
                             }
+                            //Log.d("last", summary + " " + amount + " " + date + " " + slot);
+                            bookingActivityList.add(new BookingModel(summary, amount, date, slot));
+//                            for (BookingModel item : bookingActivityList) {
+//                                Log.d("item", item.getDate() + " " + item.getTime());
+//                            }
+                            BookinglistView.setAdapter(bookingActivityAdapter);
+                            progressBarONBookingActivity.setVisibility(View.INVISIBLE);
                         }
-                        bookingActivityList.add(new BookingModel(summary,amount,date,slot));
-                        BookinglistView.setAdapter(bookingActivityAdapter);
-                        progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+
                     }
                     else{
                         progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getApplicationContext(),"Could not get bookings",Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<BookingList> call, Throwable t) {
                     progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
-
-
 
         }
         if(checked&&bookingActivityList.size()!=0){

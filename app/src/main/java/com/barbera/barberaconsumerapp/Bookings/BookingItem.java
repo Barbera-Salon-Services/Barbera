@@ -5,6 +5,8 @@ import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.google.gson.annotations.SerializedName;
 
 public class BookingItem {
+    @SerializedName("Timestamp")
+    private String timestamp;
     @SerializedName("date")
     private String date;
     @SerializedName("slot")
@@ -13,12 +15,24 @@ public class BookingItem {
     private ServiceItem service;
     @SerializedName("barber")
     private BarberItem barberItem;
+    @SerializedName("quantity")
+    private int quantity;
 
-    public BookingItem(String date, String slot, ServiceItem service, BarberItem barberItem) {
+    public BookingItem(String date, String slot, ServiceItem service, BarberItem barberItem,String timestamp,int quantity) {
         this.date = date;
         this.slot = slot;
         this.service = service;
         this.barberItem = barberItem;
+        this.timestamp=timestamp;
+        this.quantity=quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public String getDate() {

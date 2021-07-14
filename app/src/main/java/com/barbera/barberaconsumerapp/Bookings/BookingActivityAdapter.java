@@ -83,7 +83,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 
         holder.serviceSummary.setText(bookingModel.getSummary());
         holder.totalAmount.setText("Total Amount Rs "+bookingModel.getAmount());
-        holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime());
+        holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime()+":00");
 
         //extractNameAndContact(holder);
 

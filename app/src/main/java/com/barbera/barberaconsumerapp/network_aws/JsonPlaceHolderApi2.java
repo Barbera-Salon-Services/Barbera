@@ -69,4 +69,6 @@ public interface JsonPlaceHolderApi2 {
     @GET("getbookings")
     Call<BookingList> getBookings(@Header("Authorization") String token);
 
+    @POST("deletecart")
+    Call<Void> deleteCart(@Body ServiceIdList list, @Header("Authorization") String token);
 }

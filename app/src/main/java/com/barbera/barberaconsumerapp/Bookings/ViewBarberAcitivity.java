@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -52,6 +53,10 @@ public class ViewBarberAcitivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
         token = preferences.getString("token", "no");
 
+        ProgressDialog progressDialog= new ProgressDialog(ViewBarberAcitivity.this);
+        progressDialog.setCancelable(true);
+        progressDialog.setMessage("Loading");
+        progressDialog.show();
         Call<BarberList> call=jsonPlaceHolderApi2.getBarbers(dat,slot,"Bearer "+token);
         call.enqueue(new Callback<BarberList>() {
             @Override
@@ -68,14 +73,17 @@ public class ViewBarberAcitivity extends AppCompatActivity {
                         }
                         adapter.notifyDataSetChanged();
                     }
+                    progressDialog.dismiss();
                 }
                 else{
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(),"Could not get barber list",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BarberList> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
