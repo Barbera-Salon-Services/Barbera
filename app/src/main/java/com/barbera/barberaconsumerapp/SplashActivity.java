@@ -48,29 +48,5 @@ public class SplashActivity extends AppCompatActivity {
             }
         },3000);
     }
-    private void whetherNewOrOldUser() {
 
-        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()){
-                    //CartActivity.updateCartItemModelList();
-                    sendToMainActivity();
-                }
-                else
-                    sendToSignUPActivity();
-            }
-        });
-    }
-    private void sendToSignUPActivity() {
-        Intent intent=new Intent(SplashActivity.this,SignUpActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    private void sendToMainActivity(){
-        Intent intent=new Intent(SplashActivity.this,MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }

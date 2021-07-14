@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.barbera.barberaconsumerapp.CongratulationsPage;
 import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
 
@@ -33,9 +34,9 @@ public class BarberAdapter extends RecyclerView.Adapter<BarberAdapter.BarberItem
     private Context context;
     private String date,amount,summary;
     private int slot;
-    private ArrayList<String> sidlist=new ArrayList<>();
+    private List<CartItemModel> sidlist=new ArrayList<>();
 
-    public BarberAdapter(List<BarberItem> list, Context context, String dat, int slot, String amount, String summary, ArrayList<String> sidlist) {
+    public BarberAdapter(List<BarberItem> list, Context context, String dat, int slot, String amount, String summary, List<CartItemModel> sidlist) {
         this.barberItems=list;
         this.context=context;
         this.date=dat;

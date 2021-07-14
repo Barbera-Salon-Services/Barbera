@@ -60,7 +60,7 @@ public class CartActivity extends AppCompatActivity {
         emptyCart=(RelativeLayout)findViewById(R.id.empty_cart);
         Button addInEmptyCart=(Button)findViewById(R.id.add_a_service);
         cartTotalAmtLayout=(RelativeLayout)findViewById(R.id.cart_total_amount_layout);
-        save=findViewById(R.id.save_cart);
+        //save=findViewById(R.id.save_cart);
 
         updateCartItemModelList();
 
@@ -72,36 +72,36 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
-                JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
-                SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
-                String token = preferences.getString("token", "no");
-                List<CartItemModel> cartItemModels=new ArrayList<>();
-                for(int i=0;i<dbQueries.cartItemModelList.size();i++){
-                    cartItemModels.add(new CartItemModel(null,null,0,null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId()));
-                }
-                Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartList2(cartItemModels),"Bearer "+token);
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if(response.code()==200){
-                            Toast.makeText(getApplicationContext(),"Cart updated",Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),"Could not update cart",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-
+//        save.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
+//                JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
+//                SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+//                String token = preferences.getString("token", "no");
+//                List<CartItemModel> cartItemModels=new ArrayList<>();
+//                for(int i=0;i<dbQueries.cartItemModelList.size();i++){
+//                    cartItemModels.add(new CartItemModel(null,null,0,null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false));
+//                }
+//                Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartList2(cartItemModels),"Bearer "+token);
+//                call.enqueue(new Callback<Void>() {
+//                    @Override
+//                    public void onResponse(Call<Void> call, Response<Void> response) {
+//                        if(response.code()==200){
+//                            Toast.makeText(getApplicationContext(),"Cart updated",Toast.LENGTH_SHORT).show();
+//                        }
+//                        else{
+//                            Toast.makeText(getApplicationContext(),"Could not update cart",Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<Void> call, Throwable t) {
+//                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
+//
 
     }
 
@@ -124,7 +124,7 @@ public class CartActivity extends AppCompatActivity {
 
                         for(CartItemModel itemModel:list) {
                             dbQueries.cartItemModelList.add(new CartItemModel(null,itemModel.getServiceName(),itemModel.getServicePrice(),
-                                    itemModel.getType(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId()));
+                                    itemModel.getType(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId(),false));
                         }
                         MainActivity.cartAdapter.notifyDataSetChanged();
                     }

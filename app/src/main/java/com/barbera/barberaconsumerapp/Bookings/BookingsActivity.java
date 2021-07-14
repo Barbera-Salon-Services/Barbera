@@ -95,27 +95,72 @@ public class BookingsActivity extends AppCompatActivity {
             }
         });
 
-        if(!checked&&FirebaseAuth.getInstance().getCurrentUser()!=null){
+        if(!checked&&!token.equals("no")){
             progressBarONBookingActivity.setVisibility(View.VISIBLE);
-            Call<BookingModel> call=jsonPlaceHolderApi2.getBookings("Bearer "+token);
-            call.enqueue(new Callback<BookingModel>() {
+            Call<BookingList> call=jsonPlaceHolderApi2.getBookings("Bearer "+token);
+            call.enqueue(new Callback<BookingList>() {
                 @Override
-                public void onResponse(Call<BookingModel> call, Response<BookingModel> response) {
-
+                public void onResponse(Call<BookingList> call, Response<BookingList> response) {
+                    if(response.code()==200){
+                        BookingList bookingList=response.body();
+                        List<BookingItem> list=bookingList.getList();
+                        if(list.size()==0){
+                            BookinglistView.setVisibility(View.INVISIBLE);
+                            emptyLayout.setVisibility(View.VISIBLE);
+                        }
+                        int i=0,amount=0;
+                        String summary="",date="",slot="";
+                        for(BookingItem item:list){
+                            if(i==0){
+                                date=item.getDate();
+                                slot=item.getSlot();
+                                String name=item.getService().getName();
+                                String gender=item.getService().getGender();
+                                int price=item.getService().getPrice();
+                                summary+="("+gender+") "+name+"   Rs: "+price;
+                                amount+=item.getService().getPrice();
+                            }
+                            else{
+                                if(item.getDate().equals(date) && item.getSlot().equals(slot)){
+                                    String name=item.getService().getName();
+                                    String gender=item.getService().getGender();
+                                    int price=item.getService().getPrice();
+                                    summary+="("+gender+") "+name+"   Rs: "+price;
+                                    amount+=item.getService().getPrice();
+                                    date=item.getDate();
+                                    slot=item.getSlot();
+                                }
+                                else{
+                                    bookingActivityList.add(new BookingModel(summary,amount,date,slot));
+                                    date=item.getDate();
+                                    slot=item.getSlot();
+                                    summary="";
+                                    String name=item.getService().getName();
+                                    String gender=item.getService().getGender();
+                                    int price=item.getService().getPrice();
+                                    summary+="("+gender+") "+name+"   Rs: "+price;
+                                    amount=0;
+                                    amount+=item.getService().getPrice();
+                                }
+                            }
+                        }
+                        bookingActivityList.add(new BookingModel(summary,amount,date,slot));
+                        BookinglistView.setAdapter(bookingActivityAdapter);
+                        progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                    }
+                    else{
+                        progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<BookingModel> call, Throwable t) {
-
+                public void onFailure(Call<BookingList> call, Throwable t) {
+                    progressBarONBookingActivity.setVisibility(View.INVISIBLE);
                 }
             });
-                                BookinglistView.setAdapter(bookingActivityAdapter);
-                                if(bookingActivityList.size()==0){
-                                    //Toast.makeText(getApplicationContext(),"No Bookings Yet",Toast.LENGTH_LONG).show();
-                                    BookinglistView.setVisibility(View.INVISIBLE);
-                                    emptyLayout.setVisibility(View.VISIBLE);
-                                }
-                                progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+
+
+
         }
         if(checked&&bookingActivityList.size()!=0){
             BookinglistView.setVisibility(View.VISIBLE);

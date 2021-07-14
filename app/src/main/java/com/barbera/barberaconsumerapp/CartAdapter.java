@@ -1,6 +1,7 @@
 package com.barbera.barberaconsumerapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barbera.barberaconsumerapp.Bookings.BookingPage;
+import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.barbera.barberaconsumerapp.network_aws.SuccessReturn;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -109,28 +116,27 @@ public class CartAdapter extends RecyclerView.Adapter {
             increaseIncart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    q++;
-                    quantity.setText(""+q);
+                    Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,true),"Bearer "+token);
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if(response.code()==200){
+                                q++;
+                                quantity.setText(""+ q);
+                            }
+                            else{
+                                Toast.makeText(context,"Could not increase cart",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
-//            Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,null,null,null,0,null,true,id),"Bearer "+token);
-//            call.enqueue(new Callback<Void>() {
-//                @Override
-//                public void onResponse(Call<Void> call, Response<Void> response) {
-//                    if(response.code()==200){
-//                        q++;
-//                        quantity.setText(""+ q);
-//                    }
-//                    else{
-//                        Toast.makeText(context,"Could not increase cart",Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Void> call, Throwable t) {
-//                    Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
-//                }
-//            });
+
 
             decreaseIncart.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,7 +145,7 @@ public class CartAdapter extends RecyclerView.Adapter {
 //                    updateQuantity(position);
 //                    updateTotalAmount();
                     if (q == 1) {
-                        Call<SuccessReturn> call = jsonPlaceHolderApi2.deleteFromCart(id, token);
+                        Call<SuccessReturn> call = jsonPlaceHolderApi2.deleteFromCart(id,"Bearer "+token);
                         call.enqueue(new Callback<SuccessReturn>() {
                             @Override
                             public void onResponse(Call<SuccessReturn> call, Response<SuccessReturn> response) {
@@ -150,6 +156,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                                     SharedPreferences.Editor editor=sharedPreferences.edit();
                                     editor.putInt("count",totalCount);
                                     editor.apply();
+
                                     Toast.makeText(context, "Service deleted from cart", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(context, "Could not decrease cart", Toast.LENGTH_SHORT).show();
@@ -162,38 +169,57 @@ public class CartAdapter extends RecyclerView.Adapter {
                             }
                         });
                     } else {
-                        q--;
-                        quantity.setText("" + q);
+                        Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,false),"Bearer "+token);
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if(response.code()==200){
+                                    q--;
+                                    quantity.setText(""+ q);
+                                }
+                                else{
+                                    Toast.makeText(context,"Could not decrease cart",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             });
-//            CartActivity.continueToBooking.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(dbQueries.cartItemModelList.size()>=1) {
-//                       // BookingPage.BookingTotalAmount=CartActivity.totalAmount;
-//                        String OrderSummary="";
-//                        int time=0;
-//                        for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
-//                            OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
-//                                    dbQueries.cartItemModelList.get(i).getServiceName()
-//                                    + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
-//                                    dbQueries.cartItemModelList.get(i).getServicePrice() + "\n";
-//                            time+=parseInt(dbQueries.cartItemModelList.get(i).getTime());
-//                        }
-//                        Intent intent=new Intent(itemView.getContext(),BookingPage.class);
-//                        intent.putExtra("Time",time);
-//                        intent.putExtra("BookingType","Cart");
-//                        intent.putExtra("Booking Amount",CartActivity.totalAmount);
-//                        intent.putExtra("Order Summary",OrderSummary);
-//                        itemView.getContext().startActivity(intent);
-//                    }
-//                    else {
-//                        Toast.makeText(itemView.getContext(),"Please Add Something in Cart to Continue",Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
-//        }
+            CartActivity.continueToBooking.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(dbQueries.cartItemModelList.size()>=1) {
+                       // BookingPage.BookingTotalAmount=CartActivity.totalAmount;
+                        String OrderSummary="";
+                        int time=0;
+                        List<CartItemModel> list=new ArrayList<>();
+                        for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
+                            list.add(new CartItemModel(null,null,0,null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false));
+                            OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
+                                    dbQueries.cartItemModelList.get(i).getServiceName()
+                                    + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
+                                    dbQueries.cartItemModelList.get(i).getServicePrice() + "\n";
+                            time+=dbQueries.cartItemModelList.get(i).getTime();
+                        }
+                        Intent intent=new Intent(itemView.getContext(), BookingPage.class);
+                        intent.putExtra("Time",time);
+                        intent.putExtra("BookingType","Cart");
+                        intent.putExtra("Booking Amount",CartActivity.totalAmount);
+                        intent.putExtra("Order Summary",OrderSummary);
+                        intent.putExtra("sidlist",(Serializable)list);
+                        itemView.getContext().startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(itemView.getContext(),"Please Add Something in Cart to Continue",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
 //
 //        private void updateQuantity(int position){
 //            if(dbQueries.cartItemModelList.get(position).getQuantity()==0)
@@ -245,6 +271,5 @@ public class CartAdapter extends RecyclerView.Adapter {
 //            CartActivity.total_cart_amount.setText("Rs "+result);
 //        }
 
-        }
     }
 }

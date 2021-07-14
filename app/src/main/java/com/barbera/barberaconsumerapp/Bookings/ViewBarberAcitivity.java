@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
 
@@ -27,7 +28,7 @@ public class ViewBarberAcitivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager manager;
     private BarberAdapter adapter;
-    private ArrayList<String> sidlist;
+    private List<CartItemModel> sidlist;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_barber_acitivity);
@@ -37,7 +38,7 @@ public class ViewBarberAcitivity extends AppCompatActivity {
         int slot=intent.getIntExtra("slot",0);
         String amount=intent.getStringExtra("Booking Amount");
         String summary=intent.getStringExtra("Order Summary");
-        sidlist=intent.getStringArrayListExtra("sidlist");
+        sidlist= (List<CartItemModel>) intent.getSerializableExtra("sidlist");
 
         recyclerView=findViewById(R.id.barber_recycler_view);
         adapter=new BarberAdapter(barberList,this,dat,slot,amount,summary,sidlist);

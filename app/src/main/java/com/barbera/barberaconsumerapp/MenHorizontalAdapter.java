@@ -16,7 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Cache;
 import com.barbera.barberaconsumerapp.Bookings.BookingPage;
+import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
@@ -24,6 +26,7 @@ import com.barbera.barberaconsumerapp.network_aws.Success;
 import com.barbera.barberaconsumerapp.network_aws.SuccessReturn;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,9 +184,9 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
                         intent.putExtra("Booking Amount", HorizontalserviceList.get(position).getPrice());
                         intent.putExtra("Order Summary",ordersummary);
                         intent.putExtra("Time",time);
-                        ArrayList<String> list=new ArrayList<>();
-                        list.add(HorizontalserviceList.get(position).getId());
-                        intent.putStringArrayListExtra("sidlist",list);
+                        List<CartItemModel> list=new ArrayList<>();
+                        list.add(new CartItemModel(null,null,0,null,1,0,HorizontalserviceList.get(position).getId(),false));
+                        intent.putExtra("sidlist",(Serializable)list);
                         //Toast.makeText(itemView.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(intent);

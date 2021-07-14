@@ -1,6 +1,7 @@
 package com.barbera.barberaconsumerapp.network_aws;
 
 import com.barbera.barberaconsumerapp.Bookings.BarberList;
+import com.barbera.barberaconsumerapp.Bookings.BookingList;
 import com.barbera.barberaconsumerapp.Bookings.BookingModel;
 import com.barbera.barberaconsumerapp.Bookings.ServiceIdList;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
@@ -54,7 +55,7 @@ public interface JsonPlaceHolderApi2 {
     Call<CartList> getCart(@Header("Authorization") String token);
 
     @POST("quantity")
-    Call<Void> updateQuantity(@Body CartList2 cartList, @Header("Authorization") String token);
+    Call<Void> updateQuantity(@Body CartItemModel cartList, @Header("Authorization") String token);
 
     @POST("deletefromcart/{serviceid}")
     Call<SuccessReturn> deleteFromCart(@Path("serviceid") String id,@Header("Authorization") String token);
@@ -66,6 +67,6 @@ public interface JsonPlaceHolderApi2 {
     Call<Void> bookBarber(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") int slot, @Header("Authorization") String token);
 
     @GET("getbookings")
-    Call<BookingModel> getBookings(@Header("Authorization") String token);
+    Call<BookingList> getBookings(@Header("Authorization") String token);
 
 }

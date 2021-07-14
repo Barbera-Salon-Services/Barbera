@@ -2,9 +2,11 @@ package com.barbera.barberaconsumerapp.Utils;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import javax.xml.namespace.QName;
 
-public class CartItemModel {
+public class CartItemModel implements Serializable {
     private String ImageId;
     @SerializedName("name")
     private String ServiceName;
@@ -17,10 +19,12 @@ public class CartItemModel {
     private int Time;
     @SerializedName("serviceId")
     private String id;
+    @SerializedName("flow")
+    private boolean flow;
 
 
     public CartItemModel(String imageId, String serviceName, int servicePrice, String type,
-                         int quantity, int time,String id) {
+                         int quantity, int time,String id,boolean flow) {
         ImageId = imageId;
         ServiceName = serviceName;
         ServicePrice =  servicePrice;
@@ -28,6 +32,11 @@ public class CartItemModel {
         this.Quantity= quantity;
         Time=time;
         this.id=id;
+        this.flow=flow;
+    }
+
+    public boolean isFlow() {
+        return flow;
     }
 
     public String getId() {

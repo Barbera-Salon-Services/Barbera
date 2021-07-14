@@ -1,16 +1,17 @@
 package com.barbera.barberaconsumerapp.Bookings;
 
+import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class ServiceIdList {
-    @SerializedName("serviceid")
-    private List<String> list;
+    @SerializedName("service")
+    private List<CartItemModel> list;
     @SerializedName("barberid")
     private String id;
 
-    public ServiceIdList(List<String> list, String id) {
+    public ServiceIdList(List<CartItemModel> list, String id) {
         this.list = list;
         this.id = id;
     }
@@ -19,7 +20,7 @@ public class ServiceIdList {
         return id;
     }
 
-    public List<String> getList() {
+    public List<CartItemModel> getList() {
         return list;
     }
 }
