@@ -120,7 +120,7 @@ public class ParlourActivity extends AppCompatActivity {
             Glide.with(getApplicationContext()).load(CategoryIMage)
                     .apply(new RequestOptions().placeholder(R.drawable.logo)).into(image);
             Call<ServiceList> call = jsonPlaceHolderApi2.getAllServices(salontype, new ServiceItem(null, 0, 0, null, 0, null, Category,
-                    false, null, false, null), "Bearer "+token);
+                    false, null, false, null,null), "Bearer "+token);
             call.enqueue(new Callback<ServiceList>() {
                 @Override
                 public void onResponse(Call<ServiceList> call, Response<ServiceList> response) {
@@ -129,7 +129,7 @@ public class ParlourActivity extends AppCompatActivity {
                         List<ServiceItem> list = serviceList1.getServices();
                         for (ServiceItem item : list) {
                             serviceList.add(new ServiceItem(item.getName(), item.getPrice(), item.getTime(), item.getDetail(),
-                                    item.getCutprice(), item.getGender(), item.getType(), item.isDod(), item.getId(), item.isTrend(), item.getSubtype()));
+                                    item.getCutprice(), item.getGender(), item.getType(), item.isDod(), item.getId(), item.isTrend(), item.getSubtype(),item.getImage()));
                         }
                         listView.setAdapter(adapter);
                         progressBarOnServiceList.setVisibility(View.INVISIBLE);

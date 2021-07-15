@@ -7,6 +7,8 @@ public class ServiceItem {
     private String name;
     @SerializedName("price")
     private int price;
+    @SerializedName("image")
+    private String image;
     @SerializedName("time")
     private int time;
     @SerializedName("details")
@@ -27,8 +29,8 @@ public class ServiceItem {
     private String id;
 
 
-    public ServiceItem(String name, int price, int time, String detail, int cutprice,
-                       String gender, String type, boolean dod, String id, boolean trend,String subtype) {
+    public ServiceItem(String name, int price, int time, String detail, int cutprice, String gender,
+                       String type, boolean dod, String id, boolean trend,String subtype,String image) {
         this.name = name;
         this.price = price;
         this.time = time;
@@ -40,6 +42,11 @@ public class ServiceItem {
         this.id=id;
         this.trend=trend;
         this.subtype=subtype;
+        this.image=image;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getSubtype() {

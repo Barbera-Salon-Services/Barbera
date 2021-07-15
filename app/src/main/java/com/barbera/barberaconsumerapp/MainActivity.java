@@ -275,12 +275,12 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                                 if(serviceItem.getGender().equals("male")){
                                     menHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
                                             ,serviceItem.getDetail(),serviceItem.getCutprice(),serviceItem.getGender(),serviceItem.getType(),
-                                            serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype()));
+                                            serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype(),serviceItem.getImage()));
                                 }
                                 else{
                                     womenHorizontalserviceList.add(new ServiceItem(serviceItem.getName(),serviceItem.getPrice(),serviceItem.getTime()
                                             ,serviceItem.getDetail(),serviceItem.getCutprice(),serviceItem.getGender(),serviceItem.getType(),
-                                            serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype()));
+                                            serviceItem.isDod(),serviceItem.getId(),serviceItem.isTrend(),serviceItem.getSubtype(),serviceItem.getImage()));
                                 }
                             }
                             adapter.notifyDataSetChanged();

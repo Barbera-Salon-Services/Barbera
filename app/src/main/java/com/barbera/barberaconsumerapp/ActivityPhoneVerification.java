@@ -20,6 +20,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +39,9 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
 import java.util.List;
@@ -190,7 +193,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     SharedPreferences.Editor editor1=sharedPreferences1.edit();
                     editor1.putString("address",address.getAddressLine(0));
                     editor1.apply();
-                    //sendToastmsg(address.getAddressLine(0));
+
                     Register register = response.body();
                     SharedPreferences sharedPreferences = getSharedPreferences("Token", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -231,6 +234,12 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
     private void sendfVerificationCode() {
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
+        FirebaseMessaging.getInstance().subscribeToTopic(phoneNumber.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+            }
+        });
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumber.getText().toString(), null, null, null, null, null, null, null, 0.0, 0.0));
         call.enqueue(new Callback<Register>() {
@@ -238,10 +247,23 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if (response.code() == 200) {
                     Register register = response.body();
-                    tempToken = register.getToken();
-                    progressBar.setVisibility(View.INVISIBLE);
-                    veri_code.setVisibility(View.VISIBLE);
-                    continue_to_signup.setVisibility(View.VISIBLE);
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            SharedPreferences sharedPreferences=getSharedPreferences("Notification",MODE_PRIVATE);
+
+                            tempToken = register.getToken();
+                            progressBar.setVisibility(View.INVISIBLE);
+                            veri_code.setVisibility(View.VISIBLE);
+                            //Toast.makeText(getApplicationContext(),sharedPreferences.getString("notif",""),Toast.LENGTH_SHORT).show();
+                            veri_code.setText(sharedPreferences.getString("notif",""));
+                            continue_to_signup.setVisibility(View.VISIBLE);
+                        }
+                    };
+                    final Handler h = new Handler();
+                    h.removeCallbacks(runnable);
+                    h.postDelayed(runnable, 2000);
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
                 }

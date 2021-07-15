@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,9 +20,16 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        String x=remoteMessage.getNotification().getBody();
+        String y=x.substring(0,6);
+        SharedPreferences sharedPreferences=getSharedPreferences("Notification",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("notif",y);
+        editor.apply();
         sendNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
     }
     private void sendNotification(String title,String message){
+
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel=new NotificationChannel("Barbera","Barbera", NotificationManager.IMPORTANCE_DEFAULT);
 

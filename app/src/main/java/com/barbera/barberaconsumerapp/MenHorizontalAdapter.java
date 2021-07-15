@@ -24,6 +24,8 @@ import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
 import com.barbera.barberaconsumerapp.network_aws.Success;
 import com.barbera.barberaconsumerapp.network_aws.SuccessReturn;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
@@ -58,14 +60,14 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         String title=HorizontalserviceList.get(position).getName();
-        //String imgResource=HorizontalserviceList.get(position).getImageId();
+        String imgResource=HorizontalserviceList.get(position).getImage();
         int price=HorizontalserviceList.get(position).getPrice();
         int cutPrice=HorizontalserviceList.get(position).getCutprice();
         int TIME=HorizontalserviceList.get(position).getTime();
         String id=HorizontalserviceList.get(position).getId();
         //Toast.makeText(activity,title+" "+id,Toast.LENGTH_SHORT).show();
 
-        ((MenItemViewHolder)holder).setDetails(title,null,price,cutPrice,position,TIME,id);
+        ((MenItemViewHolder)holder).setDetails(title,imgResource,price,cutPrice,position,TIME,id);
 
     }
 
@@ -103,8 +105,8 @@ public class MenHorizontalAdapter extends RecyclerView.Adapter {
             cutPrice.setText("Rs "+CutPrice);
             time.setText(iTime+" Min");
             //Toast.makeText(activity,id,Toast.LENGTH_SHORT).show();
-//            Glide.with(itemView.getContext()).load(imgLink)
-//                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(photo);
+            Glide.with(itemView.getContext()).load(imgLink)
+                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(photo);
             Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
             JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
             SharedPreferences preferences = activity.getSharedPreferences("Token", activity.MODE_PRIVATE);

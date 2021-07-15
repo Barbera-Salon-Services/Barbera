@@ -72,7 +72,7 @@ public class ServiceAdapter extends BaseAdapter {
         else
             view = (View) convertView;
 
-       // ImageView logo = view.findViewById(R.id.service_image);
+        ImageView logo = view.findViewById(R.id.service_image);
         TextView title = view.findViewById(R.id.service_fragement_title);
         TextView price = view.findViewById(R.id.service_fragement_price);
         TextView cutPrice=view.findViewById(R.id.service_fragement_cut_price);
