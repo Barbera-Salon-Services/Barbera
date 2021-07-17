@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         if(menHorizontalserviceList.size()==0 && womenHorizontalserviceList.size()==0){
             Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
             JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-            Call<ServiceList> call =jsonPlaceHolderApi2.getTrending("Bearer "+isRegistered);
+            Call<ServiceList> call =jsonPlaceHolderApi2.getTrending();
             final ProgressBar menBar=(ProgressBar)findViewById(R.id.bar_at_men_horizontal);
             menBar.setVisibility(View.VISIBLE);
             final ProgressBar womenBar=(ProgressBar)findViewById(R.id.bar_at_women_horizontal);

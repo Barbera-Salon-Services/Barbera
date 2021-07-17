@@ -37,16 +37,16 @@ public interface JsonPlaceHolderApi2 {
     Call<Register> getProfile(@Header("Authorization") String token);
 
     @GET("gettrend")
-    Call<ServiceList> getTrending(@Header("Authorization") String token);
+    Call<ServiceList> getTrending();
 
     @GET("gettypes/{gender}")
-    Call<TypeList> getTypes(@Path ("gender") String gender, @Header("Authorization") String token);
+    Call<TypeList> getTypes(@Path ("gender") String gender);
 
     @POST("getsubtypes/{gender}")
-    Call<TypeList> getSubTypes(@Path ("gender") String gender,@Body ServiceItem service,@Header("Authorization") String token);
+    Call<TypeList> getSubTypes(@Path ("gender") String gender,@Body ServiceItem service);
 
     @POST("getallserv/{gender}")
-    Call<ServiceList> getAllServices(@Path ("gender") String gender,@Body ServiceItem service, @Header("Authorization") String token);
+    Call<ServiceList> getAllServices(@Path ("gender") String gender,@Body ServiceItem service);
 
     @POST("addtocart")
     Call<SuccessReturn> addToCart(@Body Success model,@Header("Authorization") String token);

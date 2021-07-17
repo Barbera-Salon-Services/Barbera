@@ -120,7 +120,7 @@ public class ParlourActivity extends AppCompatActivity {
             Glide.with(getApplicationContext()).load(CategoryIMage)
                     .apply(new RequestOptions().placeholder(R.drawable.logo)).into(image);
             Call<ServiceList> call = jsonPlaceHolderApi2.getAllServices(salontype, new ServiceItem(null, 0, 0, null, 0, null, Category,
-                    false, null, false, null,null), "Bearer "+token);
+                    false, null, false, null,null));
             call.enqueue(new Callback<ServiceList>() {
                 @Override
                 public void onResponse(Call<ServiceList> call, Response<ServiceList> response) {
