@@ -15,7 +15,7 @@ public class ServiceItem {
     private String detail;
     @SerializedName("cutprice")
     private int cutprice;
-    @SerializedName("gender")
+    @SerializedName("category")
     private String gender;
     @SerializedName("type")
     private String type;

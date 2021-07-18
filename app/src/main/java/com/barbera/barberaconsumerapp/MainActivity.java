@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
+import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
 import com.barbera.barberaconsumerapp.Service50.Service_50;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
         referMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ReferAndEarn.class));
+                startActivity(new Intent(getApplicationContext(), ReferAndEarn.class));
             }
         });
 

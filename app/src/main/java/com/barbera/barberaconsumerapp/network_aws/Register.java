@@ -36,14 +36,18 @@ public class Register {
     @SerializedName("role")
     private String role;
 
+    @SerializedName("ref")
+    private String ref;
+
     public Register(String phone, String otp, String email, String name, String password,
-                    String address, String role,String message,double latitude,double longitude) {
+                    String address, String role,String message,double latitude,double longitude,String ref) {
         this.phone = phone;
         this.otp = otp;
         this.email = email;
         this.name = name;
         this.password = password;
         this.address = address;
+        this.ref=ref;
         this.role = role;
         this.message=message;
         this.latitude=latitude;

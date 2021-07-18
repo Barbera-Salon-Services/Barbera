@@ -39,14 +39,14 @@ public interface JsonPlaceHolderApi2 {
     @GET("gettrend")
     Call<ServiceList> getTrending();
 
-    @GET("gettypes/{gender}")
-    Call<TypeList> getTypes(@Path ("gender") String gender);
+    @GET("gettypes/{category}")
+    Call<TypeList> getTypes(@Path ("category") String gender);
 
-    @POST("getsubtypes/{gender}")
-    Call<TypeList> getSubTypes(@Path ("gender") String gender,@Body ServiceItem service);
+    @POST("getsubtypes/{category}")
+    Call<TypeList> getSubTypes(@Path ("category") String gender,@Body ServiceItem service);
 
-    @POST("getallserv/{gender}")
-    Call<ServiceList> getAllServices(@Path ("gender") String gender,@Body ServiceItem service);
+    @POST("getallserv/{category}")
+    Call<ServiceList> getAllServices(@Path ("category") String gender,@Body ServiceItem service);
 
     @POST("addtocart")
     Call<SuccessReturn> addToCart(@Body Success model,@Header("Authorization") String token);
@@ -71,4 +71,7 @@ public interface JsonPlaceHolderApi2 {
 
     @POST("deletecart")
     Call<Void> deleteCart(@Body ServiceIdList list, @Header("Authorization") String token);
+
+    @GET("getref")
+    Call<Data> getReferral(@Header("Authorization") String token);
 }

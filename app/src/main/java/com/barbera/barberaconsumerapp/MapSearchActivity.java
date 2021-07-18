@@ -259,7 +259,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
         String token = preferences.getString("token", "no");
         Call<Void> call=jsonPlaceHolderApi2.updateAddress(new Register(null,null,null,null,null,address.getAddressLine(0),
-                null,null,Lat,Lon),"Bearer "+token);
+                null,null,Lat,Lon,null),"Bearer "+token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

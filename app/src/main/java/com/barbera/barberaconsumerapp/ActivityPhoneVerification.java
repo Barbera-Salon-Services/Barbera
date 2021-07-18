@@ -58,7 +58,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private EditText phoneNumber;
     private CardView get_code;
     private ProgressDialog progressDialog;
-    private EditText veri_code;
+    private EditText veri_code,ref;
     private CardView continue_to_signup;
     private ProgressBar progressBar;
     private String tempToken;
@@ -74,9 +74,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         veri_code = (EditText) findViewById(R.id.veri_code);
         continue_to_signup = findViewById(R.id.continue_to_signup_page);
         progressBar = findViewById(R.id.progressBarInVerificationPage);
+        ref=findViewById(R.id.referral_code);
         phonePattern = "^[6789]\\d{9}$";
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
-
 
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(500);
@@ -159,7 +159,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     sendToastmsg("Sending OTP");
                     sendfVerificationCode();
                 }
-
             }
         });
 
@@ -173,7 +172,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     //Toast.makeText(getApplicationContext(), "In", Toast.LENGTH_SHORT).show();
                     verifyUser();
                 }
-
             }
         });
     }
@@ -183,7 +181,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         //Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
         Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null,
-                address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude()), "Bearer "+tempToken);
+                address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude(),ref.getText().toString()), "Bearer "+tempToken);
 
         call.enqueue(new Callback<Register>() {
             @Override
@@ -199,6 +197,12 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", register.getToken());
                     editor.apply();
+                    FirebaseMessaging.getInstance().subscribeToTopic(phoneNumber.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                        }
+                    });
                     Intent intent = new Intent(ActivityPhoneVerification.this, MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -234,14 +238,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
     private void sendfVerificationCode() {
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
-        FirebaseMessaging.getInstance().subscribeToTopic(phoneNumber.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
 
-            }
-        });
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
-        Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumber.getText().toString(), null, null, null, null, null, null, null, 0.0, 0.0));
+        Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumber.getText().toString(), null, null, null, null, null, null, null, 0.0, 0.0,null));
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {

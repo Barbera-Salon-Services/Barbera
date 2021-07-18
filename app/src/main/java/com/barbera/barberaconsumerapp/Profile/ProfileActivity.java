@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
-import com.barbera.barberaconsumerapp.ReferAndEarn;
 import com.barbera.barberaconsumerapp.SecondScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

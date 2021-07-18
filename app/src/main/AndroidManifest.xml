@@ -37,7 +37,7 @@
             android:name=".CategoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ReferAndEarn"
+            android:name=".Profile.ReferAndEarn"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

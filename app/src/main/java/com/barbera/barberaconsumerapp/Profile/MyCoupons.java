@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.barbera.barberaconsumerapp.R;
-import com.barbera.barberaconsumerapp.ReferAndEarn;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;

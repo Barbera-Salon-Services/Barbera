@@ -61,6 +61,7 @@
         style="@style/SignUpPage"
         android:hint="Enter Verification Code"
         android:paddingTop="60sp"/>
+
     <androidx.cardview.widget.CardView
         android:visibility="invisible"
         android:id="@+id/continue_to_signup_page"
@@ -94,6 +95,15 @@
         android:layout_centerHorizontal="true"
         android:paddingTop="20sp"
         android:visibility="invisible"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/referral_code"
+        android:hint="Enter referral code"
+        android:inputType="text"
+        android:layout_alignBottom="@id/continue_to_signup_page"
+        android:layout_margin="20dp"
+        />
 
 </RelativeLayout>
 </ScrollView>
