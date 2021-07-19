@@ -20,4 +20,11 @@
     </string>
     <string name="referAndEarn">"Refer your freinds and invite them to Barbera App using your invite link. On their successful sign up, you will get an essential serviceItem for up to 100% off"</string>
     <string name="weddingPackage"><b>1st Sitting</b>\nFacial(Kaya), Threading, Hair Massage\n\n2nd Sitting\nFacial(Kaya), Threading, Hair Massage\n\n3rd Sitting\nFacial(Kaya), Threading, Hair Massage\n\n4th Sitting\nFacial(Kaya), Threading, Hair Massage\n\n5th Sitting\nMakeup, Lehenga Drape, Body Wax(Rica), Hair Spa, Hair Cut, BOdy Spa(Loreal), Manicure, Pedicure, Threading, Hairwash, Facial(Kaya)</string>
+    <string name="my_coupon">My Coupon</string>
+    <string name="user_name">Name</string>
+    <string name="refer_earn">Refer 🙲 Earn</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="user_privacy">User Privacy</string>
+    <string name="about_us">About Us</string>
+    <string name="logout">Logout</string>
 </resources>
