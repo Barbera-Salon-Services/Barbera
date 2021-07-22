@@ -22,8 +22,14 @@
             android:layout_margin="8dp"
             android:orientation="vertical">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:orientation="horizontal"/>
+
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/offers"
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
 
