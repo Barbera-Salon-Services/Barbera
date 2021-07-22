@@ -64,16 +64,6 @@ public class ReferAndEarn extends AppCompatActivity {
                 }
             }
         });
-        FirebaseMessaging.getInstance().subscribeToTopic("refer")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Successful";
-                        if (!task.isSuccessful()) {
-                            msg = "Failed";
-                        }
-                    }
-                });
     }
     private void generateShareCode() {
         final ProgressDialog progressDialog=new ProgressDialog(ReferAndEarn.this);

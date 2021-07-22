@@ -133,7 +133,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         // This is the Best And IMPORTANT part
         final Looper looper = null;
 
-
         get_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

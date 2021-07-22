@@ -57,36 +57,36 @@ public class ViewBarberAcitivity extends AppCompatActivity {
         progressDialog.setCancelable(true);
         progressDialog.setMessage("Loading");
         progressDialog.show();
-        Call<BarberList> call=jsonPlaceHolderApi2.getBarbers(dat,slot,"Bearer "+token);
-        call.enqueue(new Callback<BarberList>() {
-            @Override
-            public void onResponse(Call<BarberList> call, Response<BarberList> response) {
-                if(response.code()==200){
-                    BarberList list=response.body();
-                    List<BarberItem> barberItemList=list.getList();
-                    if(barberItemList.size()==0){
-                        Toast.makeText(getApplicationContext(),"No barber available for this date and slot",Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        for(BarberItem item:barberItemList){
-                            barberList.add(item);
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-                    progressDialog.dismiss();
-                }
-                else{
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(),"Could not get barber list",Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BarberList> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<BarberList> call=jsonPlaceHolderApi2.getBarbers(dat,slot,"Bearer "+token);
+//        call.enqueue(new Callback<BarberList>() {
+//            @Override
+//            public void onResponse(Call<BarberList> call, Response<BarberList> response) {
+//                if(response.code()==200){
+//                    BarberList list=response.body();
+//                    List<BarberItem> barberItemList=list.getList();
+//                    if(barberItemList.size()==0){
+//                        Toast.makeText(getApplicationContext(),"No barber available for this date and slot",Toast.LENGTH_LONG).show();
+//                    }
+//                    else{
+//                        for(BarberItem item:barberItemList){
+//                            barberList.add(item);
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                    progressDialog.dismiss();
+//                }
+//                else{
+//                    progressDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(),"Could not get barber list",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BarberList> call, Throwable t) {
+//                progressDialog.dismiss();
+//                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 }
