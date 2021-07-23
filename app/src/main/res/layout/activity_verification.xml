@@ -10,6 +10,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ActivityPhoneVerification">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/skip_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Skip Login" />
+    </androidx.cardview.widget.CardView>
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
@@ -45,25 +61,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Get Verification Code"
+            android:text="Get OTP"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/white"/>
 
     </androidx.cardview.widget.CardView>
     <EditText
-        android:visibility="invisible"
+        android:visibility="gone"
         android:id="@+id/veri_code"
         android:inputType="phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/get_code"
         style="@style/SignUpPage"
-        android:hint="Enter Verification Code"
+        android:hint="Enter OTP"
         android:paddingTop="60sp"/>
 
     <androidx.cardview.widget.CardView
-        android:visibility="invisible"
+        android:visibility="gone"
         android:id="@+id/continue_to_signup_page"
         android:layout_width="match_parent"
         android:layout_height="60sp"
@@ -102,6 +118,7 @@
         android:hint="Enter referral code"
         android:inputType="text"
         android:layout_alignBottom="@id/continue_to_signup_page"
+        android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         />
 

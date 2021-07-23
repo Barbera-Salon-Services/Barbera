@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
@@ -181,12 +182,12 @@ public class ProfileActivity extends AppCompatActivity {
                 BookingsActivity.checked=false;
                 MyCoupons.couponItemModelList.clear();
                 MyCoupons.couponsChecked=false;
-                FirebaseAuth.getInstance().signOut();
+                //FirebaseAuth.getInstance().signOut();
                 SharedPreferences preferences =getSharedPreferences("Token",MODE_PRIVATE);
                 SharedPreferences.Editor editor=preferences.edit();
                 editor.putString("token","no");
                 editor.apply();
-                startActivity(new Intent(ProfileActivity.this, SecondScreen.class));
+                startActivity(new Intent(ProfileActivity.this, ActivityPhoneVerification.class));
                 overridePendingTransition(0,0);
                 finish();
             }

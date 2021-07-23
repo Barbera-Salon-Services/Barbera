@@ -39,6 +39,9 @@ public class Register {
     @SerializedName("ref")
     private String ref;
 
+    @SerializedName("mode")
+    private String mode;
+
     public Register(String phone, String otp, String email, String name, String password,
                     String address, String role,String message,double latitude,double longitude,String ref) {
         this.phone = phone;

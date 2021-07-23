@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.text.Edits;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.barbera.barberaconsumerapp.CongratulationsPage;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -78,52 +75,52 @@ public class BarberAdapter extends RecyclerView.Adapter<BarberAdapter.BarberItem
                 progressDialog.setMessage("Loading");
                 progressDialog.setCancelable(true);
                 progressDialog.show();
-                Call<Void> call= jsonPlaceHolderApi2.bookBarber(new ServiceIdList(sidlist,item.getBarberid()),date,slot,"Bearer "+token);
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if(response.code()==200){
-                            Call<Void> call1=jsonPlaceHolderApi2.deleteCart(new ServiceIdList(sidlist,null),"Bearer "+token);
-                            call1.enqueue(new Callback<Void>() {
-                                @Override
-                                public void onResponse(Call<Void> call, Response<Void> response) {
-                                    if(response.code()==200){
-
-                                    }
-                                    else{
-
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<Void> call, Throwable t) {
-
-                                }
-                            });
-                            SharedPreferences sharedPreferences=context.getSharedPreferences("Count",MODE_PRIVATE);
-                            SharedPreferences.Editor editor=sharedPreferences.edit();
-                            editor.putInt("count",0);
-                            editor.apply();
-
-                            Intent intent1 = new Intent(context, CongratulationsPage.class);
-                            intent1.putExtra("Booking Amount", amount);
-                            intent1.putExtra("Order Summary", summary);
-                            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            progressDialog.dismiss();
-                            context.startActivity(intent1);
-                        }
-                        else{
-                            progressDialog.dismiss();
-                            Toast.makeText(context,"Could not book barber",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        progressDialog.dismiss();
-                        Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                Call<Void> call= jsonPlaceHolderApi2.bookBarber(new ServiceIdList(sidlist,item.getBarberid()),date,slot,"Bearer "+token);
+//                call.enqueue(new Callback<Void>() {
+//                    @Override
+//                    public void onResponse(Call<Void> call, Response<Void> response) {
+//                        if(response.code()==200){
+//                            Call<Void> call1=jsonPlaceHolderApi2.deleteCart(new ServiceIdList(sidlist,null),"Bearer "+token);
+//                            call1.enqueue(new Callback<Void>() {
+//                                @Override
+//                                public void onResponse(Call<Void> call, Response<Void> response) {
+//                                    if(response.code()==200){
+//
+//                                    }
+//                                    else{
+//
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<Void> call, Throwable t) {
+//
+//                                }
+//                            });
+//                            SharedPreferences sharedPreferences=context.getSharedPreferences("Count",MODE_PRIVATE);
+//                            SharedPreferences.Editor editor=sharedPreferences.edit();
+//                            editor.putInt("count",0);
+//                            editor.apply();
+//
+//                            Intent intent1 = new Intent(context, CongratulationsPage.class);
+//                            intent1.putExtra("Booking Amount", amount);
+//                            intent1.putExtra("Order Summary", summary);
+//                            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            progressDialog.dismiss();
+//                            context.startActivity(intent1);
+//                        }
+//                        else{
+//                            progressDialog.dismiss();
+//                            Toast.makeText(context,"Could not book barber",Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Void> call, Throwable t) {
+//                        progressDialog.dismiss();
+//                        Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         });
     }
