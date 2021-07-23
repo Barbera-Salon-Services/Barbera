@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -35,10 +36,11 @@ import retrofit2.Retrofit;
 public class HomeActivity extends AppCompatActivity implements InAppUpdateManager.InAppUpdateHandler{
 
     private RecyclerView menRecyclerView;
+    private GridAdapter gridAdapterMen,gridAdapterWomen,gridAdapterWed;
     private RecyclerView womenRecyclerView;
     private InAppUpdateManager inAppUpdateManager;
     private RecyclerView weddingRecyclerView;
-    private List<String> imgUrl, imgName;
+    private List<String> imgUrlMen=new ArrayList<>(), imgNameMen=new ArrayList<>(),imgUrlWomen=new ArrayList<>(),imgNameWomen=new ArrayList<>(),imgUrlWed=new ArrayList<>(),imgNameWed=new ArrayList<>();
     private String isRegistered,imagebase;
     private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
 
@@ -47,6 +49,22 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+        menRecyclerView = findViewById(R.id.men_recycler_view);
+        weddingRecyclerView = findViewById(R.id.wedding_recycler_view);
+        womenRecyclerView = findViewById(R.id.women_recycler_view);
+
+        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this);
+        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        weddingRecyclerView.setLayoutManager(gridLayoutManager1);
+
+        gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
+        womenRecyclerView.setLayoutManager(gridLayoutManager);
+
+        gridAdapterMen = new GridAdapter(imgUrlMen, imgNameMen, HomeActivity.this);
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
+        menRecyclerView.setLayoutManager(gridLayoutManager2);
+
         imagebase="https://barbera-image.s3-ap-south-1.amazonaws.com/";
 
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
@@ -55,8 +73,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
 
         addMenGrid();
-        addWomenGrid();
         addWeddingGrid();
+        addWomenGrid();
 
 //        Cart.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -134,31 +152,23 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 //    }
 
     private void addWeddingGrid() {
+        imgNameWed.clear();
+        imgUrlWed.clear();
 
-        weddingRecyclerView = findViewById(R.id.wedding_recycler_view);
 
-        imgName = new ArrayList<>();
-        imgUrl = new ArrayList<>();
-        GridAdapter gridAdapter;
+        imgNameWed.add("Bridal Packages\nStarting@ Rs. 5599");
+        imgNameWed.add("Groom's Packages\nStarting@ Rs. 2599");
 
-        imgName.add("Bridal Packages\nStarting@ Rs. 5599");
-        imgName.add("Groom's Packages\nStarting@ Rs. 2599");
+        imgUrlWed.add("https://i.ibb.co/8rtx241/image.png");
+        imgUrlWed.add("https://i.ibb.co/840KRbC/image.png");
 
-        imgUrl.add("https://i.ibb.co/8rtx241/image.png");
-        imgUrl.add("https://i.ibb.co/840KRbC/image.png");
 
-        gridAdapter = new GridAdapter(imgUrl, imgName, this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-        weddingRecyclerView.setLayoutManager(gridLayoutManager);
-        weddingRecyclerView.setAdapter(gridAdapter);
+        weddingRecyclerView.setAdapter(gridAdapterWed);
     }
 
     private void addWomenGrid() {
-        womenRecyclerView = findViewById(R.id.women_recycler_view);
-
-        imgName = new ArrayList<>();
-        imgUrl = new ArrayList<>();
-        GridAdapter gridAdapter;
+        imgNameWomen.clear();
+        imgUrlWomen.clear();
 
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.show();
@@ -171,13 +181,16 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     List<String> list=serviceList.getTypeList();
                     if(list.size()!=0){
                         for(String item:list){
-                            imgName.add(item);
-
+                            imgNameWomen.add(item);
+                            item=item.replaceAll(" ","_").toLowerCase();
+                            imgUrlWomen.add(imagebase+"female"+item);
                         }
                     }
 
+                    womenRecyclerView.setAdapter(gridAdapterWomen);
                     //gridView.setAdapter(adapter);
                     progressBar.dismiss();
+
                 }
                 else{
                     progressBar.dismiss();
@@ -200,24 +213,20 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 //        imgName.add("Bleech");
 
 
-        imgUrl.add("https://i.ibb.co/MVmwpZH/image.png");
-        imgUrl.add("https://i.ibb.co/6tn2gFk/image.png");
-        imgUrl.add("https://i.ibb.co/SXLk7XW/image.png");
-        imgUrl.add("https://i.ibb.co/f0MFcHx/image.png");
-        imgUrl.add("https://i.ibb.co/j9K4bDL/image.png");
-        imgUrl.add("https://i.ibb.co/HDyvXxp/image.png");
+//        imgUrl.add("https://i.ibb.co/MVmwpZH/image.png");
+//        imgUrl.add("https://i.ibb.co/6tn2gFk/image.png");
+//        imgUrl.add("https://i.ibb.co/SXLk7XW/image.png");
+//        imgUrl.add("https://i.ibb.co/f0MFcHx/image.png");
+//        imgUrl.add("https://i.ibb.co/j9K4bDL/image.png");
+//        imgUrl.add("https://i.ibb.co/HDyvXxp/image.png");
 
-        gridAdapter = new GridAdapter(imgUrl, imgName, this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
-        womenRecyclerView.setLayoutManager(gridLayoutManager);
-        womenRecyclerView.setAdapter(gridAdapter);
+
 
     }
 
     private void addMenGrid() {
-        imgName = new ArrayList<>();
-        imgUrl = new ArrayList<>();
-        GridAdapter gridAdapter;
+        imgNameMen.clear();
+        imgUrlMen.clear();
 
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.show();
@@ -230,11 +239,17 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     List<String> list=serviceList.getTypeList();
                     if(list.size()!=0){
                         for(String item:list){
-                            imgName.add(item);
+                            imgNameMen.add(item);
+                            item=item.replaceAll(" ","_").toLowerCase();
+                            Log.d("item",item);
+                            imgUrlMen.add(imagebase+"male"+item);
                         }
                     }
+
+                    menRecyclerView.setAdapter(gridAdapterMen);
                     //gridView.setAdapter(adapter);
                     progressBar.dismiss();
+
                 }
                 else{
                     progressBar.dismiss();
@@ -256,18 +271,14 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 //        imgName.add("Head Massage");
 //        imgName.add("Bleech");
 
-        imgUrl.add("https://i.ibb.co/t4z5Vqp/image.png");
-        imgUrl.add("https://i.ibb.co/7zYTRbs/image.png");
-        imgUrl.add("https://i.ibb.co/mGqJLmJ/image.png");
-        imgUrl.add("https://i.ibb.co/PFWzrPb/image.png");
-        imgUrl.add("https://i.ibb.co/smdS7FT/image.png");
-        imgUrl.add("https://i.ibb.co/Ht4gYjf/image.png");
+//        imgUrl.add("https://i.ibb.co/t4z5Vqp/image.png");
+//        imgUrl.add("https://i.ibb.co/7zYTRbs/image.png");
+//        imgUrl.add("https://i.ibb.co/mGqJLmJ/image.png");
+//        imgUrl.add("https://i.ibb.co/PFWzrPb/image.png");
+//        imgUrl.add("https://i.ibb.co/smdS7FT/image.png");
+//        imgUrl.add("https://i.ibb.co/Ht4gYjf/image.png");
 
-        gridAdapter = new GridAdapter(imgUrl, imgName, this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
-        menRecyclerView = findViewById(R.id.men_recycler_view);
-        menRecyclerView.setLayoutManager(gridLayoutManager);
-        menRecyclerView.setAdapter(gridAdapter);
+
 
     }
     @Override

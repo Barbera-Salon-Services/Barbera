@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
-    private List<String> imgUrl, imgName;
+    private List<String> imgUrl=new ArrayList<>(), imgName=new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
 
