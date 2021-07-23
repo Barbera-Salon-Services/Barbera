@@ -210,7 +210,6 @@
 						android:src="@drawable/user" />
 			</RelativeLayout>
 
-
 			<RelativeLayout
 					android:id="@+id/aboutUs_rel_layout"
 					android:layout_width="match_parent"

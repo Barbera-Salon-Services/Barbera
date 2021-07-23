@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -9,6 +10,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -19,6 +21,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -56,7 +59,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private LocationManager locationManager;
     private Address address;
     private EditText phoneNumber;
-    private CardView get_code;
+    private CardView get_code,skipLogin;
     private ProgressDialog progressDialog;
     private EditText veri_code,ref;
     private CardView continue_to_signup;
@@ -70,6 +73,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         setContentView(R.layout.activity_verification);
 
         phoneNumber = (EditText) findViewById(R.id.phone);
+        skipLogin=findViewById(R.id.skip_login);
         get_code = (CardView) findViewById(R.id.get_code);
         veri_code = (EditText) findViewById(R.id.veri_code);
         continue_to_signup = findViewById(R.id.continue_to_signup_page);
@@ -82,6 +86,11 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         locationRequest.setInterval(500);
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if(ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
+        }
+
         final LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -173,6 +182,12 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 }
             }
         });
+        skipLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+            }
+        });
     }
 
     private void verifyUser() {
@@ -202,15 +217,18 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
                         }
                     });
+                    progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(ActivityPhoneVerification.this, MainActivity.class);
                     startActivity(intent);
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -263,12 +281,14 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     h.postDelayed(runnable, 2000);
 
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -329,6 +349,44 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     break;
             }
         }
+        if(requestCode == 800)
+        {
+            switch(resultCode) {
+                case Activity.RESULT_OK:
+                    break;
+                case Activity.RESULT_CANCELED:
+                    finish();
+                    startActivity(getIntent());
+                    break;
+
+            }
+
+        }
+    }
+    private void displayNeverAskAgainDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("We need to send SMS for performing necessary task. Please permit the permission through "
+                + "Settings screen.\n\nSelect Permissions -> Enable permission");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Permit Manually", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent();
+                intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"App will not work unless location permission is provided from settings",Toast.LENGTH_SHORT).show();
+                //login.setEnabled(false);
+            }
+        });
+        builder.show();
     }
 
     private boolean isLocationEnabled() {
@@ -344,9 +402,18 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 startActivity(new Intent(this, ActivityPhoneVerification.class));
             }
             else if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED){
-                //displayNeverAskAgainDialog();
+                displayNeverAskAgainDialog();
 
             }
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
+        String isRegistered = preferences.getString("token","no");
+        if(!isRegistered.equals("no")){
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 }

@@ -17,9 +17,9 @@ import java.util.List;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
-    List<String> imgUrl, imgName;
-    LayoutInflater inflater;
-    Context context;
+    private List<String> imgUrl, imgName;
+    private LayoutInflater inflater;
+    private Context context;
 
 
     public GridAdapter(List<String> imgUrl, List<String> imgName, Context ctx) {
