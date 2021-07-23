@@ -13,7 +13,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".SpecialOffers"></activity>
+        <activity android:name=".HomeActivity" />
         <activity android:name=".Bookings.ViewBarberAcitivity" />
         <activity android:name=".Profile.EditProfile" />
         <activity android:name=".Profile.MyProfile" />
@@ -97,7 +98,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityPhoneVerification"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
