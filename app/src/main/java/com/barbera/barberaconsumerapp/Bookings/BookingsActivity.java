@@ -110,6 +110,7 @@ public class BookingsActivity extends AppCompatActivity {
                         if(list.size()==0){
                             BookinglistView.setVisibility(View.INVISIBLE);
                             emptyLayout.setVisibility(View.VISIBLE);
+                            progressBarONBookingActivity.setVisibility(View.INVISIBLE);
                         }
                         else {
                             Log.d("List","IN");
