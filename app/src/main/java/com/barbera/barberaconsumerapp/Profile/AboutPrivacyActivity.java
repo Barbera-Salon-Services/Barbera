@@ -17,6 +17,7 @@ public class AboutPrivacyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_privacy);
 
+/*
         TextView heading=(TextView)findViewById(R.id.heading);
         TextView content=(TextView) findViewById(R.id.content);
         ImageView stayHome=(ImageView) findViewById(R.id.stay_home_stay_safe);
@@ -31,5 +32,6 @@ public class AboutPrivacyActivity extends AppCompatActivity {
             content.setText(R.string.privacyPolicy);
             stayHome.setVisibility(View.GONE);
         }
+*/
     }
 }

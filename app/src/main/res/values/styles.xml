@@ -61,4 +61,8 @@
         <item name="cornerFamilyBottomLeft">rounded</item>
     </style>
 
+    <style name="circularCorner">
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
