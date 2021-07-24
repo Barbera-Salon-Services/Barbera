@@ -42,8 +42,8 @@ public interface JsonPlaceHolderApi2 {
     @GET("gettypes/{category}")
     Call<TypeList> getTypes(@Path ("category") String gender);
 
-//    @POST("getsubtypes/{category}")
-//    Call<TypeList> getSubTypes(@Path ("category") String gender,@Body ServiceItem service);
+    @POST("getsubtypes/{category}")
+    Call<TypeList> getSubTypes(@Path ("category") String gender,@Body ServiceItem service);
 
     @POST("getallserv/{category}")
     Call<ServiceList> getAllServices(@Path ("category") String gender,@Body ServiceItem service);

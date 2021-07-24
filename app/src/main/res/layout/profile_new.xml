@@ -1,279 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-	android:background="#F9F9F1"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<ProgressBar
-			android:id="@+id/progressBarOnProfile"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerInParent="true"
-			android:visibility="invisible" />
+    <androidx.cardview.widget.CardView
+        style="@style/profilePageCardView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-	<ScrollView
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_above="@id/bottomNavigation">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-		<RelativeLayout
-				android:id="@+id/profile_section_main_view"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/profile_image_card_view"
+                app:cardCornerRadius="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.466"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.237"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp">
 
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person" />
 
-			<RelativeLayout
-					android:id="@+id/profile_card_section"
-					android:layout_width="match_parent"
-					android:layout_height="180dp"
-					android:background="@color/colorAccent">
+            </androidx.cardview.widget.CardView>
 
-				<ImageView
-						android:id="@+id/profile_image"
-						android:layout_width="95dp"
-						android:layout_height="95dp"
-						android:layout_centerVertical="true"
-						android:src="@drawable/ic_baseline_account_circle_24" />
+            <TextView
+                android:id="@+id/NameInProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:gravity="center"
+                android:hint="@string/user_name" />
 
-				<TextView
-						android:visibility="invisible"
-						android:id="@+id/NameInProfile"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_centerHorizontal="true"
-						android:textColor="@color/white"
-						android:layout_above="@+id/EmailInProfile"
-						android:textSize="20sp"
-						android:textStyle="bold"
-						tools:text="Krishna Balram" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
 
-				<TextView
-						android:id="@+id/EmailInProfile"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_centerInParent="true"
-						android:textColor="@color/white"
-						android:textSize="18sp"
-						android:textStyle="bold"
-						tools:text="Krishna Balram" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_outline_person_24" />
 
-				<TextView
-						android:id="@+id/PhoneInProfile"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_below="@id/EmailInProfile"
-						android:layout_centerHorizontal="true"
-						android:layout_marginTop="5dp"
-						android:textColor="@color/white"
-						android:textSize="15sp"
-						tools:text="+916378791396" />
-			</RelativeLayout>
-			<RelativeLayout
-				android:id="@+id/my_profile_rel_layout"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/profile_card_section"
-				android:layout_marginTop="10dp"
-				android:clickable="true"
-				android:foreground="?android:attr/selectableItemBackground"
-				android:focusable="true">
+                <Button
+                    android:id="@+id/coupons_rel_layout"
+                    style="@style/ProfilePageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/Transparent"
+                    android:text="@string/my_coupon" />
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_toRightOf="@id/my_profile"
-					android:text="my profile"
-					android:textAllCaps="true"
-					android:layout_margin="20dp"
-					android:textColor="@color/colorAccent"
-					android:textSize="20sp"
-					android:textStyle="bold" />
+            </LinearLayout>
 
-				<ImageView
-					android:id="@+id/my_profile"
-					android:layout_width="50dp"
-					android:layout_height="50dp"
-					android:layout_margin="10dp"
-					android:src="@drawable/myprofile" />
-			</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
 
-			<RelativeLayout
-					android:id="@+id/coupons_rel_layout"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_below="@id/my_profile_rel_layout"
-					android:layout_marginTop="10dp"
-					android:clickable="true"
-					android:foreground="?android:attr/selectableItemBackground"
-					android:focusable="true">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_share_24" />
 
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_toRightOf="@id/coup"
-						android:text="my coupons"
-						android:textAllCaps="true"
-						android:layout_margin="20dp"
-						android:textColor="@color/colorAccent"
-						android:textSize="20sp"
-						android:textStyle="bold" />
+                <Button
 
-				<ImageView
-						android:id="@+id/coup"
-						android:layout_width="50dp"
-						android:layout_height="50dp"
-						android:layout_margin="10dp"
-						android:src="@drawable/coupon" />
-			</RelativeLayout>
+                    android:id="@+id/refer_rel_layout"
+                    style="@style/ProfilePageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/Transparent"
+                    android:text="@string/refer_earn" />
 
+            </LinearLayout>
 
-			<RelativeLayout
-					android:id="@+id/refer_rel_layout"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_below="@id/coupons_rel_layout"
-					android:clickable="true"
-					android:foreground="?android:attr/selectableItemBackground">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
 
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_toRightOf="@id/refer"
-						android:text="refer and earn"
-						android:textAllCaps="true"
-						android:layout_margin="20dp"
-						android:textColor="@color/colorAccent"
-						android:textSize="20sp"
-						android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_connect_without_contact_24" />
 
-				<ImageView
-						android:id="@+id/refer"
-						android:layout_width="50dp"
-						android:layout_height="50dp"
-						android:layout_margin="10dp"
-						android:src="@drawable/refer" />
-			</RelativeLayout>
+                <Button
+                    android:id="@+id/contact_rel_layout"
+                    style="@style/ProfilePageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/Transparent"
+                    android:text="@string/contact_us" />
 
-			<RelativeLayout
-					android:id="@+id/contact_rel_layout"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_below="@id/refer_rel_layout"
-					android:clickable="true"
-					android:foreground="?android:attr/selectableItemBackground">
+            </LinearLayout>
 
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_toRightOf="@id/contact"
-						android:text="contact us"
-						android:textAllCaps="true"
-						android:layout_margin="20dp"
-						android:textColor="@color/colorAccent"
-						android:textSize="20sp"
-						android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
 
-				<ImageView
-						android:id="@+id/contact"
-						android:layout_width="50dp"
-						android:layout_height="50dp"
-						android:layout_margin="10dp"
-						android:src="@drawable/contact" />
-			</RelativeLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_outline_privacy_tip_24" />
 
-			<RelativeLayout
-					android:id="@+id/privacy_rel_layout"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_below="@id/contact_rel_layout"
-					android:clickable="true"
-					android:foreground="?android:attr/selectableItemBackground">
+                <Button
+                    android:id="@+id/privacy_rel_layout"
+                    style="@style/ProfilePageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/Transparent"
+                    android:text="@string/user_privacy" />
 
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_toRightOf="@+id/user"
-						android:text="user privacy"
-						android:textAllCaps="true"
-						android:layout_margin="20dp"
-						android:textColor="@color/colorAccent"
-						android:textSize="20sp"
-						android:textStyle="bold" />
+            </LinearLayout>
 
-				<ImageView
-						android:id="@+id/user"
-						android:layout_width="50dp"
-						android:layout_height="50dp"
-						android:layout_margin="10dp"
-						android:src="@drawable/user" />
-			</RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="130dp"
+                android:orientation="vertical">
 
-			<RelativeLayout
-					android:id="@+id/aboutUs_rel_layout"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_below="@id/privacy_rel_layout"
-					android:clickable="true"
-					android:foreground="?android:attr/selectableItemBackground">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
 
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_toRightOf="@+id/about"
-						android:text="about us"
-						android:textAllCaps="true"
-						android:layout_margin="20dp"
-						android:textColor="@color/colorAccent"
-						android:textSize="20sp"
-						android:textStyle="bold" />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_baseline_about_us_24" />
 
-				<ImageView
-						android:id="@+id/about"
-						android:layout_width="50dp"
-						android:layout_height="50dp"
-						android:layout_margin="10dp"
-						android:src="@drawable/about" />
-			</RelativeLayout>
+                    <Button
+                        android:id="@+id/aboutUs_rel_layout"
+                        style="@style/ProfilePageButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@color/Transparent"
+                        android:text="@string/about_us" />
 
-			<RelativeLayout
-					android:id="@+id/logout_rel_layout"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_below="@id/aboutUs_rel_layout"
-					android:clickable="true"
-					android:foreground="?android:attr/selectableItemBackground">
+                </LinearLayout>
 
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_toRightOf="@id/logout"
-						android:text="logout"
-						android:layout_margin="20dp"
-						android:textAllCaps="true"
-						android:textColor="@color/colorAccent"
-						android:textSize="20sp"
-						android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
 
-				<ImageView
-						android:id="@+id/logout"
-						android:layout_width="50dp"
-						android:layout_height="50dp"
-						android:layout_margin="10dp"
-						android:src="@drawable/logout" />
-			</RelativeLayout>
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_baseline_logout_24" />
 
+                    <Button
+                        android:id="@+id/logout_rel_layout"
+                        style="@style/ProfilePageButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@color/Transparent"
+                        android:text="@string/logout" />
 
-		</RelativeLayout>
-	</ScrollView>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-	<com.google.android.material.bottomnavigation.BottomNavigationView
-			android:id="@+id/bottomNavigation"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:background="#D9D8D6"
-			app:menu="@menu/menu_navigation" />
-
-</RelativeLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/LightGray" />
+</androidx.constraintlayout.widget.ConstraintLayout>
