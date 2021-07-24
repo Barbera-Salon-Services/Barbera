@@ -4,119 +4,157 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_bg"
+    android:background="@color/background"
     tools:context=".HomeActivity">
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src="@drawable/barberawhite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/share_vector"
+        app:layout_constraintEnd_toStartOf="@id/cart"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/cart"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/cart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="140dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView7">
 
-
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:orientation="horizontal"/>
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/offers"
-                android:layout_margin="10dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/men_salon_cardview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:alpha="0.8"
-                android:background="#000000"
-                app:cardBackgroundColor="#80000000"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp"
-                app:cardUseCompatPadding="true">
-
-                <TextView
-                    android:id="@+id/men_salon_textview"
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Men's Salon"
-                    android:textColor="@color/white"
-                    android:textSize="22sp" />
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal" />
 
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/men_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/women_salon_cardview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#000000"
-                app:cardBackgroundColor="#80000000"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp"
-                app:cardUseCompatPadding="true">
-
-                <TextView
-                    android:id="@+id/women_salon_textview"
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/offers"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Women's Salon"
-                    android:textColor="@color/white"
-                    android:textSize="22sp" />
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp" />
 
-            </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/women_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/wedding_package_cardview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#000000"
-                app:cardBackgroundColor="#80000000"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp"
-                app:cardUseCompatPadding="true">
-
-                <TextView
-                    android:id="@+id/wedding_package_textview"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/men_salon_cardview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Wedding Packages"
-                    android:textColor="@color/white"
-                    android:textSize="22sp" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:alpha="0.8"
+                    android:background="#000000"
+                    app:cardBackgroundColor="#80000000"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp"
+                    app:cardUseCompatPadding="true">
 
-            </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/men_salon_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Men's Salon"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/wedding_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </ScrollView>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/men_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/women_salon_cardview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#000000"
+                    app:cardBackgroundColor="#80000000"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:id="@+id/women_salon_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Women's Salon"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/women_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/wedding_package_cardview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#000000"
+                    app:cardBackgroundColor="#80000000"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:id="@+id/wedding_package_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Wedding Packages"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/wedding_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
