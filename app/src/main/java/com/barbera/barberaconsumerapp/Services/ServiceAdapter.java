@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp.Services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
         /*  Glide.with(view.getContext()).load(serviceList.get(position).getImageId())
            .apply(new RequestOptions().placeholder(R.drawable.logo)).into(logo);*/
+        Log.d("gr",serviceList.size()+"");
 
         final String amount = "Rs " + serviceList.get(position).getPrice();
         String CutAmount="Rs " +serviceList.get(position).getCutprice();

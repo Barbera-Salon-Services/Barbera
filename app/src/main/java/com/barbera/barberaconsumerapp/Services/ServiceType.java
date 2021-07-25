@@ -52,7 +52,7 @@ public class ServiceType extends AppCompatActivity {
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
         token = preferences.getString("token", "no");
-        serviceTypeAdapter=new ServiceTypeAdapter(this,serviceList);
+
 
         Intent intent = getIntent();
         salontype = intent.getStringExtra("SalonType");
@@ -70,7 +70,6 @@ public class ServiceType extends AppCompatActivity {
                     int i=0;
                     String sub="";
                     for(ServiceItem serviceItem:serviceItemList){
-
                         if(i==0){
                             sub=serviceItem.getSubtype();
                             slist.add(serviceItem);
@@ -81,20 +80,27 @@ public class ServiceType extends AppCompatActivity {
                                 slist.add(serviceItem);
                             }
                             else{
-                                Log.d("ser",sub);
-                                for(ServiceItem item:slist){
-                                    Log.d("name",item.getName());
-                                }
                                 serviceList.add(new ServiceOuterItem(sub,slist));
-                                slist.clear();
+                                slist=new ArrayList<>();
+//                                for(ServiceOuterItem item:serviceList){
+//                                    for(ServiceItem s:item.getServiceItemList()){
+//                                        Log.d("kjhg",s.getName());
+//                                    }
+//                                }
                                 slist.add(serviceItem);
                                 sub=serviceItem.getSubtype();
                             }
                         }
                     }
-                    Log.d("ser",sub);
                     serviceList.add(new ServiceOuterItem(sub,slist));
-                    Log.d("size",serviceList.size()+"");
+                    for(ServiceOuterItem item:serviceList){
+                        Log.d("sdsd",item.getSubtype());
+                        for(ServiceItem serviceItem:item.getServiceItemList()){
+                            Log.d("kjhg",serviceItem.getName());
+                        }
+
+                    }
+                    serviceTypeAdapter=new ServiceTypeAdapter(ServiceType.this,serviceList);
                     setAdapter();
                     progressDialog.dismiss();
                 }
