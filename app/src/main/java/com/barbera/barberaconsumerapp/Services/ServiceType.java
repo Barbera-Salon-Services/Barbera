@@ -1,0 +1,118 @@
+package com.barbera.barberaconsumerapp.Services;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.Utils.CheckedModel;
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
+import com.barbera.barberaconsumerapp.Utils.ServiceList;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+public class ServiceType extends AppCompatActivity {
+    private String token;
+    private String Category;
+    private String CategoryIMage="";
+    private ImageView image;
+    public static String salontype;
+    private List<ServiceItem> slist=new ArrayList<>();
+    private List<ServiceOuterItem> serviceList=new ArrayList<>();
+    private ServiceTypeAdapter serviceTypeAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager llm;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_service_type);
+        recyclerView=findViewById(R.id.service_recycler_view);
+        llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+
+        Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+        token = preferences.getString("token", "no");
+        serviceTypeAdapter=new ServiceTypeAdapter(this,serviceList);
+
+        Intent intent = getIntent();
+        salontype = intent.getStringExtra("SalonType");
+        Category = intent.getStringExtra("Category");
+        ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog.show();
+        Call<ServiceList> call=jsonPlaceHolderApi2.getAllServices(salontype,new ServiceItem(null, 0, 0, null, 0, null, Category,
+                false, null, false, null,null));
+        call.enqueue(new Callback<ServiceList>() {
+            @Override
+            public void onResponse(Call<ServiceList> call, Response<ServiceList> response) {
+                if(response.code()==200){
+                    ServiceList list=response.body();
+                    List<ServiceItem> serviceItemList=list.getServices();
+                    int i=0;
+                    String sub="";
+                    for(ServiceItem serviceItem:serviceItemList){
+
+                        if(i==0){
+                            sub=serviceItem.getSubtype();
+                            slist.add(serviceItem);
+                            i++;
+                        }
+                        else{
+                            if(serviceItem.getSubtype().equals(sub)){
+                                slist.add(serviceItem);
+                            }
+                            else{
+                                Log.d("ser",sub);
+                                for(ServiceItem item:slist){
+                                    Log.d("name",item.getName());
+                                }
+                                serviceList.add(new ServiceOuterItem(sub,slist));
+                                slist.clear();
+                                slist.add(serviceItem);
+                                sub=serviceItem.getSubtype();
+                            }
+                        }
+                    }
+                    Log.d("ser",sub);
+                    serviceList.add(new ServiceOuterItem(sub,slist));
+                    Log.d("size",serviceList.size()+"");
+                    setAdapter();
+                    progressDialog.dismiss();
+                }
+                else{
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Could not load services", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServiceList> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void setAdapter(){
+        recyclerView.setLayoutManager(llm);
+        recyclerView.setAdapter(serviceTypeAdapter);
+    }
+}

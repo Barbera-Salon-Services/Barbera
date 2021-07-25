@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Services.ServiceAdapter;
 import com.barbera.barberaconsumerapp.Utils.CheckedModel;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
@@ -131,7 +132,7 @@ public class ParlourActivity extends AppCompatActivity {
                             serviceList.add(new ServiceItem(item.getName(), item.getPrice(), item.getTime(), item.getDetail(),
                                     item.getCutprice(), item.getGender(), item.getType(), item.isDod(), item.getId(), item.isTrend(), item.getSubtype(),item.getImage()));
                         }
-                        listView.setAdapter(adapter);
+                        //listView.setAdapter(adapter);
                         progressBarOnServiceList.setVisibility(View.INVISIBLE);
                     } else {
                         Toast.makeText(getApplicationContext(), "Could not load services", Toast.LENGTH_SHORT).show();

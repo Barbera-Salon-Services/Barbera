@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
+import com.barbera.barberaconsumerapp.Services.GridAdapter;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
@@ -53,15 +54,15 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         weddingRecyclerView = findViewById(R.id.wedding_recycler_view);
         womenRecyclerView = findViewById(R.id.women_recycler_view);
 
-        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this);
+        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"wedding");
         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         weddingRecyclerView.setLayoutManager(gridLayoutManager1);
 
-        gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this);
+        gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this,"female");
         GridLayoutManager gridLayoutManager = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
         womenRecyclerView.setLayoutManager(gridLayoutManager);
 
-        gridAdapterMen = new GridAdapter(imgUrlMen, imgNameMen, HomeActivity.this);
+        gridAdapterMen = new GridAdapter(imgUrlMen, imgNameMen, HomeActivity.this,"male");
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
         menRecyclerView.setLayoutManager(gridLayoutManager2);
 
