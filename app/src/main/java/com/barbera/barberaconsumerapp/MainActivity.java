@@ -162,20 +162,6 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
             }
         });
 
-
-
-        FirebaseMessaging.getInstance().subscribeToTopic("general")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Successful";
-                        if (!task.isSuccessful()) {
-                            msg = "Failed";
-                        }
-                    }
-                });
-
-
                bottomNavigationView.setSelectedItemId(R.id.home);
                bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

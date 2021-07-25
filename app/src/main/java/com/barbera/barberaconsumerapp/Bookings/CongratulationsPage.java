@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Bookings;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.barbera.barberaconsumerapp.Bookings.BookingPage;
+import com.barbera.barberaconsumerapp.MainActivity;
+import com.barbera.barberaconsumerapp.R;
 
 public class CongratulationsPage extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class CongratulationsPage extends AppCompatActivity {
         backtohome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CongratulationsPage.this,MainActivity.class));
+                startActivity(new Intent(CongratulationsPage.this, MainActivity.class));
                 finish();
             }
         });
