@@ -218,7 +218,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                         }
                     });
                     progressBar.setVisibility(View.GONE);
-                    Intent intent = new Intent(ActivityPhoneVerification.this, MainActivity.class);
+                    Intent intent = new Intent(ActivityPhoneVerification.this, HomeActivity.class);
                     startActivity(intent);
                 } else {
                     progressBar.setVisibility(View.GONE);
@@ -413,7 +413,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
         String isRegistered = preferences.getString("token","no");
         if(!isRegistered.equals("no")){
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
         }
     }
 }

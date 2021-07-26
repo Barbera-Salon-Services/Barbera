@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         style="@style/profilePageCardView"
@@ -19,17 +19,17 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/profile_image_card_view"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
                 app:cardCornerRadius="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.466"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.237">
+                app:layout_constraintVertical_bias="0.237"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp">
 
                 <ImageView
                     android:id="@+id/profile_image"
@@ -41,6 +41,7 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/NameInProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
@@ -66,7 +67,6 @@
                     android:text="My Profile" />
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +79,7 @@
                     android:src="@drawable/my_coupons" />
 
                 <Button
+                    android:id="@+id/coupons_rel_layout"
                     style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -99,6 +100,8 @@
                     android:src="@drawable/share_vector" />
 
                 <Button
+
+                    android:id="@+id/refer_rel_layout"
                     style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -119,6 +122,7 @@
                     android:src="@drawable/ic_baseline_connect_without_contact_24" />
 
                 <Button
+                    android:id="@+id/contact_rel_layout"
                     style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -139,6 +143,7 @@
                     android:src="@drawable/ic_outline_privacy_tip_24" />
 
                 <Button
+                    android:id="@+id/privacy_rel_layout"
                     style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -166,6 +171,7 @@
                         android:src="@drawable/icons_about" />
 
                     <Button
+                        android:id="@+id/aboutUs_rel_layout"
                         style="@style/ProfilePageButton"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -186,6 +192,7 @@
                         android:src="@drawable/icon_logout" />
 
                     <Button
+                        android:id="@+id/logout_rel_layout"
                         style="@style/ProfilePageButton"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -199,11 +206,11 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/LightGray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_navigation" />
+        app:menu="@menu/menu_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/LightGray" />
 </androidx.constraintlayout.widget.ConstraintLayout>

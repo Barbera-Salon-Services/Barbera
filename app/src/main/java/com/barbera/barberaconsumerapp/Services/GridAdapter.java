@@ -1,7 +1,8 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Services;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barbera.barberaconsumerapp.R;
 import com.bumptech.glide.Glide;
 
+import java.nio.charset.IllegalCharsetNameException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
-    private List<String> imgUrl, imgName;
+    private List<String> imgUrl=new ArrayList<>(), imgName=new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
+    private String salonType;
 
 
-    public GridAdapter(List<String> imgUrl, List<String> imgName, Context ctx) {
+    public GridAdapter(List<String> imgUrl, List<String> imgName, Context ctx,String category) {
         this.imgUrl = imgUrl;
         this.imgName = imgName;
         this.inflater = inflater.from(ctx);
+        this.context=ctx;
+        this.salonType=category;
     }
 
 
@@ -38,9 +45,19 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.imgName.setText(imgName.get(position));
+        holder.imgNam.setText(imgName.get(position));
 //        Glide.with(getContext()).load(gridModel.getImgUrl()).into(img);
         Glide.with(context).load(imgUrl.get(position)).into(holder.img);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,ServiceType.class);
+                intent.putExtra("Category",imgName.get(position));
+                intent.putExtra("SalonType",salonType);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -50,20 +67,13 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
-        TextView imgName;
+        TextView imgNam;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.grid_img);
-            imgName  = itemView.findViewById(R.id.grid_img_text);
-
+            imgNam  = itemView.findViewById(R.id.grid_img_text);
             context = itemView.getContext();
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Will define later
-                }
-            });
         }
     }
 }
