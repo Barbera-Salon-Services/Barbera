@@ -8,16 +8,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Services.ServiceType">
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/subtype_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            tools:src="@drawable/wedding_bridal"/>
-    </androidx.cardview.widget.CardView>
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <ImageView-->
+<!--            android:id="@+id/subtype_image"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="visible"-->
+<!--            tools:src="@drawable/wedding_bridal"/>-->
+<!--    </androidx.cardview.widget.CardView>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
