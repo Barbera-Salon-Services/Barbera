@@ -1,16 +1,45 @@
 package com.barbera.barberaconsumerapp.Profile;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
+import com.barbera.barberaconsumerapp.HomeActivity;
 import com.barbera.barberaconsumerapp.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AboutUsActivity extends AppCompatActivity {
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_us);
+        bottomNavigationView=findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.profile);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id. booking:
+                        startActivity(new Intent(getApplicationContext(), BookingsActivity.class));
+                        overridePendingTransition(0,0);
+                        finish();
+                        return true;
+                    case R.id. profile:
+
+                        return true;
+                    case R.id.home:
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        overridePendingTransition(0,0);
+                        finish();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 }

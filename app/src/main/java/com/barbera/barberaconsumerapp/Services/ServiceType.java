@@ -93,14 +93,14 @@ public class ServiceType extends AppCompatActivity {
                         }
                     }
                     serviceList.add(new ServiceOuterItem(sub,slist));
-                    for(ServiceOuterItem item:serviceList){
-                        Log.d("sdsd",item.getSubtype());
-                        for(ServiceItem serviceItem:item.getServiceItemList()){
-                            Log.d("kjhg",serviceItem.getName());
-                        }
-
-                    }
-                    serviceTypeAdapter=new ServiceTypeAdapter(ServiceType.this,serviceList);
+//                    for(ServiceOuterItem item:serviceList){
+//                        Log.d("sdsd",item.getSubtype());
+//                        for(ServiceItem serviceItem:item.getServiceItemList()){
+//                            Log.d("kjhg",serviceItem.getName());
+//                        }
+//
+//                    }
+                    serviceTypeAdapter=new ServiceTypeAdapter(ServiceType.this,serviceList,salontype);
                     setAdapter();
                     progressDialog.dismiss();
                 }

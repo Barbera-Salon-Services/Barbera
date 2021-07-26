@@ -75,7 +75,7 @@ public class ParlourActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.new_service_title);
         ParlourActivity.progressBarOnServiceList = (ProgressBar) findViewById(R.id.new_service_progress_bar);
         ImageView cart = (ImageView) findViewById(R.id.new_service_cart);
-        final ServiceAdapter adapter = new ServiceAdapter(getApplicationContext(), serviceList);
+        //final ServiceAdapter adapter = new ServiceAdapter(getApplicationContext(), serviceList);
         //final ServiceAdapter womenadapter = new ServiceAdapter(womenserviceList);
         image = (ImageView) findViewById(R.id.new_service_image);
         addToCart = (Button) findViewById(R.id.new_service_add_to_cart);

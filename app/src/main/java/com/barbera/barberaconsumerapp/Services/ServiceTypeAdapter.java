@@ -22,10 +22,12 @@ import java.util.List;
 public class ServiceTypeAdapter extends RecyclerView.Adapter<ServiceTypeAdapter.ServiceViewHolder> {
     private final Context context;
     private final List<ServiceOuterItem> list;
+    private String salonType;
 
-    public ServiceTypeAdapter(Context context, List<ServiceOuterItem> serviceList) {
+    public ServiceTypeAdapter(Context context, List<ServiceOuterItem> serviceList,String salonType) {
         this.context=context;
         this.list = serviceList;
+        this.salonType=salonType;
     }
     @NotNull
     @Override
@@ -44,7 +46,7 @@ public class ServiceTypeAdapter extends RecyclerView.Adapter<ServiceTypeAdapter.
         LinearLayoutManager llm = new LinearLayoutManager(context);
         holder.recyclerView.setLayoutManager(llm);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-        ServiceAdapter serviceAdapter=new ServiceAdapter(context,serviceOuterItem.getServiceItemList());
+        ServiceAdapter serviceAdapter=new ServiceAdapter(context,serviceOuterItem.getServiceItemList(),salonType);
         holder.recyclerView.setAdapter(serviceAdapter);
         holder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
