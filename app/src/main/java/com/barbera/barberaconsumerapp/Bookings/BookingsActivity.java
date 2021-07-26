@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.HomeActivity;
 import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.R;
@@ -87,7 +88,7 @@ public class BookingsActivity extends AppCompatActivity {
                         finish();
                         return true;
                     case R.id.home:
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
@@ -110,6 +111,7 @@ public class BookingsActivity extends AppCompatActivity {
                         if(list.size()==0){
                             BookinglistView.setVisibility(View.INVISIBLE);
                             emptyLayout.setVisibility(View.VISIBLE);
+                            progressBarONBookingActivity.setVisibility(View.INVISIBLE);
                         }
                         else {
                             Log.d("List","IN");

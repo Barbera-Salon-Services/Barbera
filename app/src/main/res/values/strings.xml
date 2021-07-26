@@ -27,4 +27,6 @@
     <string name="user_privacy">User Privacy</string>
     <string name="about_us">About Us</string>
     <string name="logout">Logout</string>
+    <string name="user_privacy_content">1. When you signup for Barbera , you agree to give us certain information voluntarily. This includes your name, Phone Number, Email address and resedential Address. \n2. This data is only used for Service Booking Purposes. \n3. We don\'t import any other kind of hidden data from your device, neither our service catalogue. But to book service, You need to signup. \n4. You can continue without signing up, and can see our services catalogue. But to book a service, you need to signup. \n5. Your data is completely safe with us.</string>
+    <string name="about_us_content">Barbera is an online salon facility which provides doorstep salon services. We provide salon services for both men and women at salon price. We at barbera are comitted to provide excellent quality services to our customers, who are the one who trusted in Barberan, who trusted in us. During this time we are working to provide safe and sanitised at your doorsteps</string>
 </resources>

@@ -103,5 +103,18 @@
         android:textSize="15sp"
             android:text="- perfect haircut by stylist\n- 5 minute free head relaxation after haircut \n- 100% mess free experience(post serviceItem cleanup gurantee with no hair on the floor"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/book_button"
+        android:text="Book Now"
+        android:layout_below="@+id/details"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cart_button"
+        android:text="Add to cart"
+        android:layout_below="@+id/details"
+        android:layout_toRightOf="@+id/book_button"/>
 </RelativeLayout>
 </androidx.cardview.widget.CardView>

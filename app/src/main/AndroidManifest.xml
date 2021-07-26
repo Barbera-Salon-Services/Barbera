@@ -13,7 +13,9 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".Services.ServiceType"></activity>
+        <activity android:name=".SpecialOffers" />
+        <activity android:name=".HomeActivity" />
         <activity android:name=".Bookings.ViewBarberAcitivity" />
         <activity android:name=".Profile.EditProfile" />
         <activity android:name=".Profile.MyProfile" />
@@ -25,6 +27,7 @@
         <activity android:name=".SubCategoryActivity" />
         <activity android:name=".WeddingActivity" />
         <activity android:name=".WeddingPreActivity" />
+        <activity android:name=".Profile.AboutUsActivity" />
         <activity android:name=".MapSearchActivity" />
         <activity
             android:name=".MapsActivity"
@@ -97,7 +100,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityPhoneVerification"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />

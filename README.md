@@ -7,7 +7,7 @@
 ## How To Install
 1. Fork this repo
 2. Clone the forked repo using git `clone https://github.com/<your username>/Barbera.git`
-3. Open Barbera in Android Studio and let it automatically install all the required dependencies. 
+3. Open Barbera in Android Studio and let it automatically install all the required dependencies.
 4. Make sure to have the correct android sdk path in local.properties after all dependencies are installed. 
 5. Lastly connect your app to firebase. To verify if your app is connected to firebase, check google-serviceItems.json inside app/
 
