@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
+import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
 import com.barbera.barberaconsumerapp.Services.GridAdapter;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
@@ -61,6 +62,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
         Cart=(ImageView)findViewById(R.id.cart);
         cartAdapter=new CartAdapter(this);
+        ImageView referMain=(ImageView)findViewById(R.id.refer);
 
         gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"wedding");
         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
@@ -84,6 +86,13 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         addMenGrid();
         addWeddingGrid();
         addWomenGrid();
+
+        referMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ReferAndEarn.class));
+            }
+        });
 
         Cart.setOnClickListener(new View.OnClickListener() {
             @Override

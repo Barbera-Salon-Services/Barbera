@@ -18,7 +18,6 @@ public class CongratulationsPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_congratulations_page);
 
-
         Intent intent=getIntent();
         int totalAmount=intent.getIntExtra("Booking Amount",0);
         String summary=intent.getStringExtra("Order Summary");
