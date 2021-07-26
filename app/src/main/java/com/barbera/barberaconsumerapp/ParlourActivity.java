@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Services.ServiceAdapter;
 import com.barbera.barberaconsumerapp.Utils.CheckedModel;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
@@ -74,7 +75,7 @@ public class ParlourActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.new_service_title);
         ParlourActivity.progressBarOnServiceList = (ProgressBar) findViewById(R.id.new_service_progress_bar);
         ImageView cart = (ImageView) findViewById(R.id.new_service_cart);
-        final ServiceAdapter adapter = new ServiceAdapter(getApplicationContext(), serviceList);
+        //final ServiceAdapter adapter = new ServiceAdapter(getApplicationContext(), serviceList);
         //final ServiceAdapter womenadapter = new ServiceAdapter(womenserviceList);
         image = (ImageView) findViewById(R.id.new_service_image);
         addToCart = (Button) findViewById(R.id.new_service_add_to_cart);
@@ -131,7 +132,7 @@ public class ParlourActivity extends AppCompatActivity {
                             serviceList.add(new ServiceItem(item.getName(), item.getPrice(), item.getTime(), item.getDetail(),
                                     item.getCutprice(), item.getGender(), item.getType(), item.isDod(), item.getId(), item.isTrend(), item.getSubtype(),item.getImage()));
                         }
-                        listView.setAdapter(adapter);
+                        //listView.setAdapter(adapter);
                         progressBarOnServiceList.setVisibility(View.INVISIBLE);
                     } else {
                         Toast.makeText(getApplicationContext(), "Could not load services", Toast.LENGTH_SHORT).show();

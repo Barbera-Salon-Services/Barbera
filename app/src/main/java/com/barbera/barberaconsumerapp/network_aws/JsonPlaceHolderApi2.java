@@ -7,6 +7,7 @@ import com.barbera.barberaconsumerapp.Bookings.ServiceIdList;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.CartList;
 import com.barbera.barberaconsumerapp.Utils.CartList2;
+import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
@@ -78,5 +79,13 @@ public interface JsonPlaceHolderApi2 {
     @POST("usecoupon")
     Call<Data> applyCoupon(@Body CartItemModel cartItemModel,@Header("Authorization") String token);
 
+    @POST("bookinst")
+    Call<InstItem> bookInst(@Body ServiceIdList serviceIdList, @Header("Authorization") String token);
 
+    @POST("bookconfirm")
+    Call<Void> confirmBooking(@Body ServiceIdList serviceIdList,@Header("Authorization") String token);
+
+    @POST("bookrevert")
+    Call<Void> revertBooking(@Body ServiceIdList serviceIdList,@Header("Authorization") String token);
+    //barberId,slot,service:serviceId,time,quantity
 }

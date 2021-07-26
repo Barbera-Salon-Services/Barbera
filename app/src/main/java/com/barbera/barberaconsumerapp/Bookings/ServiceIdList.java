@@ -8,12 +8,19 @@ import java.util.List;
 public class ServiceIdList {
     @SerializedName("service")
     private List<CartItemModel> list;
-    @SerializedName("barberid")
+    @SerializedName("barberId")
     private String id;
+    @SerializedName("slot")
+    private String slot;
 
-    public ServiceIdList(List<CartItemModel> list, String id) {
+    public ServiceIdList(List<CartItemModel> list, String id,String slot) {
         this.list = list;
         this.id = id;
+        this.slot=slot;
+    }
+
+    public String getSlot() {
+        return slot;
     }
 
     public String getId() {

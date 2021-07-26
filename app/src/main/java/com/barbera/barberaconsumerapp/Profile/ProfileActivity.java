@@ -2,7 +2,6 @@ package com.barbera.barberaconsumerapp.Profile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -12,25 +11,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
+import com.barbera.barberaconsumerapp.HomeActivity;
 import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
-import com.barbera.barberaconsumerapp.SecondScreen;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfileActivity extends AppCompatActivity {
-    private CardView logout;
+
     private TextView Name;
     private TextView phone;
     private TextView email;
@@ -40,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     public  static String profile_phone="";
     private  static String profile_email="";
     //private static String profile_address="";
-    private RelativeLayout shareAndEarn;
+    private Button shareAndEarn,AboutUs,contactus,logout,privacyPOlicy,couponsLayout;
     private RelativeLayout profileMainLayout;
 
     @Override
@@ -48,59 +42,56 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_new);
 
-        Name=(TextView)findViewById(R.id.EmailInProfile);
-        phone=(TextView)findViewById(R.id.PhoneInProfile);
-        baronprofile=(ProgressBar)findViewById(R.id.progressBarOnProfile) ;
-        RelativeLayout AboutUs=(RelativeLayout) findViewById(R.id.aboutUs_rel_layout);
-        RelativeLayout contactus=(RelativeLayout)findViewById(R.id.contact_rel_layout);
-        RelativeLayout logout=(RelativeLayout)findViewById(R.id.logout_rel_layout);
-        RelativeLayout privacyPOlicy=(RelativeLayout)findViewById(R.id.privacy_rel_layout);
-        RelativeLayout myProfile = (RelativeLayout) findViewById(R.id.my_profile_rel_layout);
-        shareAndEarn=(RelativeLayout)findViewById(R.id.refer_rel_layout);
-        profileMainLayout=(RelativeLayout)findViewById(R.id.profile_section_main_view);
-        RelativeLayout couponsLayout=(RelativeLayout)findViewById(R.id.coupons_rel_layout);
+        Name=(TextView)findViewById(R.id.NameInProfile);
+        AboutUs=findViewById(R.id.aboutUs_rel_layout);
+        contactus=findViewById(R.id.contact_rel_layout);
+        logout=findViewById(R.id.logout_rel_layout);
+        privacyPOlicy=findViewById(R.id.privacy_rel_layout);
+        //RelativeLayout myProfile = (RelativeLayout) findViewById(R.id.my_profile_rel_layout);
+        shareAndEarn=findViewById(R.id.refer_rel_layout);
+        couponsLayout=findViewById(R.id.coupons_rel_layout);
 
 
-        if(profile_name == ""&&FirebaseAuth.getInstance().getCurrentUser()!=null){
-            baronprofile.setVisibility(View.VISIBLE);
-            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.isSuccessful()){
-                                profile_name=task.getResult().get("Name").toString();
-                                profile_phone=task.getResult().get("Phone").toString();
-                                profile_email=task.getResult().get("Email Address").toString();
-                                //profile_address=task.getResult().get("Address").toString();
-                                Name.setText(profile_name);
-                                phone.setText(profile_phone);
-//                                email.setText(profile_email);
-                                profileMainLayout.setVisibility(View.VISIBLE);
-                                baronprofile.setVisibility(View.INVISIBLE);
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-        }
-        else{
-            Name.setText(profile_name);
-            phone.setText(profile_phone);
-//            email.setText(profile_email);
-            profileMainLayout.setVisibility(View.VISIBLE);
-        }
-        myProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,MyProfile.class));
-            }
-        });
+//        if(profile_name == ""&&FirebaseAuth.getInstance().getCurrentUser()!=null){
+//            baronprofile.setVisibility(View.VISIBLE);
+//            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+//                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if(task.isSuccessful()){
+//                                profile_name=task.getResult().get("Name").toString();
+//                                profile_phone=task.getResult().get("Phone").toString();
+//                                profile_email=task.getResult().get("Email Address").toString();
+//                                //profile_address=task.getResult().get("Address").toString();
+//                                Name.setText(profile_name);
+//                                phone.setText(profile_phone);
+////                                email.setText(profile_email);
+//                                profileMainLayout.setVisibility(View.VISIBLE);
+//                                baronprofile.setVisibility(View.INVISIBLE);
+//                            }
+//                            else
+//                                Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
+//        }
+//        else{
+//            Name.setText(profile_name);
+//            phone.setText(profile_phone);
+////            email.setText(profile_email);
+//            profileMainLayout.setVisibility(View.VISIBLE);
+//        }
+//        myProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(ProfileActivity.this,MyProfile.class));
+//            }
+//        });
 
         AboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ProfileActivity.this, AboutPrivacyActivity.class);
+                Intent intent=new Intent(ProfileActivity.this, AboutUsActivity.class);
                 intent.putExtra("Heading","About Us");
                 startActivity(intent);
             }
@@ -138,9 +129,10 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigation);
+        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setSelectedItemId(R.id.profile);
+//        bottomNavigationView.getMenu().findItem(R.id.profile).setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -154,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity {
                     case R.id. profile:
                         return true;
                     case R.id.home:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         overridePendingTransition(0,0);
                         finish();
                         return true;
