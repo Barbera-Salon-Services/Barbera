@@ -21,7 +21,7 @@
             tools:text="Head massage"
             android:id="@+id/subtype_name"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/dropdown"/>
