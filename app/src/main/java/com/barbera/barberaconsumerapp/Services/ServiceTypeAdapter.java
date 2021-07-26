@@ -48,10 +48,18 @@ public class ServiceTypeAdapter extends RecyclerView.Adapter<ServiceTypeAdapter.
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         ServiceAdapter serviceAdapter=new ServiceAdapter(context,serviceOuterItem.getServiceItemList(),salonType);
         holder.recyclerView.setAdapter(serviceAdapter);
+        final int[] i = {0};
         holder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.recyclerView.setVisibility(View.VISIBLE);
+                if(i[0] ==0){
+                    holder.recyclerView.setVisibility(View.VISIBLE);
+                    i[0] =1;
+                }
+                else{
+                    i[0]=0;
+                    holder.recyclerView.setVisibility(View.GONE);
+                }
             }
         });
     }

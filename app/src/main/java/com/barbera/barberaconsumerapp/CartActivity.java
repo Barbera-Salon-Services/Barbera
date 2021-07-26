@@ -125,7 +125,7 @@ public class CartActivity extends AppCompatActivity {
                             dbQueries.cartItemModelList.add(new CartItemModel(null,itemModel.getServiceName(),itemModel.getServicePrice(),
                                     itemModel.getType(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId(),false));
                         }
-                        //MainActivity.cartAdapter.notifyDataSetChanged();
+                        //HomeActivity.cartAdapter.notifyDataSetChanged();
                     }
                     if(dbQueries.cartItemModelList.size()==0){
                         cartItemRecyclerView.setVisibility(View.INVISIBLE);
@@ -136,7 +136,7 @@ public class CartActivity extends AppCompatActivity {
                         cartItemRecyclerView.setVisibility(View.VISIBLE);
                         emptyCart.setVisibility(View.INVISIBLE);
                         cartTotalAmtLayout.setVisibility(View.VISIBLE);
-                        cartItemRecyclerView.setAdapter(MainActivity.cartAdapter);
+                        cartItemRecyclerView.setAdapter(HomeActivity.cartAdapter);
                     }
                 }
                 else{

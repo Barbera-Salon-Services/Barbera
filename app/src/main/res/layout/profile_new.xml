@@ -61,6 +61,7 @@
 
                 <Button
                     style="@style/ProfilePageButton"
+                    android:id="@+id/my_profile_rel_layout"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/Transparent"

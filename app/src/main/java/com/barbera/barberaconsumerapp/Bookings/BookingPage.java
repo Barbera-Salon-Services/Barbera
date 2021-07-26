@@ -202,52 +202,57 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 progressDialog.setMessage("Loading");
                 progressDialog.setCancelable(true);
                 progressDialog.show();
-                Call<Void> call= jsonPlaceHolderApi2.bookSlot(new ServiceIdList(sidlist,null,null),dat,slot,"Bearer "+token);
-                call.enqueue(new Callback<Void>() {
+                Call<InstItem> call= jsonPlaceHolderApi2.bookSlot(new ServiceIdList(sidlist,null,null),dat,slot,"Bearer "+token);
+                call.enqueue(new Callback<InstItem>() {
                     @Override
-                    public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                    public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
                         if(response.code()==200){
-                            if(bookingType.equals("Cart")){
-                                Call<Void> call1=jsonPlaceHolderApi2.deleteCart(new ServiceIdList(sidlist,null,null),"Bearer "+token);
-                                call1.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                        if(response.code()==200){
-                                            SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("Count",MODE_PRIVATE);
-                                            SharedPreferences.Editor editor=sharedPreferences.edit();
-                                            editor.putInt("count",0);
-                                            editor.apply();
+                            if(response.body().isSuccess()){
+                                if(bookingType.equals("Cart")){
+                                    Call<Void> call1=jsonPlaceHolderApi2.deleteCart(new ServiceIdList(sidlist,null,null),"Bearer "+token);
+                                    call1.enqueue(new Callback<Void>() {
+                                        @Override
+                                        public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                            if(response.code()==200){
+                                                SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("Count",MODE_PRIVATE);
+                                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                                editor.putInt("count",0);
+                                                editor.apply();
+                                            }
+                                            else{
+
+                                            }
                                         }
-                                        else{
+
+                                        @Override
+                                        public void onFailure(Call<Void> call, Throwable t) {
 
                                         }
-                                    }
+                                    });
+                                }
 
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
-
-                                    }
-                                });
+                                progressDialog.dismiss();
+                                Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                                intent1.putExtra("Booking Amount", BookingTotalAmount);
+                                intent1.putExtra("Order Summary", OrderSummary);
+                                intent1.putExtra("date",dat);
+                                intent1.putExtra("slot",slot);
+                                intent1.putExtra("sidlist",(Serializable)sidlist);
+                                startActivity(intent1);
+                                finish();
                             }
-
-                            progressDialog.dismiss();
-                            Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                            intent1.putExtra("Booking Amount", BookingTotalAmount);
-                            intent1.putExtra("Order Summary", OrderSummary);
-                            intent1.putExtra("date",dat);
-                            intent1.putExtra("slot",slot);
-                            intent1.putExtra("sidlist",(Serializable)sidlist);
-                            startActivity(intent1);
-                            finish();
+                            else{
+                                Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else{
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Could not book barber",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(Call<InstItem> call, Throwable t) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                     }

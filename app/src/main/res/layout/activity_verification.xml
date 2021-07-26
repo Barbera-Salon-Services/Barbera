@@ -45,9 +45,10 @@
             android:layout_below="@id/logo"
             android:ems="10"
             android:gravity="center"
-            android:hint="Phone Number"
+            android:hint="Enter your mobile number"
             android:inputType="phone"
             android:paddingTop="60sp"
+            android:textColor="@color/white"
             android:textColorHint="@color/white" />
 
         <androidx.cardview.widget.CardView
@@ -81,7 +82,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/get_code"
             android:hint="Enter OTP"
+            android:gravity="center"
+            android:textColor="@color/white"
             android:inputType="phone"
+            android:textColorHint="@color/white"
             android:paddingTop="60sp"
             android:visibility="gone" />
 
@@ -90,9 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="60sp"
             android:layout_below="@id/veri_code"
-            android:layout_marginLeft="20sp"
-            android:layout_marginTop="40sp"
-            android:layout_marginRight="20sp"
+
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:visibility="gone"
@@ -132,6 +134,7 @@
             android:gravity="center"
             android:hint="Enter referral code"
             android:inputType="text"
+            android:textColor="@color/white"
             android:textColorHint="@color/white" />
 
     </RelativeLayout>

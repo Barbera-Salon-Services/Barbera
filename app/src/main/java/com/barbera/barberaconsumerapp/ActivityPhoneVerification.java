@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
@@ -46,6 +47,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -59,7 +62,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private LocationManager locationManager;
     private Address address;
     private EditText phoneNumber;
-    private CardView get_code,skipLogin;
+    private CardView get_code;
+    private TextView skipLogin;
     private ProgressDialog progressDialog;
     private EditText veri_code,ref;
     private CardView continue_to_signup;

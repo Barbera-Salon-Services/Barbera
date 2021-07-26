@@ -18,7 +18,6 @@ import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
