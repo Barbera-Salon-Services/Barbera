@@ -37,12 +37,13 @@ public class SpecialOffers extends AppCompatActivity {
 
         specialOfferDataList = new ArrayList<>();
 
-        specialOfferDataList.add(new SpecialOfferData("HaiCut Combo for 2", "60 min", "@Rs. 999", "@Rs. 899", "Fruit Facial + Rica arm Wax + Rica full leg wax + Haircut (u+v) + Threading",  DummyImgUrl));
-        specialOfferDataList.add(new SpecialOfferData("HaiCut Combo for 2", "60 min", "@Rs. 999", "@Rs. 899", "Fruit Facial + Rica arm Wax + Rica full leg wax + Haircut (u+v) + Threading",  DummyImgUrl));
-        specialOfferDataList.add(new SpecialOfferData("HaiCut Combo for 2", "60 min", "@Rs. 999", "@Rs. 899", "Fruit Facial + Rica arm Wax + Rica full leg wax + Haircut (u+v) + Threading",  DummyImgUrl));
-        specialOfferDataList.add(new SpecialOfferData("HaiCut Combo for 2", "60 min", "@Rs. 999", "@Rs. 899", "Fruit Facial + Rica arm Wax + Rica full leg wax + Haircut (u+v) + Threading",  DummyImgUrl));
-        specialOfferDataList.add(new SpecialOfferData("HaiCut Combo for 2", "60 min", "@Rs. 999", "@Rs. 899", "Fruit Facial + Rica arm Wax + Rica full leg wax + Haircut (u+v) + Threading",  DummyImgUrl));
-        specialOfferDataList.add(new SpecialOfferData("HaiCut Combo for 2", "60 min", "@Rs. 999", "@Rs. 899", "Fruit Facial + Rica arm Wax + Rica full leg wax + Haircut (u+v) + Threading",  DummyImgUrl));
+        specialOfferDataList.add(new SpecialOfferData("Classic Package", "1. Golden Facial\n2.Garnier Hair-color", "@Rs. 900/n@Rs. 100", "@Rs. 1000", "@Rs. 559",  DummyImgUrl));
+        specialOfferDataList.add(new SpecialOfferData("Classic Package", "1. Golden Facial\n2.Garnier Hair-color", "@Rs. 900/n@Rs. 100", "@Rs. 1000", "@Rs. 559",  DummyImgUrl));
+        specialOfferDataList.add(new SpecialOfferData("Classic Package", "1. Golden Facial\n2.Garnier Hair-color", "@Rs. 900/n@Rs. 100", "@Rs. 1000", "@Rs. 559",  DummyImgUrl));
+        specialOfferDataList.add(new SpecialOfferData("Classic Package", "1. Golden Facial\n2.Garnier Hair-color", "@Rs. 900/n@Rs. 100", "@Rs. 1000", "@Rs. 559",  DummyImgUrl));
+        specialOfferDataList.add(new SpecialOfferData("Classic Package", "1. Golden Facial\n2.Garnier Hair-color", "@Rs. 900/n@Rs. 100", "@Rs. 1000", "@Rs. 559",  DummyImgUrl));
+        specialOfferDataList.add(new SpecialOfferData("Classic Package", "1. Golden Facial\n2.Garnier Hair-color", "@Rs. 900/n@Rs. 100", "@Rs. 1000", "@Rs. 559",  DummyImgUrl));
+        specialOfferDataList.add(new SpecialOfferData("Classic Package", "1. Golden Facial\n2.Garnier Hair-color", "@Rs. 900/n@Rs. 100", "@Rs. 1000", "@Rs. 559",  DummyImgUrl));
 
         specialOfferAdapter = new SpecialOfferAdapter(specialOfferDataList, this);
         recyclerView.setAdapter(specialOfferAdapter);
