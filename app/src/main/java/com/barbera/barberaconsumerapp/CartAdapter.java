@@ -121,8 +121,13 @@ public class CartAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if(response.code()==200){
-                                q++;
-                                quantity.setText(""+ q);
+                                dbQueries.cartItemModelList.get(position).setQuantity(dbQueries.cartItemModelList.get(position).getQuantity()+1);
+                                quantity.setText(""+ dbQueries.cartItemModelList.get(position).getQuantity());
+                                SharedPreferences sharedPreferences=context.getSharedPreferences("Count",context.MODE_PRIVATE);
+                                int count=sharedPreferences.getInt("count",0);
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putInt("count",count+1);
+                                editor.apply();
                             }
                             else{
                                 Toast.makeText(context,"Could not increase cart",Toast.LENGTH_SHORT).show();
@@ -143,7 +148,7 @@ public class CartAdapter extends RecyclerView.Adapter {
 //                    dbQueries.cartItemModelList.get(position).setQuantity(dbQueries.cartItemModelList.get(position).getQuantity()-1);
 //                    updateQuantity(position);
 //                    updateTotalAmount();
-                    if (q == 1) {
+                    if (dbQueries.cartItemModelList.get(position).getQuantity() == 1) {
                         Call<SuccessReturn> call = jsonPlaceHolderApi2.deleteFromCart(id,"Bearer "+token);
                         call.enqueue(new Callback<SuccessReturn>() {
                             @Override
@@ -155,7 +160,8 @@ public class CartAdapter extends RecyclerView.Adapter {
                                     SharedPreferences.Editor editor=sharedPreferences.edit();
                                     editor.putInt("count",totalCount);
                                     editor.apply();
-                                    MainActivity.cartAdapter.notifyDataSetChanged();
+                                    dbQueries.cartItemModelList.remove(dbQueries.cartItemModelList.get(position));
+                                    HomeActivity.cartAdapter.notifyDataSetChanged();
                                     Toast.makeText(context, "Service deleted from cart", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(context, "Could not decrease cart", Toast.LENGTH_SHORT).show();
@@ -173,8 +179,13 @@ public class CartAdapter extends RecyclerView.Adapter {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 if(response.code()==200){
-                                    q--;
-                                    quantity.setText(""+ q);
+                                    dbQueries.cartItemModelList.get(position).setQuantity(dbQueries.cartItemModelList.get(position).getQuantity()-1);
+                                    quantity.setText(""+ dbQueries.cartItemModelList.get(position).getQuantity());
+                                    SharedPreferences sharedPreferences=context.getSharedPreferences("Count",context.MODE_PRIVATE);
+                                    int count=sharedPreferences.getInt("count",0);
+                                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                                    editor.putInt("count",count-1);
+                                    editor.apply();
                                 }
                                 else{
                                     Toast.makeText(context,"Could not decrease cart",Toast.LENGTH_SHORT).show();
@@ -195,7 +206,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                     if(dbQueries.cartItemModelList.size()>=1) {
                        // BookingPage.BookingTotalAmount=CartActivity.totalAmount;
                         String OrderSummary="";
-                        int time=0;
+                        int time=0,amount=0;
                         List<CartItemModel> list=new ArrayList<>();
                         for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
                             list.add(new CartItemModel(null,null,0,null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false));
@@ -204,11 +215,12 @@ public class CartAdapter extends RecyclerView.Adapter {
                                     + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
                                     dbQueries.cartItemModelList.get(i).getServicePrice() + "\n";
                             time+=dbQueries.cartItemModelList.get(i).getTime();
+                            amount+=dbQueries.cartItemModelList.get(i).getQuantity()*dbQueries.cartItemModelList.get(i).getServicePrice();
                         }
                         Intent intent=new Intent(itemView.getContext(), BookingPage.class);
                         intent.putExtra("Time",time);
                         intent.putExtra("BookingType","Cart");
-                        intent.putExtra("Booking Amount",CartActivity.totalAmount);
+                        intent.putExtra("Booking Amount",amount);
                         intent.putExtra("Order Summary",OrderSummary);
                         intent.putExtra("sidlist",(Serializable)list);
                         itemView.getContext().startActivity(intent);

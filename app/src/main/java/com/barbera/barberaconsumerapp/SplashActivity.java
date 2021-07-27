@@ -35,7 +35,8 @@ public class SplashActivity extends AppCompatActivity {
 //            whetherNewOrOldUser();
 //        }
 //        else
-            sendToSecondActivity();
+//            sendToSecondActivity();
+        startActivity(new Intent(SplashActivity.this, SpecialOffers.class));
     }
 
     private void sendToSecondActivity() {

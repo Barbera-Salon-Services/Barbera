@@ -59,6 +59,8 @@ public class ServiceType extends AppCompatActivity {
         Category = intent.getStringExtra("Category");
         ProgressDialog progressDialog=new ProgressDialog(this);
         progressDialog.show();
+        slist=new ArrayList<>();
+        serviceList=new ArrayList<>();
         Call<ServiceList> call=jsonPlaceHolderApi2.getAllServices(salontype,new ServiceItem(null, 0, 0, null, 0, null, Category,
                 false, null, false, null,null));
         call.enqueue(new Callback<ServiceList>() {

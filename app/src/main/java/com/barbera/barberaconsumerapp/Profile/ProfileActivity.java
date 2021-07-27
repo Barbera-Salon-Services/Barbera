@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     public  static String profile_phone="";
     private  static String profile_email="";
     //private static String profile_address="";
-    private Button shareAndEarn,AboutUs,contactus,logout,privacyPOlicy,couponsLayout;
+    private Button shareAndEarn,AboutUs,contactus,logout,privacyPOlicy,couponsLayout,myProfile;
     private RelativeLayout profileMainLayout;
 
     @Override
@@ -47,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         contactus=findViewById(R.id.contact_rel_layout);
         logout=findViewById(R.id.logout_rel_layout);
         privacyPOlicy=findViewById(R.id.privacy_rel_layout);
-        //RelativeLayout myProfile = (RelativeLayout) findViewById(R.id.my_profile_rel_layout);
+        myProfile =  findViewById(R.id.my_profile_rel_layout);
         shareAndEarn=findViewById(R.id.refer_rel_layout);
         couponsLayout=findViewById(R.id.coupons_rel_layout);
 
@@ -81,12 +81,12 @@ public class ProfileActivity extends AppCompatActivity {
 ////            email.setText(profile_email);
 //            profileMainLayout.setVisibility(View.VISIBLE);
 //        }
-//        myProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(ProfileActivity.this,MyProfile.class));
-//            }
-//        });
+        myProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this,MyProfile.class));
+            }
+        });
 
         AboutUs.setOnClickListener(new View.OnClickListener() {
             @Override

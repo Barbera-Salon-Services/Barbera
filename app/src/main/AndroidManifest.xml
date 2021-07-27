@@ -13,7 +13,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Services.ServiceType"></activity>
+        <activity android:name=".Services.ServiceType"/>
         <activity android:name=".SpecialOffers" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".Bookings.ViewBarberAcitivity" />

@@ -57,7 +57,27 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_outline_person_24" />
+                    android:src="@drawable/ic_profile" />
+
+                <Button
+                    style="@style/ProfilePageButton"
+                    android:id="@+id/my_profile_rel_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/Transparent"
+                    android:text="My Profile" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/my_coupons" />
 
                 <Button
                     android:id="@+id/coupons_rel_layout"
@@ -78,7 +98,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_baseline_share_24" />
+                    android:src="@drawable/share_vector" />
 
                 <Button
 
@@ -149,7 +169,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_baseline_about_us_24" />
+                        android:src="@drawable/icons_about" />
 
                     <Button
                         android:id="@+id/aboutUs_rel_layout"
@@ -170,7 +190,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_baseline_logout_24" />
+                        android:src="@drawable/icon_logout" />
 
                     <Button
                         android:id="@+id/logout_rel_layout"

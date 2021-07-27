@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
+import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
 import com.barbera.barberaconsumerapp.Services.GridAdapter;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
@@ -44,6 +47,9 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private List<String> imgUrlMen=new ArrayList<>(), imgNameMen=new ArrayList<>(),imgUrlWomen=new ArrayList<>(),imgNameWomen=new ArrayList<>(),imgUrlWed=new ArrayList<>(),imgNameWed=new ArrayList<>();
     private String isRegistered,imagebase;
     private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
+    private ImageView Cart;
+    private static TextView NumberOnCartMain;
+    public static CartAdapter cartAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,10 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         menRecyclerView = findViewById(R.id.men_recycler_view);
         weddingRecyclerView = findViewById(R.id.wedding_recycler_view);
         womenRecyclerView = findViewById(R.id.women_recycler_view);
+        NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
+        Cart=(ImageView)findViewById(R.id.cart);
+        cartAdapter=new CartAdapter(this);
+        ImageView referMain=(ImageView)findViewById(R.id.refer);
 
         gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"wedding");
         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
@@ -77,18 +87,25 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         addWeddingGrid();
         addWomenGrid();
 
-//        Cart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(isRegistered.equals("no")){
-//                    Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-//                    startActivity(new Intent(getApplicationContext(),SecondScreen.class));
-//                }
-//
-//                else
-//                    startActivity(new Intent(HomeActivity.this,CartActivity.class));
-//            }
-//        });
+        referMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ReferAndEarn.class));
+            }
+        });
+
+        Cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isRegistered.equals("no")){
+                    Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(),SecondScreen.class));
+                }
+
+                else
+                    startActivity(new Intent(HomeActivity.this,CartActivity.class));
+            }
+        });
 //        weddingSection.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -142,15 +159,21 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         inAppUpdateManager.checkForAppUpdate();
     }
 
-//    public void loadNumberOnCart(){
-//        if(isRegistered.equals("no"))
-//            NumberOnCartMain.setText("0");
-//        else {
-//            SharedPreferences sharedPreferences=getSharedPreferences("Count",MODE_PRIVATE);
-//            int count=sharedPreferences.getInt("count",0);
-//            NumberOnCartMain.setText(""+count);
-//        }
-//    }
+    public void loadNumberOnCart(){
+        if(isRegistered.equals("no"))
+            NumberOnCartMain.setText("0");
+        else {
+            SharedPreferences sharedPreferences=getSharedPreferences("Count",MODE_PRIVATE);
+            int count=sharedPreferences.getInt("count",0);
+            NumberOnCartMain.setText(""+count);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadNumberOnCart();
+    }
 
     private void addWeddingGrid() {
         imgNameWed.clear();

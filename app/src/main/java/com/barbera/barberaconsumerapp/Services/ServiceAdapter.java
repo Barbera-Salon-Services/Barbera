@@ -133,6 +133,11 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                                 if(response.code()==200){
                                     SuccessReturn success=response.body();
                                     if(success.isSuccess()){
+                                        SharedPreferences sharedPreferences=con.getSharedPreferences("Count",con.MODE_PRIVATE);
+                                        int count=sharedPreferences.getInt("count",0);
+                                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                                        editor.putInt("count",count+1);
+                                        editor.apply();
                                         progressDialog.dismiss();
                                         Toast.makeText(con,"Added to cart",Toast.LENGTH_SHORT).show();
                                     }
