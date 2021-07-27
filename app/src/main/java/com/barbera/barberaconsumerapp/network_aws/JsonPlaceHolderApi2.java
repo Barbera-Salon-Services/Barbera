@@ -87,9 +87,13 @@ public interface JsonPlaceHolderApi2 {
 
     @POST("bookrevert")
     Call<Void> revertBooking(@Body ServiceIdList serviceIdList,@Header("Authorization") String token);
-    //barberId,slot,service:serviceId,time,quantity
+
     @POST("bookslot/{date}/{slot}")
     Call<InstItem> bookSlot(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
-    //success
 
+    @POST("startserv")
+    Call<Void> startOtp(@Body InstItem barberId,@Header("Authorization") String token);
+
+    @POST("endserv")
+    Call<Void> endOtp(@Body InstItem barberId,@Header("Authorization") String token);
 }

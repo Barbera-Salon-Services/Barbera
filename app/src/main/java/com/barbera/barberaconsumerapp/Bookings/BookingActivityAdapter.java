@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -29,6 +30,10 @@ import com.android.volley.toolbox.Volley;
 import com.barbera.barberaconsumerapp.BarberDetailDialog;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Rating;
+import com.barbera.barberaconsumerapp.Utils.InstItem;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.barbera.barberaconsumerapp.network_email.Emailer;
 import com.barbera.barberaconsumerapp.network_email.JsonPlaceHolderApi;
 import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;
@@ -46,11 +51,12 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivityAdapter.BookingItemViewHolder> {
     private List<BookingModel> bookingAdapterList;
-    private String UserName;
+    private String token;
     private String UserPhone;
     private ProgressDialog progressDialog;
     private Context context;
@@ -60,6 +66,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     private double lat,lon;
     private FragmentManager fragmentManager;
     private boolean men=false,women=false;
+    private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
 
     public BookingActivityAdapter(List<BookingModel> bookingAdapterList, Context context, FragmentManager fragmentManager) {
         this.bookingAdapterList = bookingAdapterList;
@@ -110,8 +117,92 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 //        }
 
 //        holder.barber.setOnClickListener(v -> { fetchAndShowContact(bookingModel.getDocId());});
-//        holder.start.setOnClickListener(v -> generateStartOtp(v,holder,position));
-//        holder.end.setOnClickListener(v -> generateEndOtp(v,position,holder));
+        holder.start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressDialog = new ProgressDialog(v.getContext());
+                progressDialog.setMessage("generating otp...");
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+                Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
+                jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+                SharedPreferences preferences = context.getSharedPreferences("Token",context.MODE_PRIVATE);
+                token = preferences.getString("token", "no");
+                Call<Void> call=jsonPlaceHolderApi2.startOtp(new InstItem(bookingModel.getBarberId(),0,null,false),"Bearer "+token);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.code()==200){
+                            final Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    SharedPreferences sharedPreferences=context.getSharedPreferences("Notification",context.MODE_PRIVATE);
+                                    holder.otp.setText("Start otp: "+sharedPreferences.getString("notif",""));
+                                    holder.end.setVisibility(View.VISIBLE);
+                                    holder.start.setVisibility(View.INVISIBLE);
+                                    holder.cancelBooking.setVisibility(View.INVISIBLE);
+                                }
+                            };
+                            final Handler h = new Handler();
+                            h.removeCallbacks(runnable);
+                            h.postDelayed(runnable, 2000);
+                            progressDialog.dismiss();
+                        }
+                        else{
+                            progressDialog.dismiss();
+                            Toast.makeText(context,"Could not get otp",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        holder.end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressDialog = new ProgressDialog(v.getContext());
+                progressDialog.setMessage("generating otp...");
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+                Call<Void> call=jsonPlaceHolderApi2.endOtp(new InstItem(bookingModel.getBarberId(),0,null,false),"Bearer "+token);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.code()==200){
+                            final Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    SharedPreferences sharedPreferences=context.getSharedPreferences("Notification",context.MODE_PRIVATE);
+                                    holder.otp.setText("End otp: "+sharedPreferences.getString("notif",""));
+                                    holder.end.setVisibility(View.INVISIBLE);
+                                    holder.start.setVisibility(View.INVISIBLE);
+                                    holder.cancelBooking.setVisibility(View.INVISIBLE);
+                                }
+                            };
+                            final Handler h = new Handler();
+                            h.removeCallbacks(runnable);
+                            h.postDelayed(runnable, 2000);
+                            progressDialog.dismiss();
+                        }
+                        else{
+                            progressDialog.dismiss();
+                            Toast.makeText(context,"Could not get otp",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         holder.cancelBooking.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -184,41 +275,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     }
 
 
-//    private void generateEndOtp(View v,int pos, BookingItemViewHolder holder) {
-//        final int otp = (int)(Math.random()*9000)+1000;
-//        eotp =otp;
-//        Map<String,Object> user=new HashMap<>();
-//        user.put("endOtp",otp);
-//        progressDialog = new ProgressDialog(v.getContext());
-//        progressDialog.setMessage("generating otp...");
-//        progressDialog.show();
-//        progressDialog.setCancelable(false);
-//
-//        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).update(user)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        progressDialog.dismiss();
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-//                        builder.setTitle("End Otp is "+otp);
-//                        builder.setMessage("Please use this otp to end service");
-//                        builder.setCancelable(true);
-//                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                holder.end.setVisibility(View.INVISIBLE);
-//                                holder.start.setVisibility(View.INVISIBLE);
-//                                holder.cancelBooking.setVisibility(View.INVISIBLE);
-//                                updateStatus(pos,"done");
-//                                rateService(pos);
-//                            }
-//                        });
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-//                    }
-//                });
-//    }
-//
+
 //    private void updateStatus(int pos,String status) {
 //        Map<String,Object> user=new HashMap<>();
 //        user.put("status",status);
@@ -237,39 +294,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 //                .putExtra("docId",bookingAdapterList.get(pos).getDocId()));
 //    }
 //
-//    private void generateStartOtp(View view, BookingItemViewHolder holder,int pos) {
-//        final int otp = (int)(Math.random()*9000)+1000;
-//        sotp = otp;
-//        Map<String,Object> user=new HashMap<>();
-//        user.put("startOtp",otp);
-//        progressDialog = new ProgressDialog(view.getContext());
-//        progressDialog.setMessage("generating otp...");
-//        progressDialog.show();
-//        progressDialog.setCancelable(false);
-//        updateStatus(pos,"ongoing");
-//        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).update(user)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        progressDialog.dismiss();
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//                        builder.setTitle("Start Otp is "+otp);
-//                        builder.setMessage("Please use this otp to start service");
-//                        builder.setCancelable(true);
-//                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                holder.end.setVisibility(View.VISIBLE);
-//                                holder.start.setVisibility(View.INVISIBLE);
-//                                holder.cancelBooking.setVisibility(View.INVISIBLE);
-//                            }
-//                        });
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-//                    }
-//                });
-//    }
-//
+
 //    private void extractNameAndContact(BookingItemViewHolder holder) {
 //        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getUid()).get()
 //                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

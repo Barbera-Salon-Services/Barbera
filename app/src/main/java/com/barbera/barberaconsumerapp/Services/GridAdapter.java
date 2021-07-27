@@ -54,6 +54,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                 Intent intent=new Intent(context,ServiceType.class);
                 intent.putExtra("Category",imgName.get(position));
                 intent.putExtra("SalonType",salonType);
+                intent.putExtra("ImageUrl",imgUrl.get(position));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

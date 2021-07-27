@@ -21,7 +21,13 @@ public class NotificationService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         String x=remoteMessage.getNotification().getBody();
-        String y=x.substring(0,6);
+        String y="";
+        if(x.length()==6){
+            y=x;
+        }
+        else{
+            y=x.substring(0,6);
+        }
         SharedPreferences sharedPreferences=getSharedPreferences("Notification",MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString("notif",y);

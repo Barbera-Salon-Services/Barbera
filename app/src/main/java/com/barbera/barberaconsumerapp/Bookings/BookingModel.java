@@ -6,13 +6,18 @@ public class BookingModel {
     private int amount;
     private String date;
     private String time;
+    private String barberId;
 
-    public BookingModel(String summary, int amount, String date,String time) {
+    public BookingModel(String summary, int amount, String date,String time,String barberId) {
         this.summary = summary;
         this.amount = amount;
         this.date = date;
         this.time=time;
+        this.barberId=barberId;
+    }
 
+    public String getBarberId() {
+        return barberId;
     }
 
     public String getTime() {

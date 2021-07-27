@@ -19,6 +19,7 @@ import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +40,13 @@ public class ServiceType extends AppCompatActivity {
     private ServiceTypeAdapter serviceTypeAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
+    private ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_type);
+        img=findViewById(R.id.subtype_image);
         recyclerView=findViewById(R.id.service_recycler_view);
         llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -53,10 +56,11 @@ public class ServiceType extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
         token = preferences.getString("token", "no");
 
-
         Intent intent = getIntent();
         salontype = intent.getStringExtra("SalonType");
         Category = intent.getStringExtra("Category");
+        CategoryIMage=intent.getStringExtra("ImageUrl");
+        Glide.with(getApplicationContext()).load(CategoryIMage).into(img);
         ProgressDialog progressDialog=new ProgressDialog(this);
         progressDialog.show();
         slist=new ArrayList<>();
