@@ -3,6 +3,7 @@ package com.barbera.barberaconsumerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
@@ -20,9 +21,16 @@ import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
 import com.barbera.barberaconsumerapp.Services.GridAdapter;
+import com.barbera.barberaconsumerapp.Services.SliderAdapter;
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
+import com.barbera.barberaconsumerapp.Utils.ServiceList;
+import com.barbera.barberaconsumerapp.Utils.SliderItem;
+import com.barbera.barberaconsumerapp.Utils.SliderList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -45,11 +53,16 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private InAppUpdateManager inAppUpdateManager;
     private RecyclerView weddingRecyclerView;
     private List<String> imgUrlMen=new ArrayList<>(), imgNameMen=new ArrayList<>(),imgUrlWomen=new ArrayList<>(),imgNameWomen=new ArrayList<>(),imgUrlWed=new ArrayList<>(),imgNameWed=new ArrayList<>();
+    private List<SliderItem> sliderItems=new ArrayList<>(),tabItems=new ArrayList<>();
     private String isRegistered,imagebase;
     private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
     private ImageView Cart;
     private static TextView NumberOnCartMain;
     public static CartAdapter cartAdapter;
+    private ImageSlider imageSlider;
+    private SliderAdapter sliderAdapter;
+    private HomeActivityTopImageViewAdapter tabAdapter;
+    private RecyclerView sliderRecyclerView,tabRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,28 +74,43 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         womenRecyclerView = findViewById(R.id.women_recycler_view);
         NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
         Cart=(ImageView)findViewById(R.id.cart);
+        imageSlider=(ImageSlider)findViewById(R.id.slider_view);
         cartAdapter=new CartAdapter(this);
+        sliderRecyclerView=findViewById(R.id.slider_recycler_view);
         ImageView referMain=(ImageView)findViewById(R.id.refer);
+        tabRecyclerView=findViewById(R.id.top_recycler_view);
 
-        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"wedding");
+        tabAdapter=new HomeActivityTopImageViewAdapter(this,tabItems);
+        LinearLayoutManager tabLlm=new LinearLayoutManager(this);
+        tabLlm.setOrientation(RecyclerView.HORIZONTAL);
+        tabRecyclerView.setLayoutManager(tabLlm);
+
+        sliderAdapter=new SliderAdapter(sliderItems,HomeActivity.this);
+        LinearLayoutManager slidLlm=new LinearLayoutManager(this,RecyclerView.HORIZONTAL,true);
+        sliderRecyclerView.setLayoutManager(slidLlm);
+        sliderRecyclerView.setAdapter(sliderAdapter);
+
+        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"Wedding");
         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         weddingRecyclerView.setLayoutManager(gridLayoutManager1);
 
-        gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this,"female");
+        gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this,"Womens_Section");
         GridLayoutManager gridLayoutManager = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
         womenRecyclerView.setLayoutManager(gridLayoutManager);
 
-        gridAdapterMen = new GridAdapter(imgUrlMen, imgNameMen, HomeActivity.this,"male");
+        gridAdapterMen = new GridAdapter(imgUrlMen, imgNameMen, HomeActivity.this,"Mens_Section");
         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
         menRecyclerView.setLayoutManager(gridLayoutManager2);
 
-        imagebase="https://barbera-image.s3-ap-south-1.amazonaws.com/";
+        imagebase="https://barbera-image.s3.ap-south-1.amazonaws.com/";
 
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
         isRegistered = preferences.getString("token","no");
         Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
         jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
 
+        loadTabs();
+        loadImageSlider();
         addMenGrid();
         addWeddingGrid();
         addWomenGrid();
@@ -158,6 +186,67 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
         inAppUpdateManager.checkForAppUpdate();
     }
+    private void loadTabs(){
+        tabItems=new ArrayList<>();
+        ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.show();
+        Call<SliderList> call=jsonPlaceHolderApi2.getTabs();
+        call.enqueue(new Callback<SliderList>() {
+            @Override
+            public void onResponse(Call<SliderList> call, Response<SliderList> response) {
+                if(response.code()==200){
+                    SliderList sliderList=response.body();
+                    List<SliderItem> list=sliderList.getList();
+                    for(SliderItem item:list){
+                        tabItems.add(item);
+                    }
+                    tabRecyclerView.setAdapter(tabAdapter);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Could not load slider",Toast.LENGTH_SHORT).show();
+                }
+                progressBar.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<SliderList> call, Throwable t) {
+                progressBar.dismiss();
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadImageSlider() {
+        sliderItems=new ArrayList<>();
+        ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.show();
+        Call<SliderList> call=jsonPlaceHolderApi2.getSlider();
+        call.enqueue(new Callback<SliderList>() {
+            @Override
+            public void onResponse(Call<SliderList> call, Response<SliderList> response) {
+                if(response.code()==200){
+                    SliderList sliderList=response.body();
+                    List<SliderItem> list=sliderList.getList();
+                    for(SliderItem item:list){
+                        sliderItems.add(item);
+                    }
+                    Log.d("TAG",sliderItems.size()+" saf");
+                    sliderAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Could not load slider",Toast.LENGTH_SHORT).show();
+                }
+                progressBar.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<SliderList> call, Throwable t) {
+                progressBar.dismiss();
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     public void loadNumberOnCart(){
         if(isRegistered.equals("no"))
@@ -196,7 +285,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.show();
-        Call<TypeList> call=jsonPlaceHolderApi2.getTypes("female");
+        Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Womens_Section");
         call.enqueue(new Callback<TypeList>() {
             @Override
             public void onResponse(Call<TypeList> call, Response<TypeList> response) {
@@ -206,8 +295,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     if(list.size()!=0){
                         for(String item:list){
                             imgNameWomen.add(item);
-                            item=item.replaceAll(" ","_").toLowerCase();
-                            imgUrlWomen.add(imagebase+"female"+item);
+                            item=item.replaceAll(" ","_");
+                            imgUrlWomen.add(imagebase+"Womens_Section"+item);
                         }
                     }
 
@@ -254,7 +343,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.show();
-        Call<TypeList> call=jsonPlaceHolderApi2.getTypes("male");
+        Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Mens_Section");
         call.enqueue(new Callback<TypeList>() {
             @Override
             public void onResponse(Call<TypeList> call, Response<TypeList> response) {
@@ -264,9 +353,9 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     if(list.size()!=0){
                         for(String item:list){
                             imgNameMen.add(item);
-                            item=item.replaceAll(" ","_").toLowerCase();
+                            item=item.replaceAll(" ","_");
                             Log.d("item",item);
-                            imgUrlMen.add(imagebase+"male"+item);
+                            imgUrlMen.add(imagebase+"Mens_Section"+item);
                         }
                     }
 

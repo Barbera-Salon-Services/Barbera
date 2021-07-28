@@ -10,6 +10,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="50dp"
@@ -63,7 +65,7 @@
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -73,25 +75,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="horizontal" />
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/offers"
+                tools:listitem="@layout/recylerview_item_activityhome_top_imageview"
+                android:id="@+id/top_recycler_view" />
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/slider_recycler_view"
+                tools:listitem="@layout/slider_item"
                 android:layout_margin="10dp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/men_salon_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:alpha="0.8"
                 android:background="#000000"
                 app:cardBackgroundColor="#80000000"
@@ -120,7 +125,6 @@
                 android:id="@+id/women_salon_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="#000000"
                 app:cardBackgroundColor="#80000000"
                 app:cardCornerRadius="10dp"
@@ -140,13 +144,12 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/women_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/wedding_package_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="#000000"
                 app:cardBackgroundColor="#80000000"
                 app:cardCornerRadius="10dp"
@@ -166,7 +169,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wedding_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </ScrollView>

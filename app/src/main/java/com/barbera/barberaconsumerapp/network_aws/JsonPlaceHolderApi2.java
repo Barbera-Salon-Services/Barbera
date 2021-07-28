@@ -10,6 +10,7 @@ import com.barbera.barberaconsumerapp.Utils.CartList2;
 import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
+import com.barbera.barberaconsumerapp.Utils.SliderList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 
 import org.checkerframework.checker.nullness.compatqual.PolyNullType;
@@ -96,4 +97,11 @@ public interface JsonPlaceHolderApi2 {
 
     @POST("endserv")
     Call<Void> endOtp(@Body InstItem barberId,@Header("Authorization") String token);
+
+    @GET("getslider")
+    Call<SliderList> getSlider();
+
+    @GET("gettabs")
+    Call<SliderList> getTabs();
+
 }
