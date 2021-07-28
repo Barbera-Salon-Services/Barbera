@@ -41,13 +41,13 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
     public void onBindViewHolder(@NonNull @NotNull SliderViewHolder holder, int position) {
         SliderItem item=list.get(position);
         Log.d("sds",item.getUrl());
-        Toast.makeText(context,"Hell "+item.getName(),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"Hell "+item.getName(),Toast.LENGTH_SHORT).show();
         Glide.with(context).load(item.getUrl()).into(holder.img);
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context,ServiceType.class);
-                intent.putExtra("SalonType",item.getCategory());
+                intent.putExtra("SalonType",item.getCategory().replaceAll(" ","_"));
                 intent.putExtra("Category",item.getTypes());
                 intent.putExtra("ImageUrl",item.getUrl());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

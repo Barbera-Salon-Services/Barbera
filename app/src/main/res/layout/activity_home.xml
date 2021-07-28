@@ -59,13 +59,13 @@
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
-
     </androidx.cardview.widget.CardView>
 
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -75,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_margin="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
@@ -83,15 +84,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 tools:listitem="@layout/recylerview_item_activityhome_top_imageview"
                 android:id="@+id/top_recycler_view" />
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:id="@+id/slider_recycler_view"
-                tools:listitem="@layout/slider_item"
-                android:layout_margin="10dp" />
+                tools:listitem="@layout/slider_item" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/men_salon_cardview"

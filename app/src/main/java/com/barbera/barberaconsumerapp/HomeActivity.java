@@ -21,16 +21,14 @@ import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
 import com.barbera.barberaconsumerapp.Services.GridAdapter;
+import com.barbera.barberaconsumerapp.Services.HomeActivityTopImageViewAdapter;
 import com.barbera.barberaconsumerapp.Services.SliderAdapter;
-import com.barbera.barberaconsumerapp.Utils.ServiceItem;
-import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.Utils.SliderItem;
 import com.barbera.barberaconsumerapp.Utils.SliderList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
 import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -88,7 +86,6 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         sliderAdapter=new SliderAdapter(sliderItems,HomeActivity.this);
         LinearLayoutManager slidLlm=new LinearLayoutManager(this,RecyclerView.HORIZONTAL,true);
         sliderRecyclerView.setLayoutManager(slidLlm);
-        sliderRecyclerView.setAdapter(sliderAdapter);
 
         gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"Wedding");
         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
@@ -187,7 +184,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         inAppUpdateManager.checkForAppUpdate();
     }
     private void loadTabs(){
-        tabItems=new ArrayList<>();
+//        tabItems=new ArrayList<>();
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.show();
         Call<SliderList> call=jsonPlaceHolderApi2.getTabs();
@@ -217,7 +214,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     }
 
     private void loadImageSlider() {
-        sliderItems=new ArrayList<>();
+//        sliderItems=new ArrayList<>();
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.show();
         Call<SliderList> call=jsonPlaceHolderApi2.getSlider();
@@ -230,8 +227,10 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     for(SliderItem item:list){
                         sliderItems.add(item);
                     }
+                    sliderItems.add(new SliderItem(null,null,"https://barbera-image.s3.ap-south-1.amazonaws.com/Mens_SectionMassage",null));
                     Log.d("TAG",sliderItems.size()+" saf");
-                    sliderAdapter.notifyDataSetChanged();
+//                    sliderAdapter.notifyDataSetChanged();
+                    sliderRecyclerView.setAdapter(sliderAdapter);
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"Could not load slider",Toast.LENGTH_SHORT).show();
@@ -354,7 +353,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                         for(String item:list){
                             imgNameMen.add(item);
                             item=item.replaceAll(" ","_");
-                            Log.d("item",item);
+                            //Log.d("item",item);
                             imgUrlMen.add(imagebase+"Mens_Section"+item);
                         }
                     }

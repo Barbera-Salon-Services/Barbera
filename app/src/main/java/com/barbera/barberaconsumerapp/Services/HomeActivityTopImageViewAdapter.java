@@ -1,6 +1,7 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Services;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.SliderItem;
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivityTopImageViewAdapter extends RecyclerView.Adapter<HomeActivityTopImageViewAdapter.ImageViewHolder> {
@@ -40,6 +41,7 @@ public class HomeActivityTopImageViewAdapter extends RecyclerView.Adapter<HomeAc
         SliderItem item=list.get(position);
         Glide.with(context).load(item.getUrl()).into(holder.differentSectionImageView);
         holder.name.setText(item.getName());
+        Log.d("swe",item.getName());
         holder.differentSectionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
