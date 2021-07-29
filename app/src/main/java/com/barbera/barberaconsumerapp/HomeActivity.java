@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.barbera.barberaconsumerapp.Services.GridAdapter;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
+import com.denzcoskun.imageslider.adapters.ViewPagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -78,10 +80,12 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
         imagebase="https://barbera-image.s3-ap-south-1.amazonaws.com/";
 
+
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
         isRegistered = preferences.getString("token","no");
         Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
         jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+
 
         addMenGrid();
         addWeddingGrid();
@@ -158,6 +162,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
         inAppUpdateManager.checkForAppUpdate();
     }
+
+
 
     public void loadNumberOnCart(){
         if(isRegistered.equals("no"))

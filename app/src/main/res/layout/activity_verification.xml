@@ -45,7 +45,7 @@
             android:layout_below="@id/logo"
             android:ems="10"
             android:gravity="center"
-            android:hint="Enter your mobile number"
+            android:hint="Phone Number"
             android:inputType="phone"
             android:paddingTop="60sp"
             android:textColor="@color/white"
