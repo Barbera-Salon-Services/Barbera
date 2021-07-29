@@ -118,7 +118,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:layout_below="@id/dateandtimeview"
-                    android:text="Call Professional" />
+                    android:text="Professional Details" />
 
 
             <Button
@@ -149,9 +149,9 @@
                    android:textStyle="bold"/>
 
             <Button
-                    android:id="@+id/startOtp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                android:id="@+id/startOtp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="generate otp"
                 android:layout_below="@id/booking_service_total"
                 android:layout_marginTop="15dp"

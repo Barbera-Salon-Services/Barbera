@@ -59,7 +59,7 @@ public class BarberAdapter extends RecyclerView.Adapter<BarberAdapter.BarberItem
     @Override
     public void onBindViewHolder(@NonNull @NotNull BarberAdapter.BarberItemViewHolder holder, int position) {
         BarberItem item=barberItems.get(position);
-        holder.distance.setText(item.getDistance());
+        holder.distance.setText(item.getDistance()+"");
         holder.address.setText(item.getAddress());
         holder.phone.setText(item.getPhone());
 

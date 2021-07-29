@@ -2,6 +2,8 @@ package com.barbera.barberaconsumerapp.Utils;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class InstItem {
     @SerializedName("barberId")
     private String id;
@@ -11,12 +13,19 @@ public class InstItem {
     private String slot;
     @SerializedName("success")
     private boolean success;
+    @SerializedName("serviceId")
+    private List<String> serviceIdList;
 
-    public  InstItem(String id, int time, String slot,boolean success) {
+    public  InstItem(String id, int time, String slot,boolean success,List<String> serviceIdList) {
         this.id = id;
         this.time = time;
         this.slot = slot;
         this.success=success;
+        this.serviceIdList=serviceIdList;
+    }
+
+    public List<String> getServiceIdList() {
+        return serviceIdList;
     }
 
     public boolean isSuccess() {

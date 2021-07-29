@@ -11,11 +11,19 @@ public class SliderItem {
     private String url;
     @SerializedName("name")
     private String name;
-    public SliderItem(String types, String category,String url,String name) {
+    @SerializedName("clickable")
+    private boolean clickable;
+
+    public SliderItem(String types, String category,String url,String name,boolean clickable) {
         this.types = types;
         this.category = category;
         this.url=url;
         this.name=name;
+        this.clickable=clickable;
+    }
+
+    public boolean isClickable() {
+        return clickable;
     }
 
     public String getName() {
