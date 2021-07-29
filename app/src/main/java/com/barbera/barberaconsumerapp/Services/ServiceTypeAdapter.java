@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,7 +72,7 @@ public class ServiceTypeAdapter extends RecyclerView.Adapter<ServiceTypeAdapter.
 
     public static class ServiceViewHolder extends RecyclerView.ViewHolder{
         private final TextView name;
-        private final Button arrow;
+        private final ImageButton arrow;
         private final RecyclerView recyclerView;
 
         public ServiceViewHolder(@NonNull @NotNull View itemView) {
