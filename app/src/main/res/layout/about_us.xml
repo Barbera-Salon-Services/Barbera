@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@color/CartBlack">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_privacy"
@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo_small1"
         app:shapeAppearanceOverlay="@style/circularCorner" />
 
     <TextView
@@ -47,7 +47,7 @@
         android:layout_margin="10dp"
         android:alpha="0.9"
         android:padding="20dp"
-        app:cardBackgroundColor="#4DD9D8D6"
+        app:cardBackgroundColor="@color/textBackground"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
@@ -73,7 +73,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/LightGray"
         android:paddingTop="10dp"
+        app:itemIconTint="#99FFFFFF"
+        app:itemTextColor="#99FFFFFF"
         app:menu="@menu/menu_navigation" />
 </RelativeLayout>

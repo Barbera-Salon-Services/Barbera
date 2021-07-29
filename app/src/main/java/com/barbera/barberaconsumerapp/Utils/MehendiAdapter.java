@@ -59,7 +59,7 @@ public class MehendiAdapter extends BaseAdapter{
             TextView price = view.findViewById(R.id.service_fragement_price);
             TextView cutPrice=view.findViewById(R.id.service_fragement_cut_price);
             TextView detail = view.findViewById(R.id.details);
-            final CheckBox checkBox=view.findViewById(R.id.service_fragement_check_box);
+//            final CheckBox checkBox=view.findViewById(R.id.service_fragement_check_box);
             TextView time=view.findViewById(R.id.service_fragement_time);
             ImageView timeImage=view.findViewById(R.id.timer);
             View line=view.findViewById(R.id.line);
