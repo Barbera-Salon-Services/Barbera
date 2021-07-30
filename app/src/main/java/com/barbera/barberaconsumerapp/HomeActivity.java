@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
+import com.barbera.barberaconsumerapp.Services.CartActivity;
+import com.barbera.barberaconsumerapp.Services.CartAdapter;
 import com.barbera.barberaconsumerapp.Services.GridAdapter;
 import com.barbera.barberaconsumerapp.Services.HomeActivityTopImageViewAdapter;
 import com.barbera.barberaconsumerapp.Services.SliderAdapter;
@@ -97,7 +99,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         LinearLayoutManager slidLlm=new LinearLayoutManager(this,RecyclerView.HORIZONTAL,true);
         sliderRecyclerView.setLayoutManager(slidLlm);
 
-        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"Wedding");
+        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"Wedding_Packages");
         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         weddingRecyclerView.setLayoutManager(gridLayoutManager1);
 
@@ -138,7 +140,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 }
 
                 else
-                    startActivity(new Intent(HomeActivity.this,CartActivity.class));
+                    startActivity(new Intent(HomeActivity.this, CartActivity.class));
             }
         });
         seeMen.setOnClickListener(new View.OnClickListener() {
@@ -331,12 +333,39 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         imgNameWed.clear();
         imgUrlWed.clear();
 
+        ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.show();
+        Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Wedding_Packages");
+        call.enqueue(new Callback<TypeList>() {
+            @Override
+            public void onResponse(Call<TypeList> call, Response<TypeList> response) {
+                if(response.code()==200){
+                    TypeList serviceList=response.body();
+                    List<String> list=serviceList.getTypeList();
+                    //int z=0,f=0;
+                    if(list.size()!=0){
+                        for(String item:list){
+                            imgNameWed.add(item);
+                            item=item.replaceAll(" ","_");
+                            imgUrlWed.add(imagebase+"Wedding_Packages"+item);
+                        }
+                        weddingRecyclerView.setAdapter(gridAdapterWed);
+                    }
+                    progressBar.dismiss();
 
-        imgNameWed.add("Bridal Packages\nStarting@ Rs. 5599");
-        imgNameWed.add("Groom's Packages\nStarting@ Rs. 2599");
+                }
+                else{
+                    progressBar.dismiss();
+                    Toast.makeText(getApplicationContext(),"Could not get services",Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        imgUrlWed.add("https://i.ibb.co/8rtx241/image.png");
-        imgUrlWed.add("https://i.ibb.co/840KRbC/image.png");
+            @Override
+            public void onFailure(Call<TypeList> call, Throwable t) {
+                progressBar.dismiss();
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         weddingRecyclerView.setAdapter(gridAdapterWed);

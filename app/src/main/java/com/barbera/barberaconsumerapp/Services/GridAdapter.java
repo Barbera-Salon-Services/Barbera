@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.barbera.barberaconsumerapp.R;
 import com.bumptech.glide.Glide;
 
-import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -23,6 +23,8 @@ import com.barbera.barberaconsumerapp.LighteningDeals.LighteningDeal;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
 import com.barbera.barberaconsumerapp.Service50.Service_50;
+import com.barbera.barberaconsumerapp.Services.CartActivity;
+import com.barbera.barberaconsumerapp.Services.CartAdapter;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
@@ -37,7 +39,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
                 }
 
                 else
-                startActivity(new Intent(MainActivity.this,CartActivity.class));
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
             }
         });
 

@@ -14,11 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Services.CartActivity;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;

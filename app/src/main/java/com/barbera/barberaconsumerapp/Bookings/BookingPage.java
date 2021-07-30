@@ -329,7 +329,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     }
                     else{
                         bookInst.setVisibility(View.VISIBLE);
-                        InstText.setText("Nearest barber is"+instItem.getTime()+"min away.");
+                        InstText.setText("Nearest barber is "+instItem.getTime()+"min away.");
                     }
                 }
                 else{
@@ -344,71 +344,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
-        bookInst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder=new AlertDialog.Builder(BookingPage.this);
-                builder.setMessage("Are you sure to book?");
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @SuppressLint("ResourceAsColor")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet),"Bearer "+token);
-                        call1.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                if(response.code()==200){
-                                    Date c = Calendar.getInstance().getTime();
-                                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                    String formattedDate = df.format(c);
 
-                                    Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                    intent1.putExtra("Booking Amount", BookingTotalAmount);
-                                    intent1.putExtra("Order Summary", OrderSummary);
-                                    intent1.putExtra("date",formattedDate);
-                                    intent1.putExtra("slot",slotRet);
-                                    intent1.putExtra("sidlist",(Serializable)sidlist);
-                                    startActivity(intent1);
-                                    finish();
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Could not confirm booking",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet),"Bearer "+token);
-                        call1.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                if(response.code()==200){
-
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                AlertDialog dialog=builder.create();
-                dialog.show();
-            }
-        });
 
         if(bookingType.equals("trend")){
             if(OrderSummary.equals("(men)Simple Hair Cut  Rs79") || OrderSummary.equals("(men)Stylish Hair Cut  Rs99")
@@ -528,7 +464,71 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         totalAmount.setText("Total Amount Rs " + BookingTotalAmount);
         BookingOrders.setText(OrderSummary);
 
+        bookInst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder=new AlertDialog.Builder(BookingPage.this);
+                builder.setMessage("Are you sure to book?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet),"Bearer "+token);
+                        call1.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                if(response.code()==200){
+                                    Date c = Calendar.getInstance().getTime();
+                                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                    String formattedDate = df.format(c);
 
+                                    Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                                    intent1.putExtra("Booking Amount", BookingTotalAmount);
+                                    intent1.putExtra("Order Summary", OrderSummary);
+                                    intent1.putExtra("date",formattedDate);
+                                    intent1.putExtra("slot",slotRet);
+                                    intent1.putExtra("sidlist",(Serializable)sidlist);
+                                    startActivity(intent1);
+                                    finish();
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"Could not confirm booking",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet),"Bearer "+token);
+                        call1.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                if(response.code()==200){
+
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                AlertDialog dialog=builder.create();
+                dialog.show();
+            }
+        });
         //autodateandtime();
         /* Calendar calendar=Calendar.getInstance();
         calendar.set(Calendar.YEAR,Calendar.YEAR);
