@@ -105,7 +105,7 @@ public class CartAdapter extends RecyclerView.Adapter {
 
         private void setServiceDetails(String resource, String Service, int amount, int Quantity, String Type, final int position,String id) {
             title.setText(Service);
-            price.setText("Rs " + amount);
+            price.setText("@ Rs." + amount);
             quantity.setText(""+Quantity);
             type.setText(Type);
             q = Quantity;
@@ -280,12 +280,15 @@ public class CartAdapter extends RecyclerView.Adapter {
 //
         private void updateTotalAmount(){
             CartActivity.totalAmount=0;
+            CartActivity.quantity=0;
             for(int i=0;i<dbQueries.cartItemModelList.size();i++) {
                   int price= dbQueries.cartItemModelList.get(i).getServicePrice();
                 CartActivity.totalAmount +=(price*dbQueries.cartItemModelList.get(i).getQuantity());
+                CartActivity.quantity+=dbQueries.cartItemModelList.get(i).getQuantity();
             }
             String result=String.valueOf(CartActivity.totalAmount);
             CartActivity.total_cart_amount.setText("Rs "+result);
+            CartActivity.total_cart_quantity.setText("(For "+CartActivity.quantity+" items)");
         }
 
     }

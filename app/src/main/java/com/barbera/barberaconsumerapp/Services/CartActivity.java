@@ -34,7 +34,8 @@ public class CartActivity extends AppCompatActivity {
     public static RecyclerView cartItemRecyclerView;
     public static ProgressBar progressBarMyCart;
     public static TextView total_cart_amount;
-    public static int totalAmount=0;
+    public static TextView total_cart_quantity;
+    public static int totalAmount=0,quantity=0;
     public static Button continueToBooking;
     public static RelativeLayout emptyCart;
     public static RelativeLayout cartTotalAmtLayout;
@@ -58,14 +59,14 @@ public class CartActivity extends AppCompatActivity {
         emptyCart=(RelativeLayout)findViewById(R.id.empty_cart);
         Button addInEmptyCart=(Button)findViewById(R.id.add_a_service);
         cartTotalAmtLayout=(RelativeLayout)findViewById(R.id.cart_total_amount_layout);
-        //save=findViewById(R.id.save_cart);
+        total_cart_quantity=findViewById(R.id.Total_cart_item);
 
         updateCartItemModelList();
 
         addInEmptyCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CartActivity.this, MainActivity.class));
+                startActivity(new Intent(CartActivity.this, HomeActivity.class));
                 finish();
             }
         });
@@ -85,14 +86,18 @@ public class CartActivity extends AppCompatActivity {
                 if(response.code()==200){
                     CartList cartList=response.body();
                     int count=cartList.getCount();
+                    totalAmount=0;
+                    quantity=0;
                     if(count!=0){
                         List<CartItemModel> list=cartList.getList();
                         for(CartItemModel itemModel:list) {
                             dbQueries.cartItemModelList.add(new CartItemModel(null,itemModel.getServiceName(),itemModel.getServicePrice(),
                                     itemModel.getType(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId(),false));
-                            //totalAmount+=(itemModel.getQuantity()*itemModel.getServicePrice());
+                            totalAmount+=(itemModel.getQuantity()*itemModel.getServicePrice());
+                            quantity+=itemModel.getQuantity();
                         }
-                        //total_cart_amount.setText(totalAmount+"");
+                        total_cart_amount.setText("Rs "+totalAmount);
+                        total_cart_quantity.setText("(For "+quantity+" items)");
                         //HomeActivity.cartAdapter.notifyDataSetChanged();
                     }
                     if(dbQueries.cartItemModelList.size()==0){

@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -31,6 +32,8 @@ import com.barbera.barberaconsumerapp.Utils.SliderList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
+import com.denzcoskun.imageslider.adapters.ViewPagerAdapter;
+
 import com.denzcoskun.imageslider.ImageSlider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -85,6 +88,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
         Cart=(ImageView)findViewById(R.id.cart);
         imageSlider=(ImageSlider)findViewById(R.id.slider_view);
+
         cartAdapter=new CartAdapter(this);
         sliderRecyclerView=findViewById(R.id.slider_recycler_view);
         ImageView referMain=(ImageView)findViewById(R.id.refer);
@@ -112,6 +116,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         menRecyclerView.setLayoutManager(gridLayoutManager2);
 
         imagebase="https://barbera-image.s3.ap-south-1.amazonaws.com/";
+
 
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
         isRegistered = preferences.getString("token","no");
@@ -312,6 +317,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         });
 
     }
+
+
 
     public void loadNumberOnCart(){
         if(isRegistered.equals("no"))

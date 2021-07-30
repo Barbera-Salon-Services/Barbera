@@ -3,6 +3,7 @@ package com.barbera.barberaconsumerapp.Services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.WeddingActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -25,7 +27,6 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     private Context context;
     private String salonType;
 
-
     public GridAdapter(List<String> imgUrl, List<String> imgName, Context ctx,String category) {
         this.imgUrl = imgUrl;
         this.imgName = imgName;
@@ -33,7 +34,6 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         this.context=ctx;
         this.salonType=category;
     }
-
 
     @NonNull
     @Override
@@ -45,17 +45,38 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.imgNam.setText(imgName.get(position));
-//        Glide.with(getContext()).load(gridModel.getImgUrl()).into(img);
+        //Log.d("ad.",imgName.get(position));
         Glide.with(context).load(imgUrl.get(position)).into(holder.img);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,ServiceType.class);
-                intent.putExtra("Category",imgName.get(position));
-                intent.putExtra("SalonType",salonType);
-                intent.putExtra("ImageUrl",imgUrl.get(position));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                if(salonType.equals("Wedding_Packages")){
+                    if(imgName.get(position).equals("Bridal Packages") || imgName.get(position).equals("Groom's Packages")){
+                        Intent intent=new Intent(context, WeddingActivity.class);
+                        intent.putExtra("Category",imgName.get(position));
+                        intent.putExtra("SalonType",salonType);
+                        intent.putExtra("ImageUrl",imgUrl.get(position));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                    else{
+                        Intent intent=new Intent(context,ServiceType.class);
+                        intent.putExtra("Category",imgName.get(position));
+                        intent.putExtra("SalonType",salonType);
+                        intent.putExtra("ImageUrl",imgUrl.get(position));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                }
+                else{
+                    Intent intent=new Intent(context,ServiceType.class);
+                    intent.putExtra("Category",imgName.get(position));
+                    intent.putExtra("SalonType",salonType);
+                    intent.putExtra("ImageUrl",imgUrl.get(position));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+
             }
         });
     }

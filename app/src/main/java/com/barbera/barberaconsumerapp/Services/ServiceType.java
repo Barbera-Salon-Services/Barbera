@@ -107,7 +107,8 @@ public class ServiceType extends AppCompatActivity {
 //
 //                    }
                     serviceTypeAdapter=new ServiceTypeAdapter(ServiceType.this,serviceList,salontype);
-                    setAdapter();
+                    recyclerView.setLayoutManager(llm);
+                    recyclerView.setAdapter(serviceTypeAdapter);
                     progressDialog.dismiss();
                 }
                 else{
@@ -122,9 +123,5 @@ public class ServiceType extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    private void setAdapter(){
-        recyclerView.setLayoutManager(llm);
-        recyclerView.setAdapter(serviceTypeAdapter);
     }
 }
