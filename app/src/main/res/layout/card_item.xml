@@ -22,14 +22,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/grid_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:adjustViewBounds="true"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                app:shapeAppearanceOverlay="@style/circularCorner"/>
 
             <TextView
                 android:id="@+id/grid_img_text"
