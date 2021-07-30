@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/background">
 
     <androidx.cardview.widget.CardView
         style="@style/profilePageCardView"
@@ -19,17 +19,17 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/profile_image_card_view"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
                 app:cardCornerRadius="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.466"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.237"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp">
+                app:layout_constraintVertical_bias="0.237">
 
                 <ImageView
                     android:id="@+id/profile_image"
@@ -40,13 +40,41 @@
 
             </androidx.cardview.widget.CardView>
 
+
             <TextView
                 android:id="@+id/NameInProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
                 android:gravity="center"
-                android:hint="@string/user_name" />
+                android:hint="@string/user_name"
+                android:textStyle="normal"
+                android:textColorHint="@color/white"
+                android:textSize="20dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/phone_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="+8897998759"
+                    android:inputType="phone"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/edit" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,14 +88,16 @@
                     android:src="@drawable/ic_profile" />
 
                 <Button
-                    style="@style/ProfilePageButton"
                     android:id="@+id/my_profile_rel_layout"
+                    style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/Transparent"
-                    android:text="My Profile" />
+                    android:text="My Profile"
+                    android:textStyle="normal"/>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,7 +137,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/Transparent"
-                    android:text="@string/refer_earn" />
+                    android:text="@string/refer_earn"
+                    android:textStyle="normal"/>
 
             </LinearLayout>
 
@@ -127,6 +158,7 @@
                     style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:textStyle="normal"
                     android:background="@color/Transparent"
                     android:text="@string/contact_us" />
 
@@ -154,32 +186,33 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_about_us_24" />
+
+                <Button
+                    android:id="@+id/aboutUs_rel_layout"
+                    style="@style/ProfilePageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/Transparent"
+                    android:text="@string/about_us" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="130dp"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/icons_about" />
-
-                    <Button
-                        android:id="@+id/aboutUs_rel_layout"
-                        style="@style/ProfilePageButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/Transparent"
-                        android:text="@string/about_us" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -207,11 +240,11 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/LightGray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/LightGray" />
+        app:menu="@menu/menu_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>
