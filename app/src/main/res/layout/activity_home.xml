@@ -86,6 +86,7 @@
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/recylerview_item_activityhome_top_imageview"
                 android:id="@+id/top_recycler_view" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -111,6 +112,7 @@
                     android:textColor="@color/white"
                     android:textSize="22sp" />
 
+
             </androidx.cardview.widget.CardView>
 
 
@@ -118,6 +120,32 @@
                 android:id="@+id/men_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/see_more_men"
+                android:visibility="gone"
+                app:cardCornerRadius="30dp"
+                android:backgroundTint="@color/CartBlack">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/see_men"
+                    android:textColor="@color/white"
+                    android:text="See all"
+                    android:textSize="17sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_down"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
             <androidx.cardview.widget.CardView
@@ -144,6 +172,31 @@
                 android:id="@+id/women_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/see_more_women"
+                android:visibility="gone"
+                app:cardCornerRadius="30dp"
+                android:backgroundTint="@color/CartBlack">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/see_women"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_down"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/wedding_package_cardview"

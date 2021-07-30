@@ -9,7 +9,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     tools:context=".Bookings.CongratulationsPage">
 
@@ -78,7 +77,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10sp"
             android:textStyle="bold"/>
-
         <TextView
             android:id="@+id/finalSummary"
             android:layout_width="wrap_content"
@@ -88,7 +86,6 @@
             android:paddingTop="10sp"
             android:textSize="20sp"
             tools:text="Simple hair cut\nsstylish hair cut\nMakeup"/>
-
         <TextView
             android:id="@+id/finalPageAmount"
             android:layout_width="wrap_content"

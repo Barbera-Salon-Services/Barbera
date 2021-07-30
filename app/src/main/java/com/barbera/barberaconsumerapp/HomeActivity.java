@@ -2,6 +2,7 @@ package com.barbera.barberaconsumerapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +54,9 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private RecyclerView womenRecyclerView;
     private InAppUpdateManager inAppUpdateManager;
     private RecyclerView weddingRecyclerView;
-    private List<String> imgUrlMen=new ArrayList<>(), imgNameMen=new ArrayList<>(),imgUrlWomen=new ArrayList<>(),imgNameWomen=new ArrayList<>(),imgUrlWed=new ArrayList<>(),imgNameWed=new ArrayList<>();
+    private List<String> imgUrlMen1=new ArrayList<>(),imgUrlMen=new ArrayList<>(), imgNameMen=new ArrayList<>(),
+            imgNameMen1=new ArrayList<>(),imgUrlWomen=new ArrayList<>(),imgUrlWomen1=new ArrayList<>(),
+            imgNameWomen=new ArrayList<>(),imgNameWomen1=new ArrayList<>(),imgUrlWed=new ArrayList<>(),imgNameWed=new ArrayList<>();
     private List<SliderItem> sliderItems=new ArrayList<>(),tabItems=new ArrayList<>();
     private String isRegistered,imagebase;
     private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
@@ -64,11 +67,18 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private SliderAdapter sliderAdapter;
     private HomeActivityTopImageViewAdapter tabAdapter;
     private RecyclerView sliderRecyclerView,tabRecyclerView;
+    private CardView seeMen,seeWomen;
+    private TextView seeMoreMen,seeMoreWomen;
+    private int a=0,b=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        seeMen=findViewById(R.id.see_more_men);
+        seeWomen=findViewById(R.id.see_more_women);
+        seeMoreMen=findViewById(R.id.see_men);
+        seeMoreWomen=findViewById(R.id.see_women);
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         menRecyclerView = findViewById(R.id.men_recycler_view);
         weddingRecyclerView = findViewById(R.id.wedding_recycler_view);
@@ -134,6 +144,60 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
                 else
                     startActivity(new Intent(HomeActivity.this,CartActivity.class));
+            }
+        });
+        seeMen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(a==0){
+                    for(String s:imgNameMen1){
+                        imgNameMen.add(s);
+                    }
+                    for(String s:imgUrlMen1){
+                        imgUrlMen.add(s);
+                    }
+                    menRecyclerView.setAdapter(gridAdapterMen);
+                    seeMoreMen.setText("See less");
+                    a=1;
+                }
+                else {
+                    for(String s:imgNameMen1){
+                        imgNameMen.remove(s);
+                    }
+                    for(String s:imgUrlMen1){
+                        imgUrlMen.remove(s);
+                    }
+                    menRecyclerView.setAdapter(gridAdapterMen);
+                    seeMoreMen.setText("See all");
+                    a=0;
+                }
+            }
+        });
+        seeWomen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(b==0){
+                    for(String s:imgNameWomen1){
+                        imgNameWomen.add(s);
+                    }
+                    for(String s:imgUrlWomen1){
+                        imgUrlWomen.add(s);
+                    }
+                    womenRecyclerView.setAdapter(gridAdapterWomen);
+                    seeMoreWomen.setText("See less");
+                    b=1;
+                }
+                else {
+                    for(String s:imgNameWomen1){
+                        imgNameWomen.remove(s);
+                    }
+                    for(String s:imgUrlWomen1){
+                        imgUrlWomen.remove(s);
+                    }
+                    womenRecyclerView.setAdapter(gridAdapterWomen);
+                    seeMoreWomen.setText("See all");
+                    b=0;
+                }
             }
         });
 //        weddingSection.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +296,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     for(SliderItem item:list){
                         sliderItems.add(item);
                     }
-                    sliderItems.add(new SliderItem(null,null,"https://barbera-image.s3.ap-south-1.amazonaws.com/Mens_SectionMassage",null));
+                    //sliderItems.add(new SliderItem(null,null,"https://barbera-image.s3.ap-south-1.amazonaws.com/Mens_SectionMassage",null,));
                     Log.d("TAG",sliderItems.size()+" saf");
 //                    sliderAdapter.notifyDataSetChanged();
                     sliderRecyclerView.setAdapter(sliderAdapter);
@@ -298,14 +362,31 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 if(response.code()==200){
                     TypeList serviceList=response.body();
                     List<String> list=serviceList.getTypeList();
+                    int z=0,f=0;
                     if(list.size()!=0){
                         for(String item:list){
-                            imgNameWomen.add(item);
-                            item=item.replaceAll(" ","_");
-                            imgUrlWomen.add(imagebase+"Womens_Section"+item);
+                            if(z<6){
+                                imgNameWomen.add(item);
+                                item=item.replaceAll(" ","_");
+                                imgUrlWomen.add(imagebase+"Womens_Section"+item);
+                                z++;
+                            }
+                            else{
+                                f=1;
+                                imgNameWomen1.add(item);
+                                item=item.replaceAll(" ","_");
+                                imgUrlWomen1.add(imagebase+"Womens_Section"+item);
+                            }
                         }
+                        if(f==0){
+                            seeWomen.setEnabled(false);
+                        }
+                        else{
+                            seeWomen.setEnabled(true);
+                        }
+                        seeWomen.setVisibility(View.VISIBLE);
+                        seeMoreWomen.setText("See all");
                     }
-
                     womenRecyclerView.setAdapter(gridAdapterWomen);
                     //gridView.setAdapter(adapter);
                     progressBar.dismiss();
@@ -323,24 +404,6 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
-
-//        imgName.add("Hair Cut");
-//        imgName.add("Hair Care");
-//        imgName.add("Hair Color");
-//        imgName.add("Facial");
-//        imgName.add("Head Massage");
-//        imgName.add("Bleech");
-
-
-//        imgUrl.add("https://i.ibb.co/MVmwpZH/image.png");
-//        imgUrl.add("https://i.ibb.co/6tn2gFk/image.png");
-//        imgUrl.add("https://i.ibb.co/SXLk7XW/image.png");
-//        imgUrl.add("https://i.ibb.co/f0MFcHx/image.png");
-//        imgUrl.add("https://i.ibb.co/j9K4bDL/image.png");
-//        imgUrl.add("https://i.ibb.co/HDyvXxp/image.png");
-
-
-
     }
 
     private void addMenGrid() {
@@ -356,13 +419,32 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 if(response.code()==200){
                     TypeList serviceList=response.body();
                     List<String> list=serviceList.getTypeList();
+                    int z=0,f=0;
                     if(list.size()!=0){
                         for(String item:list){
-                            imgNameMen.add(item);
-                            item=item.replaceAll(" ","_");
-                            //Log.d("item",item);
-                            imgUrlMen.add(imagebase+"Mens_Section"+item);
+                            if(z<6){
+                                imgNameMen.add(item);
+                                item=item.replaceAll(" ","_");
+                                //Log.d("item",item);
+                                imgUrlMen.add(imagebase+"Mens_Section"+item);
+                                z++;
+                            }
+                            else {
+                                f=1;
+                                imgNameMen1.add(item);
+                                item = item.replaceAll(" ", "_");
+                                //Log.d("item",item);
+                                imgUrlMen1.add(imagebase + "Mens_Section" + item);
+                            }
                         }
+                        if(f==0){
+                            seeMen.setEnabled(false);
+                        }
+                        else{
+                            seeMen.setEnabled(true);
+                        }
+                        seeMen.setVisibility(View.VISIBLE);
+                        seeMoreMen.setText("See all");
                     }
 
                     menRecyclerView.setAdapter(gridAdapterMen);

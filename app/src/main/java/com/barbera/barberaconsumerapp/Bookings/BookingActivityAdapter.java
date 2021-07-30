@@ -1,14 +1,10 @@
  package com.barbera.barberaconsumerapp.Bookings;
 
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,34 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.barbera.barberaconsumerapp.BarberDetailDialog;
 import com.barbera.barberaconsumerapp.R;
-import com.barbera.barberaconsumerapp.Rating;
 import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
-import com.barbera.barberaconsumerapp.network_email.Emailer;
-import com.barbera.barberaconsumerapp.network_email.JsonPlaceHolderApi;
-import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -87,36 +63,43 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     @Override
     public void onBindViewHolder(@NonNull BookingActivityAdapter.BookingItemViewHolder holder, int position) {
         BookingModel bookingModel = bookingAdapterList.get(position);
-
+        //Log.d("ds",bookingModel.getServiceIdList().size()+"");
         holder.serviceSummary.setText(bookingModel.getSummary());
         holder.totalAmount.setText("Total Amount Rs "+bookingModel.getAmount());
         holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime()+":00");
 
         //extractNameAndContact(holder);
 
-//        if(bookingModel.getStatus().equals("done")){
-//            holder.start.setVisibility(View.INVISIBLE);
-//            holder.end.setVisibility(View.INVISIBLE);
-//            holder.otp.setVisibility(View.INVISIBLE);
-//            holder.cancelBooking.setVisibility(View.INVISIBLE);
-//            holder.status.setVisibility(View.VISIBLE);
-//        }
-//        if(bookingModel.getStatus().equals("ongoing")){
-//            holder.start.setVisibility(View.INVISIBLE);
-//            holder.end.setVisibility(View.VISIBLE);
-//            holder.cancelBooking.setVisibility(View.INVISIBLE);
-//            holder.otp.setVisibility(View.VISIBLE);
-//            holder.otp.setText("Start Otp:"+sotp);
-//        }
-//        if(bookingModel.getStatus().equals("pending")){
-//            holder.start.setVisibility(View.VISIBLE);
-//            holder.end.setVisibility(View.INVISIBLE);
-//            holder.otp.setVisibility(View.INVISIBLE);
-//            holder.cancelBooking.setVisibility(View.VISIBLE);
-//            holder.status.setVisibility(View.INVISIBLE);
-//        }
+        if(bookingModel.getStatus().equals("done")){
+            holder.start.setVisibility(View.INVISIBLE);
+            holder.end.setVisibility(View.INVISIBLE);
+            holder.otp.setVisibility(View.INVISIBLE);
+            holder.cancelBooking.setVisibility(View.INVISIBLE);
+            holder.status.setVisibility(View.VISIBLE);
+            SharedPreferences sharedPreferences=context.getSharedPreferences("Notification",context.MODE_PRIVATE);
+            holder.otp.setText("End otp: "+sharedPreferences.getString("notif",""));
+        }
+        if(bookingModel.getStatus().equals("ongoing")){
+            holder.start.setVisibility(View.INVISIBLE);
+            holder.end.setVisibility(View.VISIBLE);
+            holder.cancelBooking.setVisibility(View.INVISIBLE);
+            holder.otp.setVisibility(View.VISIBLE);
+            SharedPreferences sharedPreferences=context.getSharedPreferences("Notification",context.MODE_PRIVATE);
+            holder.otp.setText("Start otp: "+sharedPreferences.getString("notif",""));
+            //holder.otp.setText("Start Otp:"+sotp);
+        }
+        if(bookingModel.getStatus().equals("pending")){
+            holder.start.setVisibility(View.VISIBLE);
+            holder.end.setVisibility(View.INVISIBLE);
+            holder.otp.setVisibility(View.VISIBLE);
+            holder.cancelBooking.setVisibility(View.VISIBLE);
+            holder.status.setVisibility(View.INVISIBLE);
+        }
 
-//        holder.barber.setOnClickListener(v -> { fetchAndShowContact(bookingModel.getDocId());});
+        holder.barber.setOnClickListener(v -> {
+            BarberDetailDialog bb = new BarberDetailDialog(bookingModel.getBarberName(), bookingModel.getBarberPhone(),bookingModel.getBarberDist());
+            bb.show(fragmentManager,"true");
+            bb.setCancelable(true);});
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +111,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
                 SharedPreferences preferences = context.getSharedPreferences("Token",context.MODE_PRIVATE);
                 token = preferences.getString("token", "no");
-                Call<Void> call=jsonPlaceHolderApi2.startOtp(new InstItem(bookingModel.getBarberId(),0,null,false),"Bearer "+token);
+                Call<Void> call=jsonPlaceHolderApi2.startOtp(new InstItem(bookingModel.getBarberId(),0,null,false,bookingModel.getServiceIdList()),"Bearer "+token);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -169,7 +152,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.setMessage("generating otp...");
                 progressDialog.show();
                 progressDialog.setCancelable(false);
-                Call<Void> call=jsonPlaceHolderApi2.endOtp(new InstItem(bookingModel.getBarberId(),0,null,false),"Bearer "+token);
+                Call<Void> call=jsonPlaceHolderApi2.endOtp(new InstItem(bookingModel.getBarberId(),0,null,false,bookingModel.getServiceIdList()),"Bearer "+token);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -182,6 +165,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                                     holder.end.setVisibility(View.INVISIBLE);
                                     holder.start.setVisibility(View.INVISIBLE);
                                     holder.cancelBooking.setVisibility(View.INVISIBLE);
+                                    holder.barber.setVisibility(View.VISIBLE);
                                 }
                             };
                             final Handler h = new Handler();
@@ -233,9 +217,9 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                                 .addOnCompleteListener(task1 -> {
                                     String name = task1.getResult().get("name").toString();
                                     String phone = task1.getResult().get("phone").toString();
-                                    BarberDetailDialog bb = new BarberDetailDialog(name, phone);
-                                    bb.show(fragmentManager,"true");
-                                    bb.setCancelable(true);
+//                                    BarberDetailDialog bb = new BarberDetailDialog(name, phone,);
+//                                    bb.show(fragmentManager,"true");
+//                                    bb.setCancelable(true);
 
                                 });
                     }catch (Exception e ){

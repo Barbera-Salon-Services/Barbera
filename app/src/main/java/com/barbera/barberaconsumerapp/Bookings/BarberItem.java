@@ -10,16 +10,23 @@ public class BarberItem {
     @SerializedName("phone")
     private String phone;
     @SerializedName("distance")
-    private String distance;
+    private double distance;
+    @SerializedName("name")
+    private String name;
 
-    public BarberItem(String barberid, String address, String phone, String distance) {
+    public BarberItem(String barberid, String address, String phone, double distance,String name) {
         this.barberid = barberid;
         this.address = address;
         this.phone = phone;
         this.distance=distance;
+        this.name=name;
     }
 
-    public String getDistance() {
+    public String getName() {
+        return name;
+    }
+
+    public double getDistance() {
         return distance;
     }
 
