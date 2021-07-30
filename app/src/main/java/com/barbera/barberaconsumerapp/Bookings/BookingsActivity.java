@@ -116,7 +116,7 @@ public class BookingsActivity extends AppCompatActivity {
                         else {
                             Log.d("List","IN");
                             int i = 0, amount = 0;
-                            String summary = "", date = "", slot = "", timestamp = "";
+                            String summary = "", date = "", slot = "", timestamp = "",id="";
                             for (BookingItem item : list) {
                                 if (i == 0) {
                                     date = item.getDate();
@@ -128,7 +128,7 @@ public class BookingsActivity extends AppCompatActivity {
                                     summary += "(" + gender + ") " + name + "   Rs: " + price + "  ("+quantity+")"+"\n";
                                     amount += (item.getQuantity()*item.getService().getPrice());
                                     timestamp += item.getTimestamp();
-                                    //Log.d("timestamp",timestamp);
+                                    id=item.getBarberItem().getBarberid();
                                     i++;
                                 } else {
                                     if (item.getTimestamp().equals(timestamp)) {
@@ -140,9 +140,10 @@ public class BookingsActivity extends AppCompatActivity {
                                         amount += (item.getQuantity()*item.getService().getPrice());
                                         date = item.getDate();
                                         slot = item.getSlot();
+                                        id=item.getBarberItem().getBarberid();
                                     } else {
                                         //Log.d("timestamp",timestamp);
-                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot));
+                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot,id));
                                         date = item.getDate();
                                         slot = item.getSlot();
                                         summary = "";
@@ -155,11 +156,12 @@ public class BookingsActivity extends AppCompatActivity {
                                         amount += (item.getQuantity()*item.getService().getPrice());
                                         timestamp = "";
                                         timestamp += item.getTimestamp();
+                                        id=item.getBarberItem().getBarberid();
                                     }
                                 }
                             }
                             //Log.d("last", summary + " " + amount + " " + date + " " + slot);
-                            bookingActivityList.add(new BookingModel(summary, amount, date, slot));
+                            bookingActivityList.add(new BookingModel(summary, amount, date, slot,id));
 //                            for (BookingModel item : bookingActivityList) {
 //                                Log.d("item", item.getDate() + " " + item.getTime());
 //                            }

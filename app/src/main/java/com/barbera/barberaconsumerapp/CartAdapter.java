@@ -102,7 +102,7 @@ public class CartAdapter extends RecyclerView.Adapter {
 
         private void setServiceDetails(String resource, String Service, int amount, int Quantity, String Type, final int position,String id) {
             title.setText(Service);
-            price.setText("Rs " + amount);
+            price.setText("@ Rs." + amount);
             quantity.setText(""+Quantity);
             type.setText(Type);
             q = Quantity;

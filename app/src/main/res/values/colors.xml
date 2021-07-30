@@ -12,4 +12,6 @@
     <color name="CancellationColor">#E83F3F</color>
     <color name="LightGray">#8CD9D8D6</color>
     <color name="Transparent">#00ECE3E3</color>
+    <color name="textBackground">#2C2C2C</color>
+    <color name="blackGray">#85373636</color>
 </resources>

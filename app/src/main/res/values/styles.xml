@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-       <!-- <item name="android:textViewStyle">@style/Textfont</item>-->
+        <!-- <item name="android:textViewStyle">@style/Textfont</item>-->
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -63,6 +63,14 @@
 
     <style name="circularCorner">
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="cardview"
+        parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSizeBottomLeft">30dp</item>
+        <item name="cornerSizeTopLeft">90dp</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="cornerFamilyTopLeft">cut</item>
     </style>
 
 </resources>

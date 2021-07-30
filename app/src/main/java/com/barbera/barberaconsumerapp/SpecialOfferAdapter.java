@@ -37,11 +37,11 @@ public class SpecialOfferAdapter extends RecyclerView.Adapter<SpecialOfferAdapte
     public void onBindViewHolder(@NonNull SpecialOfferAdapter.ViewHolder holder, int position) {
         SpecialOfferData specialOfferData = specialOfferDataList.get(position);
         holder.offerName.setText(specialOfferData.getOfferName());
-        holder.time.setText(specialOfferData.getTime());
-        holder.cancelledPrice.setPaintFlags(holder.cancelledPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.cancelledPrice.setText(specialOfferData.getCancelledPrice());
-        holder.finalPrice.setText(specialOfferData.getFinalPrice());
-        holder.offerDescription.setText(specialOfferData.getOfferDescription());
+        holder.offerDescriptionName.setText(specialOfferData.getOfferDescriptionName());
+        holder.offerDescriptionPrice.setText(specialOfferData.getOfferDescriptionPrice());
+        holder.offerTotalPrice.setText(specialOfferData.getOfferTotalPrice());
+        holder.offerPrice.setText(specialOfferData.getOfferPrice());
+
         Glide.with(context).load(specialOfferData.getOfferImageUrl()).into(holder.offerImage);
 
         holder.bookNow.setOnClickListener(new View.OnClickListener() {
@@ -59,18 +59,19 @@ public class SpecialOfferAdapter extends RecyclerView.Adapter<SpecialOfferAdapte
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView offerName, time, cancelledPrice, finalPrice, offerDescription, bookNow;
+        TextView offerName, offerDescriptionName, offerDescriptionPrice, offerTotalPrice, offerPrice, bookNow;
         ImageView offerImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             offerName = itemView.findViewById(R.id.offer_name);
-            time = itemView.findViewById(R.id.offer_time);
-            cancelledPrice = itemView.findViewById(R.id.cancelled_offer_price);
-            finalPrice = itemView.findViewById(R.id.final_offer_price);
+            offerDescriptionName = itemView.findViewById(R.id.offer_description_name);
+            offerDescriptionPrice = itemView.findViewById(R.id.offer_description_price);
+            offerTotalPrice = itemView.findViewById(R.id.total_price);
+            offerPrice = itemView.findViewById(R.id.offer_price);
+            bookNow = itemView.findViewById(R.id.book_now_text);
             offerImage = itemView.findViewById(R.id.offer_image);
-            offerDescription = itemView.findViewById(R.id.offer_description);
-            bookNow = itemView.findViewById(R.id.book_now);
+
         }
     }
 }

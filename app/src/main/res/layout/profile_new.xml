@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:hint="@string/user_name"
+                android:textStyle="normal"
                 android:textColorHint="@color/white"
                 android:textSize="20dp" />
 
@@ -92,7 +93,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/Transparent"
-                    android:text="My Profile" />
+                    android:text="My Profile"
+                    android:textStyle="normal"/>
 
             </LinearLayout>
 
@@ -135,7 +137,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/Transparent"
-                    android:text="@string/refer_earn" />
+                    android:text="@string/refer_earn"
+                    android:textStyle="normal"/>
 
             </LinearLayout>
 
@@ -155,6 +158,7 @@
                     style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:textStyle="normal"
                     android:background="@color/Transparent"
                     android:text="@string/contact_us" />
 

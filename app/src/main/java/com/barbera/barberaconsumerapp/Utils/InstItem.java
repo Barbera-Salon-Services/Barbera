@@ -12,7 +12,7 @@ public class InstItem {
     @SerializedName("success")
     private boolean success;
 
-    public InstItem(String id, int time, String slot,boolean success) {
+    public  InstItem(String id, int time, String slot,boolean success) {
         this.id = id;
         this.time = time;
         this.slot = slot;

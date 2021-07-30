@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="#000000">
 
     <ImageView
         android:id="@+id/img_privacy"
@@ -27,24 +27,24 @@
         android:textSize="28sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/doorstep_salon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_privacy_name"
-        android:layout_centerHorizontal="true"
-        android:text="Doorstep Salon"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/doorstep_salon"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@+id/user_privacy_name"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:text="Doorstep Salon"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="18sp" />-->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottom_navigation"
-        android:layout_below="@+id/doorstep_salon"
+        android:layout_below="@+id/user_privacy_name"
         android:layout_margin="10dp"
         android:padding="20dp"
-        app:cardBackgroundColor="#4DD9D8D6"
+        app:cardBackgroundColor="@color/textBackground"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
@@ -60,7 +60,7 @@
                 android:layout_margin="20dp"
                 android:text="@string/user_privacy_content"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </androidx.core.widget.NestedScrollView>
     </androidx.cardview.widget.CardView>
@@ -69,8 +69,8 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/LightGray"
+        app:itemIconTint="#99FFFFFF"
+        app:itemTextColor="#99FFFFFF"
         app:menu="@menu/menu_navigation" />
 </RelativeLayout>

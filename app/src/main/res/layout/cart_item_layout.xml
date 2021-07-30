@@ -1,87 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="20dp"
     android:layout_width="match_parent"
-    android:elevation="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@color/background"
+    app:cardBackgroundColor="@color/blackGray"
+    app:cardCornerRadius="10dp">
 
-    <ImageView
-        android:id="@+id/cart_item_logo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        tools:src="@drawable/logo"
-        android:layout_centerVertical="true"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/cart_item_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/cart_item_logo"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
-        android:layout_marginLeft="10sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10sp"
-        tools:text="Simple Hair Cut"
-        android:padding="25sp"/>
+        <TextView
+            android:id="@+id/cart_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="normal"
+            tools:text="Mens Salon" />
 
-    <TextView
-        android:id="@+id/cart_item_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:layout_below="@id/cart_item_title"
-        android:layout_marginLeft="75dp"
-        android:layout_marginTop="-14dp"
-        android:layout_toRightOf="@id/cart_item_logo"
-        android:textSize="20sp"
-        tools:text="Rs 111" />
+        <TextView
+            android:id="@+id/type_in_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cart_item_title"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            tools:text="Hair Cut Combo for 2" />
 
-    <TextView
-        android:layout_marginTop="20sp"
-        android:id="@+id/cart_item_quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="1"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:padding="10sp"
-        android:layout_below="@id/cart_item_price"
-        android:layout_centerHorizontal="true"/>
-    <Button
-        android:layout_marginTop="20sp"
-        android:id="@+id/increaseInCart"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:textColor="@color/white"
-        android:text="+"
-        android:layout_marginRight="50sp"
-        android:layout_toRightOf="@id/cart_item_quantity"
-        android:layout_below="@id/cart_item_price" />
-    <Button
-        android:layout_marginTop="20sp"
-        android:id="@+id/decreaseInCart"
-        android:layout_width="50dp"
-        android:text="-"
-        android:background="@color/colorAccent"
-        android:textColor="@color/white"
-        android:layout_below="@id/cart_item_price"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/cart_item_quantity" />
-    <TextView
-        android:id="@+id/type_in_cart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Men"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
-        android:layout_marginLeft="20sp"/>
+        <TextView
+            android:id="@+id/cart_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/type_in_cart"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="60dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            tools:text="Rs. 599" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@id/cart_item_logo"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/decreaseInCart"
+                android:layout_width="20dp"
+                android:layout_height="17dp"
+                android:background="@color/blackGray"
+                android:text="-"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/cart_item_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="1" />
+
+            <Button
+                android:id="@+id/increaseInCart"
+                android:layout_width="20dp"
+                android:layout_height="17dp"
+                android:background="@color/blackGray"
+                android:text="+"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
 
-</RelativeLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/cart_item_logo"
+                android:layout_width="126dp"
+                android:layout_height="138dp"
+                android:background="@color/background"
+                app:shapeAppearanceOverlay="@style/cardview"
+                android:layout_alignParentRight="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/makeup2" />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
