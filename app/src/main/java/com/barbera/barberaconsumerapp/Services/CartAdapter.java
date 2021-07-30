@@ -119,7 +119,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             increaseIncart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,true),"Bearer "+token);
+                    Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,true,0),"Bearer "+token);
                     call.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
@@ -179,7 +179,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                             }
                         });
                     } else {
-                        Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,false),"Bearer "+token);
+                        Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,false,0),"Bearer "+token);
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -215,7 +215,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                         int time=0,amount=0;
                         List<CartItemModel> list=new ArrayList<>();
                         for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
-                            list.add(new CartItemModel(null,null,0,null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false));
+                            list.add(new CartItemModel(null,null,dbQueries.cartItemModelList.get(i).getServicePrice(),null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false,CartActivity.totalAmount));
                             OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
                                     dbQueries.cartItemModelList.get(i).getServiceName()
                                     + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +

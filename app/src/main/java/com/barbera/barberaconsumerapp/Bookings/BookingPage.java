@@ -37,6 +37,7 @@ import com.barbera.barberaconsumerapp.MapSearchActivity;
 import com.barbera.barberaconsumerapp.Profile.MyCoupons;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
+import com.barbera.barberaconsumerapp.Utils.CouponItem;
 import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
@@ -107,6 +108,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private CheckBox checkBox;
     private Button bookInst;
     private TextView InstText;
+    private String couponServiceId="";
+    private int upper=-1,lower=-1,curAmount;
 
     @Override
     public void extractBool(Boolean selected) {
@@ -231,7 +234,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 progressDialog.setMessage("Loading");
                 progressDialog.setCancelable(true);
                 progressDialog.show();
-                Call<InstItem> call= jsonPlaceHolderApi2.bookSlot(new ServiceIdList(sidlist,null,null),dat,array[1 ]+"","Bearer "+token);
+                Call<InstItem> call= jsonPlaceHolderApi2.bookSlot(new ServiceIdList(sidlist,null,null),dat,array[1]+"","Bearer "+token);
                 call.enqueue(new Callback<InstItem>() {
                     @Override
                     public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
@@ -343,6 +346,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         serviceTime = intent.getIntExtra("Time",0);
         sidlist = (List<CartItemModel>) intent.getSerializableExtra("sidlist");
         Log.d("Order", OrderSummary + "  " + serviceTime);
+        curAmount=BookingTotalAmount;
 
         Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null),"Bearer "+token);
         call.enqueue(new Callback<InstItem>() {
@@ -1220,83 +1224,29 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         });
 
         couponApply.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(couponcodeEditText.getText())) {
-                final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
-                progressDialog.setMessage("Please wait for a while...");
-                progressDialog.show();
-                progressDialog.setCancelable(false);
+            if(!TextUtils.isEmpty(couponcodeEditText.getText())){
+                Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0,null,false,0),"Bearer "+token);
+                couponItemCall.enqueue(new Callback<CouponItem>() {
+                    @Override
+                    public void onResponse(Call<CouponItem> call, retrofit2.Response<CouponItem> response) {
+                        if(response.code()==200){
+                            CouponItem item=response.body();
+                            couponServiceId=item.getServiceId();
+                            upper=item.getUpperLimit();
+                            lower=item.getLowerLimit();
+                            Toast.makeText(getApplicationContext(),"Coupon applied!",Toast.LENGTH_LONG).show();
 
-                //Call<Data> call=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0 ,,false),token);
-                //if success false coupon already used, response 400 coupon false
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Could not apply coupon, check price cap",Toast.LENGTH_LONG).show();
+                        }
+                    }
 
-                FirebaseFirestore.getInstance().collection("AppData").document("Coupons").get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    String couponCode = task.getResult().get("CouponName").toString();
-                                    limit = task.getResult().getLong("CouponLimit");
-                                    users = (List<String>) task.getResult().get("users");
-                                    if (!couponcodeEditText.getText().toString().trim().equals(couponCode)) {
-                                        try {
-                                            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
-                                                    .collection("EligibleCustomers")
-                                                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
-                                                    .addOnCompleteListener(task1 -> {
-                                                        if (task1.getResult().get("couponCode").toString().equals(couponcodeEditText.getText().toString().trim())){
-                                                            if(task1.getResult().get("used").toString().equals("N")) {
-                                                                BookingTotalAmount = (BookingTotalAmount > 100 ? BookingTotalAmount - 50 : BookingTotalAmount / 2);
-                                                                totalAmount.setText("Total Amount Rs" + BookingTotalAmount + "(Coupon Applied)");
-                                                                isReferApplied =true;
-                                                                isCouponApplied = true;
-                                                                couponApl.setVisibility(View.VISIBLE);
-                                                                text.setText(task1.getResult().get("description").toString());
-                                                                text.setVisibility(View.VISIBLE);
-                                                                couponApply.setEnabled(false);
-                                                                Toast.makeText(getApplicationContext(), "Coupon Applied Successfully.", Toast.LENGTH_LONG).show();
-                                                            }else{
-                                                                couponcodeEditText.setError("Already Used");
-                                                                couponcodeEditText.requestFocus();
-                                                            }
-                                                        } else {
-                                                            couponcodeEditText.setError("No Such Coupons Exist");
-                                                            couponcodeEditText.requestFocus();
-                                                        }
-
-                                                    });
-                                        }catch (Exception e) {
-                                            couponcodeEditText.setError("No Such Coupons Exist");
-                                            couponcodeEditText.requestFocus();
-                                        }
-                                        couponApl.setVisibility(View.INVISIBLE);
-                                        progressDialog.dismiss();
-                                    } else
-                                    if (users.contains(FirebaseAuth.getInstance().getUid())) {
-                                        progressDialog.dismiss();
-                                        couponApl.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(getApplicationContext(), "You have already used this coupon", Toast.LENGTH_LONG).show();
-                                    } else if (limit == 0) {
-                                        couponApl.setVisibility(View.INVISIBLE);
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), "Sorry, it has reached its limit!!", Toast.LENGTH_LONG).show();
-                                    } else if (BookingTotalAmount < 69) {
-                                        progressDialog.dismiss();
-                                        couponApl.setVisibility(View.INVISIBLE);
-                                        couponcodeEditText.setError("Total Amount should be greater than or equal to 69");
-                                        couponcodeEditText.requestFocus();
-                                    } else {
-                                        BookingTotalAmount = (BookingTotalAmount > 100 ? BookingTotalAmount - 50 : BookingTotalAmount / 2);
-                                        totalAmount.setText("Total Amount Rs" + BookingTotalAmount + "(Coupon Applied)");
-                                        isCouponApplied = true;
-                                        couponApl.setVisibility(View.VISIBLE);
-                                        text.setVisibility(View.VISIBLE);
-                                        couponApply.setEnabled(false);
-                                        Toast.makeText(getApplicationContext(), "Coupon Applied Successfully.", Toast.LENGTH_LONG).show();
-                                        progressDialog.dismiss();
-                                    }
-                                }
-                            }
-                        });
+                    @Override
+                    public void onFailure(Call<CouponItem> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
             } else{
                 couponcodeEditText.setError("Please enter a coupon code first");
                 couponcodeEditText.requestFocus();
