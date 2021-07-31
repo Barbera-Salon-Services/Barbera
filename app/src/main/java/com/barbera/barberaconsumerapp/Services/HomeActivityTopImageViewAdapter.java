@@ -1,6 +1,7 @@
 package com.barbera.barberaconsumerapp.Services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,11 +42,16 @@ public class HomeActivityTopImageViewAdapter extends RecyclerView.Adapter<HomeAc
         SliderItem item=list.get(position);
         Glide.with(context).load(item.getUrl()).into(holder.differentSectionImageView);
         holder.name.setText(item.getName());
-        Log.d("swe",item.getName());
+        //Log.d("swe",item.getName());
         holder.differentSectionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(context,ServiceType.class);
+                intent.putExtra("SalonType",item.getCategory().replaceAll(" ","_"));
+                intent.putExtra("Category",item.getTypes());
+                intent.putExtra("ImageUrl",item.getUrl());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }

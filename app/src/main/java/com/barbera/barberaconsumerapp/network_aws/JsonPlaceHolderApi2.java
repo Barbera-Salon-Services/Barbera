@@ -7,6 +7,7 @@ import com.barbera.barberaconsumerapp.Bookings.ServiceIdList;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.CartList;
 import com.barbera.barberaconsumerapp.Utils.CartList2;
+import com.barbera.barberaconsumerapp.Utils.CouponItem;
 import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
@@ -78,7 +79,11 @@ public interface JsonPlaceHolderApi2 {
     Call<Data> getReferral(@Header("Authorization") String token);
 
     @POST("usecoupon")
-    Call<Data> applyCoupon(@Body CartItemModel cartItemModel,@Header("Authorization") String token);
+    Call<CouponItem> applyCoupon(@Body CartItemModel cartItemModel, @Header("Authorization") String token);
+
+    //@GET("getusercoupons")
+    //Call<> getCoupon();
+    // data: serviceId,name,discount,lower_price_limit,upper_price_limit,used_by,user_limit,"BARERAREF",refquantity
 
     @POST("bookinst")
     Call<InstItem> bookInst(@Body ServiceIdList serviceIdList, @Header("Authorization") String token);

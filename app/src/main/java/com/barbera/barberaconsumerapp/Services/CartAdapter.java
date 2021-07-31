@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Services;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.barbera.barberaconsumerapp.Bookings.BookingPage;
+import com.barbera.barberaconsumerapp.HomeActivity;
+import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.Services.CartActivity;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
+import com.barbera.barberaconsumerapp.dbQueries;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
-import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.barbera.barberaconsumerapp.network_aws.SuccessReturn;
 
 import java.io.Serializable;
@@ -128,6 +131,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                                 SharedPreferences.Editor editor=sharedPreferences.edit();
                                 editor.putInt("count",count+1);
                                 editor.apply();
+                                updateTotalAmount();
                             }
                             else{
                                 Toast.makeText(context,"Could not increase cart",Toast.LENGTH_SHORT).show();
@@ -147,7 +151,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
 //                    dbQueries.cartItemModelList.get(position).setQuantity(dbQueries.cartItemModelList.get(position).getQuantity()-1);
 //                    updateQuantity(position);
-//                    updateTotalAmount();
+
                     if (dbQueries.cartItemModelList.get(position).getQuantity() == 1) {
                         Call<SuccessReturn> call = jsonPlaceHolderApi2.deleteFromCart(id,"Bearer "+token);
                         call.enqueue(new Callback<SuccessReturn>() {
@@ -163,6 +167,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                                     dbQueries.cartItemModelList.remove(dbQueries.cartItemModelList.get(position));
                                     HomeActivity.cartAdapter.notifyDataSetChanged();
                                     Toast.makeText(context, "Service deleted from cart", Toast.LENGTH_SHORT).show();
+                                    updateTotalAmount();
                                 } else {
                                     Toast.makeText(context, "Could not decrease cart", Toast.LENGTH_SHORT).show();
                                 }
@@ -186,6 +191,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                                     SharedPreferences.Editor editor=sharedPreferences.edit();
                                     editor.putInt("count",count-1);
                                     editor.apply();
+                                    updateTotalAmount();
                                 }
                                 else{
                                     Toast.makeText(context,"Could not decrease cart",Toast.LENGTH_SHORT).show();
@@ -209,7 +215,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                         int time=0,amount=0;
                         List<CartItemModel> list=new ArrayList<>();
                         for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
-                            list.add(new CartItemModel(null,null,0,null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false));
+                            list.add(new CartItemModel(null,null,dbQueries.cartItemModelList.get(i).getServicePrice(),null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false));
                             OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
                                     dbQueries.cartItemModelList.get(i).getServiceName()
                                     + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
@@ -272,15 +278,18 @@ public class CartAdapter extends RecyclerView.Adapter {
 //
 //        }
 //
-//        private void updateTotalAmount(){
-//            CartActivity.totalAmount=0;
-//            for(int i=0;i<dbQueries.cartItemModelList.size();i++) {
-//                  int price= parseInt(dbQueries.cartItemModelList.get(i).getServicePrice());
-//                CartActivity.totalAmount +=(price*dbQueries.cartItemModelList.get(i).getQuantity());
-//            }
-//            String result=String.valueOf(CartActivity.totalAmount);
-//            CartActivity.total_cart_amount.setText("Rs "+result);
-//        }
+        private void updateTotalAmount(){
+            CartActivity.totalAmount=0;
+            CartActivity.quantity=0;
+            for(int i=0;i<dbQueries.cartItemModelList.size();i++) {
+                  int price= dbQueries.cartItemModelList.get(i).getServicePrice();
+                CartActivity.totalAmount +=(price*dbQueries.cartItemModelList.get(i).getQuantity());
+                CartActivity.quantity+=dbQueries.cartItemModelList.get(i).getQuantity();
+            }
+            String result=String.valueOf(CartActivity.totalAmount);
+            CartActivity.total_cart_amount.setText("Rs "+result);
+            CartActivity.total_cart_quantity.setText("(For "+CartActivity.quantity+" items)");
+        }
 
     }
 }

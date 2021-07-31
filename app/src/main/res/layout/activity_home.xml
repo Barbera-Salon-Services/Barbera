@@ -221,6 +221,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wedding_recycler_view"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>

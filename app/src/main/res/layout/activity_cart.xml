@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".CartActivity">
-
+    tools:context=".Services.CartActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -93,15 +92,14 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="normal"
-                    android:text="Total Rs. 1198" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/Total_cart_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:text="@string/for_2_items" />
+                    android:textColor="@color/white" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
