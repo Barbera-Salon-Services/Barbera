@@ -20,6 +20,9 @@ import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
+import com.barbera.barberaconsumerapp.network_email.Emailer;
+import com.barbera.barberaconsumerapp.network_email.JsonPlaceHolderApi;
+import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -197,7 +200,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.show();
                 progressDialog.setCancelable(false);
                 //fetchRegion(position);
-                //sendEmailCancelationMail(position);
+                sendEmailCancelationMail(position);
             });
             builder.setNegativeButton("NO", (dialog, which) -> {
 
@@ -574,29 +577,29 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 //        // calculate the result
 //        return(c * r);
 //    }
-//    private void sendEmailCancelationMail(int position){
-//        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
-//        JsonPlaceHolderApi jsonPlaceholderApi =retrofit.create(JsonPlaceHolderApi.class);
-//        FirebaseFirestore.getInstance().collection("Users")
-//                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                .get()
-//                .addOnCompleteListener(task -> {
-//                    String email = task.getResult().get("Email Address").toString();
-//                    //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
-//                    Emailer emailer = new Emailer(email,bookingAdapterList.get(position).getSummary(),bookingAdapterList.get(position).getTime()+"  "+
-//                            bookingAdapterList.get(position).getDate(),bookingAdapterList.get(position).getAmount());
-//                    Call<Emailer> call = jsonPlaceholderApi.cancelEmail(emailer);
-//                    call.enqueue(new Callback<Emailer>() {
-//                        @Override
-//                        public void onResponse(Call<Emailer> call, retrofit2.Response<Emailer> response) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<Emailer> call, Throwable t) {
-//
-//                        }
-//                    });
-//                });
-//    }
+    private void sendEmailCancelationMail(int position){
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        JsonPlaceHolderApi jsonPlaceholderApi =retrofit.create(JsonPlaceHolderApi.class);
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    String email = task.getResult().get("Email Address").toString();
+                    //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
+                    Emailer emailer = new Emailer(email,bookingAdapterList.get(position).getSummary(),bookingAdapterList.get(position).getTime()+"  "+
+                            bookingAdapterList.get(position).getDate(),bookingAdapterList.get(position).getAmount()+"");
+                    Call<Emailer> call = jsonPlaceholderApi.cancelEmail(emailer);
+                    call.enqueue(new Callback<Emailer>() {
+                        @Override
+                        public void onResponse(Call<Emailer> call, retrofit2.Response<Emailer> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Emailer> call, Throwable t) {
+
+                        }
+                    });
+                });
+    }
 }

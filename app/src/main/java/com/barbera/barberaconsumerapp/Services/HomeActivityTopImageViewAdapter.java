@@ -16,6 +16,8 @@ import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.SliderItem;
 import com.bumptech.glide.Glide;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 public class HomeActivityTopImageViewAdapter extends RecyclerView.Adapter<HomeActivityTopImageViewAdapter.ImageViewHolder> {
@@ -41,14 +43,15 @@ public class HomeActivityTopImageViewAdapter extends RecyclerView.Adapter<HomeAc
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         SliderItem item=list.get(position);
         Glide.with(context).load(item.getUrl()).into(holder.differentSectionImageView);
-        holder.name.setText(item.getName());
+        List<String> a= Arrays.asList(item.getName().split(","));
+        holder.name.setText(a.get(1));
         //Log.d("swe",item.getName());
         holder.differentSectionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context,ServiceType.class);
-                intent.putExtra("SalonType",item.getCategory().replaceAll(" ","_"));
-                intent.putExtra("Category",item.getTypes());
+                intent.putExtra("SalonType",a.get(0).replaceAll(" ","_"));
+                intent.putExtra("Category",a.get(1));
                 intent.putExtra("ImageUrl",item.getUrl());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);

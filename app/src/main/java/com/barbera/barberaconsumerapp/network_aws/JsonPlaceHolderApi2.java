@@ -109,4 +109,7 @@ public interface JsonPlaceHolderApi2 {
     @GET("gettabs")
     Call<SliderList> getTabs();
 
+
+    //serviceId,barberId,slot,date
+
 }

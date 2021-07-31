@@ -128,7 +128,7 @@ public class BookingsActivity extends AppCompatActivity {
                                     int price = item.getService().getPrice();
                                     int quantity=item.getQuantity();
                                     summary += "(" + gender + ") " + name + "   Rs: " + price + "  ("+quantity+")"+"\n";
-                                    amount += (item.getQuantity()*item.getService().getPrice());
+                                    amount=item.getTotalPrice();
                                     timestamp += item.getTimestamp();
                                     id=item.getBarberItem().getBarberid();
                                     idList.add(item.getServiceId());
@@ -145,7 +145,6 @@ public class BookingsActivity extends AppCompatActivity {
                                         int price = item.getService().getPrice();
                                         int quantity=item.getQuantity();
                                         summary += "(" + gender + ") " + name + "   Rs: " + price +"  ("+quantity+")"+"\n";
-                                        amount += (item.getQuantity()*item.getService().getPrice());
                                         date = item.getDate();
                                         slot = item.getSlot();
                                         id=item.getBarberItem().getBarberid();
@@ -162,8 +161,7 @@ public class BookingsActivity extends AppCompatActivity {
                                         int price = item.getService().getPrice();
                                         int quantity=item.getQuantity();
                                         summary += "(" + gender + ") " + name + "   Rs: " + price +"  ("+quantity+")"+ "\n";
-                                        amount = 0;
-                                        amount += (item.getQuantity()*item.getService().getPrice());
+                                        amount=item.getTotalPrice();
                                         timestamp = "";
                                         timestamp += item.getTimestamp();
                                         id=item.getBarberItem().getBarberid();
