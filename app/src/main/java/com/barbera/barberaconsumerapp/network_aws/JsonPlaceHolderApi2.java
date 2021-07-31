@@ -81,7 +81,7 @@ public interface JsonPlaceHolderApi2 {
     @POST("usecoupon")
     Call<CouponItem> applyCoupon(@Body CartItemModel cartItemModel, @Header("Authorization") String token);
 
-    @GET("getusercoupons")
+    //@GET("getusercoupons")
     //Call<> getCoupon();
     // data: serviceId,name,discount,lower_price_limit,upper_price_limit,used_by,user_limit,"BARERAREF",refquantity
 

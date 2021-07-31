@@ -74,6 +74,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private TextView changeLocation;
     private int region,typesel=0;
     private Boolean checkterms = false;
+    private boolean isBarberFound=false;
     private double lat, lon;
     private List<CartItemModel> sidlist;
     private TextView btype1,btype2,btype3;
@@ -117,76 +118,71 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         if (checkterms) {
 //            Toast.makeText(getApplicationContext(), "Checked", Toast.LENGTH_SHORT).show();
             if (checkUserData()) {
+
 //                final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
 //                progressDialog.setMessage("Hold on for a moment...");
 //                progressDialog.show();
 //                progressDialog.setCancelable(false);
-                if(day.equals("1")){
-                    day="01";
+                //Toast.makeText(getApplicationContext(),"sd",Toast.LENGTH_SHORT).show();
+                if (day.equals("1")) {
+                    day = "01";
                 }
-                if(day.equals("2")){
-                    day="02";
+                if (day.equals("2")) {
+                    day = "02";
                 }
-                if(day.equals("3")){
-                    day="03";
+                if (day.equals("3")) {
+                    day = "03";
                 }
-                if(day.equals("4")){
-                    day="04";
+                if (day.equals("4")) {
+                    day = "04";
                 }
-                if(day.equals("5")){
-                    day="05";
+                if (day.equals("5")) {
+                    day = "05";
                 }
-                if(day.equals("6")){
-                    day="06";
+                if (day.equals("6")) {
+                    day = "06";
                 }
-                if(day.equals("7")){
-                    day="07";
+                if (day.equals("7")) {
+                    day = "07";
                 }
-                if(day.equals("8")){
-                    day="08";
+                if (day.equals("8")) {
+                    day = "08";
                 }
-                if(day.equals("9")){
-                    day="09";
+                if (day.equals("9")) {
+                    day = "09";
                 }
 
                 String dt = mon + " " + day + ", " + selectedYear;
                 finalDate = dt;
-                String mn="";
+                String mn = "";
 
-                if(mon.equals("Jul")){
-                    mn="07";
+                if (mon.equals("Jul")) {
+                    mn = "07";
+                } else if (mon.equals("Jan")) {
+                    mn = "01";
+                } else if (mon.equals("Feb")) {
+                    mn = "02";
+                } else if (mon.equals("Mar")) {
+                    mn = "03";
+                } else if (mon.equals("Apr")) {
+                    mn = "04";
+                } else if (mon.equals("May")) {
+                    mn = "05";
+                } else if (mon.equals("Jun")) {
+                    mn = "06";
+                } else if (mon.equals("Aug")) {
+                    mn = "08";
+                } else if (mon.equals("Sep")) {
+                    mn = "09";
+                } else if (mon.equals("Oct")) {
+                    mn = "10";
+                } else if (mon.equals("Nov")) {
+                    mn = "11";
+                } else if (mon.equals("Dec")) {
+                    mn = "12";
                 }
-                else if(mon.equals("Jan")){
-                    mn="01";
-                }
-                else if(mon.equals("Feb")){
-                    mn="02";
-                }else if(mon.equals("Mar")){
-                    mn="03";
-                }else if(mon.equals("Apr")){
-                    mn="04";
-                }else if(mon.equals("May")){
-                    mn="05";
-                }else if(mon.equals("Jun")){
-                    mn="06";
-                }
-                else if(mon.equals("Aug")){
-                    mn="08";
-                }
-                else if(mon.equals("Sep")){
-                    mn="09";
-                }
-                else if(mon.equals("Oct")){
-                    mn="10";
-                }
-                else if(mon.equals("Nov")){
-                    mn="11";
-                }
-                else if(mon.equals("Dec")){
-                    mn="12";
-                }
-                String dat=day+"-"+mn+"-"+selectedYear;
-                String slot=array[1]+time;
+                String dat = day + "-" + mn + "-" + selectedYear;
+                String slot = array[1] + time;
                 finalTime = array[1] + ":00";
                 userAddress = houseAddress.getText().toString();
                 // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
@@ -194,64 +190,33 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 //sendemailconfirmation();
                 //addtoDatabase();
                 //addTosheet();
-                if (isCouponApplied)
-                    addCouponUsage();
-                 if (bookingType.equals("Coupon")) {
-                    MyCoupons.couponItemModelList.remove(MyCoupons.couponItemModelList.get(listPosition));
-                    Map<String, Object> updateCouponData = new HashMap<>();
-                    for (int i = 0; i < MyCoupons.couponItemModelList.size(); i++) {
-                        updateCouponData.put("service_" + i + 1, MyCoupons.couponItemModelList.get(i).getServiceName());
-                        updateCouponData.put("service_" + i + 1 + "_type", MyCoupons.couponItemModelList.get(i).getType());
-                        updateCouponData.put("service_" + i + 1 + "_price", MyCoupons.couponItemModelList.get(i).getServicePrice());
-                        updateCouponData.put("service_" + i + 1 + "_icon", MyCoupons.couponItemModelList.get(i).getImageId());
-                    }
-                    updateCouponData.put("coupons", (long) MyCoupons.couponItemModelList.size());
-                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .collection("UserData").document("MyCoupons").set(updateCouponData)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        progressDialog.dismiss();
-                                        BookingsActivity.checked = false;
-//                                            BookingsActivity.bookingActivityList.clear();
-                                        MyCoupons.couponsChecked = false;
-                                        MyCoupons.couponItemModelList.clear();
-                                        Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                        intent1.putExtra("Booking Amount", BookingTotalAmount);
-                                        intent1.putExtra("Order Summary", OrderSummary);
-                                        startActivity(intent1);
-                                        finish();
-                                    }
-                                }
-                            });
-                } else {
 //                    progressDialog.dismiss();
-                    BookingsActivity.checked = false;
-                     Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
-                     JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-                    ProgressDialog progressDialog=new ProgressDialog(BookingPage.this);
+                //Toast.makeText(getApplicationContext(), "sd", Toast.LENGTH_SHORT).show();
+                BookingsActivity.checked = false;
+                Retrofit retrofit1= RetrofitClientInstanceBooking.getRetrofitInstance();
+                JsonPlaceHolderApi2 jsonPlaceHolderApi21=retrofit1.create(JsonPlaceHolderApi2.class);
+
+                ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
                 progressDialog.setMessage("Loading");
                 progressDialog.setCancelable(true);
                 progressDialog.show();
-                Call<InstItem> call= jsonPlaceHolderApi2.bookSlot(new ServiceIdList(sidlist,null,null),dat,array[1]+"","Bearer "+token);
+                Call<InstItem> call = jsonPlaceHolderApi21.bookSlot(new ServiceIdList(sidlist, null, null, curAmount), dat, array[1] + "", "Bearer " + token);
                 call.enqueue(new Callback<InstItem>() {
                     @Override
                     public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
-                        if(response.code()==200){
-                            if(response.body().isSuccess()){
-                                if(bookingType.equals("Cart")){
-                                    Call<Void> call1=jsonPlaceHolderApi2.deleteCart(new ServiceIdList(sidlist,null,null),"Bearer "+token);
+                        if (response.code() == 200) {
+                            if (response.body().isSuccess()) {
+                                if (bookingType.equals("Cart")) {
+                                    Call<Void> call1 = jsonPlaceHolderApi21.deleteCart(new ServiceIdList(sidlist, null, null, 0), "Bearer " + token);
                                     call1.enqueue(new Callback<Void>() {
                                         @Override
                                         public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                            if(response.code()==200){
-                                                SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("Count",MODE_PRIVATE);
-                                                SharedPreferences.Editor editor=sharedPreferences.edit();
-                                                editor.putInt("count",0);
+                                            if (response.code() == 200) {
+                                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Count", MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putInt("count", 0);
                                                 editor.apply();
-                                            }
-                                            else{
+                                            } else {
 
                                             }
                                         }
@@ -262,40 +227,57 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                         }
                                     });
                                 }
+                                if(isBarberFound){
+                                    Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0),"Bearer "+token);
+                                call1.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                        if(response.code()==200){
+                                            progressDialog.dismiss();
+                                            Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                                            intent1.putExtra("Booking Amount", BookingTotalAmount);
+                                            intent1.putExtra("Order Summary", OrderSummary);
+                                            intent1.putExtra("date", dat);
+                                            intent1.putExtra("slot", slot);
+                                            intent1.putExtra("sidlist", (Serializable) sidlist);
+                                            startActivity(intent1);
+                                            finish();
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                }
 
                                 progressDialog.dismiss();
-                                Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                intent1.putExtra("Booking Amount", BookingTotalAmount);
-                                intent1.putExtra("Order Summary", OrderSummary);
-                                intent1.putExtra("date",dat);
-                                intent1.putExtra("slot",slot);
-                                intent1.putExtra("sidlist",(Serializable)sidlist);
-                                startActivity(intent1);
-                                finish();
+
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "This slot is booked", Toast.LENGTH_SHORT).show();
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else{
+                        } else {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Could not book slot", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<InstItem> call, Throwable t) {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 //                        BookingsActivity.bookingActivityList.clear();
 
                 });
 
-                 }
+
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "Not Checked", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -348,7 +330,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         Log.d("Order", OrderSummary + "  " + serviceTime);
         curAmount=BookingTotalAmount;
 
-        Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null),"Bearer "+token);
+        Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null,curAmount),"Bearer "+token);
         call.enqueue(new Callback<InstItem>() {
             @Override
             public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
@@ -357,10 +339,12 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     barberIdRet=instItem.getId();
                     slotRet=instItem.getSlot();
                     if(!instItem.isSuccess()){
+                        isBarberFound=false;
                         InstText.setText("No barber nearby");
                         bookInst.setVisibility(View.GONE);
                     }
                     else{
+                        isBarberFound=true;
                         bookInst.setVisibility(View.VISIBLE);
                         InstText.setText("Nearest barber is "+instItem.getTime()+"min away.");
                     }
@@ -490,7 +474,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet),"Bearer "+token);
+                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0),"Bearer "+token);
                         call1.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -523,7 +507,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet),"Bearer "+token);
+                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0),"Bearer "+token);
                         call1.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -1225,7 +1209,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
         couponApply.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(couponcodeEditText.getText())){
-                Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0,null,false,0),"Bearer "+token);
+                Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0,null,false),"Bearer "+token);
                 couponItemCall.enqueue(new Callback<CouponItem>() {
                     @Override
                     public void onResponse(Call<CouponItem> call, retrofit2.Response<CouponItem> response) {
@@ -1235,6 +1219,23 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                             upper=item.getUpperLimit();
                             lower=item.getLowerLimit();
                             Toast.makeText(getApplicationContext(),"Coupon applied!",Toast.LENGTH_LONG).show();
+                            if(couponServiceId.equals("all")){
+                                for(CartItemModel model:sidlist){
+
+                                        if(model.getServicePrice()<=upper && model.getServicePrice()>=lower) {
+                                            curAmount = BookingTotalAmount - item.getDiscount();
+                                        }
+                                }
+                            }
+                            else{
+                                for(CartItemModel model:sidlist){
+                                if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
+                                    if(model.getServicePrice()<=upper && model.getServicePrice()>=lower){
+                                        curAmount=BookingTotalAmount-item.getDiscount();
+                                    }
+                                }
+                                }
+                            }
 
                         }
                         else{
@@ -1568,33 +1569,33 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         //extractDataFromUser();
     }
 
-    private void addCouponUsage () {
-        HashMap<String, Object> data = new HashMap<>();
-        users.add(FirebaseAuth.getInstance().getUid());
-        data.put("CouponLimit", --limit);
-        data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-        FirebaseFirestore.getInstance().collection("AppData").document("Coupons")
-                .update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    //Toast.makeText(getApplicationContext(),"Coupon Applied Successfully. Don't Revert this Booking, you will lose the couopon",Toast.LENGTH_LONG).show();
-                    //isCouponApplied=true;
-                    // progressDialog.dismiss();
-                }
-            }
-        });
-
-        if(isReferApplied) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("used", "Y");
-            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
-                    .collection("EligibleCustomers")
-                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(map).addOnCompleteListener(task -> {
-
-            });
-        }
-    }
+//    private void addCouponUsage () {
+//        HashMap<String, Object> data = new HashMap<>();
+//        users.add(FirebaseAuth.getInstance().getUid());
+//        data.put("CouponLimit", --limit);
+//        data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+//        FirebaseFirestore.getInstance().collection("AppData").document("Coupons")
+//                .update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (task.isSuccessful()) {
+//                    //Toast.makeText(getApplicationContext(),"Coupon Applied Successfully. Don't Revert this Booking, you will lose the couopon",Toast.LENGTH_LONG).show();
+//                    //isCouponApplied=true;
+//                    // progressDialog.dismiss();
+//                }
+//            }
+//        });
+//
+//        if(isReferApplied) {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("used", "Y");
+//            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
+//                    .collection("EligibleCustomers")
+//                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(map).addOnCompleteListener(task -> {
+//
+//            });
+//        }
+//    }
 
     private void useCurrentAddress () {
         SharedPreferences preferences=getSharedPreferences("Profile",MODE_PRIVATE);

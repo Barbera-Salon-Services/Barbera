@@ -15,10 +15,15 @@ public class ServiceIdList {
     @SerializedName("totalprice")
     private int totalPrice;
 
-    public ServiceIdList(List<CartItemModel> list, String id,String slot) {
+    public ServiceIdList(List<CartItemModel> list, String id,String slot,int totalPrice) {
         this.list = list;
         this.id = id;
         this.slot=slot;
+        this.totalPrice=totalPrice;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
     public String getSlot() {

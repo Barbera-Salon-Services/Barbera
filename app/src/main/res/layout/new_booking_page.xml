@@ -251,7 +251,6 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:id="@+id/inst_book_text"
-					android:text="Nearest barber is 20 min away"
 					android:textSize="20dp"/>
 				<Button
 					android:layout_width="wrap_content"

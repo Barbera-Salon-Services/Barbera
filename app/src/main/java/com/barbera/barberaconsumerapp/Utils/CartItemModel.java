@@ -21,11 +21,9 @@ public class CartItemModel implements Serializable {
     private String id;
     @SerializedName("flow")
     private boolean flow;
-    @SerializedName("totalprice")
-    private int totalPrice;
 
     public CartItemModel(String imageId, String serviceName, int servicePrice, String type,
-                         int quantity, int time,String id,boolean flow,int totalPrice) {
+                         int quantity, int time,String id,boolean flow) {
         ImageId = imageId;
         ServiceName = serviceName;
         ServicePrice =  servicePrice;
@@ -34,15 +32,6 @@ public class CartItemModel implements Serializable {
         Time=time;
         this.id=id;
         this.flow=flow;
-        this.totalPrice=totalPrice;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public boolean isFlow() {
