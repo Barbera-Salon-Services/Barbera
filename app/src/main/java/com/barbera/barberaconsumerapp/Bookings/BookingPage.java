@@ -229,6 +229,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                     });
                                 }
                                 if(isBarberFound){
+                                    Toast.makeText(BookingPage.this, "Barber found!", Toast.LENGTH_SHORT).show();
                                     Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
                                 call1.enqueue(new Callback<Void>() {
                                     @Override
