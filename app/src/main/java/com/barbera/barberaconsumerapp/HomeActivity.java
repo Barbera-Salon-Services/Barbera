@@ -52,7 +52,8 @@ import retrofit2.Retrofit;
 public class HomeActivity extends AppCompatActivity implements InAppUpdateManager.InAppUpdateHandler{
 
     private RecyclerView menRecyclerView;
-    private GridAdapter gridAdapterMen,gridAdapterWomen,gridAdapterWed;
+    private GridAdapter gridAdapterMen,gridAdapterWomen;
+    private WeddingPackageAdapter gridAdapterWed;
     private RecyclerView womenRecyclerView;
     private InAppUpdateManager inAppUpdateManager;
     private RecyclerView weddingRecyclerView;
@@ -103,8 +104,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         LinearLayoutManager slidLlm=new LinearLayoutManager(this,RecyclerView.HORIZONTAL,true);
         sliderRecyclerView.setLayoutManager(slidLlm);
 
-        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"Wedding_Packages");
-        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        gridAdapterWed = new WeddingPackageAdapter(imgUrlWed, imgNameWed, this,"Wedding_Packages");
+        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         weddingRecyclerView.setLayoutManager(gridLayoutManager1);
 
         gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this,"Womens_Section");
@@ -357,6 +358,9 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                             imgUrlWed.add(imagebase+"Wedding_Packages"+item);
                         }
                         weddingRecyclerView.setAdapter(gridAdapterWed);
+                        LinearLayoutManager tabLlm=new LinearLayoutManager(getApplicationContext());
+                        tabLlm.setOrientation(RecyclerView.HORIZONTAL);
+                        weddingRecyclerView.setLayoutManager(tabLlm);
                     }
                     progressBar.dismiss();
 

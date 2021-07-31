@@ -202,23 +202,23 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.setCancelable(false);
                 Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
                 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-                Call<Void> call=jsonPlaceHolderApi21.cancelBooking();
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if(response.code()==200){
-                            sendEmailCancelationMail(position);
-                        }
-                        else{
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
+//                Call<Void> call=jsonPlaceHolderApi21.cancelBooking();
+//                call.enqueue(new Callback<Void>() {
+//                    @Override
+//                    public void onResponse(Call<Void> call, Response<Void> response) {
+//                        if(response.code()==200){
+//                            sendEmailCancelationMail(position);
+//                        }
+//                        else{
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Void> call, Throwable t) {
+//
+//                    }
+//                });
 
             });
             builder.setNegativeButton("NO", (dialog, which) -> {

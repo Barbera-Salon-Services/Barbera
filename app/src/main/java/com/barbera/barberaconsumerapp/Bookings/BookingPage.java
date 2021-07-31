@@ -250,7 +250,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                 }
 
                                 progressDialog.dismiss();
-                                sendemailconfirmation();
+//                                sendemailconfirmation();
                                 Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
                                 intent1.putExtra("Booking Amount", curAmount);
                                 intent1.putExtra("Order Summary", OrderSummary);
