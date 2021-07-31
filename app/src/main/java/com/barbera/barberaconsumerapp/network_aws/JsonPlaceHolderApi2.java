@@ -109,7 +109,8 @@ public interface JsonPlaceHolderApi2 {
     @GET("gettabs")
     Call<SliderList> getTabs();
 
-
+    @POST("bookcancel")
+    Call<Void> cancelBooking(@Body BookingModel bookingModel,@Header("Authorization") String token);
     //serviceId,barberId,slot,date
 
 }

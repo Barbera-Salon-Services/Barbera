@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.barbera.barberaconsumerapp.network_email.Emailer;
 import com.barbera.barberaconsumerapp.network_email.JsonPlaceHolderApi;
@@ -45,7 +46,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     private double lat,lon;
     private FragmentManager fragmentManager;
     private boolean men=false,women=false;
-    private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
+    private JsonPlaceHolderApi2 jsonPlaceHolderApi2,jsonPlaceHolderApi21;
 
     public BookingActivityAdapter(List<BookingModel> bookingAdapterList, Context context, FragmentManager fragmentManager) {
         this.bookingAdapterList = bookingAdapterList;
@@ -199,8 +200,26 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.setMessage("Hold On for a moment...");
                 progressDialog.show();
                 progressDialog.setCancelable(false);
-                //fetchRegion(position);
-                sendEmailCancelationMail(position);
+                Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
+                jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+                Call<Void> call=jsonPlaceHolderApi21.cancelBooking();
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.code()==200){
+                            sendEmailCancelationMail(position);
+                        }
+                        else{
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+
             });
             builder.setNegativeButton("NO", (dialog, which) -> {
 
