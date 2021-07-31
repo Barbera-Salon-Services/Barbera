@@ -14,12 +14,19 @@ public class ServiceIdList {
     private String slot;
     @SerializedName("totalprice")
     private int totalPrice;
+    @SerializedName("couponName")
+    private String couponName;
 
-    public ServiceIdList(List<CartItemModel> list, String id,String slot,int totalPrice) {
+    public ServiceIdList(List<CartItemModel> list, String id,String slot,int totalPrice,String couponName) {
         this.list = list;
         this.id = id;
         this.slot=slot;
         this.totalPrice=totalPrice;
+        this.couponName=couponName;
+    }
+
+    public String getCouponName() {
+        return couponName;
     }
 
     public int getTotalPrice() {

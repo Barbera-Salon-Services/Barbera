@@ -111,6 +111,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private TextView InstText;
     private String couponServiceId="";
     private int upper=-1,lower=-1,curAmount;
+    private String couponName="";
 
     @Override
     public void extractBool(Boolean selected) {
@@ -187,7 +188,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 userAddress = houseAddress.getText().toString();
                 // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
 
-                //sendemailconfirmation();
+
                 //addtoDatabase();
                 //addTosheet();
 //                    progressDialog.dismiss();
@@ -200,14 +201,14 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 progressDialog.setMessage("Loading");
                 progressDialog.setCancelable(true);
                 progressDialog.show();
-                Call<InstItem> call = jsonPlaceHolderApi21.bookSlot(new ServiceIdList(sidlist, null, null, curAmount), dat, array[1] + "", "Bearer " + token);
+                Call<InstItem> call = jsonPlaceHolderApi21.bookSlot(new ServiceIdList(sidlist, null, null, curAmount,couponName), dat, array[1] + "", "Bearer " + token);
                 call.enqueue(new Callback<InstItem>() {
                     @Override
                     public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
                         if (response.code() == 200) {
                             if (response.body().isSuccess()) {
                                 if (bookingType.equals("Cart")) {
-                                    Call<Void> call1 = jsonPlaceHolderApi21.deleteCart(new ServiceIdList(sidlist, null, null, 0), "Bearer " + token);
+                                    Call<Void> call1 = jsonPlaceHolderApi21.deleteCart(new ServiceIdList(sidlist, null, null, 0,couponName), "Bearer " + token);
                                     call1.enqueue(new Callback<Void>() {
                                         @Override
                                         public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -228,14 +229,15 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                     });
                                 }
                                 if(isBarberFound){
-                                    Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0),"Bearer "+token);
+                                    Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
                                 call1.enqueue(new Callback<Void>() {
                                     @Override
                                     public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
                                         if(response.code()==200){
                                             progressDialog.dismiss();
+                                            sendemailconfirmation();
                                             Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                            intent1.putExtra("Booking Amount", BookingTotalAmount);
+                                            intent1.putExtra("Booking Amount", curAmount);
                                             intent1.putExtra("Order Summary", OrderSummary);
                                             intent1.putExtra("date", dat);
                                             intent1.putExtra("slot", slot);
@@ -259,7 +261,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
                             } else {
                                 progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "This slot is booked", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "This slot has already been booked", Toast.LENGTH_LONG).show();
                             }
                         } else {
                             progressDialog.dismiss();
@@ -330,7 +332,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         Log.d("Order", OrderSummary + "  " + serviceTime);
         curAmount=BookingTotalAmount;
 
-        Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null,curAmount),"Bearer "+token);
+        Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null,curAmount,couponName),"Bearer "+token);
         call.enqueue(new Callback<InstItem>() {
             @Override
             public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
@@ -474,7 +476,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0),"Bearer "+token);
+                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
                         call1.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -507,7 +509,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0),"Bearer "+token);
+                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
                         call1.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -1218,6 +1220,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                             couponServiceId=item.getServiceId();
                             upper=item.getUpperLimit();
                             lower=item.getLowerLimit();
+                            couponName=couponcodeEditText.getText().toString();
                             Toast.makeText(getApplicationContext(),"Coupon applied!",Toast.LENGTH_LONG).show();
                             if(couponServiceId.equals("all")){
                                 for(CartItemModel model:sidlist){
