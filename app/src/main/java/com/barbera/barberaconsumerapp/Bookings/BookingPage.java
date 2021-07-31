@@ -230,20 +230,11 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                 }
                                 if(isBarberFound){
                                     Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
-                                call1.enqueue(new Callback<Void>() {
+                                    call1.enqueue(new Callback<Void>() {
                                     @Override
                                     public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
                                         if(response.code()==200){
-                                            progressDialog.dismiss();
-                                            sendemailconfirmation();
-                                            Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                            intent1.putExtra("Booking Amount", curAmount);
-                                            intent1.putExtra("Order Summary", OrderSummary);
-                                            intent1.putExtra("date", dat);
-                                            intent1.putExtra("slot", slot);
-                                            intent1.putExtra("sidlist", (Serializable) sidlist);
-                                            startActivity(intent1);
-                                            finish();
+
                                         }
                                         else{
                                             Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
@@ -258,6 +249,15 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                 }
 
                                 progressDialog.dismiss();
+                                sendemailconfirmation();
+                                Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                                intent1.putExtra("Booking Amount", curAmount);
+                                intent1.putExtra("Order Summary", OrderSummary);
+                                intent1.putExtra("date", dat);
+                                intent1.putExtra("slot", slot);
+                                intent1.putExtra("sidlist", (Serializable) sidlist);
+                                startActivity(intent1);
+                                finish();
 
                             } else {
                                 progressDialog.dismiss();
@@ -1182,7 +1182,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot13.setCardBackgroundColor(Color.BLACK);
                     array[1] = 17;
                 });
-                slot12.setOnClickListener(v -> {
+                slot13.setOnClickListener(v -> {
                     slot13.setCardBackgroundColor(Color.parseColor("#27AE60"));
                     slot2.setCardBackgroundColor(Color.BLACK);
                     slot3.setCardBackgroundColor(Color.BLACK);

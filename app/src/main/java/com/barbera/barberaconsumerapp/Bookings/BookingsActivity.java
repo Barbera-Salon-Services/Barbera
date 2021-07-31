@@ -70,7 +70,7 @@ public class BookingsActivity extends AppCompatActivity {
         newBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BookingsActivity.this, MainActivity.class));
+                startActivity(new Intent(BookingsActivity.this, HomeActivity.class));
                 finish();
             }
         });
