@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +81,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         holder.title.setText(serviceList.get(position).getName());
         holder.price.setText(amount);
         holder.cutPrice.setText(CutAmount);
+        holder.cutPrice.setPaintFlags(holder.cutPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         if(serviceList.get(position).getDetail()!=null){
             String x= serviceList.get(position).getDetail().replaceAll("/n","\n");
             holder.details.setText(x);
