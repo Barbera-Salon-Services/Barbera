@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -111,6 +112,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private String couponServiceId="";
     private int upper=-1,lower=-1,curAmount;
     private String couponName="";
+    private ImageView drop;
 
     @Override
     public void extractBool(Boolean selected) {
@@ -305,6 +307,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         Button couponApply = findViewById(R.id.booking_coupon_apply_button);
         isCouponApplied = false;
         BookingOrders = findViewById(R.id.booking_order_summary);
+        drop=findViewById(R.id.drop_down_arrow);
 
         male_slots = (LinearLayout) findViewById(R.id.dt);
 //        time_ll=findViewById(R.id.llt);
