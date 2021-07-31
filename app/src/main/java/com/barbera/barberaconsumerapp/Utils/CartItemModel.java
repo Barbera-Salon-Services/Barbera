@@ -14,6 +14,7 @@ public class CartItemModel implements Serializable {
     private int ServicePrice;   //price*quantity - discount
     @SerializedName("quantity")
     private int Quantity;
+    @SerializedName("type")
     private String type;
     @SerializedName("time")
     private int Time;
