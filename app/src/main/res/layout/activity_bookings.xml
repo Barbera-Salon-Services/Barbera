@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F9F1"
+    android:background="@color/CartBlack"
     tools:context=".MainActivity">
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -50,6 +50,7 @@
         android:id="@+id/BookingListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
             tools:listitem="@layout/new_booking_fragement"
         android:layout_below="@id/cardView"
         android:layout_above="@id/bottomNavigation"/>

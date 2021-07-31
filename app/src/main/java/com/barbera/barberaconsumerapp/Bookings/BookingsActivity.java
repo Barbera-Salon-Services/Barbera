@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.HomeActivity;
-import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
@@ -104,7 +103,6 @@ public class BookingsActivity extends AppCompatActivity {
             call.enqueue(new Callback<BookingList>() {
                 @Override
                 public void onResponse(Call<BookingList> call, Response<BookingList> response) {
-
                     if(response.code()==200){
                         BookingList bookingList=response.body();
                         List<BookingItem> list=bookingList.getList();
@@ -117,7 +115,7 @@ public class BookingsActivity extends AppCompatActivity {
                             //Log.d("List","IN");
                             int i = 0, amount = 0;
                             List<String> idList=new ArrayList<>();
-                            String summary = "", date = "", slot = "", timestamp = "",id="",status="",barberName="",barberPhone="";
+                            String summary = "", date = "", slot = "", timestamp = "",id="",status="",barberName="",barberPhone="",category="",type="";
                             double dist=0;
                             for (BookingItem item : list) {
                                 if (i == 0) {
@@ -136,7 +134,8 @@ public class BookingsActivity extends AppCompatActivity {
                                     barberName=item.getBarberItem().getName();
                                     barberPhone=item.getBarberItem().getPhone();
                                     dist=item.getBarberItem().getDistance();
-                                    //Log.d("id",idList.size()+"");
+                                    category=item.getService().getGender();
+                                    type=item.getService().getType();
                                     i++;
                                 } else {
                                     if (item.getTimestamp().equals(timestamp)) {
@@ -151,7 +150,7 @@ public class BookingsActivity extends AppCompatActivity {
                                         idList.add(item.getService().getId());
                                     } else {
                                         //Log.d("id",idList.size()+"");
-                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist));
+                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist,category,type));
                                         date = item.getDate();
                                         slot = item.getSlot();
                                         status=item.getStatus();
@@ -170,6 +169,8 @@ public class BookingsActivity extends AppCompatActivity {
                                         barberName=item.getBarberItem().getName();
                                         barberPhone=item.getBarberItem().getPhone();
                                         dist=item.getBarberItem().getDistance();
+                                        category=item.getService().getGender();
+                                        type=item.getService().getType();
                                     }
                                 }
                             }
@@ -177,7 +178,7 @@ public class BookingsActivity extends AppCompatActivity {
 //                            for(String s:idList){
 //                                Log.d("qw",s);
 //                            }
-                            bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist));
+                            bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist,category,type));
 //                            for (BookingModel item : bookingActivityList) {
 //                                Log.d("item", item.getDate() + " " + item.getTime());
 //                            }
@@ -213,7 +214,7 @@ public class BookingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
         overridePendingTransition(0,0);
         finish();
         super.onBackPressed();

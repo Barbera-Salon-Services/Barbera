@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.barbera.barberaconsumerapp.MainActivity;
+import com.barbera.barberaconsumerapp.HomeActivity;
 import com.barbera.barberaconsumerapp.R;
 
 public class ContactUsActivity extends AppCompatActivity {
@@ -97,7 +97,7 @@ public class ContactUsActivity extends AppCompatActivity {
         contactUsLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 finish();
             }
         });

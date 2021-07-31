@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.barbera.barberaconsumerapp.network_email.Emailer;
 import com.barbera.barberaconsumerapp.network_email.JsonPlaceHolderApi;
 import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -72,7 +75,10 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         holder.serviceSummary.setText(bookingModel.getSummary());
         holder.totalAmount.setText("Total Amount Rs "+bookingModel.getAmount());
         holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime()+":00");
-
+        String a=bookingModel.getCategory().replaceAll(" ","_");
+        String b=bookingModel.getType().replaceAll(" ","_");
+        Glide.with(context).load("https://barbera-image.s3.ap-south-1.amazonaws.com/"+a+b)
+                .apply(new RequestOptions().placeholder(R.drawable.logo)).into(holder.img);
         //extractNameAndContact(holder);
 
         if(bookingModel.getStatus().equals("done")){
@@ -202,7 +208,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.setCancelable(false);
                 Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
                 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-                Call<Void> call=jsonPlaceHolderApi2.cancelBooking(new BookingModel(null,0,bookingModel.getDate(),bookingModel.getTime(),bookingModel.getBarberId(),bookingModel.getServiceIdList(),null,null,null,0),"Bearer "+token);
+
+                Call<Void> call=jsonPlaceHolderApi2.cancelBooking(new BookingModel(null,0,bookingModel.getDate(),bookingModel.getTime(),bookingModel.getBarberId(),bookingModel.getServiceIdList(),null,null,null,0,null,null),"Bearer "+token);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -224,7 +231,6 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                         Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
-
             });
             builder.setNegativeButton("NO", (dialog, which) -> {
 
@@ -270,6 +276,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         private TextView barber;
         private final TextView status;
         private final TextView otp;
+        private ImageView img;
         public BookingItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -282,6 +289,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             status =itemView.findViewById(R.id.status);
             barber = itemView.findViewById(R.id.barberDetails);
             otp = itemView.findViewById(R.id.otp);
+            img=itemView.findViewById(R.id.bookingImg);
         }
     }
 
