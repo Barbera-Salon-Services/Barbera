@@ -114,9 +114,11 @@ public class BookingsActivity extends AppCompatActivity {
                             progressBarONBookingActivity.setVisibility(View.INVISIBLE);
                         }
                         else {
-                            Log.d("List","IN");
+                            //Log.d("List","IN");
                             int i = 0, amount = 0;
-                            String summary = "", date = "", slot = "", timestamp = "";
+                            List<String> idList=new ArrayList<>();
+                            String summary = "", date = "", slot = "", timestamp = "",id="",status="",barberName="",barberPhone="";
+                            double dist=0;
                             for (BookingItem item : list) {
                                 if (i == 0) {
                                     date = item.getDate();
@@ -128,7 +130,13 @@ public class BookingsActivity extends AppCompatActivity {
                                     summary += "(" + gender + ") " + name + "   Rs: " + price + "  ("+quantity+")"+"\n";
                                     amount += (item.getQuantity()*item.getService().getPrice());
                                     timestamp += item.getTimestamp();
-                                    //Log.d("timestamp",timestamp);
+                                    id=item.getBarberItem().getBarberid();
+                                    idList.add(item.getServiceId());
+                                    status=item.getStatus();
+                                    barberName=item.getBarberItem().getName();
+                                    barberPhone=item.getBarberItem().getPhone();
+                                    dist=item.getBarberItem().getDistance();
+                                    //Log.d("id",idList.size()+"");
                                     i++;
                                 } else {
                                     if (item.getTimestamp().equals(timestamp)) {
@@ -140,11 +148,14 @@ public class BookingsActivity extends AppCompatActivity {
                                         amount += (item.getQuantity()*item.getService().getPrice());
                                         date = item.getDate();
                                         slot = item.getSlot();
+                                        id=item.getBarberItem().getBarberid();
+                                        idList.add(item.getService().getId());
                                     } else {
-                                        //Log.d("timestamp",timestamp);
-                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot));
+                                        //Log.d("id",idList.size()+"");
+                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist));
                                         date = item.getDate();
                                         slot = item.getSlot();
+                                        status=item.getStatus();
                                         summary = "";
                                         String name = item.getService().getName();
                                         String gender = item.getService().getGender();
@@ -155,11 +166,20 @@ public class BookingsActivity extends AppCompatActivity {
                                         amount += (item.getQuantity()*item.getService().getPrice());
                                         timestamp = "";
                                         timestamp += item.getTimestamp();
+                                        id=item.getBarberItem().getBarberid();
+                                        idList=new ArrayList<>();
+                                        idList.add(item.getServiceId());
+                                        barberName=item.getBarberItem().getName();
+                                        barberPhone=item.getBarberItem().getPhone();
+                                        dist=item.getBarberItem().getDistance();
                                     }
                                 }
                             }
-                            //Log.d("last", summary + " " + amount + " " + date + " " + slot);
-                            bookingActivityList.add(new BookingModel(summary, amount, date, slot));
+                            //Log.d("last", idList.size()+"");
+//                            for(String s:idList){
+//                                Log.d("qw",s);
+//                            }
+                            bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist));
 //                            for (BookingModel item : bookingActivityList) {
 //                                Log.d("item", item.getDate() + " " + item.getTime());
 //                            }

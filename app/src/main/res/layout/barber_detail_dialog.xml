@@ -22,6 +22,17 @@
 				android:textSize="20sp"
 				app:layout_constraintStart_toStartOf="parent"
 				tools:ignore="MissingConstraints" />
+		<TextView
+			android:id="@+id/tdist"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="34dp"
+			android:text="Distance"
+			android:textColor="@color/colorPrimaryDark"
+			android:textSize="20sp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/tnam"
+			tools:ignore="MissingConstraints" />
 
 		<TextView
 				android:id="@+id/ph"
@@ -32,7 +43,7 @@
 				android:textColor="@color/colorPrimaryDark"
 				android:textSize="20sp"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tnam"
+				app:layout_constraintTop_toBottomOf="@+id/tdist"
 				tools:ignore="MissingConstraints" />
 
 		<ImageView

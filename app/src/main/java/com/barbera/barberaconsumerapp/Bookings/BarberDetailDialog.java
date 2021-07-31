@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Bookings;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,15 +19,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.barbera.barberaconsumerapp.R;
+
 public class BarberDetailDialog extends AppCompatDialogFragment {
 
-    public TextView yes, no;
+    public TextView yes, no,dist;
     private final String one;
     private final String two;
+    private final double three;
 
-    public BarberDetailDialog(String name, String phone) {
+    public BarberDetailDialog(String name, String phone,double distance) {
         this.one = name;
         this.two = phone;
+        this.three=distance;
     }
 
     @NonNull
@@ -40,6 +44,7 @@ public class BarberDetailDialog extends AppCompatDialogFragment {
         builder.setView(view).setTitle("Contact Info");
         yes = view.findViewById(R.id.tnam);
         no = view.findViewById(R.id.ph);
+        dist=view.findViewById(R.id.tdist);
         ImageView call = view.findViewById(R.id.callsss);
 
 //        Toast.makeText(getContext(),one+two+"dvs",Toast.LENGTH_SHORT).show();
@@ -48,6 +53,7 @@ public class BarberDetailDialog extends AppCompatDialogFragment {
 
         yes.setText("Name: " +one);
         no.setText("Call:  "+two);
+        dist.setText("Distance: "+three);
 
         call.setOnClickListener(v -> {
             startActivity(intent);

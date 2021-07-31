@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.barbera.barberaconsumerapp.HomeActivity;
 import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
 
@@ -35,7 +36,7 @@ public class CongratulationsPage extends AppCompatActivity {
         backtohome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CongratulationsPage.this, MainActivity.class));
+                startActivity(new Intent(CongratulationsPage.this, HomeActivity.class));
                 finish();
             }
         });
@@ -44,7 +45,7 @@ public class CongratulationsPage extends AppCompatActivity {
     }
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
         overridePendingTransition(0,0);
         finish();
     }

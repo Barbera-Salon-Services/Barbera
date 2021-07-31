@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -40,6 +41,12 @@ public class OfferViewPagerAdapter extends PagerAdapter {
         ImageView imageView = itemView.findViewById(R.id.OfferImageView);
         imageView.setImageResource(Offer_images[position]);
         Objects.requireNonNull(container).addView(itemView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"click listner on slider is working",Toast.LENGTH_SHORT);
+            }
+        });
         return itemView;
     }
 

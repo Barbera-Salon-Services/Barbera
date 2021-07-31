@@ -25,6 +25,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -192,7 +194,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 startActivity(new Intent(getApplicationContext(),HomeActivity.class));
             }
         });
+
     }
+
 
     private void verifyUser() {
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();

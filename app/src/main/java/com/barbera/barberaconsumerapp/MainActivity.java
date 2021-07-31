@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements InAppUpdateManage
     public MenHorizontalAdapter womenadapter;
     public RecyclerView WoMenTrendRecyclerView;
     private LinearLayoutManager womenlayoutManager;
-    private ImageView weddingSection;
+    private ImageView weddingSection,img;
     private ImageView off;
     private static TextView NumberOnCartMain;
     private CardView Light;
