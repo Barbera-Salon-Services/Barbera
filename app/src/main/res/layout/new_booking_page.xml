@@ -32,1191 +32,1323 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/booking_confirm_booking"
+        android:layout_above="@id/confirm_booking_card"
         android:layout_below="@id/cardView">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:background="@color/cardBkg"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/CartBlack">
 
-            <TextView
-                android:id="@+id/orders_text_in_booking_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Orders"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="24sp"/>
-
-            <TextView
-                android:id="@+id/booking_order_summary"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/order_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/orders_text_in_booking_page"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                tools:text="(Men) Hair Cut Rs 240\n\n(Men) Shaving Rs 260" />
+                android:layout_margin="10dp"
+                android:background="@color/CartBlack"
+                app:cardCornerRadius="10dp">
 
-            <RelativeLayout
-                android:id="@+id/dispose"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/booking_order_summary"
-                android:visibility="gone">
-
-                <CheckBox
-                    android:id="@+id/apron"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/apron"
                     android:paddingTop="5dp"
-                    android:text="Add Disposable Apron(Rs.10 each)"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:paddingBottom="5dp"
+                    android:background="@color/cardBkg">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/apron"
-                    android:layout_marginStart="20dp"
-                    android:text=" Or Use Regular Apron for Free"
-                    android:textColor="@color/white" />
+                    <TextView
+                        android:id="@+id/orders_text_in_booking_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="Orders"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/booking_order_summary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/orders_text_in_booking_page"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        tools:text="(Men) Hair Cut Rs 240\n\n(Men) Shaving Rs 260" />
 
-            <TextView
-                android:id="@+id/booking_total_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/dispose"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="Total Amount Rs 240" />
+                    <RelativeLayout
+                        android:id="@+id/dispose"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/booking_order_summary"
+                        android:visibility="gone">
 
-            <View
-                android:id="@+id/lineInBooking"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_below="@id/booking_total_amount"
-                android:layout_margin="5dp"
-                android:background="#80B3B0B0" />
+                        <CheckBox
+                            android:id="@+id/apron"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp" />
 
-            <EditText
-                android:id="@+id/booking_edit_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/lineInBooking"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@id/booking_choose_address"
-                android:hint="Enter Your Address"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/apron"
+                            android:paddingTop="5dp"
+                            android:text="Add Disposable Apron(Rs.10 each)"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/apron"
+                            android:layout_marginStart="20dp"
+                            android:text=" Or Use Regular Apron for Free"
+                            android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/booking_choose_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/lineInBooking"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:text="Change"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                    </RelativeLayout>
 
-            <View
-                android:id="@+id/address_line"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_below="@id/booking_edit_address"
-                android:layout_margin="5dp"
-                android:background="#80B3B0B0" />
-
-
-            <RelativeLayout
-                android:id="@+id/ll_discount_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/address_line"
-                android:layout_marginStart="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/disc_perc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/discount_perc" />
-
-                <TextView
-                    android:id="@+id/text_disc_coupons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
-                    android:textSize="14sp"
-                    android:layout_toLeftOf="@id/drop_down_arrow"
-                    android:layout_toRightOf="@id/disc_perc"
-                    android:text="Discount Coupons"
-                    android:textColor="@color/white" />
-
-                <ImageView
-                    android:id="@+id/drop_down_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="50dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_down" />
-
-            </RelativeLayout>
-
-            <EditText
-                android:id="@+id/booking_couponCode_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ll_discount_code"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="30dp"
-                android:layout_toLeftOf="@id/booking_coupon_apply_button"
-                android:ems="10"
-                android:textSize="14sp"
-                android:hint="Enter Coupon Code"
-                android:inputType="textCapCharacters"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white" />
-
-            <Button
-                android:id="@+id/booking_coupon_apply_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ll_discount_code"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:background="#21272525"
-                android:elevation="10dp"
-                android:text="apply"
-                android:textColor="@color/white" />
-
-            <View
-                android:id="@+id/coupoun_line"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_below="@id/booking_coupon_apply_button"
-                android:layout_margin="5dp"
-                android:background="#80B3B0B0" />
+                    <TextView
+                        android:id="@+id/booking_total_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/dispose"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="Total Amount Rs 240" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
 
-
-            <RelativeLayout
-                android:id="@+id/min_time_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:layout_below="@id/coupoun_line">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/clock_vector"
-                    android:id="@+id/clock"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Minimum time avialability"
-                    android:paddingStart="10dp"
-                    android:textAlignment="center"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:layout_toRightOf="@id/clock"/>
-
-            </RelativeLayout>
+            <!--            <View-->
+            <!--                android:id="@+id/lineInBooking"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="5dp"-->
+            <!--                android:layout_below="@id/order_section"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:background="#80B3B0B0" />-->
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/viscoup"
+                android:id="@+id/address_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/min_time_rl"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/white"
-                android:padding="2dp"
-                android:visibility="invisible"
+                android:layout_below="@id/order_section"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/CartBlack"
                 app:cardCornerRadius="10dp">
 
-                <ImageView
-                    android:id="@+id/coupon"
-                    android:layout_width="30sp"
-                    android:layout_height="30dp"
-                    android:layout_margin="8dp"
-                    android:src="@drawable/green"
-                    android:visibility="gone" />
+                <RelativeLayout
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/cardBkg">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="12dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Coupon Applied"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    <EditText
+                        android:id="@+id/booking_edit_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toStartOf="@id/booking_choose_address"
+                        android:hint="Enter Your Address"
+                        android:textColor="@color/white"
+                        android:background="@color/cardBkg"
+                        android:textColorHint="@color/white" />
+
+
+                    <TextView
+                        android:id="@+id/booking_choose_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:text="Change"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/line_coupon_text"
+
+            <!--            <View-->
+            <!--                android:id="@+id/address_line"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="5dp"-->
+            <!--                android:layout_below="@id/address_section"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:background="#80B3B0B0" />-->
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/coupon_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/viscoup"
-                android:layout_marginStart="19dp"
-                android:layout_marginTop="8dp"
-                android:maxLines="5"
-                android:text="T/c : 1. Minimum amount should be Rs.70 to avail \n              this coupon. \n          2. FLat Rs.50 off on amount above Rs.100. \n          3. This offer is valid for limited customers "
-                android:textColor="@color/white"
-                android:visibility="gone" />
+                android:layout_below="@id/address_section"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/CartBlack"
+                app:cardCornerRadius="10dp">
 
-            <LinearLayout
-                android:id="@+id/selection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/line_coupon_text"
-                android:layout_margin="15dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/daytoday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="DaytoDay"
-                    android:textColor="@color/white"
-                    android:textSize="23sp" />
-
-                <TextView
-                    android:id="@+id/weekly"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Weekly"
-                    android:textColor="@color/white"
-                    android:textSize="23sp" />
-
-                <TextView
-                    android:id="@+id/monthly"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Monthly"
-                    android:textColor="@color/white"
-                    android:textSize="23sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inst_book"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/selection"
-                android:layout_margin="15dp"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/inst_book_text"
+                <RelativeLayout
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nearest barber is 20 min away"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="3dp"
-                    android:textSize="14dp" />
+                    android:background="@color/cardBkg">
 
-                <Button
-                    android:id="@+id/book_inst"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Book now"
-                    android:background="@color/cardBkg"
-                    android:elevation="10dp"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+                    <RelativeLayout
+                        android:id="@+id/ll_discount_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:orientation="horizontal">
 
-            <View
-                android:id="@+id/instant_line"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_below="@id/inst_book"
-                android:layout_margin="5dp"
-                android:background="#80B3B0B0" />
-            <TextView
+                        <ImageView
+                            android:id="@+id/disc_perc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/discount_perc" />
+
+                        <TextView
+                            android:id="@+id/text_disc_coupons"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_toLeftOf="@id/drop_down_arrow"
+                            android:layout_toRightOf="@id/disc_perc"
+                            android:text="Discount Coupons"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/drop_down_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="50dp"
+                            android:src="@drawable/ic_down" />
+
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/booking_couponCode_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ll_discount_code"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_toLeftOf="@id/booking_coupon_apply_button"
+                        android:ems="10"
+                        android:hint="Enter Coupon Code"
+                        android:inputType="textCapCharacters"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/booking_coupon_apply_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ll_discount_code"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:background="#21272525"
+                        android:elevation="10dp"
+                        android:text="apply"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!--            <View-->
+            <!--                android:id="@+id/coupoun_line"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="5dp"-->
+            <!--                android:layout_below="@id/coupon_section"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:background="#80B3B0B0" />-->
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/nearest_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="OR"
-                android:id="@+id/OR"
-                android:layout_below="@+id/instant_line"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="15dp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/OR"
-                android:id="@+id/book_a_slot"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:layout_margin="10dp"
-                    android:textSize="20sp"
-                    android:text="Book a slot"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_down"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/slot_booking"/>
-            </LinearLayout>
+                android:layout_below="@id/coupon_section"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/CartBlack"
+                app:cardCornerRadius="10dp">
 
-
-            <RelativeLayout
-                android:id="@+id/Calender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/book_a_slot">
-
-                <TextView
-                    android:id="@+id/dat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:text="Select Date"
-                    android:paddingTop="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/mon"
+                <RelativeLayout
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/dat"
-                    android:gravity="center"
-                    android:text="Month"
-                    android:textColor="@color/white"
-                    android:textSize="16dp" />
+                    android:background="@color/cardBkg">
 
-                <LinearLayout
-                    android:id="@+id/select"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/dat"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:id="@+id/min_time_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp">
+
+                        <ImageView
+                            android:id="@+id/clock"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/clock_vector"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/clock"
+                            android:paddingStart="10dp"
+                            android:text="Minimum time avialability"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/viscoup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/min_time_rl"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:backgroundTint="@color/white"
+                        android:padding="2dp"
+                        android:visibility="invisible"
+                        app:cardCornerRadius="10dp">
+
+                        <ImageView
+                            android:id="@+id/coupon"
+                            android:layout_width="30sp"
+                            android:layout_height="30dp"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/green"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="12dp"
+                            android:layout_marginLeft="40dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Coupon Applied"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
-                        android:id="@+id/day1"
-                        android:layout_width="24dp"
+                        android:id="@+id/line_coupon_text"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="1"
-                        android:background="@color/white"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="18dp" />
+                        android:layout_below="@id/viscoup"
+                        android:layout_marginStart="19dp"
+                        android:layout_marginTop="8dp"
+                        android:maxLines="5"
+                        android:text="T/c : 1. Minimum amount should be Rs.70 to avail \n              this coupon. \n          2. FLat Rs.50 off on amount above Rs.100. \n          3. This offer is valid for limited customers "
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/day2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:background="@color/white"
-                        android:textColor="@color/colorAccent"
-                        android:text="2"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/day3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:background="@color/white"
-                        android:textColor="@color/colorAccent"
-                        android:text="3"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/day4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="4"
-                        android:background="@color/white"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/day5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="5"
-                        android:background="@color/white"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/day6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="6"
-                        android:background="@color/white"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/day7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="7"
-                        android:background="@color/white"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="18dp" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/line"
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:layout_below="@id/select"
-                    android:layout_margin="5dp"
-                    android:background="#80B3B0B0" />
-
-                <TextView
-                    android:id="@+id/tim"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/line"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="12dp"
-                    android:text="Select Time Slot"
-                    android:textColor="@color/white"
-                    android:textSize="23sp" />
-
-                <LinearLayout
-                    android:id="@+id/dt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tim"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
                     <LinearLayout
-                        android:id="@+id/ll"
-                        android:layout_width="0dp"
+                        android:id="@+id/selection"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_below="@+id/tim"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:visibility="visible">
+                        android:layout_below="@+id/line_coupon_text"
+                        android:layout_margin="15dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot1"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/daytoday"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
+                            android:layout_weight="1"
+                            android:text="DaytoDay"
+                            android:textColor="@color/white"
+                            android:textSize="23sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="6:00AM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot2"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/weekly"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
+                            android:layout_weight="1"
+                            android:text="Weekly"
+                            android:textColor="@color/white"
+                            android:textSize="23sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="7:00AM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot3"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/monthly"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
+                            android:layout_weight="1"
+                            android:text="Monthly"
+                            android:textColor="@color/white"
+                            android:textSize="23sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="8:00AM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="9:00AM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot5"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="10:00AM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="11:00AM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot7"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="12:00PM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
+
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:id="@+id/inst_book"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="8dp"
+                        android:layout_below="@+id/selection"
+                        android:layout_margin="15dp"
                         android:orientation="vertical">
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot8"
+
+
+                        <TextView
+                            android:id="@+id/inst_book_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
+                            android:layout_marginTop="3dp"
+                            android:text="Nearest barber is 20 min away"
+                            android:textColor="@color/white"
+                            android:textSize="14dp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="1:00PM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot9"
-                            android:layout_width="match_parent"
+                        <Button
+                            android:id="@+id/book_inst"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="2:00PM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="3:00PM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot11"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="4:00PM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot12"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="5:00PM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/slot13"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            app:cardBackgroundColor="@color/colorAccent"
-                            app:cardCornerRadius="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:text="6:00PM"
-                                android:textColor="@color/white" />
-                        </androidx.cardview.widget.CardView>
+                            android:layout_gravity="center"
+                            android:background="@color/cardBkg"
+                            android:elevation="10dp"
+                            android:text="Book now"
+                            android:textColor="@color/white" />
                     </LinearLayout>
-                </LinearLayout>
-                <!--					<LinearLayout-->
-                <!--						android:id="@+id/llt"-->
-                <!--						android:layout_width="0dp"-->
-                <!--						android:layout_height="wrap_content"-->
-                <!--						android:layout_weight="1"-->
-                <!--						android:orientation="vertical"-->
-                <!--						android:padding="8dp"-->
-                <!--						android:visibility="gone">-->
-                <!--						<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/t6"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_margin="10dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
-
-                <!--							<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="0min"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--						</androidx.cardview.widget.CardView>-->
-
-                <!--						<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/t1"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_margin="10dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
-
-                <!--							<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="10min"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--						</androidx.cardview.widget.CardView>-->
-                <!--						<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/t2"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_margin="10dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
-
-                <!--							<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="20min"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--						</androidx.cardview.widget.CardView>-->
-                <!--							<androidx.cardview.widget.CardView-->
-                <!--								android:id="@+id/t3"-->
-                <!--								android:layout_width="match_parent"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_margin="10dp"-->
-                <!--								app:cardBackgroundColor="@color/colorAccent"-->
-                <!--								app:cardCornerRadius="8dp">-->
-
-                <!--								<TextView-->
-                <!--									android:layout_width="wrap_content"-->
-                <!--									android:layout_height="wrap_content"-->
-                <!--									android:layout_gravity="center"-->
-                <!--									android:padding="8dp"-->
-                <!--									android:text="30min"-->
-                <!--									android:textColor="@color/white" />-->
-                <!--							</androidx.cardview.widget.CardView>-->
-                <!--							<androidx.cardview.widget.CardView-->
-                <!--								android:id="@+id/t4"-->
-                <!--								android:layout_width="match_parent"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_margin="10dp"-->
-                <!--								app:cardBackgroundColor="@color/colorAccent"-->
-                <!--								app:cardCornerRadius="8dp">-->
-
-                <!--								<TextView-->
-                <!--									android:layout_width="wrap_content"-->
-                <!--									android:layout_height="wrap_content"-->
-                <!--									android:layout_gravity="center"-->
-                <!--									android:padding="8dp"-->
-                <!--									android:text="40min"-->
-                <!--									android:textColor="@color/white" />-->
-                <!--							</androidx.cardview.widget.CardView>-->
-                <!--							<androidx.cardview.widget.CardView-->
-                <!--								android:id="@+id/t5"-->
-                <!--								android:layout_width="match_parent"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_margin="10dp"-->
-                <!--								app:cardBackgroundColor="@color/colorAccent"-->
-                <!--								app:cardCornerRadius="8dp">-->
-
-                <!--								<TextView-->
-                <!--									android:layout_width="wrap_content"-->
-                <!--									android:layout_height="wrap_content"-->
-                <!--									android:layout_gravity="center"-->
-                <!--									android:padding="8dp"-->
-                <!--									android:text="50min"-->
-                <!--									android:textColor="@color/white" />-->
-                <!--							</androidx.cardview.widget.CardView>-->
 
 
-                <!--					</LinearLayout>-->
-
-                <!--				</LinearLayout>-->
-
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
 
-                <!--				<LinearLayout-->
-                <!--						android:id="@+id/ll2"-->
-                <!--						android:layout_width="match_parent"-->
-                <!--						android:layout_height="wrap_content"-->
-                <!--						android:layout_below="@id/tim"-->
-                <!--						android:orientation="vertical"-->
-                <!--						android:padding="8dp"-->
-                <!--						android:visibility="gone">-->
+            <!--            <View-->
+            <!--                android:id="@+id/instant_line"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="5dp"-->
+            <!--                android:layout_below="@id/nearest_section"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:background="#80B3B0B0" />-->
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot1_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+            <TextView
+                android:id="@+id/OR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nearest_section"
+                android:gravity="center"
+                android:text="OR"
+                android:layout_margin="5dp"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="9:00AM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot2_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/slot_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/OR"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/CartBlack"
+                app:cardCornerRadius="10dp">
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="10:00AM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/cardBkg">
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot3_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                    <LinearLayout
+                        android:id="@+id/book_a_slot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="11:00AM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Book a slot"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot4_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                        <ImageView
+                            android:id="@+id/slot_booking"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_down" />
+                    </LinearLayout>
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="12:00PM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot5_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                    <RelativeLayout
+                        android:id="@+id/Calender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/book_a_slot">
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="1:00PM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                        <TextView
+                            android:id="@+id/dat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="10dp"
+                            android:text="Select Date"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot6_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                        <TextView
+                            android:id="@+id/mon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/dat"
+                            android:gravity="center"
+                            android:text="Month"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="2:00PM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                        <LinearLayout
+                            android:id="@+id/select"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/dat"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot7_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                            <TextView
+                                android:id="@+id/day1"
+                                android:layout_width="24dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="1"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="18dp" />
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="3:00PM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                            <TextView
+                                android:id="@+id/day2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="2"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="18dp" />
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot8_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                            <TextView
+                                android:id="@+id/day3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="3"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="18dp" />
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="4:00PM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                            <TextView
+                                android:id="@+id/day4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="4"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="18dp" />
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot9_f"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                            <TextView
+                                android:id="@+id/day5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="18dp" />
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="5:00PM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
-                <!--				</LinearLayout>-->
+                            <TextView
+                                android:id="@+id/day6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="6"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="18dp" />
 
-                <!--				<LinearLayout-->
-                <!--						android:id="@+id/ll3"-->
-                <!--						android:layout_width="match_parent"-->
-                <!--						android:layout_height="wrap_content"-->
-                <!--						android:layout_below="@id/tim"-->
-                <!--						android:orientation="vertical"-->
-                <!--						android:padding="8dp"-->
-                <!--						android:visibility="gone">-->
+                            <TextView
+                                android:id="@+id/day7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="7"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="18dp" />
+                        </LinearLayout>
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot1_mf"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+<!--                        <View-->
+<!--                            android:id="@+id/line"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="5dp"-->
+<!--                            android:layout_below="@id/select"-->
+<!--                            android:layout_margin="5dp"-->
+<!--                            android:background="#80B3B0B0" />-->
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="9:00AM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                        <TextView
+                            android:id="@+id/tim"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/select"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="12dp"
+                            android:text="Select Time Slot"
+                            android:textColor="@color/white"
+                            android:textSize="23sp" />
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot2_mf"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                        <LinearLayout
+                            android:id="@+id/dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tim"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="10:00AM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                            <LinearLayout
+                                android:id="@+id/ll"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tim"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:padding="8dp"
+                                android:visibility="visible">
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot3_mf"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="11:00AM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:textSize="12sp"
+                                        android:text="6:00 AM - 7:00 AM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot4_mf"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="12:00AM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textSize="12sp"
+                                        android:padding="8dp"
+                                        android:text="7:00 AM - 8:00 AM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot5_mf"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="4:00PM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textSize="12sp"
+                                        android:padding="8dp"
+                                        android:text="8:00 AM - 9:00 AM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
 
-                <!--					<androidx.cardview.widget.CardView-->
-                <!--							android:id="@+id/slot6_mf"-->
-                <!--							android:layout_width="match_parent"-->
-                <!--							android:layout_height="wrap_content"-->
-                <!--							android:layout_marginStart="90dp"-->
-                <!--							android:layout_marginTop="10dp"-->
-                <!--							android:layout_marginEnd="90dp"-->
-                <!--							app:cardBackgroundColor="@color/colorAccent"-->
-                <!--							app:cardCornerRadius="8dp">-->
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
 
-                <!--						<TextView-->
-                <!--								android:layout_width="wrap_content"-->
-                <!--								android:layout_height="wrap_content"-->
-                <!--								android:layout_gravity="center"-->
-                <!--								android:padding="8dp"-->
-                <!--								android:text="5:00PM"-->
-                <!--								android:textColor="@color/white" />-->
-                <!--					</androidx.cardview.widget.CardView>-->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:textSize="12sp"
+                                        android:text="9:00 AM - 10:00 AM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
 
-                <!--				</LinearLayout>-->
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot5"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
 
-            </RelativeLayout>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:textSize="12sp"
+                                        android:text="10:00 AM - 11:00 AM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
 
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:textSize="12sp"
+                                        android:text="11:00 AM - 12:00 PM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot7"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:textSize="12sp"
+                                        android:text="12:00 PM - 1:00 PM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:padding="8dp">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot8"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:textSize="12sp"
+                                        android:text="1:00 PM - 2:00 PM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
+
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot9"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textSize="12sp"
+                                        android:padding="8dp"
+                                        android:text="2:00 PM - 3:00 PM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot10"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textSize="12sp"
+                                        android:padding="8dp"
+                                        android:text="3:00 PM - 4:00 PM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot11"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:text="4:00 PM - 5:00 PM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot12"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:textSize="12sp"
+                                        android:text="5:00 PM - 6:00 PM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/slot13"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    app:cardBackgroundColor="@color/colorAccent"
+                                    app:cardCornerRadius="8dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:textSize="12sp"
+                                        android:text="6:00 PM - 7:00 PM"
+                                        android:textColor="@color/white" />
+                                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <!--					<LinearLayout-->
+            <!--						android:id="@+id/llt"-->
+            <!--						android:layout_width="0dp"-->
+            <!--						android:layout_height="wrap_content"-->
+            <!--						android:layout_weight="1"-->
+            <!--						android:orientation="vertical"-->
+            <!--						android:padding="8dp"-->
+            <!--						android:visibility="gone">-->
+            <!--						<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/t6"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_margin="10dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--							<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="0min"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--						</androidx.cardview.widget.CardView>-->
+
+            <!--						<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/t1"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_margin="10dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--							<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="10min"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--						</androidx.cardview.widget.CardView>-->
+            <!--						<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/t2"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_margin="10dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--							<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="20min"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--						</androidx.cardview.widget.CardView>-->
+            <!--							<androidx.cardview.widget.CardView-->
+            <!--								android:id="@+id/t3"-->
+            <!--								android:layout_width="match_parent"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_margin="10dp"-->
+            <!--								app:cardBackgroundColor="@color/colorAccent"-->
+            <!--								app:cardCornerRadius="8dp">-->
+
+            <!--								<TextView-->
+            <!--									android:layout_width="wrap_content"-->
+            <!--									android:layout_height="wrap_content"-->
+            <!--									android:layout_gravity="center"-->
+            <!--									android:padding="8dp"-->
+            <!--									android:text="30min"-->
+            <!--									android:textColor="@color/white" />-->
+            <!--							</androidx.cardview.widget.CardView>-->
+            <!--							<androidx.cardview.widget.CardView-->
+            <!--								android:id="@+id/t4"-->
+            <!--								android:layout_width="match_parent"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_margin="10dp"-->
+            <!--								app:cardBackgroundColor="@color/colorAccent"-->
+            <!--								app:cardCornerRadius="8dp">-->
+
+            <!--								<TextView-->
+            <!--									android:layout_width="wrap_content"-->
+            <!--									android:layout_height="wrap_content"-->
+            <!--									android:layout_gravity="center"-->
+            <!--									android:padding="8dp"-->
+            <!--									android:text="40min"-->
+            <!--									android:textColor="@color/white" />-->
+            <!--							</androidx.cardview.widget.CardView>-->
+            <!--							<androidx.cardview.widget.CardView-->
+            <!--								android:id="@+id/t5"-->
+            <!--								android:layout_width="match_parent"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_margin="10dp"-->
+            <!--								app:cardBackgroundColor="@color/colorAccent"-->
+            <!--								app:cardCornerRadius="8dp">-->
+
+            <!--								<TextView-->
+            <!--									android:layout_width="wrap_content"-->
+            <!--									android:layout_height="wrap_content"-->
+            <!--									android:layout_gravity="center"-->
+            <!--									android:padding="8dp"-->
+            <!--									android:text="50min"-->
+            <!--									android:textColor="@color/white" />-->
+            <!--							</androidx.cardview.widget.CardView>-->
+
+
+            <!--					</LinearLayout>-->
+
+            <!--				</LinearLayout>-->
+
+
+            <!--				<LinearLayout-->
+            <!--						android:id="@+id/ll2"-->
+            <!--						android:layout_width="match_parent"-->
+            <!--						android:layout_height="wrap_content"-->
+            <!--						android:layout_below="@id/tim"-->
+            <!--						android:orientation="vertical"-->
+            <!--						android:padding="8dp"-->
+            <!--						android:visibility="gone">-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot1_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="9:00AM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot2_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="10:00AM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot3_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="11:00AM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot4_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="12:00PM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot5_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="1:00PM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot6_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="2:00PM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot7_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="3:00PM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot8_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="4:00PM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot9_f"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="5:00PM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+            <!--				</LinearLayout>-->
+
+            <!--				<LinearLayout-->
+            <!--						android:id="@+id/ll3"-->
+            <!--						android:layout_width="match_parent"-->
+            <!--						android:layout_height="wrap_content"-->
+            <!--						android:layout_below="@id/tim"-->
+            <!--						android:orientation="vertical"-->
+            <!--						android:padding="8dp"-->
+            <!--						android:visibility="gone">-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot1_mf"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="9:00AM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot2_mf"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="10:00AM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot3_mf"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="11:00AM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot4_mf"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="12:00AM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot5_mf"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="4:00PM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--					<androidx.cardview.widget.CardView-->
+            <!--							android:id="@+id/slot6_mf"-->
+            <!--							android:layout_width="match_parent"-->
+            <!--							android:layout_height="wrap_content"-->
+            <!--							android:layout_marginStart="90dp"-->
+            <!--							android:layout_marginTop="10dp"-->
+            <!--							android:layout_marginEnd="90dp"-->
+            <!--							app:cardBackgroundColor="@color/colorAccent"-->
+            <!--							app:cardCornerRadius="8dp">-->
+
+            <!--						<TextView-->
+            <!--								android:layout_width="wrap_content"-->
+            <!--								android:layout_height="wrap_content"-->
+            <!--								android:layout_gravity="center"-->
+            <!--								android:padding="8dp"-->
+            <!--								android:text="5:00PM"-->
+            <!--								android:textColor="@color/white" />-->
+            <!--					</androidx.cardview.widget.CardView>-->
+
+            <!--				</LinearLayout>-->
 
         </RelativeLayout>
+
+
     </ScrollView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/confirm_booking_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/cardBkg"
+        android:background="@color/CartBlack"
+        app:cardCornerRadius="20dp">
 
     <Button
         android:id="@+id/booking_confirm_booking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
         android:background="@color/cardBkg"
         android:text="Confirm Booking"
         android:textColor="@color/white" />
+    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>
