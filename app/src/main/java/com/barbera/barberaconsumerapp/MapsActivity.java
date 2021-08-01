@@ -560,7 +560,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void sendToMainActivity() {
-        startActivity(new Intent(MapsActivity.this,MainActivity.class));
+        startActivity(new Intent(MapsActivity.this,HomeActivity.class));
     }
 
     @Override

@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -15,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.HomeActivity;
-import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.CartList;
@@ -91,13 +92,15 @@ public class CartActivity extends AppCompatActivity {
                     if(count!=0){
                         List<CartItemModel> list=cartList.getList();
                         for(CartItemModel itemModel:list) {
+                            //Log.d("yo",itemModel.getType());
                             dbQueries.cartItemModelList.add(new CartItemModel(null,itemModel.getServiceName(),itemModel.getServicePrice(),
-                                    itemModel.getType(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId(),false));
+                                    itemModel.getCategory(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId(),false,itemModel.getType()));
                             totalAmount+=(itemModel.getQuantity()*itemModel.getServicePrice());
                             quantity+=itemModel.getQuantity();
                         }
                         total_cart_amount.setText("Rs "+totalAmount);
                         total_cart_quantity.setText("(For "+quantity+" items)");
+
                         //HomeActivity.cartAdapter.notifyDataSetChanged();
                     }
                     if(dbQueries.cartItemModelList.size()==0){

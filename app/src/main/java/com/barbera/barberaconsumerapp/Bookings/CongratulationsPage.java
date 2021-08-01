@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.barbera.barberaconsumerapp.HomeActivity;
-import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
 
 public class CongratulationsPage extends AppCompatActivity {

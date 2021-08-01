@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.HomeActivity;
-import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -172,8 +171,6 @@ public class ProfileActivity extends AppCompatActivity {
 //                BookingsActivity.bookingActivityList.clear();
                 profile_name="";
                 BookingsActivity.checked=false;
-                MyCoupons.couponItemModelList.clear();
-                MyCoupons.couponsChecked=false;
                 //FirebaseAuth.getInstance().signOut();
                 SharedPreferences preferences =getSharedPreferences("Token",MODE_PRIVATE);
                 SharedPreferences.Editor editor=preferences.edit();
@@ -195,7 +192,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
         overridePendingTransition(0,0);
         finish();
         super.onBackPressed();

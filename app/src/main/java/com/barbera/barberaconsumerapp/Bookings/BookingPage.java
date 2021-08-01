@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,7 +32,6 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.barbera.barberaconsumerapp.ChangeLocation;
 import com.barbera.barberaconsumerapp.CheckTermDialog;
 import com.barbera.barberaconsumerapp.MapSearchActivity;
 import com.barbera.barberaconsumerapp.Profile.MyCoupons;
@@ -112,6 +112,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private String couponServiceId="";
     private int upper=-1,lower=-1,curAmount;
     private String couponName="";
+    private ImageView drop;
 
     @Override
     public void extractBool(Boolean selected) {
@@ -250,7 +251,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                 }
 
                                 progressDialog.dismiss();
-//                                sendemailconfirmation();
                                 Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
                                 intent1.putExtra("Booking Amount", curAmount);
                                 intent1.putExtra("Order Summary", OrderSummary);
@@ -307,6 +307,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         Button couponApply = findViewById(R.id.booking_coupon_apply_button);
         isCouponApplied = false;
         BookingOrders = findViewById(R.id.booking_order_summary);
+        drop=findViewById(R.id.drop_down_arrow);
 
         male_slots = (LinearLayout) findViewById(R.id.dt);
 //        time_ll=findViewById(R.id.llt);
@@ -1212,7 +1213,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
         couponApply.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(couponcodeEditText.getText())){
-                Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0,null,false),"Bearer "+token);
+                Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0,null,false,null),"Bearer "+token);
                 couponItemCall.enqueue(new Callback<CouponItem>() {
                     @Override
                     public void onResponse(Call<CouponItem> call, retrofit2.Response<CouponItem> response) {
@@ -1225,19 +1226,36 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                             Toast.makeText(getApplicationContext(),"Coupon applied!",Toast.LENGTH_LONG).show();
                             if(couponServiceId.equals("all")){
                                 for(CartItemModel model:sidlist){
-
+                                    if(upper!=-1){
                                         if(model.getServicePrice()<=upper && model.getServicePrice()>=lower) {
                                             curAmount = BookingTotalAmount - item.getDiscount();
+                                            break;
                                         }
+                                    }
+                                    else{
+                                        if(model.getServicePrice()>=lower) {
+                                            curAmount = BookingTotalAmount - item.getDiscount();
+                                            break;
+                                        }
+                                    }
                                 }
                             }
                             else{
                                 for(CartItemModel model:sidlist){
-                                if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
-                                    if(model.getServicePrice()<=upper && model.getServicePrice()>=lower){
-                                        curAmount=BookingTotalAmount-item.getDiscount();
+                                    if(upper!=-1){
+                                        if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
+                                            if(model.getServicePrice()<=upper && model.getServicePrice()>=lower){
+                                                curAmount=BookingTotalAmount-item.getDiscount();
+                                            }
+                                        }
                                     }
-                                }
+                                    else{
+                                        if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
+                                            if(model.getServicePrice()>=lower){
+                                                curAmount=BookingTotalAmount-item.getDiscount();
+                                            }
+                                        }
+                                    }
                                 }
                             }
 

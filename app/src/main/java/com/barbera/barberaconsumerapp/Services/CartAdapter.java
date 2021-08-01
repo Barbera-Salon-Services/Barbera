@@ -23,6 +23,8 @@ import com.barbera.barberaconsumerapp.dbQueries;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCart;
 import com.barbera.barberaconsumerapp.network_aws.SuccessReturn;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,15 +67,15 @@ public class CartAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+            String type=dbQueries.cartItemModelList.get(position).getType();
             String imageResource = dbQueries.cartItemModelList.get(position).getImageId();
             String title = dbQueries.cartItemModelList.get(position).getServiceName();
             int price = dbQueries.cartItemModelList.get(position).getServicePrice();
             int quantity = dbQueries.cartItemModelList.get(position).getQuantity();
-            String type = dbQueries.cartItemModelList.get(position).getType();
+            String category = dbQueries.cartItemModelList.get(position).getCategory();
             String id=dbQueries.cartItemModelList.get(position).getId();
 
-            ((CartItemViewHolder) holder).setServiceDetails(imageResource, title, price, quantity, type, position,id);
+            ((CartItemViewHolder) holder).setServiceDetails(category, title, price, quantity, type, position,id);
 
     }
 
@@ -103,14 +105,15 @@ public class CartAdapter extends RecyclerView.Adapter {
             decreaseIncart = (Button) itemView.findViewById(R.id.decreaseInCart);
         }
 
-        private void setServiceDetails(String resource, String Service, int amount, int Quantity, String Type, final int position,String id) {
+        private void setServiceDetails(String category, String Service, int amount, int Quantity, String Type, final int position,String id) {
             title.setText(Service);
             price.setText("@ Rs." + amount);
             quantity.setText(""+Quantity);
             type.setText(Type);
-            q = Quantity;
-//            Glide.with(itemView.getContext()).load(resource)
-//                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(logo);
+            String a= category.replaceAll(" ","_");
+            String type=Type.replaceAll(" ","_");
+            Glide.with(itemView.getContext()).load("https://barbera-image.s3.ap-south-1.amazonaws.com/"+a+type)
+                    .apply(new RequestOptions().placeholder(R.drawable.logo)).into(logo);
             //updateTotalAmount();
             Retrofit retrofit = RetrofitClientInstanceCart.getRetrofitInstance();
             JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
@@ -119,7 +122,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             increaseIncart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,true),"Bearer "+token);
+                    Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,true,null),"Bearer "+token);
                     call.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
@@ -179,7 +182,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                             }
                         });
                     } else {
-                        Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,false),"Bearer "+token);
+                        Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,false,null),"Bearer "+token);
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -215,7 +218,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                         int time=0,amount=0;
                         List<CartItemModel> list=new ArrayList<>();
                         for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
-                            list.add(new CartItemModel(null,null,dbQueries.cartItemModelList.get(i).getServicePrice(),null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false));
+                            list.add(new CartItemModel(null,null,dbQueries.cartItemModelList.get(i).getServicePrice(),null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false,null));
                             OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
                                     dbQueries.cartItemModelList.get(i).getServiceName()
                                     + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +
@@ -237,47 +240,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 }
             });
         }
-//
-//        private void updateQuantity(int position){
-//            if(dbQueries.cartItemModelList.get(position).getQuantity()==0)
-//                removeFromCart(position);
-//            else
-//            quantity.setText(""+dbQueries.cartItemModelList.get(position).getQuantity());
-//        }
-//
-//        private void removeFromCart(final int position){
-//            CartActivity.progressBarMyCart.setVisibility(View.VISIBLE);
-//            CartActivity.continueToBooking.setEnabled(false);
-//            dbQueries.cartList.remove(dbQueries.cartItemModelList.get(position).getIndex()-1);
-//            dbQueries.cartItemModelList.remove(dbQueries.cartItemModelList.get(position));
-//            Map<String,Object> updateCartData=new HashMap<>();
-//            for(int i=0;i<dbQueries.cartItemModelList.size();i++) {
-//                updateCartData.put("service_id_" + (i+1), dbQueries.cartItemModelList.get(i).getServiceId());
-//                updateCartData.put("service_id_"+(i+1)+"_type",dbQueries.cartItemModelList.get(i).getType());
-//            }
-//            updateCartData.put("cart_list_size",(long)dbQueries.cartList.size());
-//            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                    .collection("UserData").document("MyCart")
-//                    .set(updateCartData).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Void> task) {
-//                    if(task.isSuccessful()) {
-//                        Toast.makeText(itemView.getContext(), "Service Removed From Cart", Toast.LENGTH_SHORT).show();
-//                        CartActivity.progressBarMyCart.setVisibility(View.INVISIBLE);
-//                        CartActivity.continueToBooking.setEnabled(true);
-//
-//                    }
-//                    else {
-//                        Toast.makeText(itemView.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                        CartActivity.progressBarMyCart.setVisibility(View.INVISIBLE);
-//                        CartActivity.continueToBooking.setEnabled(true);
-//                    }
-//                }
-//            });
-//             CartActivity.updateCartItemModelList();
-//
-//        }
-//
+
         private void updateTotalAmount(){
             CartActivity.totalAmount=0;
             CartActivity.quantity=0;

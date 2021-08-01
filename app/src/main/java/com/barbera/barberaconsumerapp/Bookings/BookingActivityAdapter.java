@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
 import com.barbera.barberaconsumerapp.network_email.Emailer;
 import com.barbera.barberaconsumerapp.network_email.JsonPlaceHolderApi;
 import com.barbera.barberaconsumerapp.network_email.RetrofitClientInstance;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -46,14 +49,13 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
     private double lat,lon;
     private FragmentManager fragmentManager;
     private boolean men=false,women=false;
-    private JsonPlaceHolderApi2 jsonPlaceHolderApi2,jsonPlaceHolderApi21;
+    private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
 
     public BookingActivityAdapter(List<BookingModel> bookingAdapterList, Context context, FragmentManager fragmentManager) {
         this.bookingAdapterList = bookingAdapterList;
         this.context = context;
         this.fragmentManager = fragmentManager;
     }
-
 
 
     @NonNull
@@ -66,12 +68,17 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 
     @Override
     public void onBindViewHolder(@NonNull BookingActivityAdapter.BookingItemViewHolder holder, int position) {
+        SharedPreferences preferences = context.getSharedPreferences("Token",context.MODE_PRIVATE);
+        token = preferences.getString("token", "no");
         BookingModel bookingModel = bookingAdapterList.get(position);
         //Log.d("ds",bookingModel.getServiceIdList().size()+"");
         holder.serviceSummary.setText(bookingModel.getSummary());
         holder.totalAmount.setText("Total Amount Rs "+bookingModel.getAmount());
         holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime()+":00");
-
+        String a=bookingModel.getCategory().replaceAll(" ","_");
+        String b=bookingModel.getType().replaceAll(" ","_");
+        Glide.with(context).load("https://barbera-image.s3.ap-south-1.amazonaws.com/"+a+b)
+                .apply(new RequestOptions().placeholder(R.drawable.logo)).into(holder.img);
         //extractNameAndContact(holder);
 
         if(bookingModel.getStatus().equals("done")){
@@ -113,8 +120,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.setCancelable(false);
                 Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
                 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-                SharedPreferences preferences = context.getSharedPreferences("Token",context.MODE_PRIVATE);
-                token = preferences.getString("token", "no");
+
                 Call<Void> call=jsonPlaceHolderApi2.startOtp(new InstItem(bookingModel.getBarberId(),0,null,false,bookingModel.getServiceIdList()),"Bearer "+token);
                 call.enqueue(new Callback<Void>() {
                     @Override
@@ -202,24 +208,29 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.setCancelable(false);
                 Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
                 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-//                Call<Void> call=jsonPlaceHolderApi21.cancelBooking();
-//                call.enqueue(new Callback<Void>() {
-//                    @Override
-//                    public void onResponse(Call<Void> call, Response<Void> response) {
-//                        if(response.code()==200){
-//                            sendEmailCancelationMail(position);
-//                        }
-//                        else{
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<Void> call, Throwable t) {
-//
-//                    }
-//                });
 
+                Call<Void> call=jsonPlaceHolderApi2.cancelBooking(new BookingModel(null,0,bookingModel.getDate(),bookingModel.getTime(),bookingModel.getBarberId(),bookingModel.getServiceIdList(),null,null,null,0,null,null),"Bearer "+token);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.code()==200){
+                            bookingAdapterList.remove(position);
+                            BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
+                            progressDialog.dismiss();
+                            Toast.makeText(context,"Booking cancelled",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            progressDialog.dismiss();
+                            Toast.makeText(context,"Could not cancel booking",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Toast.makeText(context,t.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
             builder.setNegativeButton("NO", (dialog, which) -> {
 
@@ -265,6 +276,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         private TextView barber;
         private final TextView status;
         private final TextView otp;
+        private ImageView img;
         public BookingItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -277,6 +289,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             status =itemView.findViewById(R.id.status);
             barber = itemView.findViewById(R.id.barberDetails);
             otp = itemView.findViewById(R.id.otp);
+            img=itemView.findViewById(R.id.bookingImg);
         }
     }
 
@@ -596,29 +609,29 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 //        // calculate the result
 //        return(c * r);
 //    }
-    private void sendEmailCancelationMail(int position){
-        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
-        JsonPlaceHolderApi jsonPlaceholderApi =retrofit.create(JsonPlaceHolderApi.class);
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .get()
-                .addOnCompleteListener(task -> {
-                    String email = task.getResult().get("Email Address").toString();
-                    //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
-                    Emailer emailer = new Emailer(email,bookingAdapterList.get(position).getSummary(),bookingAdapterList.get(position).getTime()+"  "+
-                            bookingAdapterList.get(position).getDate(),bookingAdapterList.get(position).getAmount()+"");
-                    Call<Emailer> call = jsonPlaceholderApi.cancelEmail(emailer);
-                    call.enqueue(new Callback<Emailer>() {
-                        @Override
-                        public void onResponse(Call<Emailer> call, retrofit2.Response<Emailer> response) {
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<Emailer> call, Throwable t) {
-
-                        }
-                    });
-                });
-    }
+//    private void sendEmailCancelationMail(int position){
+//        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+//        JsonPlaceHolderApi jsonPlaceholderApi =retrofit.create(JsonPlaceHolderApi.class);
+//        FirebaseFirestore.getInstance().collection("Users")
+//                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                .get()
+//                .addOnCompleteListener(task -> {
+//                    String email = task.getResult().get("Email Address").toString();
+//                    //Toast.makeText(getApplicationContext(), email +"cds",Toast.LENGTH_SHORT).show();
+//                    Emailer emailer = new Emailer(email,bookingAdapterList.get(position).getSummary(),bookingAdapterList.get(position).getTime()+"  "+
+//                            bookingAdapterList.get(position).getDate(),bookingAdapterList.get(position).getAmount()+"");
+//                    Call<Emailer> call = jsonPlaceholderApi.cancelEmail(emailer);
+//                    call.enqueue(new Callback<Emailer>() {
+//                        @Override
+//                        public void onResponse(Call<Emailer> call, retrofit2.Response<Emailer> response) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Emailer> call, Throwable t) {
+//
+//                        }
+//                    });
+//                });
+//    }
 }

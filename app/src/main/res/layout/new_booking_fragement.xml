@@ -233,6 +233,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:id="@+id/bookingImg"
                     android:layout_weight="1"
                     android:background="@color/CartBlack"
                     android:scaleType="fitXY"
