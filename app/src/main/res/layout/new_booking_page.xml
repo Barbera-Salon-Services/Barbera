@@ -37,6 +37,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:background="@color/cardBkg"
             android:layout_height="match_parent">
 
             <TextView
@@ -209,7 +210,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:background="@color/colorAccent"
+                android:background="#21272525"
+                android:elevation="10dp"
                 android:text="apply"
                 android:textColor="@color/white" />
 
@@ -357,7 +359,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Book now"
-                    android:background="@color/CartBlack"
+                    android:background="@color/cardBkg"
+                    android:elevation="10dp"
                     android:textColor="@color/white" />
             </LinearLayout>
 
@@ -497,7 +500,7 @@
                     android:paddingLeft="20dp"
                     android:paddingTop="12dp"
                     android:text="Select Time Slot"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/white"
                     android:textSize="23sp" />
 
                 <LinearLayout
@@ -1174,7 +1177,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
-        android:background="@color/colorAccent"
+        android:background="@color/cardBkg"
         android:text="Confirm Booking"
         android:textColor="@color/white" />
 

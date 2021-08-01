@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/CartBlack"
+    android:background="@color/Transparent"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:background="@color/textBackground"
+        android:background="@color/cardBkg"
         android:orientation="horizontal">
 
         <TextView
@@ -26,7 +26,7 @@
         <ImageButton
             android:src="@drawable/ic_down"
             android:id="@+id/dropdown"
-            android:backgroundTint="@color/textBackground"
+            android:backgroundTint="@color/cardBkg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />

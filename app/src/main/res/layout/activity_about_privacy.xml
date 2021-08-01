@@ -43,7 +43,7 @@
         android:layout_below="@+id/user_privacy_name"
         android:layout_margin="10dp"
         android:padding="20dp"
-        app:cardBackgroundColor="@color/textBackground"
+        app:cardBackgroundColor="@color/cardBkg"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">

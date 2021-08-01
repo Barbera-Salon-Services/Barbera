@@ -2,16 +2,16 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_width="150dp"
+        android:layout_height="140dp"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        app:cardBackgroundColor="#80000000"
+        app:cardBackgroundColor="@color/cardBkg"
         app:cardCornerRadius="5dp"
         app:cardElevation="5dp">
 
@@ -20,14 +20,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/grid_img"
+                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@mipmap/ic_launcher"
+                app:shapeAppearanceOverlay="@style/roundEdges"/>
 
             <TextView
                 android:id="@+id/grid_img_text"

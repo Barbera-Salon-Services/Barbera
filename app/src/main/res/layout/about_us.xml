@@ -47,7 +47,7 @@
         android:layout_margin="10dp"
         android:alpha="0.9"
         android:padding="20dp"
-        app:cardBackgroundColor="@color/textBackground"
+        app:cardBackgroundColor="@color/cardBkg"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
