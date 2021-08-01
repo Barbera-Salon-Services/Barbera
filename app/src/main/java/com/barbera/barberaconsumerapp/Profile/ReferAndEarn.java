@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
 import com.barbera.barberaconsumerapp.R;
-import com.barbera.barberaconsumerapp.SecondScreen;
 import com.barbera.barberaconsumerapp.network_aws.Data;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceCoupon;
@@ -59,8 +59,7 @@ public class ReferAndEarn extends AppCompatActivity {
                  generateShareCode();
                 else {
                     Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getApplicationContext(), SecondScreen.class));
-
+                    startActivity(new Intent(getApplicationContext(), ActivityPhoneVerification.class));
                 }
             }
         });

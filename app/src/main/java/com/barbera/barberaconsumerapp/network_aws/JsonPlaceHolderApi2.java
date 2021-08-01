@@ -67,8 +67,8 @@ public interface JsonPlaceHolderApi2 {
     @GET("getbarb/{date}/{slot}")
     Call<BarberList> getBarbers(@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
 
-    @POST("book/{date}/{slot}")
-    Call<Void> bookBarber(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
+//    @POST("book/{date}/{slot}")
+//    Call<Void> bookBarber(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
 
     @GET("getbookings")
     Call<BookingList> getBookings(@Header("Authorization") String token);

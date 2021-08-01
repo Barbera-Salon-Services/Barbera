@@ -26,7 +26,7 @@
         <activity android:name=".Rating" />
         <activity android:name=".SubCategoryActivity" />
         <activity android:name=".WeddingPreActivity" />
-        <activity android:name=".WeddingActivity" />
+        <activity android:name=".Services.WeddingActivity" />
         <activity android:name=".Profile.AboutUsActivity" />
         <activity android:name=".MapSearchActivity" />
         <activity

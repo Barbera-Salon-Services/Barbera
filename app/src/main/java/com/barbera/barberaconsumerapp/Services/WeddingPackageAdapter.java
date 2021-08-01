@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Services;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.barbera.barberaconsumerapp.Services.ServiceType;
+import com.barbera.barberaconsumerapp.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;

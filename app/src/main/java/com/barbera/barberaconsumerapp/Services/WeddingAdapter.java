@@ -1,4 +1,4 @@
-package com.barbera.barberaconsumerapp;
+package com.barbera.barberaconsumerapp.Services;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.barbera.barberaconsumerapp.Bookings.BookingPage;
+import com.barbera.barberaconsumerapp.R;
+import com.barbera.barberaconsumerapp.WeddingModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -137,29 +139,29 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                 arrowForward.setVisibility(View.VISIBLE);
             }
 
-            book.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(FirebaseAuth.getInstance().getCurrentUser()==null){
-                        Toast.makeText(itemView.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                        itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
-                    }
-                    else {
-                        // BookingPage.OrderSummary = weddingList.get(position).getPackageName();
-                        //BookingPage.BookingTotalAmount = weddingList.get(position).getPackagePrice();
-                        //Intent intent = new Intent(itemView.getContext(), BookingPage.class);
-
-                        //intent.putExtra("Position",position);
-                        //itemView.getContext().startActivity(intent);
-                        String ordersummary="("+WeddingActivity.weddingType+")"+weddingList.get(position).getPackageName()+"   Rs"+weddingList.get(position).getPackagePrice();
-                        Intent intent=new Intent(itemView.getContext(), BookingPage.class);
-                        intent.putExtra("BookingType", "Wedding");
-                        intent.putExtra("Booking Amount",weddingList.get(position).getPackagePrice());
-                        intent.putExtra("Order Summary",ordersummary);
-                        itemView.getContext().startActivity(intent);
-                    }
-                }
-            });
+//            book.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(){
+//                        Toast.makeText(itemView.getContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
+//                        itemView.getContext().startActivity(new Intent(itemView.getContext(),SecondScreen.class));
+//                    }
+//                    else {
+//                        // BookingPage.OrderSummary = weddingList.get(position).getPackageName();
+//                        //BookingPage.BookingTotalAmount = weddingList.get(position).getPackagePrice();
+//                        //Intent intent = new Intent(itemView.getContext(), BookingPage.class);
+//
+//                        //intent.putExtra("Position",position);
+//                        //itemView.getContext().startActivity(intent);
+//                        String ordersummary="("+WeddingActivity.weddingType+")"+weddingList.get(position).getPackageName()+"   Rs"+weddingList.get(position).getPackagePrice();
+//                        Intent intent=new Intent(itemView.getContext(), BookingPage.class);
+//                        intent.putExtra("BookingType", "Wedding");
+//                        intent.putExtra("Booking Amount",weddingList.get(position).getPackagePrice());
+//                        intent.putExtra("Order Summary",ordersummary);
+//                        itemView.getContext().startActivity(intent);
+//                    }
+//                }
+//            });
 
             addToCart.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "+916377894199"));

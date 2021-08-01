@@ -368,12 +368,42 @@
                 android:layout_below="@id/inst_book"
                 android:layout_margin="5dp"
                 android:background="#80B3B0B0" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OR"
+                android:id="@+id/OR"
+                android:layout_below="@+id/instant_line"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="15dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/OR"
+                android:id="@+id/book_a_slot"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:text="Book a slot"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_down"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/slot_booking"/>
+            </LinearLayout>
+
 
             <RelativeLayout
                 android:id="@+id/Calender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/instant_line">
+                android:layout_below="@id/book_a_slot">
 
                 <TextView
                     android:id="@+id/dat"
@@ -411,7 +441,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="1"
-                        android:textColor="@color/white"
+                        android:background="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="18dp" />
 
                     <TextView
@@ -421,8 +452,9 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:background="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:text="2"
-                        android:textColor="@color/white"
                         android:textSize="18dp" />
 
                     <TextView
@@ -432,8 +464,9 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:background="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:text="3"
-                        android:textColor="@color/white"
                         android:textSize="18dp" />
 
                     <TextView
@@ -444,7 +477,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="4"
-                        android:textColor="@color/white"
+                        android:background="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="18dp" />
 
                     <TextView
@@ -455,7 +489,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="5"
-                        android:textColor="@color/white"
+                        android:background="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="18dp" />
 
                     <TextView
@@ -466,7 +501,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="6"
-                        android:textColor="@color/white"
+                        android:background="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="18dp" />
 
                     <TextView
@@ -477,7 +513,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="7"
-                        android:textColor="@color/white"
+                        android:background="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="18dp" />
                 </LinearLayout>
 
@@ -497,7 +534,7 @@
                     android:paddingLeft="20dp"
                     android:paddingTop="12dp"
                     android:text="Select Time Slot"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/white"
                     android:textSize="23sp" />
 
                 <LinearLayout

@@ -3,7 +3,6 @@ package com.barbera.barberaconsumerapp.Services;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.barbera.barberaconsumerapp.R;
-import com.barbera.barberaconsumerapp.WeddingActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;

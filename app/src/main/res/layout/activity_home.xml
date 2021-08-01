@@ -87,11 +87,15 @@
                 tools:listitem="@layout/recylerview_item_activityhome_top_imageview"
                 android:id="@+id/top_recycler_view" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.denzcoskun.imageslider.ImageSlider
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:id="@+id/slider_recycler_view"
-                tools:listitem="@layout/slider_item" />
+                app:auto_cycle="true"
+                app:delay="0"
+                app:period="2000"
+                app:placeholder="@drawable/logo"
+                app:corner_radius="60"
+                android:id="@+id/imageSlider"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/men_salon_cardview"
@@ -114,7 +118,6 @@
 
 
             </androidx.cardview.widget.CardView>
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/men_recycler_view"

@@ -33,7 +33,9 @@ public class AboutPrivacyActivity extends AppCompatActivity {
                         finish();
                         return true;
                     case R.id. profile:
-
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.home:
                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
