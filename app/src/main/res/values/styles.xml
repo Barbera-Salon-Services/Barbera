@@ -71,4 +71,8 @@
         <item name="cornerFamilyTopLeft">cut</item>
     </style>
 
+    <style name="roundEdges">
+        <item name="cornerSize">15%</item>
+    </style>
+
 </resources>

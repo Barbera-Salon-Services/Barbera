@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/CartBlack"
     android:paddingStart="10dp"
     android:paddingTop="15dp"
     android:paddingEnd="10dp"
@@ -13,7 +12,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/CartBlack"
+        app:cardBackgroundColor="@color/cardBkg"
         app:cardCornerRadius="20dp"
         app:cardElevation="15dp">
 
@@ -118,6 +117,7 @@
                         android:layout_weight="5"
                         android:backgroundTint="#8C353535"
                         android:text="generate otp"
+                        android:elevation="5dp"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="11sp"
@@ -136,6 +136,7 @@
                         android:layout_weight="3"
                         android:backgroundTint="#8C353535"
                         android:text="End otp"
+                        android:elevation="5dp"
                         android:textColor="@color/white"
                         android:textSize="11sp"
                         android:visibility="visible" />
@@ -170,6 +171,7 @@
                             android:layout_marginStart="10dp"
                             android:textAlignment="viewStart"
                             android:text="Professional Details"
+                            android:elevation="5dp"
                             android:textColor="@color/white"
                             android:textSize="13sp"
                             tools:ignore="RtlCompat" />
@@ -197,6 +199,7 @@
                         android:layout_weight="5"
                         android:background="#8C353535"
                         android:text="Cancel"
+                        android:elevation="5dp"
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:visibility="visible" />

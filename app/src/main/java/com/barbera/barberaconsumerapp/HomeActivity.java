@@ -100,7 +100,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         tabRecyclerView=findViewById(R.id.top_recycler_view);
 
         tabAdapter=new HomeActivityTopImageViewAdapter(this,tabItems);
-        LinearLayoutManager tabLlm=new LinearLayoutManager(this);
+        LinearLayoutManager tabLlm=new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         tabLlm.setOrientation(RecyclerView.HORIZONTAL);
         tabRecyclerView.setLayoutManager(tabLlm);
 
@@ -109,7 +109,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 //        sliderRecyclerView.setLayoutManager(slidLlm);
 
         gridAdapterWed = new WeddingPackageAdapter(imgUrlWed, imgNameWed, this,"Wedding_Packages");
-        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
+        LinearLayoutManager gridLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
         weddingRecyclerView.setLayoutManager(gridLayoutManager1);
 
         gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this,"Womens_Section");

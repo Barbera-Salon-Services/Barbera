@@ -14,4 +14,6 @@
     <color name="Transparent">#00ECE3E3</color>
     <color name="textBackground">#2C2C2C</color>
     <color name="blackGray">#85373636</color>
+
+    <color name="cardBkg">#272525</color>
 </resources>

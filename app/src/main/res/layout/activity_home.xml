@@ -9,54 +9,57 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="50dp"
-        app:cardBackgroundColor="@color/CartBlack">
+        app:cardBackgroundColor="@color/CartBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/barberawhite"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:src="@drawable/barberawhite" />
 
             <ImageView
                 android:id="@+id/cart"
                 android:layout_width="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_cart"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_cart" />
+
             <TextView
                 android:id="@+id/numberOfCartMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="4"
-                android:textColor="@color/white"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/cart"
+                android:textColor="@color/white"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:text="4" />
+
             <ImageView
                 android:id="@+id/refer"
                 android:layout_width="wrap_content"
-                android:layout_marginRight="20dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_refer"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@id/numberOfCartMain"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
-                android:layout_centerVertical="true"/>
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_refer" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -74,18 +77,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_margin="10dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/top_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/recylerview_item_activityhome_top_imageview"
-                android:id="@+id/top_recycler_view" />
+                tools:listitem="@layout/recylerview_item_activityhome_top_imageview" />
 
             <com.denzcoskun.imageslider.ImageSlider
                 android:layout_width="match_parent"
@@ -97,59 +100,81 @@
                 app:corner_radius="60"
                 android:id="@+id/imageSlider"/>
 
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/men_salon_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:alpha="0.8"
                 android:background="#000000"
-                app:cardBackgroundColor="#80000000"
+                app:cardBackgroundColor="@color/cardBkg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true">
 
-                <TextView
-                    android:id="@+id/men_salon_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Men's Salon"
-                    android:textColor="@color/white"
-                    android:textSize="22sp" />
-
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/men_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/see_more_men"
-                android:visibility="gone"
-                app:cardCornerRadius="30dp"
-                android:backgroundTint="@color/CartBlack">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/see_men"
-                    android:textColor="@color/white"
-                    android:text="See all"
-                    android:textSize="17sp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_down"/>
-                </LinearLayout>
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/men_salon_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Men's Salon"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/men_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+      <androidx.cardview.widget.CardView
+                        android:id="@+id/see_more_men"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/CartBlack"
+                        app:cardCornerRadius="15dp">
+
+                        <LinearLayout
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
+>>>>>>> af88e9950b9436538015f41e991137506b689734
+
+                            <TextView
+                                android:id="@+id/see_men"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="4dp"
+                                android:text="See all"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="1dp"
+                                android:layout_marginEnd="3dp"
+                                android:src="@drawable/ic_down" />
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
 
@@ -158,49 +183,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#000000"
-                app:cardBackgroundColor="#80000000"
+                app:cardBackgroundColor="@color/cardBkg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true">
 
-                <TextView
-                    android:id="@+id/women_salon_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Women's Salon"
-                    android:textColor="@color/white"
-                    android:textSize="22sp" />
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/women_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/see_more_women"
-                android:visibility="gone"
-                app:cardCornerRadius="30dp"
-                android:backgroundTint="@color/CartBlack">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/see_women"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_down"/>
-                </LinearLayout>
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/women_salon_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Women's Salon"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/women_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/see_more_women"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/CartBlack"
+                        app:cardCornerRadius="15dp">
+
+                        <LinearLayout
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
+
+                            <TextView
+                                android:id="@+id/see_women"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="4dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="1dp"
+                                android:layout_marginEnd="3dp"
+                                android:src="@drawable/ic_down" />
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -208,26 +257,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#000000"
-                app:cardBackgroundColor="#80000000"
+                app:cardBackgroundColor="@color/cardBkg"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true">
 
-                <TextView
-                    android:id="@+id/wedding_package_textview"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Wedding Packages"
-                    android:textColor="@color/white"
-                    android:textSize="22sp" />
+                    android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/wedding_package_textview"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:text="Wedding Packages"
+                            android:textColor="@color/white"
+                            android:textSize="22sp" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@color/cardBkg"
+                            android:src="@drawable/arrow_forward"
+                            app:tint="@color/white" />
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/wedding_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp" />
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/wedding_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </ScrollView>
