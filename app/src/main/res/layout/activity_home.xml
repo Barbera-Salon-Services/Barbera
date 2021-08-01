@@ -94,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:auto_cycle="true"
+                android:layout_marginTop="10dp"
                 app:delay="0"
                 app:period="2000"
                 app:placeholder="@drawable/logo"
