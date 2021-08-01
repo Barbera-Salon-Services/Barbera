@@ -32,6 +32,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/CartBlack"
         android:layout_above="@id/confirm_booking_card"
         android:layout_below="@id/cardView">
 
@@ -256,6 +257,7 @@
                         android:inputType="textCapCharacters"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
+                        android:visibility="gone"
                         android:textSize="14sp" />
 
                     <Button
@@ -268,6 +270,7 @@
                         android:layout_marginRight="20dp"
                         android:background="#21272525"
                         android:elevation="10dp"
+                        android:visibility="gone"
                         android:text="apply"
                         android:textColor="@color/white" />
 
@@ -488,6 +491,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_margin="10dp"
                             android:text="Book a slot"
                             android:textColor="@color/white"
@@ -504,6 +508,7 @@
 
                     <RelativeLayout
                         android:id="@+id/Calender"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/book_a_slot">
@@ -1347,6 +1352,7 @@
         android:layout_height="wrap_content"
         android:background="@color/cardBkg"
         android:text="Confirm Booking"
+        android:visibility="gone"
         android:textColor="@color/white" />
     </androidx.cardview.widget.CardView>
 
