@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="5dp"
         android:background="@color/cardBkg"
         android:orientation="horizontal">
 
@@ -36,7 +36,7 @@
         android:id="@+id/subservice_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="5dp"
         android:visibility="gone"
         tools:listitem="@layout/new_service_piece" />
 

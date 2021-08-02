@@ -112,7 +112,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private String couponServiceId="";
     private int upper=-1,lower=-1,curAmount;
     private String couponName="";
-    private ImageView drop;
+//    private ImageView drop;
     private RelativeLayout calendar;
     private ImageView slotBtn;
 
@@ -310,26 +310,26 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         slotBtn=findViewById(R.id.slot_booking);
         isCouponApplied = false;
         BookingOrders = findViewById(R.id.booking_order_summary);
-        drop=findViewById(R.id.drop_down_arrow);
+        //drop=findViewById(R.id.drop_down_arrow);
         calendar=findViewById(R.id.Calender);
-        final int[] a = {0};
-        drop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(a[0] ==0){
-                    couponcodeEditText.setVisibility(View.VISIBLE);
-                    couponApply.setVisibility(View.VISIBLE);
-
-                    a[0]++;
-                }
-                else{
-                    couponcodeEditText.setVisibility(View.GONE);
-                    couponApply.setVisibility(View.GONE);
-
-                    a[0] =0;
-                }
-            }
-        });
+//        final int[] a = {0};
+//        drop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(a[0] ==0){
+//                    couponcodeEditText.setVisibility(View.VISIBLE);
+//                    couponApply.setVisibility(View.VISIBLE);
+//
+//                    a[0]++;
+//                }
+//                else{
+//                    couponcodeEditText.setVisibility(View.GONE);
+//                    couponApply.setVisibility(View.GONE);
+//
+//                    a[0] =0;
+//                }
+//            }
+//        });
         final int[] b = {0};
         slotBtn.setOnClickListener(new View.OnClickListener() {
             @Override

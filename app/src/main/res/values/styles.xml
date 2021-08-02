@@ -55,8 +55,10 @@
     </style>
 
     <style name="specialOfferImage">
-        <item name="cornerSizeTopLeft">40%</item>
-        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerSizeTopLeft">30%</item>
+        <item name="cornerSizeBottomLeft">10%</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
     </style>
 
     <style name="circularCorner">
