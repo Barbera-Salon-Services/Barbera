@@ -115,7 +115,7 @@ public class BookingsActivity extends AppCompatActivity {
                             //Log.d("List","IN");
                             int i = 0, amount = 0;
                             List<String> idList=new ArrayList<>();
-                            String summary = "", date = "", slot = "", timestamp = "",id="",status="",barberName="",barberPhone="",category="",type="";
+                            String summary = "", date = "", slot = "", timestamp = "",id="",status="",barberName="",barberPhone="",category="",type="",startOtp="",endOtp="";
                             double dist=0;
                             for (BookingItem item : list) {
                                 if (i == 0) {
@@ -136,6 +136,8 @@ public class BookingsActivity extends AppCompatActivity {
                                     dist=item.getBarberItem().getDistance();
                                     category=item.getService().getGender();
                                     type=item.getService().getType();
+                                    startOtp=item.getStartOtp();
+                                    endOtp=item.getEndOtp();
                                     i++;
                                 } else {
                                     if (item.getTimestamp().equals(timestamp)) {
@@ -150,7 +152,7 @@ public class BookingsActivity extends AppCompatActivity {
                                         idList.add(item.getService().getId());
                                     } else {
                                         //Log.d("id",idList.size()+"");
-                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist,category,type));
+                                        bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist,category,type,startOtp,endOtp));
                                         date = item.getDate();
                                         slot = item.getSlot();
                                         status=item.getStatus();
@@ -171,6 +173,8 @@ public class BookingsActivity extends AppCompatActivity {
                                         dist=item.getBarberItem().getDistance();
                                         category=item.getService().getGender();
                                         type=item.getService().getType();
+                                        startOtp=item.getStartOtp();
+                                        endOtp=item.getEndOtp();
                                     }
                                 }
                             }
@@ -178,7 +182,7 @@ public class BookingsActivity extends AppCompatActivity {
 //                            for(String s:idList){
 //                                Log.d("qw",s);
 //                            }
-                            bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist,category,type));
+                            bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist,category,type,startOtp,endOtp));
 //                            for (BookingModel item : bookingActivityList) {
 //                                Log.d("item", item.getDate() + " " + item.getTime());
 //                            }

@@ -75,34 +75,38 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         holder.serviceSummary.setText(bookingModel.getSummary());
         holder.totalAmount.setText("Total Amount Rs "+bookingModel.getAmount());
         holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime()+":00");
+        String x=bookingModel.getEndOtp();
+        String y=bookingModel.getStartOtp();
+        if(x==null){
+            x="";
+        }
+        if(y==null){
+            y="";
+        }
+        holder.endotp.setText("End otp: "+x);
+        holder.startotp.setText("Start otp: "+y);
         String a=bookingModel.getCategory().replaceAll(" ","_");
         String b=bookingModel.getType().replaceAll(" ","_");
         Glide.with(context).load("https://barbera-image.s3.ap-south-1.amazonaws.com/"+a+b)
                 .apply(new RequestOptions().placeholder(R.drawable.logo)).into(holder.img);
         //extractNameAndContact(holder);
+        Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
+        jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
 
         if(bookingModel.getStatus().equals("done")){
             holder.start.setVisibility(View.INVISIBLE);
             holder.end.setVisibility(View.INVISIBLE);
-            holder.otp.setVisibility(View.INVISIBLE);
             holder.cancelBooking.setVisibility(View.INVISIBLE);
             holder.status.setVisibility(View.VISIBLE);
-            SharedPreferences sharedPreferences=context.getSharedPreferences("Notification",context.MODE_PRIVATE);
-            holder.otp.setText("End otp: "+sharedPreferences.getString("notif",""));
         }
         if(bookingModel.getStatus().equals("ongoing")){
             holder.start.setVisibility(View.INVISIBLE);
             holder.end.setVisibility(View.VISIBLE);
             holder.cancelBooking.setVisibility(View.INVISIBLE);
-            holder.otp.setVisibility(View.VISIBLE);
-            SharedPreferences sharedPreferences=context.getSharedPreferences("Notification",context.MODE_PRIVATE);
-            holder.otp.setText("Start otp: "+sharedPreferences.getString("notif",""));
-            //holder.otp.setText("Start Otp:"+sotp);
         }
         if(bookingModel.getStatus().equals("pending")){
             holder.start.setVisibility(View.VISIBLE);
             holder.end.setVisibility(View.INVISIBLE);
-            holder.otp.setVisibility(View.VISIBLE);
             holder.cancelBooking.setVisibility(View.VISIBLE);
             holder.status.setVisibility(View.INVISIBLE);
         }
@@ -118,8 +122,6 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.setMessage("generating otp...");
                 progressDialog.show();
                 progressDialog.setCancelable(false);
-                Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
-                jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
 
                 Call<Void> call=jsonPlaceHolderApi2.startOtp(new InstItem(bookingModel.getBarberId(),0,null,false,bookingModel.getServiceIdList()),"Bearer "+token);
                 call.enqueue(new Callback<Void>() {
@@ -130,7 +132,9 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                                 @Override
                                 public void run() {
                                     SharedPreferences sharedPreferences=context.getSharedPreferences("Notification",context.MODE_PRIVATE);
-                                    holder.otp.setText("Start otp: "+sharedPreferences.getString("notif",""));
+                                    bookingModel.setStatus("ongoing");
+                                    bookingModel.setStartOtp(sharedPreferences.getString("notif",""));
+                                    BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
                                     holder.end.setVisibility(View.VISIBLE);
                                     holder.start.setVisibility(View.INVISIBLE);
                                     holder.cancelBooking.setVisibility(View.INVISIBLE);
@@ -171,11 +175,12 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                                 @Override
                                 public void run() {
                                     SharedPreferences sharedPreferences=context.getSharedPreferences("Notification",context.MODE_PRIVATE);
-                                    holder.otp.setText("End otp: "+sharedPreferences.getString("notif",""));
+                                    bookingModel.setEndOtp(sharedPreferences.getString("notif",""));
+                                    bookingModel.setStatus("done");
+                                    BookingsActivity.bookingActivityAdapter.notifyDataSetChanged();
                                     holder.end.setVisibility(View.INVISIBLE);
                                     holder.start.setVisibility(View.INVISIBLE);
                                     holder.cancelBooking.setVisibility(View.INVISIBLE);
-                                    holder.barber.setVisibility(View.VISIBLE);
                                 }
                             };
                             final Handler h = new Handler();
@@ -206,10 +211,10 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 progressDialog.setMessage("Hold On for a moment...");
                 progressDialog.show();
                 progressDialog.setCancelable(false);
-                Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
-                jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+                Retrofit retrofit1 = RetrofitClientInstanceBooking.getRetrofitInstance();
+                jsonPlaceHolderApi2=retrofit1.create(JsonPlaceHolderApi2.class);
 
-                Call<Void> call=jsonPlaceHolderApi2.cancelBooking(new BookingModel(null,0,bookingModel.getDate(),bookingModel.getTime(),bookingModel.getBarberId(),bookingModel.getServiceIdList(),null,null,null,0,null,null),"Bearer "+token);
+                Call<Void> call=jsonPlaceHolderApi2.cancelBooking(new BookingModel(null,0,bookingModel.getDate(),bookingModel.getTime(),bookingModel.getBarberId(),bookingModel.getServiceIdList(),null,null,null,0,null,null,null,null),"Bearer "+token);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -275,7 +280,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         private final Button start;
         private TextView barber;
         private final TextView status;
-        private final TextView otp;
+        private final TextView startotp,endotp;
         private ImageView img;
         public BookingItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -288,7 +293,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             end = itemView.findViewById(R.id.endtOtp);
             status =itemView.findViewById(R.id.status);
             barber = itemView.findViewById(R.id.barberDetails);
-            otp = itemView.findViewById(R.id.otp);
+            startotp = itemView.findViewById(R.id.startotp);
+            endotp=itemView.findViewById(R.id.endotp);
             img=itemView.findViewById(R.id.bookingImg);
         }
     }
