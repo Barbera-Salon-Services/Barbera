@@ -138,6 +138,8 @@ public class EditProfile extends AppCompatActivity {
                                 SharedPreferences sharedPreferences=getSharedPreferences("Profile",MODE_PRIVATE);
                                 SharedPreferences.Editor editor=sharedPreferences.edit();
                                 editor.putString("address",editAddress.getText().toString());
+                                editor.putString("name",editName.getText().toString());
+                                editor.putString("phone",editPhone.getText().toString());
                                 editor.apply();
                                 startActivity(new Intent(EditProfile.this,MyProfile.class));
                             }

@@ -24,6 +24,7 @@ public class ServiceTypeAdapter extends RecyclerView.Adapter<ServiceTypeAdapter.
     private final Context context;
     private final List<ServiceOuterItem> list;
     private String salonType;
+    private ServiceAdapter serviceAdapter;
 
     public ServiceTypeAdapter(Context context, List<ServiceOuterItem> serviceList,String salonType) {
         this.context=context;
@@ -47,7 +48,7 @@ public class ServiceTypeAdapter extends RecyclerView.Adapter<ServiceTypeAdapter.
         LinearLayoutManager llm = new LinearLayoutManager(context);
         holder.recyclerView.setLayoutManager(llm);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-        ServiceAdapter serviceAdapter=new ServiceAdapter(context,serviceOuterItem.getServiceItemList(),salonType);
+        serviceAdapter=new ServiceAdapter(context,serviceOuterItem.getServiceItemList(),salonType);
         holder.recyclerView.setAdapter(serviceAdapter);
         final int[] i = {0};
         holder.arrow.setOnClickListener(new View.OnClickListener() {

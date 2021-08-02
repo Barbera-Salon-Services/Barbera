@@ -6,7 +6,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,27 +15,35 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
+import com.barbera.barberaconsumerapp.Services.CartActivity;
+import com.barbera.barberaconsumerapp.Services.CartAdapter;
 import com.barbera.barberaconsumerapp.Services.GridAdapter;
 import com.barbera.barberaconsumerapp.Services.HomeActivityTopImageViewAdapter;
+import com.barbera.barberaconsumerapp.Services.ServiceType;
 import com.barbera.barberaconsumerapp.Services.SliderAdapter;
+import com.barbera.barberaconsumerapp.Services.WeddingPackageAdapter;
 import com.barbera.barberaconsumerapp.Utils.SliderItem;
 import com.barbera.barberaconsumerapp.Utils.SliderList;
 import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
-import com.denzcoskun.imageslider.adapters.ViewPagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import eu.dkaratzas.android.inapp.update.Constants;
@@ -50,14 +57,16 @@ import retrofit2.Retrofit;
 public class HomeActivity extends AppCompatActivity implements InAppUpdateManager.InAppUpdateHandler{
 
     private RecyclerView menRecyclerView;
-    private GridAdapter gridAdapterMen,gridAdapterWomen,gridAdapterWed;
+    private GridAdapter gridAdapterMen,gridAdapterWomen;
+    private WeddingPackageAdapter gridAdapterWed;
     private RecyclerView womenRecyclerView;
     private InAppUpdateManager inAppUpdateManager;
     private RecyclerView weddingRecyclerView;
     private List<String> imgUrlMen1=new ArrayList<>(),imgUrlMen=new ArrayList<>(), imgNameMen=new ArrayList<>(),
             imgNameMen1=new ArrayList<>(),imgUrlWomen=new ArrayList<>(),imgUrlWomen1=new ArrayList<>(),
             imgNameWomen=new ArrayList<>(),imgNameWomen1=new ArrayList<>(),imgUrlWed=new ArrayList<>(),imgNameWed=new ArrayList<>();
-    private List<SliderItem> sliderItems=new ArrayList<>(),tabItems=new ArrayList<>();
+    private List<SlideModel> sliderItems=new ArrayList<>();
+    private List<SliderItem> tabItems=new ArrayList<>();
     private String isRegistered,imagebase;
     private JsonPlaceHolderApi2 jsonPlaceHolderApi2;
     private ImageView Cart;
@@ -66,15 +75,22 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private ImageSlider imageSlider;
     private SliderAdapter sliderAdapter;
     private HomeActivityTopImageViewAdapter tabAdapter;
-    private RecyclerView sliderRecyclerView,tabRecyclerView;
+    private RecyclerView tabRecyclerView;
     private CardView seeMen,seeWomen;
     private TextView seeMoreMen,seeMoreWomen;
     private int a=0,b=0;
+    private ImageView top1,top2,top3,top4,top5;
+    private TextView topText1,topText2,topText3,topText4,topText5;
+    private LinearLayout ll1,ll2,ll3,ll4,ll5;
+    private String cat1,cat2,cat3,cat4,cat5;
+    private String typ1,typ2,typ3,typ4,typ5;
+    private String url1,url2,url3,url4,url5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         seeMen=findViewById(R.id.see_more_men);
         seeWomen=findViewById(R.id.see_more_women);
         seeMoreMen=findViewById(R.id.see_men);
@@ -85,24 +101,38 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         womenRecyclerView = findViewById(R.id.women_recycler_view);
         NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
         Cart=(ImageView)findViewById(R.id.cart);
-        imageSlider=(ImageSlider)findViewById(R.id.slider_view);
+        top1=findViewById(R.id.different_section_images1);
+        top2=findViewById(R.id.different_section_images2);
+        top3=findViewById(R.id.different_section_images3);
+        top4=findViewById(R.id.different_section_images4);
+        top5=findViewById(R.id.different_section_images5);
+        topText1=findViewById(R.id.top_text1);
+        topText2=findViewById(R.id.top_text2);
+        topText3=findViewById(R.id.top_text3);
+        topText4=findViewById(R.id.top_text4);
+        topText5=findViewById(R.id.top_text5);
+        ll1=findViewById(R.id.ll1);
+        ll2=findViewById(R.id.ll2);
+        ll3=findViewById(R.id.ll3);
+        ll4=findViewById(R.id.ll4);
+        ll5=findViewById(R.id.ll5);
 
         cartAdapter=new CartAdapter(this);
-        sliderRecyclerView=findViewById(R.id.slider_recycler_view);
+        imageSlider=findViewById(R.id.imageSlider);
         ImageView referMain=(ImageView)findViewById(R.id.refer);
-        tabRecyclerView=findViewById(R.id.top_recycler_view);
+        //tabRecyclerView=findViewById(R.id.top_recycler_view);
 
-        tabAdapter=new HomeActivityTopImageViewAdapter(this,tabItems);
-        LinearLayoutManager tabLlm=new LinearLayoutManager(this);
-        tabLlm.setOrientation(RecyclerView.HORIZONTAL);
-        tabRecyclerView.setLayoutManager(tabLlm);
+//        tabAdapter=new HomeActivityTopImageViewAdapter(this,tabItems);
+//        LinearLayoutManager tabLlm=new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        tabLlm.setOrientation(RecyclerView.HORIZONTAL);
+//        tabRecyclerView.setLayoutManager(tabLlm);
 
-        sliderAdapter=new SliderAdapter(sliderItems,HomeActivity.this);
-        LinearLayoutManager slidLlm=new LinearLayoutManager(this,RecyclerView.HORIZONTAL,true);
-        sliderRecyclerView.setLayoutManager(slidLlm);
+//        sliderAdapter=new SliderAdapter(sliderItems,HomeActivity.this);
+//        LinearLayoutManager slidLlm=new LinearLayoutManager(this,RecyclerView.HORIZONTAL,true);
+//        sliderRecyclerView.setLayoutManager(slidLlm);
 
-        gridAdapterWed = new GridAdapter(imgUrlWed, imgNameWed, this,"Wedding");
-        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        gridAdapterWed = new WeddingPackageAdapter(imgUrlWed, imgNameWed, this,"Wedding_Packages");
+        LinearLayoutManager gridLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
         weddingRecyclerView.setLayoutManager(gridLayoutManager1);
 
         gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this,"Womens_Section");
@@ -115,7 +145,6 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
         imagebase="https://barbera-image.s3.ap-south-1.amazonaws.com/";
 
-
         SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
         isRegistered = preferences.getString("token","no");
         Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
@@ -126,6 +155,57 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         addMenGrid();
         addWeddingGrid();
         addWomenGrid();
+
+        top1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType",typ1);
+                intent.putExtra("Category",cat1);
+                intent.putExtra("ImageUrl",url1);
+                startActivity(intent);
+            }
+        });
+        top2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType",typ2);
+                intent.putExtra("Category",cat2);
+                intent.putExtra("ImageUrl",url2);
+                startActivity(intent);
+            }
+        });
+        top3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType",typ3);
+                intent.putExtra("Category",cat3);
+                intent.putExtra("ImageUrl",url3);
+                startActivity(intent);
+            }
+        });
+        top4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType",typ4);
+                intent.putExtra("Category",cat4);
+                intent.putExtra("ImageUrl",url4);
+                startActivity(intent);
+            }
+        });
+        top5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType",typ5);
+                intent.putExtra("Category",cat5);
+                intent.putExtra("ImageUrl",url5);
+                startActivity(intent);
+            }
+        });
 
         referMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,11 +219,11 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
             public void onClick(View v) {
                 if(isRegistered.equals("no")){
                     Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getApplicationContext(),SecondScreen.class));
+                    startActivity(new Intent(getApplicationContext(),ActivityPhoneVerification.class));
                 }
 
                 else
-                    startActivity(new Intent(HomeActivity.this,CartActivity.class));
+                    startActivity(new Intent(HomeActivity.this, CartActivity.class));
             }
         });
         seeMen.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +295,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     case R.id. booking:
                         if(isRegistered.equals("no")){
                             Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(),SecondScreen.class));
+                            startActivity(new Intent(getApplicationContext(),ActivityPhoneVerification.class));
                         }
                         else {
                             startActivity(new Intent(getApplicationContext(), BookingsActivity.class));
@@ -226,7 +306,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     case R.id. profile:
                         if(isRegistered.equals("no")){
                             Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(),SecondScreen.class));
+                            startActivity(new Intent(getApplicationContext(),ActivityPhoneVerification.class));
                         }
                         else {
                             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
@@ -263,10 +343,57 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 if(response.code()==200){
                     SliderList sliderList=response.body();
                     List<SliderItem> list=sliderList.getList();
+                    int i=0;
                     for(SliderItem item:list){
-                        tabItems.add(item);
+//                        tabItems.add(item);
+                        if(i==0){
+                            ll1.setVisibility(View.VISIBLE);
+                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top1);
+                            String[] x=item.getName().split(",");
+                            topText1.setText(x[1]);
+                            cat1=x[1];
+                            typ1=x[0].replaceAll(" ","_");
+                            url1=item.getUrl();
+                        }
+                        else if(i==1){
+                            ll2.setVisibility(View.VISIBLE);
+                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top2);
+                            String[] x=item.getName().split(",");
+                            topText2.setText(x[1]);
+                            cat2=x[1];
+                            typ2=x[0].replaceAll(" ","_");
+                            url2=item.getUrl();
+                        }
+                        else if(i==2){
+                            ll3.setVisibility(View.VISIBLE);
+                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top3);
+                            String[] x=item.getName().split(",");
+                            topText3.setText(x[1]);
+                            cat3=x[1];
+                            typ3=x[0].replaceAll(" ","_");
+                            url3=item.getUrl();
+                        }
+                        else if(i==3){
+                            ll4.setVisibility(View.VISIBLE);
+                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top4);
+                            String[] x=item.getName().split(",");
+                            topText4.setText(x[1]);
+                            cat4=x[1];
+                            typ4=x[0].replaceAll(" ","_");
+                            url4=item.getUrl();
+                        }
+                        else{
+                            ll5.setVisibility(View.VISIBLE);
+                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top5);
+                            String[] x=item.getName().split(",");
+                            topText5.setText(x[1]);
+                            cat5=x[1];
+                            typ5=x[0].replaceAll(" ","_");
+                            url5=item.getUrl();
+                        }
+                        i++;
                     }
-                    tabRecyclerView.setAdapter(tabAdapter);
+//                    tabRecyclerView.setAdapter(tabAdapter);
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"Could not load slider",Toast.LENGTH_SHORT).show();
@@ -293,13 +420,34 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 if(response.code()==200){
                     SliderList sliderList=response.body();
                     List<SliderItem> list=sliderList.getList();
+                    int i=0;
+                    HashMap<Integer,String> cat=new HashMap<>();
+                    HashMap<Integer,String> typ=new HashMap<>();
+                    HashMap<Integer,String> url=new HashMap<>();
+                    HashMap<Integer, Boolean> click=new HashMap<>();
                     for(SliderItem item:list){
-                        sliderItems.add(item);
+                        sliderItems.add(new SlideModel(item.getUrl(),null));
+                        cat.put(i,item.getCategory().replaceAll(" ","_"));
+                        typ.put(i,item.getTypes().replaceAll(" ","_"));
+                        url.put(i,item.getUrl());
+                        click.put(i,item.isClickable());
+                        //Log.d("dd",item.isClickable()+"");
+                        i++;
                     }
-                    //sliderItems.add(new SliderItem(null,null,"https://barbera-image.s3.ap-south-1.amazonaws.com/Mens_SectionMassage",null,));
-                    Log.d("TAG",sliderItems.size()+" saf");
-//                    sliderAdapter.notifyDataSetChanged();
-                    sliderRecyclerView.setAdapter(sliderAdapter);
+                    imageSlider.setImageList(sliderItems, true);
+                    imageSlider.setItemClickListener(new ItemClickListener() {
+                        @Override
+                        public void onItemSelected(int i) {
+                            if(click.get(i)){
+                                Intent intent=new Intent(HomeActivity.this, ServiceType.class);
+                                intent.putExtra("SalonType",cat.get(i));
+                                intent.putExtra("Category",typ.get(i));
+                                intent.putExtra("ImageUrl",url.get(i));
+                                startActivity(intent);
+                            }
+                        }
+                    });
+//                    sliderRecyclerView.setAdapter(sliderAdapter);
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"Could not load slider",Toast.LENGTH_SHORT).show();
@@ -338,12 +486,42 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         imgNameWed.clear();
         imgUrlWed.clear();
 
+        ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.show();
+        Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Wedding_Packages");
+        call.enqueue(new Callback<TypeList>() {
+            @Override
+            public void onResponse(Call<TypeList> call, Response<TypeList> response) {
+                if(response.code()==200){
+                    TypeList serviceList=response.body();
+                    List<String> list=serviceList.getTypeList();
+                    //int z=0,f=0;
+                    if(list.size()!=0){
+                        for(String item:list){
+                            imgNameWed.add(item);
+                            item=item.replaceAll(" ","_");
+                            imgUrlWed.add(imagebase+"Wedding_Packages"+item);
+                        }
+                        weddingRecyclerView.setAdapter(gridAdapterWed);
+                        LinearLayoutManager tabLlm=new LinearLayoutManager(getApplicationContext());
+                        tabLlm.setOrientation(RecyclerView.HORIZONTAL);
+                        weddingRecyclerView.setLayoutManager(tabLlm);
+                    }
+                    progressBar.dismiss();
 
-        imgNameWed.add("Bridal Packages\nStarting@ Rs. 5599");
-        imgNameWed.add("Groom's Packages\nStarting@ Rs. 2599");
+                }
+                else{
+                    progressBar.dismiss();
+                    Toast.makeText(getApplicationContext(),"Could not get services",Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        imgUrlWed.add("https://i.ibb.co/8rtx241/image.png");
-        imgUrlWed.add("https://i.ibb.co/840KRbC/image.png");
+            @Override
+            public void onFailure(Call<TypeList> call, Throwable t) {
+                progressBar.dismiss();
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         weddingRecyclerView.setAdapter(gridAdapterWed);
@@ -380,12 +558,15 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                         }
                         if(f==0){
                             seeWomen.setEnabled(false);
+                            seeMoreWomen.setVisibility(View.GONE);
+                            seeWomen.setVisibility(View.GONE);
                         }
                         else{
                             seeWomen.setEnabled(true);
+                            seeMoreWomen.setVisibility(View.VISIBLE);
+                            seeMoreWomen.setText("See all");
+                            seeWomen.setVisibility(View.VISIBLE);
                         }
-                        seeWomen.setVisibility(View.VISIBLE);
-                        seeMoreWomen.setText("See all");
                     }
                     womenRecyclerView.setAdapter(gridAdapterWomen);
                     //gridView.setAdapter(adapter);
@@ -439,18 +620,19 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                         }
                         if(f==0){
                             seeMen.setEnabled(false);
+                            seeMoreMen.setVisibility(View.GONE);
+                            seeMen.setVisibility(View.GONE);
                         }
                         else{
                             seeMen.setEnabled(true);
+                            seeMoreMen.setVisibility(View.VISIBLE);
+                            seeMen.setVisibility(View.VISIBLE);
+                            seeMoreMen.setText("See all");
                         }
-                        seeMen.setVisibility(View.VISIBLE);
-                        seeMoreMen.setText("See all");
                     }
-
                     menRecyclerView.setAdapter(gridAdapterMen);
                     //gridView.setAdapter(adapter);
                     progressBar.dismiss();
-
                 }
                 else{
                     progressBar.dismiss();

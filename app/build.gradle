@@ -28,6 +28,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     def room_version = "2.3.0"
     def lifecycle_version = "2.3.1"
     def uploadServiceVersion = "3.5.2"
@@ -69,5 +70,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.1.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
-    implementation 'com.github.GoodieBag:Pinview:v1.4'
+
+    // Circular images
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

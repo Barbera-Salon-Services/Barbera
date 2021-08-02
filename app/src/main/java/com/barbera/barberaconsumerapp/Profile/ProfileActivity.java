@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.HomeActivity;
-import com.barbera.barberaconsumerapp.MainActivity;
 import com.barbera.barberaconsumerapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -45,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.profile_new);
 
         Name=(TextView)findViewById(R.id.NameInProfile);
+        phone=findViewById(R.id.phone_no);
         AboutUs=findViewById(R.id.aboutUs_rel_layout);
         contactus=findViewById(R.id.contact_rel_layout);
         logout=findViewById(R.id.logout_rel_layout);
@@ -54,36 +54,15 @@ public class ProfileActivity extends AppCompatActivity {
         couponsLayout=findViewById(R.id.coupons_rel_layout);
         editMyProfile=findViewById(R.id.edit_my_profile);
 
-
-//        if(profile_name == ""&&FirebaseAuth.getInstance().getCurrentUser()!=null){
-//            baronprofile.setVisibility(View.VISIBLE);
-//            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
-//                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if(task.isSuccessful()){
-//                                profile_name=task.getResult().get("Name").toString();
-//                                profile_phone=task.getResult().get("Phone").toString();
-//                                profile_email=task.getResult().get("Email Address").toString();
-//                                //profile_address=task.getResult().get("Address").toString();
-//                                Name.setText(profile_name);
-//                                phone.setText(profile_phone);
-////                                email.setText(profile_email);
-//                                profileMainLayout.setVisibility(View.VISIBLE);
-//                                baronprofile.setVisibility(View.INVISIBLE);
-//                            }
-//                            else
-//                                Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
-//        }
-//        else{
-//            Name.setText(profile_name);
-//            phone.setText(profile_phone);
-////            email.setText(profile_email);
-//            profileMainLayout.setVisibility(View.VISIBLE);
-//        }
+        SharedPreferences sharedPreferences=getSharedPreferences("Profile",MODE_PRIVATE);
+        String nm=sharedPreferences.getString("name","");
+        String ph=sharedPreferences.getString("phone","");
+        if(!nm.equals("")){
+            Name.setText(nm);
+        }
+        if(!ph.equals("")){
+            phone.setText(ph);
+        }
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,15 +159,17 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                BookingsActivity.bookingActivityList.clear();
-                profile_name="";
                 BookingsActivity.checked=false;
-                MyCoupons.couponItemModelList.clear();
-                MyCoupons.couponsChecked=false;
                 //FirebaseAuth.getInstance().signOut();
                 SharedPreferences preferences =getSharedPreferences("Token",MODE_PRIVATE);
                 SharedPreferences.Editor editor=preferences.edit();
                 editor.putString("token","no");
                 editor.apply();
+                SharedPreferences sharedPreferences=getSharedPreferences("Profile",MODE_PRIVATE);
+                SharedPreferences.Editor editor1=sharedPreferences.edit();
+                editor1.putString("name","");
+                editor1.putString("phone","");
+                editor1.apply();
                 startActivity(new Intent(ProfileActivity.this, ActivityPhoneVerification.class));
                 overridePendingTransition(0,0);
                 finish();
@@ -205,7 +186,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
         overridePendingTransition(0,0);
         finish();
         super.onBackPressed();

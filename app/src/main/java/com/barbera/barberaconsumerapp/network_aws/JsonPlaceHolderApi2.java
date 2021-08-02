@@ -7,6 +7,8 @@ import com.barbera.barberaconsumerapp.Bookings.ServiceIdList;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.CartList;
 import com.barbera.barberaconsumerapp.Utils.CartList2;
+import com.barbera.barberaconsumerapp.Utils.CouponItem;
+import com.barbera.barberaconsumerapp.Utils.CouponList;
 import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
 import com.barbera.barberaconsumerapp.Utils.ServiceList;
@@ -65,8 +67,8 @@ public interface JsonPlaceHolderApi2 {
     @GET("getbarb/{date}/{slot}")
     Call<BarberList> getBarbers(@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
 
-    @POST("book/{date}/{slot}")
-    Call<Void> bookBarber(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
+//    @POST("book/{date}/{slot}")
+//    Call<Void> bookBarber(@Body ServiceIdList serviceIdList,@Path("date") String date, @Path("slot") String slot, @Header("Authorization") String token);
 
     @GET("getbookings")
     Call<BookingList> getBookings(@Header("Authorization") String token);
@@ -78,7 +80,11 @@ public interface JsonPlaceHolderApi2 {
     Call<Data> getReferral(@Header("Authorization") String token);
 
     @POST("usecoupon")
-    Call<Data> applyCoupon(@Body CartItemModel cartItemModel,@Header("Authorization") String token);
+    Call<CouponItem> applyCoupon(@Body CartItemModel cartItemModel, @Header("Authorization") String token);
+
+    @GET("getusercoupons")
+    Call<CouponList> getCoupon(@Header("Authorization") String token);
+     //"BARERAREF"
 
     @POST("bookinst")
     Call<InstItem> bookInst(@Body ServiceIdList serviceIdList, @Header("Authorization") String token);
@@ -103,5 +109,8 @@ public interface JsonPlaceHolderApi2 {
 
     @GET("gettabs")
     Call<SliderList> getTabs();
+
+    @POST("bookcancel")
+    Call<Void> cancelBooking(@Body BookingModel bookingModel,@Header("Authorization") String token);
 
 }

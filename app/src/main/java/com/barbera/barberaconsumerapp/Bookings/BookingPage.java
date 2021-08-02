@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,12 +32,12 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.barbera.barberaconsumerapp.ChangeLocation;
 import com.barbera.barberaconsumerapp.CheckTermDialog;
 import com.barbera.barberaconsumerapp.MapSearchActivity;
 import com.barbera.barberaconsumerapp.Profile.MyCoupons;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
+import com.barbera.barberaconsumerapp.Utils.CouponItem;
 import com.barbera.barberaconsumerapp.Utils.InstItem;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceBooking;
@@ -73,12 +74,13 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private TextView changeLocation;
     private int region,typesel=0;
     private Boolean checkterms = false;
+    private boolean isBarberFound=false;
     private double lat, lon;
     private List<CartItemModel> sidlist;
     private TextView btype1,btype2,btype3;
     private TextView day1, day2, day3, day4, day5, day6, day7;
     private CardView tim1,tim2,tim3,tim4,tim5,tim6;
-    private CardView slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10;
+    private CardView slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10,slot11,slot12,slot13;
     private String mon1, mon2, mon3, mon4, mon5, mon6, mon7, mon, day;
     private SharedPreferences sharedPreferences;
     private int array[];
@@ -107,6 +109,12 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private CheckBox checkBox;
     private Button bookInst;
     private TextView InstText;
+    private String couponServiceId="";
+    private int upper=-1,lower=-1,curAmount;
+    private String couponName="";
+//    private ImageView drop;
+    private RelativeLayout calendar;
+    private ImageView slotBtn;
 
     @Override
     public void extractBool(Boolean selected) {
@@ -114,112 +122,105 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         if (checkterms) {
 //            Toast.makeText(getApplicationContext(), "Checked", Toast.LENGTH_SHORT).show();
             if (checkUserData()) {
+
 //                final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
 //                progressDialog.setMessage("Hold on for a moment...");
 //                progressDialog.show();
 //                progressDialog.setCancelable(false);
+                //Toast.makeText(getApplicationContext(),"sd",Toast.LENGTH_SHORT).show();
+                if (day.equals("1")) {
+                    day = "01";
+                }
+                if (day.equals("2")) {
+                    day = "02";
+                }
+                if (day.equals("3")) {
+                    day = "03";
+                }
+                if (day.equals("4")) {
+                    day = "04";
+                }
+                if (day.equals("5")) {
+                    day = "05";
+                }
+                if (day.equals("6")) {
+                    day = "06";
+                }
+                if (day.equals("7")) {
+                    day = "07";
+                }
+                if (day.equals("8")) {
+                    day = "08";
+                }
+                if (day.equals("9")) {
+                    day = "09";
+                }
+
                 String dt = mon + " " + day + ", " + selectedYear;
                 finalDate = dt;
-                String mn="";
-                if(mon.equals("Jul")){
-                    mn="07";
+                String mn = "";
+
+                if (mon.equals("Jul")) {
+                    mn = "07";
+                } else if (mon.equals("Jan")) {
+                    mn = "01";
+                } else if (mon.equals("Feb")) {
+                    mn = "02";
+                } else if (mon.equals("Mar")) {
+                    mn = "03";
+                } else if (mon.equals("Apr")) {
+                    mn = "04";
+                } else if (mon.equals("May")) {
+                    mn = "05";
+                } else if (mon.equals("Jun")) {
+                    mn = "06";
+                } else if (mon.equals("Aug")) {
+                    mn = "08";
+                } else if (mon.equals("Sep")) {
+                    mn = "09";
+                } else if (mon.equals("Oct")) {
+                    mn = "10";
+                } else if (mon.equals("Nov")) {
+                    mn = "11";
+                } else if (mon.equals("Dec")) {
+                    mn = "12";
                 }
-                else if(mon.equals("Jan")){
-                    mn="01";
-                }
-                else if(mon.equals("Feb")){
-                    mn="02";
-                }else if(mon.equals("Mar")){
-                    mn="03";
-                }else if(mon.equals("Apr")){
-                    mn="04";
-                }else if(mon.equals("May")){
-                    mn="05";
-                }else if(mon.equals("Jun")){
-                    mn="06";
-                }
-                else if(mon.equals("Aug")){
-                    mn="08";
-                }
-                else if(mon.equals("Sep")){
-                    mn="09";
-                }
-                else if(mon.equals("Oct")){
-                    mn="10";
-                }
-                else if(mon.equals("Nov")){
-                    mn="11";
-                }
-                else if(mon.equals("Dec")){
-                    mn="12";
-                }
-                String dat=day+"-"+mn+"-"+selectedYear;
-                String slot=array[1]+time;
+                String dat = day + "-" + mn + "-" + selectedYear;
+                String slot = array[1] + time;
                 finalTime = array[1] + ":00";
                 userAddress = houseAddress.getText().toString();
                 // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
 
-                //sendemailconfirmation();
+
                 //addtoDatabase();
                 //addTosheet();
-                if (isCouponApplied)
-                    addCouponUsage();
-                 if (bookingType.equals("Coupon")) {
-                    MyCoupons.couponItemModelList.remove(MyCoupons.couponItemModelList.get(listPosition));
-                    Map<String, Object> updateCouponData = new HashMap<>();
-                    for (int i = 0; i < MyCoupons.couponItemModelList.size(); i++) {
-                        updateCouponData.put("service_" + i + 1, MyCoupons.couponItemModelList.get(i).getServiceName());
-                        updateCouponData.put("service_" + i + 1 + "_type", MyCoupons.couponItemModelList.get(i).getType());
-                        updateCouponData.put("service_" + i + 1 + "_price", MyCoupons.couponItemModelList.get(i).getServicePrice());
-                        updateCouponData.put("service_" + i + 1 + "_icon", MyCoupons.couponItemModelList.get(i).getImageId());
-                    }
-                    updateCouponData.put("coupons", (long) MyCoupons.couponItemModelList.size());
-                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .collection("UserData").document("MyCoupons").set(updateCouponData)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        progressDialog.dismiss();
-                                        BookingsActivity.checked = false;
-//                                            BookingsActivity.bookingActivityList.clear();
-                                        MyCoupons.couponsChecked = false;
-                                        MyCoupons.couponItemModelList.clear();
-                                        Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                        intent1.putExtra("Booking Amount", BookingTotalAmount);
-                                        intent1.putExtra("Order Summary", OrderSummary);
-                                        startActivity(intent1);
-                                        finish();
-                                    }
-                                }
-                            });
-                } else {
 //                    progressDialog.dismiss();
-                    BookingsActivity.checked = false;
-                     Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
-                     JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-                    ProgressDialog progressDialog=new ProgressDialog(BookingPage.this);
+                //Toast.makeText(getApplicationContext(), "sd", Toast.LENGTH_SHORT).show();
+                BookingsActivity.checked = false;
+                Retrofit retrofit1= RetrofitClientInstanceBooking.getRetrofitInstance();
+                JsonPlaceHolderApi2 jsonPlaceHolderApi21=retrofit1.create(JsonPlaceHolderApi2.class);
+
+                ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
                 progressDialog.setMessage("Loading");
                 progressDialog.setCancelable(true);
                 progressDialog.show();
-                Call<InstItem> call= jsonPlaceHolderApi2.bookSlot(new ServiceIdList(sidlist,null,null),dat,slot,"Bearer "+token);
+                Call<InstItem> call = jsonPlaceHolderApi21.bookSlot(new ServiceIdList(sidlist, null, null, curAmount,couponName), dat, array[1] + "", "Bearer " + token);
                 call.enqueue(new Callback<InstItem>() {
                     @Override
                     public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
-                        if(response.code()==200){
-                            if(response.body().isSuccess()){
-                                if(bookingType.equals("Cart")){
-                                    Call<Void> call1=jsonPlaceHolderApi2.deleteCart(new ServiceIdList(sidlist,null,null),"Bearer "+token);
+                        if (response.code() == 200) {
+                            if (response.body().isSuccess()) {
+                                if (bookingType.equals("Cart")) {
+                                    Call<Void> call1 = jsonPlaceHolderApi21.deleteCart(new ServiceIdList(sidlist, null, null, 0,couponName), "Bearer " + token);
                                     call1.enqueue(new Callback<Void>() {
                                         @Override
                                         public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                            if(response.code()==200){
-                                                SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("Count",MODE_PRIVATE);
-                                                SharedPreferences.Editor editor=sharedPreferences.edit();
-                                                editor.putInt("count",0);
+                                            if (response.code() == 200) {
+                                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Count", MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putInt("count", 0);
                                                 editor.apply();
-                                            }
-                                            else{
+                                            } else {
 
                                             }
                                         }
@@ -230,40 +231,58 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                         }
                                     });
                                 }
+                                if(isBarberFound){
+                                    Toast.makeText(BookingPage.this, "Barber found!", Toast.LENGTH_SHORT).show();
+                                    Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+                                    call1.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                        if(response.code()==200){
+
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                }
 
                                 progressDialog.dismiss();
                                 Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                intent1.putExtra("Booking Amount", BookingTotalAmount);
+                                intent1.putExtra("Booking Amount", curAmount);
                                 intent1.putExtra("Order Summary", OrderSummary);
-                                intent1.putExtra("date",dat);
-                                intent1.putExtra("slot",slot);
-                                intent1.putExtra("sidlist",(Serializable)sidlist);
+                                intent1.putExtra("date", dat);
+                                intent1.putExtra("slot", slot);
+                                intent1.putExtra("sidlist", (Serializable) sidlist);
                                 startActivity(intent1);
                                 finish();
+
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "This slot has already been booked", Toast.LENGTH_LONG).show();
                             }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else{
+                        } else {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Could not book slot", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<InstItem> call, Throwable t) {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 //                        BookingsActivity.bookingActivityList.clear();
 
                 });
 
-                 }
+
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "Not Checked", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -288,17 +307,53 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
         Button couponApply = findViewById(R.id.booking_coupon_apply_button);
+        slotBtn=findViewById(R.id.slot_booking);
         isCouponApplied = false;
         BookingOrders = findViewById(R.id.booking_order_summary);
-
-        male_slots = (LinearLayout) findViewById(R.id.ll);
-        time_ll=findViewById(R.id.llt);
-        tim1=findViewById(R.id.t6);
-        tim2=findViewById(R.id.t1);
-        tim3=findViewById(R.id.t2);
-        tim4=findViewById(R.id.t3);
-        tim5=findViewById(R.id.t4);
-        tim6=findViewById(R.id.t5);
+        //drop=findViewById(R.id.drop_down_arrow);
+        calendar=findViewById(R.id.Calender);
+//        final int[] a = {0};
+//        drop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(a[0] ==0){
+//                    couponcodeEditText.setVisibility(View.VISIBLE);
+//                    couponApply.setVisibility(View.VISIBLE);
+//
+//                    a[0]++;
+//                }
+//                else{
+//                    couponcodeEditText.setVisibility(View.GONE);
+//                    couponApply.setVisibility(View.GONE);
+//
+//                    a[0] =0;
+//                }
+//            }
+//        });
+        final int[] b = {0};
+        slotBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(b[0] ==0){
+                    calendar.setVisibility(View.VISIBLE);
+                    ConfirmBooking.setVisibility(View.VISIBLE);
+                    b[0] =1;
+                }
+                else{
+                    calendar.setVisibility(View.GONE);
+                    ConfirmBooking.setVisibility(View.GONE);
+                    b[0]=0;
+                }
+            }
+        });
+        male_slots = (LinearLayout) findViewById(R.id.dt);
+//        time_ll=findViewById(R.id.llt);
+//        tim1=findViewById(R.id.t6);
+//        tim2=findViewById(R.id.t1);
+//        tim3=findViewById(R.id.t2);
+//        tim4=findViewById(R.id.t3);
+//        tim5=findViewById(R.id.t4);
+//        tim6=findViewById(R.id.t5);
 //        female_slots = (LinearLayout) findViewById(R.id.ll2);
 //        mf_slots = (LinearLayout) findViewById(R.id.ll3);
         Intent intent = getIntent();
@@ -314,8 +369,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         serviceTime = intent.getIntExtra("Time",0);
         sidlist = (List<CartItemModel>) intent.getSerializableExtra("sidlist");
         Log.d("Order", OrderSummary + "  " + serviceTime);
+        curAmount=BookingTotalAmount;
 
-        Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null),"Bearer "+token);
+        Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null,curAmount,couponName),"Bearer "+token);
         call.enqueue(new Callback<InstItem>() {
             @Override
             public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
@@ -324,12 +380,14 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     barberIdRet=instItem.getId();
                     slotRet=instItem.getSlot();
                     if(!instItem.isSuccess()){
+                        isBarberFound=false;
                         InstText.setText("No barber nearby");
                         bookInst.setVisibility(View.GONE);
                     }
                     else{
+                        isBarberFound=true;
                         bookInst.setVisibility(View.VISIBLE);
-                        InstText.setText("Nearest barber is"+instItem.getTime()+"min away.");
+                        InstText.setText("Nearest barber is "+instItem.getTime()+"min away.");
                     }
                 }
                 else{
@@ -344,71 +402,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
-        bookInst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder=new AlertDialog.Builder(BookingPage.this);
-                builder.setMessage("Are you sure to book?");
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @SuppressLint("ResourceAsColor")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet),"Bearer "+token);
-                        call1.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                if(response.code()==200){
-                                    Date c = Calendar.getInstance().getTime();
-                                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                    String formattedDate = df.format(c);
 
-                                    Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                    intent1.putExtra("Booking Amount", BookingTotalAmount);
-                                    intent1.putExtra("Order Summary", OrderSummary);
-                                    intent1.putExtra("date",formattedDate);
-                                    intent1.putExtra("slot",slotRet);
-                                    intent1.putExtra("sidlist",(Serializable)sidlist);
-                                    startActivity(intent1);
-                                    finish();
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Could not confirm booking",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet),"Bearer "+token);
-                        call1.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                if(response.code()==200){
-
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                AlertDialog dialog=builder.create();
-                dialog.show();
-            }
-        });
 
         if(bookingType.equals("trend")){
             if(OrderSummary.equals("(men)Simple Hair Cut  Rs79") || OrderSummary.equals("(men)Stylish Hair Cut  Rs99")
@@ -477,26 +471,10 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             slot8 = findViewById(R.id.slot8);
             slot9 = findViewById(R.id.slot9);
             slot10 = findViewById(R.id.slot10);
+            slot11=findViewById(R.id.slot11);
+            slot12=findViewById(R.id.slot12);
+            slot13=findViewById(R.id.slot13);
         }
-//        else if (women && !men) {
-//            slot1 = findViewById(R.id.slot1_f);
-//            slot2 = findViewById(R.id.slot2_f);
-//            slot3 = findViewById(R.id.slot3_f);
-//            slot4 = findViewById(R.id.slot4_f);
-//            slot5 = findViewById(R.id.slot5_f);
-//            slot6 = findViewById(R.id.slot6_f);
-//            slot7 = findViewById(R.id.slot7_f);
-//            slot8 = findViewById(R.id.slot8_f);
-//            slot9 = findViewById(R.id.slot9_f);
-//        } else {
-//            slot1 = findViewById(R.id.slot1_mf);
-//            slot2 = findViewById(R.id.slot2_mf);
-//            slot3 = findViewById(R.id.slot3_mf);
-//            slot4 = findViewById(R.id.slot4_mf);
-//            slot5 = findViewById(R.id.slot5_mf);
-//            slot6 = findViewById(R.id.slot6_mf);
-//        }
-//        Toast.makeText(this, men+" "+women, Toast.LENGTH_SHORT).show();
         array = new int[2];
 
         array[0] = 100;
@@ -528,14 +506,72 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         totalAmount.setText("Total Amount Rs " + BookingTotalAmount);
         BookingOrders.setText(OrderSummary);
 
+        bookInst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder=new AlertDialog.Builder(BookingPage.this);
+                builder.setMessage("Are you sure to book?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+                        call1.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                if(response.code()==200){
+                                    Date c = Calendar.getInstance().getTime();
+                                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                    String formattedDate = df.format(c);
 
-        //autodateandtime();
-        /* Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.YEAR,Calendar.YEAR);
-        calendar.set(Calendar.MONTH,Calendar.MONTH);
-        calendar.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH);
-        String currentday= DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-        date.setText(currentday);*/
+                                    Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+                                    intent1.putExtra("Booking Amount", BookingTotalAmount);
+                                    intent1.putExtra("Order Summary", OrderSummary);
+                                    intent1.putExtra("date",formattedDate);
+                                    intent1.putExtra("slot",slotRet);
+                                    intent1.putExtra("sidlist",(Serializable)sidlist);
+                                    startActivity(intent1);
+                                    finish();
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"Could not confirm booking",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+                        call1.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                if(response.code()==200){
+
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                AlertDialog dialog=builder.create();
+                dialog.show();
+            }
+        });
+
         Calendar calendar = Calendar.getInstance();
         selectedYear = calendar.get(Calendar.YEAR);
         SimpleDateFormat month_date = new SimpleDateFormat("MMM");
@@ -544,8 +580,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         month.setText(cur_month + ", " + selectedYear);
 
         int selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
-//        calendar.add(Calendar.DAY_OF_MONTH,20);
-//        selectedDay=calendar.get(Calendar.DAY_OF_MONTH);
         day1.setText(String.valueOf(selectedDay));
 
         int flag = 0;
@@ -650,24 +684,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 day1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 mon = mon1;
                 day = day1.getText().toString();
-//                progressDialog.show();
-//            setDefault();
-//                if (men && !women) {
-//                    male_slots.setVisibility(View.VISIBLE);
-//                    female_slots.setVisibility(View.INVISIBLE);
-//                    mf_slots.setVisibility(View.INVISIBLE);
-//                } else if (women && !men) {
-//                    male_slots.setVisibility(View.INVISIBLE);
-//                    female_slots.setVisibility(View.VISIBLE);
-//                    mf_slots.setVisibility(View.INVISIBLE);
-//                } else {
-//                    male_slots.setVisibility(View.INVISIBLE);
-//                    female_slots.setVisibility(View.INVISIBLE);
-//                    mf_slots.setVisibility(View.VISIBLE);
-//                }
-
                 male_slots.setVisibility(View.VISIBLE);
-                time_ll.setVisibility(View.VISIBLE);
+                //time_ll.setVisibility(View.VISIBLE);
                 array[0] = 1;
                 day2.setTextColor(getResources().getColor(R.color.colorAccent));
                 day2.setBackgroundColor(getResources().getColor(R.color.white));
@@ -682,16 +700,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-//                FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day1")
-//                        .collection("Region").document("Region" + region)
-//                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            slots(task);
-//                        }
-//                    }
-//                });
             }
         });
         day2.setOnClickListener(new View.OnClickListener() {
@@ -707,7 +715,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day = day2.getText().toString();
 
                     male_slots.setVisibility(View.VISIBLE);
-                    time_ll.setVisibility(View.VISIBLE);
+                    //time_ll.setVisibility(View.VISIBLE);
                     //progressDialog.show();
 //                setDefault();
                     array[0] = 2;
@@ -724,16 +732,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day2")
-//                            .collection("Region").document("Region" + region)
-//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                slots(task);
-//                            }
-//                        }
-//                    });
                 }
             }
         });
@@ -745,7 +743,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
             else {
                     male_slots.setVisibility(View.VISIBLE);
-                    time_ll.setVisibility(View.VISIBLE);
+                    //time_ll.setVisibility(View.VISIBLE);
 
                     day3.setTextColor(getResources().getColor(R.color.white));
                     day3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -767,16 +765,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day3")
-//                            .collection("Region").document("Region" + region)
-//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                slots(task);
-//                            }
-//                        }
-//                    });
                 }
             }
         });
@@ -788,7 +776,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
             else {
                     male_slots.setVisibility(View.VISIBLE);
-                    time_ll.setVisibility(View.VISIBLE);
+                    //time_ll.setVisibility(View.VISIBLE);
 
                     day4.setTextColor(getResources().getColor(R.color.white));
                     day4.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -810,16 +798,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day4")
-//                            .collection("Region").document("Region" + region)
-//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                slots(task);
-//                            }
-//                        }
-//                    });
                 }
             }
         });
@@ -831,7 +809,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
             else {
                     male_slots.setVisibility(View.VISIBLE);
-                    time_ll.setVisibility(View.VISIBLE);
+                    //time_ll.setVisibility(View.VISIBLE);
 
                     day5.setTextColor(getResources().getColor(R.color.white));
                     day5.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -853,16 +831,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day5")
-//                            .collection("Region").document("Region" + region)
-//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                slots(task);
-//                            }
-//                        }
-//                    });
                 }
             }
         });
@@ -874,7 +842,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             }
             else {
                     male_slots.setVisibility(View.VISIBLE);
-                    time_ll.setVisibility(View.VISIBLE);
+                    //time_ll.setVisibility(View.VISIBLE);
 
                     day6.setTextColor(getResources().getColor(R.color.white));
                     day6.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -897,16 +865,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setTextColor(getResources().getColor(R.color.colorAccent));
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
-//                    FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day6")
-//                            .collection("Region").document("Region" + region)
-//                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                slots(task);
-//                            }
-//                        }
-//                    });
                 }
             }
         });
@@ -917,7 +875,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     Toast.makeText(getApplicationContext(), "Please select the type of booking you want to make", Toast.LENGTH_SHORT).show();
                 } else {
                     male_slots.setVisibility(View.VISIBLE);
-                    time_ll.setVisibility(View.VISIBLE);
+                    //time_ll.setVisibility(View.VISIBLE);
 
                     day7.setTextColor(getResources().getColor(R.color.white));
                     day7.setBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -939,20 +897,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day6.setTextColor(getResources().getColor(R.color.colorAccent));
                     day6.setBackgroundColor(getResources().getColor(R.color.white));
 
-                    if (region != 0) {
-//                        FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day7")
-//                                .collection("Region").document("Region" + region)
-//                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    slots(task);
-//                                }
-//                            }
-//                        });
-                    } else {
-                        startActivity(new Intent(BookingPage.this, ChangeLocation.class));
-                    }
                 }
             }
         });
@@ -976,25 +920,28 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             slot8.setCardBackgroundColor(Color.BLACK);
             slot9.setCardBackgroundColor(Color.BLACK);
             slot10.setCardBackgroundColor(Color.BLACK);
+            slot11.setCardBackgroundColor(Color.BLACK);
+            slot12.setCardBackgroundColor(Color.BLACK);
+            slot13.setCardBackgroundColor(Color.BLACK);
             if (men && !women) {
-                array[1] = 7;
+                array[1] = 6;
             } else {
                 array[1] = 9;
             }
         });
-        tim1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tim1.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                tim2.setCardBackgroundColor(Color.BLACK);
-                tim3.setCardBackgroundColor(Color.BLACK);
-                tim4.setCardBackgroundColor(Color.BLACK);
-                tim5.setCardBackgroundColor(Color.BLACK);
-                tim6.setCardBackgroundColor(Color.BLACK);
-                time="00";
-
-            }
-        });
+//        tim1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tim1.setCardBackgroundColor(Color.parseColor("#27AE60"));
+//                tim2.setCardBackgroundColor(Color.BLACK);
+//                tim3.setCardBackgroundColor(Color.BLACK);
+//                tim4.setCardBackgroundColor(Color.BLACK);
+//                tim5.setCardBackgroundColor(Color.BLACK);
+//                tim6.setCardBackgroundColor(Color.BLACK);
+//                time="00";
+//
+//            }
+//        });
         slot2.setOnClickListener(v -> {
             slot2.setCardBackgroundColor(Color.parseColor("#27AE60"));
             slot1.setCardBackgroundColor(Color.BLACK);
@@ -1006,25 +953,28 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             slot8.setCardBackgroundColor(Color.BLACK);
             slot9.setCardBackgroundColor(Color.BLACK);
             slot10.setCardBackgroundColor(Color.BLACK);
+            slot11.setCardBackgroundColor(Color.BLACK);
+            slot12.setCardBackgroundColor(Color.BLACK);
+            slot13.setCardBackgroundColor(Color.BLACK);
             if (men && !women) {
-                array[1] = 8;
+                array[1] = 7;
             } else {
                 array[1] = 10;
             }
         });
-        tim2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tim2.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                tim1.setCardBackgroundColor(Color.BLACK);
-                tim3.setCardBackgroundColor(Color.BLACK);
-                tim4.setCardBackgroundColor(Color.BLACK);
-                tim5.setCardBackgroundColor(Color.BLACK);
-                tim6.setCardBackgroundColor(Color.BLACK);
-                time="10";
-
-            }
-        });
+//        tim2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tim2.setCardBackgroundColor(Color.parseColor("#27AE60"));
+//                tim1.setCardBackgroundColor(Color.BLACK);
+//                tim3.setCardBackgroundColor(Color.BLACK);
+//                tim4.setCardBackgroundColor(Color.BLACK);
+//                tim5.setCardBackgroundColor(Color.BLACK);
+//                tim6.setCardBackgroundColor(Color.BLACK);
+//                time="10";
+//
+//            }
+//        });
         slot3.setOnClickListener(v -> {
             slot3.setCardBackgroundColor(Color.parseColor("#27AE60"));
             slot2.setCardBackgroundColor(Color.BLACK);
@@ -1036,25 +986,28 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             slot8.setCardBackgroundColor(Color.BLACK);
             slot9.setCardBackgroundColor(Color.BLACK);
             slot10.setCardBackgroundColor(Color.BLACK);
+            slot11.setCardBackgroundColor(Color.BLACK);
+            slot12.setCardBackgroundColor(Color.BLACK);
+            slot13.setCardBackgroundColor(Color.BLACK);
             if (men && !women) {
-                array[1] = 9;
+                array[1] = 8;
             } else {
                 array[1] = 11;
             }
         });
-        tim3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tim3.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                tim2.setCardBackgroundColor(Color.BLACK);
-                tim1.setCardBackgroundColor(Color.BLACK);
-                tim4.setCardBackgroundColor(Color.BLACK);
-                tim5.setCardBackgroundColor(Color.BLACK);
-                tim6.setCardBackgroundColor(Color.BLACK);
-                time="20";
-
-            }
-        });
+//        tim3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tim3.setCardBackgroundColor(Color.parseColor("#27AE60"));
+//                tim2.setCardBackgroundColor(Color.BLACK);
+//                tim1.setCardBackgroundColor(Color.BLACK);
+//                tim4.setCardBackgroundColor(Color.BLACK);
+//                tim5.setCardBackgroundColor(Color.BLACK);
+//                tim6.setCardBackgroundColor(Color.BLACK);
+//                time="20";
+//
+//            }
+//        });
         slot4.setOnClickListener(v -> {
             slot4.setCardBackgroundColor(Color.parseColor("#27AE60"));
             slot2.setCardBackgroundColor(Color.BLACK);
@@ -1066,25 +1019,28 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             slot8.setCardBackgroundColor(Color.BLACK);
             slot9.setCardBackgroundColor(Color.BLACK);
             slot10.setCardBackgroundColor(Color.BLACK);
+            slot11.setCardBackgroundColor(Color.BLACK);
+            slot12.setCardBackgroundColor(Color.BLACK);
+            slot13.setCardBackgroundColor(Color.BLACK);
             if (men && !women) {
-                array[1] = 10;
+                array[1] = 9;
             } else {
                 array[1] = 12;
             }
         });
-        tim5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tim5.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                tim2.setCardBackgroundColor(Color.BLACK);
-                tim3.setCardBackgroundColor(Color.BLACK);
-                tim4.setCardBackgroundColor(Color.BLACK);
-                tim1.setCardBackgroundColor(Color.BLACK);
-                tim6.setCardBackgroundColor(Color.BLACK);
-                time="40";
-
-            }
-        });
+//        tim5.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tim5.setCardBackgroundColor(Color.parseColor("#27AE60"));
+//                tim2.setCardBackgroundColor(Color.BLACK);
+//                tim3.setCardBackgroundColor(Color.BLACK);
+//                tim4.setCardBackgroundColor(Color.BLACK);
+//                tim1.setCardBackgroundColor(Color.BLACK);
+//                tim6.setCardBackgroundColor(Color.BLACK);
+//                time="40";
+//
+//            }
+//        });
         slot5.setOnClickListener(v -> {
             slot5.setCardBackgroundColor(Color.parseColor("#27AE60"));
             slot2.setCardBackgroundColor(Color.BLACK);
@@ -1096,27 +1052,30 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             slot8.setCardBackgroundColor(Color.BLACK);
             slot9.setCardBackgroundColor(Color.BLACK);
             slot10.setCardBackgroundColor(Color.BLACK);
+            slot11.setCardBackgroundColor(Color.BLACK);
+            slot12.setCardBackgroundColor(Color.BLACK);
+            slot13.setCardBackgroundColor(Color.BLACK);
             if (men && !women) {
-                array[1] = 11;
+                array[1] = 10;
             } else if (women && !men) {
                 array[1] = 13;
             } else {
                 array[1] = 16;
             }
         });
-        tim4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tim4.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                tim2.setCardBackgroundColor(Color.BLACK);
-                tim3.setCardBackgroundColor(Color.BLACK);
-                tim1.setCardBackgroundColor(Color.BLACK);
-                tim5.setCardBackgroundColor(Color.BLACK);
-                tim6.setCardBackgroundColor(Color.BLACK);
-                time="30";
-
-            }
-        });
+//        tim4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tim4.setCardBackgroundColor(Color.parseColor("#27AE60"));
+//                tim2.setCardBackgroundColor(Color.BLACK);
+//                tim3.setCardBackgroundColor(Color.BLACK);
+//                tim1.setCardBackgroundColor(Color.BLACK);
+//                tim5.setCardBackgroundColor(Color.BLACK);
+//                tim6.setCardBackgroundColor(Color.BLACK);
+//                time="30";
+//
+//            }
+//        });
         slot6.setOnClickListener(v -> {
             slot6.setCardBackgroundColor(Color.parseColor("#27AE60"));
             slot2.setCardBackgroundColor(Color.BLACK);
@@ -1128,27 +1087,30 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             slot8.setCardBackgroundColor(Color.BLACK);
             slot9.setCardBackgroundColor(Color.BLACK);
             slot10.setCardBackgroundColor(Color.BLACK);
+            slot11.setCardBackgroundColor(Color.BLACK);
+            slot12.setCardBackgroundColor(Color.BLACK);
+            slot13.setCardBackgroundColor(Color.BLACK);
             if (men && !women) {
-                array[1] = 12;
+                array[1] = 11;
             } else if (women && !men) {
                 array[1] = 14;
             } else {
                 array[1] = 17;
             }
         });
-        tim6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tim6.setCardBackgroundColor(Color.parseColor("#27AE60"));
-                tim2.setCardBackgroundColor(Color.BLACK);
-                tim3.setCardBackgroundColor(Color.BLACK);
-                tim4.setCardBackgroundColor(Color.BLACK);
-                tim5.setCardBackgroundColor(Color.BLACK);
-                tim1.setCardBackgroundColor(Color.BLACK);
-                time="50";
-
-            }
-        });
+//        tim6.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tim6.setCardBackgroundColor(Color.parseColor("#27AE60"));
+//                tim2.setCardBackgroundColor(Color.BLACK);
+//                tim3.setCardBackgroundColor(Color.BLACK);
+//                tim4.setCardBackgroundColor(Color.BLACK);
+//                tim5.setCardBackgroundColor(Color.BLACK);
+//                tim1.setCardBackgroundColor(Color.BLACK);
+//                time="50";
+//
+//            }
+//        });
         if (!(men && women)) {
             slot7.setOnClickListener(v -> {
                 slot7.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1161,8 +1123,11 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 slot8.setCardBackgroundColor(Color.BLACK);
                 slot9.setCardBackgroundColor(Color.BLACK);
                 slot10.setCardBackgroundColor(Color.BLACK);
+                slot11.setCardBackgroundColor(Color.BLACK);
+                slot12.setCardBackgroundColor(Color.BLACK);
+                slot13.setCardBackgroundColor(Color.BLACK);
                 if (men && !women) {
-                    array[1] = 16;
+                    array[1] = 12;
                 } else {
                     array[1] = 15;
                 }
@@ -1178,8 +1143,11 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 slot1.setCardBackgroundColor(Color.BLACK);
                 slot9.setCardBackgroundColor(Color.BLACK);
                 slot10.setCardBackgroundColor(Color.BLACK);
+                slot11.setCardBackgroundColor(Color.BLACK);
+                slot12.setCardBackgroundColor(Color.BLACK);
+                slot13.setCardBackgroundColor(Color.BLACK);
                 if (men && !women) {
-                    array[1] = 17;
+                    array[1] = 13;
                 } else {
                     array[1] = 16;
                 }
@@ -1195,8 +1163,11 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 slot8.setCardBackgroundColor(Color.BLACK);
                 slot1.setCardBackgroundColor(Color.BLACK);
                 slot10.setCardBackgroundColor(Color.BLACK);
+                slot11.setCardBackgroundColor(Color.BLACK);
+                slot12.setCardBackgroundColor(Color.BLACK);
+                slot13.setCardBackgroundColor(Color.BLACK);
                 if (men && !women) {
-                    array[1] = 18;
+                    array[1] = 14;
                 } else {
                     array[1] = 17;
                 }
@@ -1213,7 +1184,58 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot8.setCardBackgroundColor(Color.BLACK);
                     slot1.setCardBackgroundColor(Color.BLACK);
                     slot9.setCardBackgroundColor(Color.BLACK);
-                    array[1] = 19;
+                    slot11.setCardBackgroundColor(Color.BLACK);
+                    slot12.setCardBackgroundColor(Color.BLACK);
+                    slot13.setCardBackgroundColor(Color.BLACK);
+                    array[1] = 15;
+                });
+                slot11.setOnClickListener(v -> {
+                    slot11.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                    slot10.setCardBackgroundColor(Color.BLACK);
+                    slot12.setCardBackgroundColor(Color.BLACK);
+                    slot13.setCardBackgroundColor(Color.BLACK);
+                    array[1] = 16;
+                });
+                slot12.setOnClickListener(v -> {
+                    slot12.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                    slot11.setCardBackgroundColor(Color.BLACK);
+                    slot10.setCardBackgroundColor(Color.BLACK);
+                    slot13.setCardBackgroundColor(Color.BLACK);
+                    array[1] = 17;
+                });
+                slot13.setOnClickListener(v -> {
+                    slot13.setCardBackgroundColor(Color.parseColor("#27AE60"));
+                    slot2.setCardBackgroundColor(Color.BLACK);
+                    slot3.setCardBackgroundColor(Color.BLACK);
+                    slot4.setCardBackgroundColor(Color.BLACK);
+                    slot5.setCardBackgroundColor(Color.BLACK);
+                    slot6.setCardBackgroundColor(Color.BLACK);
+                    slot7.setCardBackgroundColor(Color.BLACK);
+                    slot8.setCardBackgroundColor(Color.BLACK);
+                    slot1.setCardBackgroundColor(Color.BLACK);
+                    slot9.setCardBackgroundColor(Color.BLACK);
+                    slot11.setCardBackgroundColor(Color.BLACK);
+                    slot10.setCardBackgroundColor(Color.BLACK);
+                    slot12.setCardBackgroundColor(Color.BLACK);
+                    array[1] = 18;
                 });
             }
         }
@@ -1227,83 +1249,64 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         });
 
         couponApply.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(couponcodeEditText.getText())) {
-                final ProgressDialog progressDialog = new ProgressDialog(BookingPage.this);
-                progressDialog.setMessage("Please wait for a while...");
-                progressDialog.show();
-                progressDialog.setCancelable(false);
-
-                //Call<Data> call=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0 ,,false),token);
-                //if success false coupon already used, response 400 coupon false
-
-                FirebaseFirestore.getInstance().collection("AppData").document("Coupons").get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    String couponCode = task.getResult().get("CouponName").toString();
-                                    limit = task.getResult().getLong("CouponLimit");
-                                    users = (List<String>) task.getResult().get("users");
-                                    if (!couponcodeEditText.getText().toString().trim().equals(couponCode)) {
-                                        try {
-                                            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
-                                                    .collection("EligibleCustomers")
-                                                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
-                                                    .addOnCompleteListener(task1 -> {
-                                                        if (task1.getResult().get("couponCode").toString().equals(couponcodeEditText.getText().toString().trim())){
-                                                            if(task1.getResult().get("used").toString().equals("N")) {
-                                                                BookingTotalAmount = (BookingTotalAmount > 100 ? BookingTotalAmount - 50 : BookingTotalAmount / 2);
-                                                                totalAmount.setText("Total Amount Rs" + BookingTotalAmount + "(Coupon Applied)");
-                                                                isReferApplied =true;
-                                                                isCouponApplied = true;
-                                                                couponApl.setVisibility(View.VISIBLE);
-                                                                text.setText(task1.getResult().get("description").toString());
-                                                                text.setVisibility(View.VISIBLE);
-                                                                couponApply.setEnabled(false);
-                                                                Toast.makeText(getApplicationContext(), "Coupon Applied Successfully.", Toast.LENGTH_LONG).show();
-                                                            }else{
-                                                                couponcodeEditText.setError("Already Used");
-                                                                couponcodeEditText.requestFocus();
-                                                            }
-                                                        } else {
-                                                            couponcodeEditText.setError("No Such Coupons Exist");
-                                                            couponcodeEditText.requestFocus();
-                                                        }
-
-                                                    });
-                                        }catch (Exception e) {
-                                            couponcodeEditText.setError("No Such Coupons Exist");
-                                            couponcodeEditText.requestFocus();
+            if(!TextUtils.isEmpty(couponcodeEditText.getText())){
+                Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0,null,false,null),"Bearer "+token);
+                couponItemCall.enqueue(new Callback<CouponItem>() {
+                    @Override
+                    public void onResponse(Call<CouponItem> call, retrofit2.Response<CouponItem> response) {
+                        if(response.code()==200){
+                            CouponItem item=response.body();
+                            couponServiceId=item.getServiceId();
+                            upper=item.getUpperLimit();
+                            lower=item.getLowerLimit();
+                            couponName=couponcodeEditText.getText().toString();
+                            Toast.makeText(getApplicationContext(),"Coupon applied!",Toast.LENGTH_LONG).show();
+                            if(couponServiceId.equals("all")){
+                                for(CartItemModel model:sidlist){
+                                    if(upper!=-1){
+                                        if(model.getServicePrice()<=upper && model.getServicePrice()>=lower) {
+                                            curAmount = BookingTotalAmount - item.getDiscount();
+                                            break;
                                         }
-                                        couponApl.setVisibility(View.INVISIBLE);
-                                        progressDialog.dismiss();
-                                    } else
-                                    if (users.contains(FirebaseAuth.getInstance().getUid())) {
-                                        progressDialog.dismiss();
-                                        couponApl.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(getApplicationContext(), "You have already used this coupon", Toast.LENGTH_LONG).show();
-                                    } else if (limit == 0) {
-                                        couponApl.setVisibility(View.INVISIBLE);
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), "Sorry, it has reached its limit!!", Toast.LENGTH_LONG).show();
-                                    } else if (BookingTotalAmount < 69) {
-                                        progressDialog.dismiss();
-                                        couponApl.setVisibility(View.INVISIBLE);
-                                        couponcodeEditText.setError("Total Amount should be greater than or equal to 69");
-                                        couponcodeEditText.requestFocus();
-                                    } else {
-                                        BookingTotalAmount = (BookingTotalAmount > 100 ? BookingTotalAmount - 50 : BookingTotalAmount / 2);
-                                        totalAmount.setText("Total Amount Rs" + BookingTotalAmount + "(Coupon Applied)");
-                                        isCouponApplied = true;
-                                        couponApl.setVisibility(View.VISIBLE);
-                                        text.setVisibility(View.VISIBLE);
-                                        couponApply.setEnabled(false);
-                                        Toast.makeText(getApplicationContext(), "Coupon Applied Successfully.", Toast.LENGTH_LONG).show();
-                                        progressDialog.dismiss();
+                                    }
+                                    else{
+                                        if(model.getServicePrice()>=lower) {
+                                            curAmount = BookingTotalAmount - item.getDiscount();
+                                            break;
+                                        }
                                     }
                                 }
                             }
-                        });
+                            else{
+                                for(CartItemModel model:sidlist){
+                                    if(upper!=-1){
+                                        if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
+                                            if(model.getServicePrice()<=upper && model.getServicePrice()>=lower){
+                                                curAmount=BookingTotalAmount-item.getDiscount();
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
+                                            if(model.getServicePrice()>=lower){
+                                                curAmount=BookingTotalAmount-item.getDiscount();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Could not apply coupon, check price cap",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CouponItem> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
             } else{
                 couponcodeEditText.setError("Please enter a coupon code first");
                 couponcodeEditText.requestFocus();
@@ -1612,7 +1615,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             Toast.makeText(getApplicationContext(), "Please Choose An Address", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (array[0] == 100 || array[1] == 100 ||time.equals("")) {
+        if (array[0] == 100 || array[1] == 100) {
             Toast.makeText(getApplicationContext(), "Date/Time Not selected!", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -1625,33 +1628,33 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         //extractDataFromUser();
     }
 
-    private void addCouponUsage () {
-        HashMap<String, Object> data = new HashMap<>();
-        users.add(FirebaseAuth.getInstance().getUid());
-        data.put("CouponLimit", --limit);
-        data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-        FirebaseFirestore.getInstance().collection("AppData").document("Coupons")
-                .update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    //Toast.makeText(getApplicationContext(),"Coupon Applied Successfully. Don't Revert this Booking, you will lose the couopon",Toast.LENGTH_LONG).show();
-                    //isCouponApplied=true;
-                    // progressDialog.dismiss();
-                }
-            }
-        });
-
-        if(isReferApplied) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("used", "Y");
-            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
-                    .collection("EligibleCustomers")
-                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(map).addOnCompleteListener(task -> {
-
-            });
-        }
-    }
+//    private void addCouponUsage () {
+//        HashMap<String, Object> data = new HashMap<>();
+//        users.add(FirebaseAuth.getInstance().getUid());
+//        data.put("CouponLimit", --limit);
+//        data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+//        FirebaseFirestore.getInstance().collection("AppData").document("Coupons")
+//                .update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (task.isSuccessful()) {
+//                    //Toast.makeText(getApplicationContext(),"Coupon Applied Successfully. Don't Revert this Booking, you will lose the couopon",Toast.LENGTH_LONG).show();
+//                    //isCouponApplied=true;
+//                    // progressDialog.dismiss();
+//                }
+//            }
+//        });
+//
+//        if(isReferApplied) {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("used", "Y");
+//            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
+//                    .collection("EligibleCustomers")
+//                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(map).addOnCompleteListener(task -> {
+//
+//            });
+//        }
+//    }
 
     private void useCurrentAddress () {
         SharedPreferences preferences=getSharedPreferences("Profile",MODE_PRIVATE);

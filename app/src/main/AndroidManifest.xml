@@ -26,8 +26,8 @@
         <activity android:name=".ChangeLocation" />
         <activity android:name=".Rating" />
         <activity android:name=".SubCategoryActivity" />
-        <activity android:name=".WeddingActivity" />
         <activity android:name=".WeddingPreActivity" />
+        <activity android:name=".Services.WeddingActivity" />
         <activity android:name=".Profile.AboutUsActivity" />
         <activity android:name=".MapSearchActivity" />
         <activity
@@ -77,7 +77,7 @@
             android:name=".Bookings.BookingPage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CartActivity"
+            android:name=".Services.CartActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ParlourActivity"

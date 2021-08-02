@@ -204,7 +204,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         //Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
         Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null,
                 address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude(),ref.getText().toString()), "Bearer "+tempToken);
-
+//        ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
+//        progressDialog.setMessage("Logging you in");
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
@@ -271,23 +272,12 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if (response.code() == 200) {
                     Register register = response.body();
-                    final Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            SharedPreferences sharedPreferences=getSharedPreferences("Notification",MODE_PRIVATE);
-
-                            tempToken = register.getToken();
-                            progressBar.setVisibility(View.INVISIBLE);
-                            veri_code.setVisibility(View.VISIBLE);
-                            //Toast.makeText(getApplicationContext(),sharedPreferences.getString("notif",""),Toast.LENGTH_SHORT).show();
-                            veri_code.setText(sharedPreferences.getString("notif",""));
-                            continue_to_signup.setVisibility(View.VISIBLE);
-                        }
-                    };
-                    final Handler h = new Handler();
-                    h.removeCallbacks(runnable);
-                    h.postDelayed(runnable, 2000);
-
+                    tempToken = register.getToken();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    veri_code.setVisibility(View.VISIBLE);
+                    continue_to_signup.setVisibility(View.VISIBLE);
+                    get_code.setVisibility(View.GONE);
+                    phoneNumber.setVisibility(View.GONE);
                 } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();

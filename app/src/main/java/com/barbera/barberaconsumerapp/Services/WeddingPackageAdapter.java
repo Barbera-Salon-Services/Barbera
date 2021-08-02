@@ -1,6 +1,5 @@
 package com.barbera.barberaconsumerapp.Services;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -18,14 +17,14 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
+public class WeddingPackageAdapter extends RecyclerView.Adapter<WeddingPackageAdapter.ViewHolder>{
 
     private List<String> imgUrl=new ArrayList<>(), imgName=new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
     private String salonType;
 
-    public GridAdapter(List<String> imgUrl, List<String> imgName, Context ctx,String category) {
+    public WeddingPackageAdapter(List<String> imgUrl, List<String> imgName, Context ctx,String category) {
         this.imgUrl = imgUrl;
         this.imgName = imgName;
         this.inflater = inflater.from(ctx);
@@ -36,12 +35,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.card_item,parent,false);
+        View view = inflater.inflate(R.layout.cart_wedding_packages,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeddingPackageAdapter.ViewHolder holder, int position) {
         holder.imgNam.setText(imgName.get(position));
         //Log.d("ad.",imgName.get(position));
         Glide.with(context).load(imgUrl.get(position)).into(holder.img);
@@ -58,7 +57,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                         context.startActivity(intent);
                     }
                     else{
-                        Intent intent=new Intent(context,ServiceType.class);
+                        Intent intent=new Intent(context, ServiceType.class);
                         intent.putExtra("Category",imgName.get(position));
                         intent.putExtra("SalonType",salonType);
                         intent.putExtra("ImageUrl",imgUrl.get(position));

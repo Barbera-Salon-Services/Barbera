@@ -1,22 +1,31 @@
 package com.barbera.barberaconsumerapp.Bookings;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class BookingModel {
 
     private String summary;
     private int amount;
+    @SerializedName("date")
     private String date;
+    @SerializedName("slot")
     private String time;
+    @SerializedName("barberId")
     private String barberId;
+    @SerializedName("serviceId")
     private List<String> serviceIdList;
     private String status;
     private String barberName;
     private String barberPhone;
     private double barberDist;
+    private String category;
+    private String type;
 
     public BookingModel(String summary, int amount, String date,String time,String barberId,
-                        List<String> serviceIdList,String status,String barberName,String barberPhone,double barberDist) {
+                        List<String> serviceIdList,String status,String barberName,String barberPhone,double barberDist,
+                        String category,String type) {
         this.summary = summary;
         this.amount = amount;
         this.date = date;
@@ -27,6 +36,16 @@ public class BookingModel {
         this.barberName=barberName;
         this.barberPhone=barberPhone;
         this.barberDist=barberDist;
+        this.category=category;
+        this.type=type;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public double getBarberDist() {

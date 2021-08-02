@@ -1,10 +1,12 @@
 package com.barbera.barberaconsumerapp.Services;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +82,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         holder.title.setText(serviceList.get(position).getName());
         holder.price.setText(amount);
         holder.cutPrice.setText(CutAmount);
+        holder.cutPrice.setPaintFlags(holder.cutPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         if(serviceList.get(position).getDetail()!=null){
             String x= serviceList.get(position).getDetail().replaceAll("/n","\n");
             holder.details.setText(x);
@@ -87,30 +90,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         holder.time.setText(serviceList.get(position).getTime()+" Min");
         final ServiceItem adapterList=serviceList.get(position);
 
-//        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(holder.checkBox.isChecked()){
-//                    // Toast.makeText(view.getContext(),"Checked",Toast.LENGTH_LONG).show();
-//                    ParlourActivity.checkeditemList.add(new CheckedModel(serviceList.get(position).getId(),serviceList.get(position).getName(),
-//                            serviceList.get(position).getPrice(),serviceList.get(position).getTime()));
-//                    holder.checkBox.setChecked(true);
-//                }
-//                else{
-//                    //Toast.makeText(view.getContext(),"UnChecked",Toast.LENGTH_LONG).show();
-//                    //  CheckedModel model=new CheckedModel(serviceList.get(position).getServiceId(),serviceList.get(position).getServiceName()
-//                    //   ,serviceList.get(position).getPrice());
-//                    //  ParlourActivity.checkeditemList.remove(serviceList.get(position).getServiceId());
-//                    for (int i=0;i<ParlourActivity.checkeditemList.size();i++)
-//                        if(ParlourActivity.checkeditemList.get(i).getId().equals(serviceList.get(position).getId())){
-//                            ParlourActivity.checkeditemList.remove(i);
-//                            break;
-//                        }
-//                    holder.checkBox.setChecked(false);
-//                }
-//            }
-//        });
-//
         holder.cart.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
@@ -138,6 +117,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                                         SharedPreferences.Editor editor=sharedPreferences.edit();
                                         editor.putInt("count",count+1);
                                         editor.apply();
+                                        //ServiceTypeAdapter.serviceAdapter.notifyDataSetChanged();
+
                                         progressDialog.dismiss();
                                         Toast.makeText(con,"Added to cart",Toast.LENGTH_SHORT).show();
                                     }
@@ -180,7 +161,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                     Time=serviceList.get(position).getTime();
                     amount=serviceList.get(position).getPrice();
                     List<CartItemModel> list=new ArrayList<>();
-                    list.add(new CartItemModel(null,null,0,null,1,Time,serviceList.get(position).getId(),false));
+                    list.add(new CartItemModel(null,null,0,null,1,Time,serviceList.get(position).getId(),false,null));
                     //BookingPage.BookingTotalAmount = amount;
                     Intent intent = new Intent(con, BookingPage.class);
                     intent.putExtra("Booking Amount", amount);
@@ -206,7 +187,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            logo = itemView.findViewById(R.id.service_image);
             title = itemView.findViewById(R.id.service_fragement_title);
             price = itemView.findViewById(R.id.service_fragement_price);
             cutPrice=itemView.findViewById(R.id.service_fragement_cut_price);

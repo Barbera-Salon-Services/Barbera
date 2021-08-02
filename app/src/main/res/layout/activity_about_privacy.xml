@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:src="@drawable/ic_user_privacy"
-        app:tint="@color/white" />
+        android:src="@drawable/user_priv_circled"/>
 
     <TextView
         android:id="@+id/user_privacy_name"
@@ -24,7 +23,7 @@
         android:layout_marginTop="10dp"
         android:text="User Privacy Policy"
         android:textColor="@color/white"
-        android:textSize="28sp"
+        android:textSize="23sp"
         android:textStyle="bold" />
 
     <!--    <TextView-->
@@ -44,7 +43,7 @@
         android:layout_below="@+id/user_privacy_name"
         android:layout_margin="10dp"
         android:padding="20dp"
-        app:cardBackgroundColor="@color/textBackground"
+        app:cardBackgroundColor="@color/cardBkg"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">

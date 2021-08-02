@@ -23,8 +23,10 @@ public class BookingItem {
     private String status;
     @SerializedName("serviceId")
     private String serviceId;
+    @SerializedName("total_price")
+    private int totalPrice;
 
-    public BookingItem(String date, String slot, ServiceItem service, BarberItem barberItem,String timestamp,int quantity,String status,String serviceId) {
+    public BookingItem(String date, String slot, ServiceItem service, BarberItem barberItem,String timestamp,int quantity,String status,String serviceId,int totalPrice) {
         this.date = date;
         this.slot = slot;
         this.service = service;
@@ -33,6 +35,11 @@ public class BookingItem {
         this.quantity=quantity;
         this.status=status;
         this.serviceId=serviceId;
+        this.totalPrice=totalPrice;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
     public String getServiceId() {

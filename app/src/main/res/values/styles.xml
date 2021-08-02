@@ -55,9 +55,9 @@
     </style>
 
     <style name="specialOfferImage">
-        <item name="cornerSizeTopLeft">70%</item>
-        <item name="cornerFamilyTopLeft">rounded</item>
-        <item name="cornerSizeBottomLeft">40%</item>
+        <item name="cornerSizeTopLeft">30%</item>
+        <item name="cornerSizeBottomLeft">10%</item>
+        <item name="cornerFamilyTopLeft">cut</item>
         <item name="cornerFamilyBottomLeft">rounded</item>
     </style>
 
@@ -71,6 +71,10 @@
         <item name="cornerSizeTopLeft">90dp</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="cornerFamilyTopLeft">cut</item>
+    </style>
+
+    <style name="roundEdges">
+        <item name="cornerSize">15%</item>
     </style>
 
 </resources>
