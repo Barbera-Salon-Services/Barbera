@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical">
-
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -98,24 +97,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/price_line"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/details"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:padding="8dp"
-                android:text="- perfect haircut by stylist\n- 5 minute free head relaxation after haircut \n- 100% mess free experience(post serviceItem cleanup gurantee with no hair on the floor"
+                android:layout_gravity="bottom"
+                android:text="- 5 minute free head relaxation after haircut \n\n- 100% mess free experience(post serviceItem cleanup gurantee with no hair on the floor"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
-
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:gravity="end"
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <androidx.cardview.widget.CardView
@@ -123,35 +123,20 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/CartBlack"
                     android:layout_margin="2dp"
-                    app:cardCornerRadius="15dp">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    app:cardCornerRadius="20dp">
 
                     <Button
                         android:id="@+id/cart_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
                         android:textSize="14sp"
+                        android:padding="5dp"
                         android:textColor="@color/white"
                         android:elevation="5dp"
-                        android:layout_marginStart="8dp"
                         android:background="@color/CartBlack"
-                        android:text="Add to cart" />
+                        android:text=" Add to cart" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toRightOf="@id/cart_button"
-                        android:src="@drawable/ic_add_to_cart" />
-
-                </RelativeLayout>
                 </androidx.cardview.widget.CardView>
-
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
@@ -159,33 +144,19 @@
                         android:id="@+id/bookCard"
                         android:backgroundTint="@color/CartBlack"
                         android:layout_margin="2dp"
-                        app:cardCornerRadius="15dp">
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                        app:cardCornerRadius="20dp">
+
                     <Button
                         android:id="@+id/book_button"
                         android:layout_width="wrap_content"
                         android:textSize="14sp"
+                        android:padding="5dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
                         android:textColor="@color/white"
                         android:background="@color/CartBlack"
                         android:elevation="5dp"
-                        android:text="Book Now" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginStart="26dp"
-                            android:layout_toEndOf="@id/book_button"
-                            android:src="@drawable/ic_call"
-                            app:tint="@color/white" />
-                        </RelativeLayout>
+                        android:text="   Book Now   " />
                     </androidx.cardview.widget.CardView>
-
-
 
             </LinearLayout>
 
@@ -225,9 +196,5 @@
         <!--            android:layout_marginTop="11dp"/>-->
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
-
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="30dp"/>-->
 
 </LinearLayout>

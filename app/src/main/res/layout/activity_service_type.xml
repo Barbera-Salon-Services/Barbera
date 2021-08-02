@@ -81,7 +81,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
+        android:layout_margin="5dp"
         tools:listitem="@layout/subtype"
         android:id="@+id/service_recycler_view"/>
 
