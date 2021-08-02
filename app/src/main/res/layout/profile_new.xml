@@ -47,9 +47,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:hint="@string/user_name"
-                android:textStyle="normal"
                 android:textColorHint="@color/white"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:textStyle="normal" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -70,6 +70,7 @@
                     android:textSize="12dp" />
 
                 <ImageView
+                    android:id="@+id/edit_my_profile"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:src="@drawable/edit" />
@@ -94,7 +95,7 @@
                     android:layout_height="40dp"
                     android:background="@color/Transparent"
                     android:text="My Profile"
-                    android:textStyle="normal"/>
+                    android:textStyle="normal" />
 
             </LinearLayout>
 
@@ -138,7 +139,7 @@
                     android:layout_height="40dp"
                     android:background="@color/Transparent"
                     android:text="@string/refer_earn"
-                    android:textStyle="normal"/>
+                    android:textStyle="normal" />
 
             </LinearLayout>
 
@@ -158,9 +159,9 @@
                     style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:textStyle="normal"
                     android:background="@color/Transparent"
-                    android:text="@string/contact_us" />
+                    android:text="@string/contact_us"
+                    android:textStyle="normal" />
 
             </LinearLayout>
 
@@ -211,7 +212,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="130dp"
+                android:layout_marginTop="90dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -220,18 +221,19 @@
                     android:layout_marginStart="10dp"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/icon_logout" />
-
                     <Button
                         android:id="@+id/logout_rel_layout"
                         style="@style/ProfilePageButton"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:gravity="end"
                         android:background="@color/Transparent"
                         android:text="@string/logout" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_baseline_logout_24" />
 
                 </LinearLayout>
             </LinearLayout>

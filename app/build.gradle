@@ -30,6 +30,9 @@ android {
 dependencies {
     def room_version = "2.3.0"
     def lifecycle_version = "2.3.1"
+    def uploadServiceVersion = "3.5.2"
+
+    implementation "net.gotev:uploadservice:$uploadServiceVersion"
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"

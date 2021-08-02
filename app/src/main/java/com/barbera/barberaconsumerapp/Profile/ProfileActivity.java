@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
     //private static String profile_address="";
     private Button shareAndEarn,AboutUs,contactus,logout,privacyPOlicy,couponsLayout,myProfile;
     private RelativeLayout profileMainLayout;
+    private ImageView editMyProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
         myProfile =  findViewById(R.id.my_profile_rel_layout);
         shareAndEarn=findViewById(R.id.refer_rel_layout);
         couponsLayout=findViewById(R.id.coupons_rel_layout);
+        editMyProfile=findViewById(R.id.edit_my_profile);
 
 
 //        if(profile_name == ""&&FirebaseAuth.getInstance().getCurrentUser()!=null){
@@ -85,6 +88,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this,MyProfile.class));
+            }
+        });
+
+        editMyProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this,EditProfile.class));
             }
         });
 
