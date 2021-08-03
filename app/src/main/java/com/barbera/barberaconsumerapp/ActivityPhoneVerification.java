@@ -64,16 +64,16 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private LocationManager locationManager;
     private Address address;
     private TextView phoneNumberText;
-    private OtpView phoneNumberOtpView;
+    private OtpView phoneNumberOtpView, otpView;
     private CardView get_code;
-    private TextView skipLogin;
+    private TextView skipLogin, enterOtpTextView;
     private ProgressDialog progressDialog;
-    private EditText veri_code, ref;
+    private EditText ref;
     private CardView continue_to_signup;
     private ProgressBar progressBar;
     private String tempToken;
     private String phonePattern;
-    private String phoneNumberValue;
+    private String phoneNumberValue, otpValue;
     private Criteria criteria;
     private LocationListener locationListener;
     private LocationRequest locationRequest;
@@ -88,7 +88,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         phoneNumberText = (TextView) findViewById(R.id.phone_number_text);
         skipLogin = findViewById(R.id.skip_login);
         get_code = (CardView) findViewById(R.id.get_code);
-        veri_code = (EditText) findViewById(R.id.veri_code);
+        enterOtpTextView = (TextView) findViewById(R.id.veri_code_textview);
+//        veri_code = (EditText) findViewById(R.id.veri_code);
+        otpView = (OtpView) findViewById(R.id.veri_code);
         continue_to_signup = findViewById(R.id.continue_to_signup_page);
         progressBar = findViewById(R.id.progressBarInVerificationPage);
         ref = findViewById(R.id.referral_code);
@@ -165,13 +167,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         continue_to_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (verifyUserOTP()) {
-                    continue_to_signup.setEnabled(false);
-                    progressBar.setVisibility(View.VISIBLE);
-                    //PhoneAuthCredential credential=PhoneAuthProvider.getCredential(verificationId,veri_code.getText().toString());
-                    //Toast.makeText(getApplicationContext(), "In", Toast.LENGTH_SHORT).show();
-                    verifyUser();
-                }
+                autoVerifyOTP();
             }
         });
         skipLogin.setOnClickListener(new View.OnClickListener() {
@@ -181,12 +177,13 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             }
         });
 
-        handlePhoneNumber();
+        handlePhoneOtp();
 
     }
 
-    private void handlePhoneNumber() {
+    private void handlePhoneOtp() {
         phoneNumberOtpView.setOtpCompletionListener(this);
+        otpView.setOtpCompletionListener(this);
         phoneNumberText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,12 +196,39 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             }
         });
 
+        enterOtpTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterOtpTextView.setVisibility(View.GONE);
+                otpView.setVisibility(View.VISIBLE);
+                otpView.setFocusableInTouchMode(true);
+                otpView.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        });
+
     }
 
     @Override
     public void onOtpCompleted(String otp) {
-        phoneNumberValue = otp;
-        fetchOtp();
+        if (otp.length() == 6) {
+            otpValue = otp;
+            autoVerifyOTP();
+        } else {
+            phoneNumberValue = otp;
+            fetchOtp();
+        }
+    }
+
+    private void autoVerifyOTP() {
+        if (verifyUserOTP()) {
+            continue_to_signup.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            //PhoneAuthCredential credential=PhoneAuthProvider.getCredential(verificationId,veri_code.getText().toString());
+            //Toast.makeText(getApplicationContext(), "In", Toast.LENGTH_SHORT).show();
+            verifyUser();
+        }
     }
 
     private void fetchOtp() {
@@ -234,7 +258,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         //Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
-        Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null,
+        Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, otpValue, null, null, null,
                 address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude(), ref.getText().toString()), "Bearer " + tempToken);
 //        ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
 //        progressDialog.setMessage("Logging you in");
@@ -276,9 +300,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     }
 
     private boolean verifyUserOTP() {
-        if (veri_code.getText().toString().isEmpty() || veri_code.getText().toString().length() < 6) {
-            veri_code.setError("Invalid OTP");
-            veri_code.requestFocus();
+        if (otpValue.length() != 6) {
+            otpView.setError("Invalid OTP");
+            otpView.requestFocus();
             return false;
         } else
             return true;
@@ -306,10 +330,13 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     Register register = response.body();
                     tempToken = register.getToken();
                     progressBar.setVisibility(View.INVISIBLE);
-                    veri_code.setVisibility(View.VISIBLE);
+                    enterOtpTextView.setVisibility(View.GONE);
+                    otpView.setVisibility(View.VISIBLE);
                     continue_to_signup.setVisibility(View.VISIBLE);
                     get_code.setVisibility(View.GONE);
                     phoneNumberOtpView.setVisibility(View.GONE);
+                    enterOtpTextView.setVisibility(View.VISIBLE);
+                    otpView.setVisibility(View.GONE);
                 } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
