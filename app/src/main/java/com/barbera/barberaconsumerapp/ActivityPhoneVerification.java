@@ -84,7 +84,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
 
-//        phoneNumber = (EditText) findViewById(R.id.phone);
         phoneNumberOtpView = (OtpView) findViewById(R.id.phone);
         phoneNumberText = (TextView) findViewById(R.id.phone_number_text);
         skipLogin = findViewById(R.id.skip_login);

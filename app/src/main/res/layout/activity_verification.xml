@@ -38,20 +38,6 @@
             android:padding="40sp"
             android:src="@drawable/barberawhite" />
 
-        <!--                <EditText-->
-        <!--                    android:id="@+id/phone"-->
-        <!--                    style="@style/SignUpPage"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_below="@id/logo"-->
-        <!--                    android:ems="10"-->
-        <!--                    android:gravity="center"-->
-        <!--                    android:hint="Phone Number"-->
-        <!--                    android:inputType="phone"-->
-        <!--                    android:paddingTop="60sp"-->
-        <!--                    android:textColor="@color/white"-->
-        <!--                    android:textColorHint="@color/white" />-->
-
         <LinearLayout
             android:id="@+id/phone_wrapper"
             android:layout_width="match_parent"
