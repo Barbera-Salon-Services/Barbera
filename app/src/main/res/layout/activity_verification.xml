@@ -97,6 +97,21 @@
         <!--            app:pinLength="10"-->
         <!--            app:pinWidth="20dp"/>-->
 
+        <ImageView
+            android:id="@+id/logo_center"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginTop="1sp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="20sp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:src="@drawable/barberawhite" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/get_code"
             android:layout_width="match_parent"
