@@ -38,27 +38,41 @@
             android:padding="40sp"
             android:src="@drawable/barberawhite" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/phone"-->
-<!--                    style="@style/SignUpPage"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_below="@id/logo"-->
-<!--                    android:ems="10"-->
-<!--                    android:gravity="center"-->
-<!--                    android:hint="Phone Number"-->
-<!--                    android:inputType="phone"-->
-<!--                    android:paddingTop="60sp"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textColorHint="@color/white" />-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/phone"-->
+        <!--                    style="@style/SignUpPage"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_below="@id/logo"-->
+        <!--                    android:ems="10"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:hint="Phone Number"-->
+        <!--                    android:inputType="phone"-->
+        <!--                    android:paddingTop="60sp"-->
+        <!--                    android:textColor="@color/white"-->
+        <!--                    android:textColorHint="@color/white" />-->
 
         <LinearLayout
+            android:id="@+id/phone_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:id="@+id/phone_wrapper"
             android:layout_below="@id/logo"
+            android:gravity="center"
             android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/phone_number_text"
+                style="@style/SignUpPage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center"
+                android:paddingTop="60sp"
+                android:text="Phone Number"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:visibility="visible" />
+
             <com.mukesh.OtpView
                 android:id="@+id/phone"
                 style="@style/SignUpPage"
@@ -68,13 +82,14 @@
                 android:gravity="center_horizontal"
                 android:hint="Phone Number"
                 android:inputType="phone"
-                app:OtpLineWidth="2dp"
                 android:paddingTop="60sp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
+                android:visibility="gone"
                 app:OtpItemCount="10"
                 app:OtpItemWidth="30sp"
                 app:OtpLineColor="@color/colorPrimary"
+                app:OtpLineWidth="2dp"
                 app:OtpViewType="line" />
         </LinearLayout>
 
