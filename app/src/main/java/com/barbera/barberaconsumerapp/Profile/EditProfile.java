@@ -44,6 +44,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class EditProfile extends AppCompatActivity {
+    public static boolean FLAG = false;//to call the setimage() function only after shareprefImage() is called
     private static final String TAG = "EditProfile";
     private EditText editName,editPhone,editEmail,editAddress;
     private Button save,uploadProfileImage;
@@ -192,7 +193,7 @@ public class EditProfile extends AppCompatActivity {
             String path = FilePath.getPath(getApplicationContext(), imageUri);
             file = new File(path);
             profileImage.setImageURI(imageUri);
-            Toast.makeText(this, "path" + path + " image Uri " + imageUri, Toast.LENGTH_SHORT).show();
+            shareprefImage(imageUri);
 
             byte[] bytes = new byte[(int) file.length()];
             try {
@@ -212,5 +213,14 @@ public class EditProfile extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void shareprefImage(Uri uri){
+        Log.d("EditPROFILE","WORKED shareprefImage CAllED");
+        SharedPreferences sharedPref = getSharedPreferences("ProfileImage",MODE_PRIVATE);
+        SharedPreferences.Editor editor =sharedPref.edit();
+        editor.putString("ProfileImageUri", String.valueOf(uri));
+        editor.commit();
+        FLAG=true;
     }
 }
