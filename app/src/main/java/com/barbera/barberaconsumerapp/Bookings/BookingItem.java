@@ -25,8 +25,13 @@ public class BookingItem {
     private String serviceId;
     @SerializedName("total_price")
     private int totalPrice;
+    @SerializedName("start_serv_otp")
+    private String startOtp;
+    @SerializedName("end_serv_otp")
+    private String endOtp;
 
-    public BookingItem(String date, String slot, ServiceItem service, BarberItem barberItem,String timestamp,int quantity,String status,String serviceId,int totalPrice) {
+    public BookingItem(String date, String slot, ServiceItem service, BarberItem barberItem,String timestamp,
+                       int quantity,String status,String serviceId,int totalPrice,String startOtp,String endOtp) {
         this.date = date;
         this.slot = slot;
         this.service = service;
@@ -36,6 +41,15 @@ public class BookingItem {
         this.status=status;
         this.serviceId=serviceId;
         this.totalPrice=totalPrice;
+        this.startOtp=startOtp;
+    }
+
+    public String getStartOtp() {
+        return startOtp;
+    }
+
+    public String getEndOtp() {
+        return endOtp;
     }
 
     public int getTotalPrice() {

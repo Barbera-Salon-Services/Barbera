@@ -22,10 +22,12 @@ public class BookingModel {
     private double barberDist;
     private String category;
     private String type;
+    private String startOtp;
+    private String endOtp;
 
     public BookingModel(String summary, int amount, String date,String time,String barberId,
                         List<String> serviceIdList,String status,String barberName,String barberPhone,double barberDist,
-                        String category,String type) {
+                        String category,String type,String startOtp,String endOtp) {
         this.summary = summary;
         this.amount = amount;
         this.date = date;
@@ -38,6 +40,28 @@ public class BookingModel {
         this.barberDist=barberDist;
         this.category=category;
         this.type=type;
+        this.startOtp=startOtp;
+        this.endOtp=endOtp;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getEndOtp() {
+        return endOtp;
+    }
+
+    public String getStartOtp() {
+        return startOtp;
+    }
+
+    public void setEndOtp(String endOtp) {
+        this.endOtp = endOtp;
+    }
+
+    public void setStartOtp(String startOtp) {
+        this.startOtp = startOtp;
     }
 
     public String getCategory() {
