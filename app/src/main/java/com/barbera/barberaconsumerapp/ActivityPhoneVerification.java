@@ -23,10 +23,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -48,8 +45,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.w3c.dom.Text;
+import com.mukesh.OnOtpCompletionListener;
+import com.mukesh.OtpView;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,31 +57,36 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ActivityPhoneVerification extends AppCompatActivity implements LocationListener {
+public class ActivityPhoneVerification extends AppCompatActivity implements LocationListener,
+        OnOtpCompletionListener {
     private LocationManager locationManager;
     private Address address;
-    private EditText phoneNumber;
+    //    private EditText phoneNumber;
+    private TextView phoneNumberText;
+    private OtpView phoneNumberOtpView;
     private CardView get_code;
     private TextView skipLogin;
     private ProgressDialog progressDialog;
-    private EditText veri_code,ref;
+    private EditText veri_code, ref;
     private CardView continue_to_signup;
     private ProgressBar progressBar;
     private String tempToken;
     private String phonePattern;
+    private String phoneNumberValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
 
-        phoneNumber = (EditText) findViewById(R.id.phone);
-        skipLogin=findViewById(R.id.skip_login);
+//        phoneNumber = (EditText) findViewById(R.id.phone);
+        phoneNumberOtpView = (OtpView) findViewById(R.id.phone);
+        skipLogin = findViewById(R.id.skip_login);
         get_code = (CardView) findViewById(R.id.get_code);
         veri_code = (EditText) findViewById(R.id.veri_code);
         continue_to_signup = findViewById(R.id.continue_to_signup_page);
         progressBar = findViewById(R.id.progressBarInVerificationPage);
-        ref=findViewById(R.id.referral_code);
+        ref = findViewById(R.id.referral_code);
         phonePattern = "^[6789]\\d{9}$";
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
 
@@ -93,7 +95,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
 
-        if(ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
         }
 
@@ -143,7 +145,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
 
         // Now create a location manager
-        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         // This is the Best And IMPORTANT part
         final Looper looper = null;
@@ -152,20 +154,18 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             @Override
             public void onClick(View v) {
                 if (verifyPhoneNumber()) {
-                    Log.d("onclick","In");
+                    Log.d("onclick", "In");
                     if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
-                    }
-                    else {
+                    } else {
                         Log.d("permission", "given");
                         if (isLocationEnabled()) {
                             Log.d("Enabled", "Yes");
                             locationManager.requestSingleUpdate(criteria, locationListener, looper);
-                        }
-                        else{
+                        } else {
                             enableLocation(locationRequest);
                             finish();
-                            startActivity(new Intent(ActivityPhoneVerification.this,ActivityPhoneVerification.class));
+                            startActivity(new Intent(ActivityPhoneVerification.this, ActivityPhoneVerification.class));
                         }
                     }
                     get_code.setEnabled(false);
@@ -191,28 +191,40 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         skipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             }
         });
 
+        handlePhoneNumber();
+
     }
 
+    private void handlePhoneNumber() {
+        phoneNumberOtpView.setOtpCompletionListener(this);
+
+    }
+
+    @Override
+    public void onOtpCompleted(String otp) {
+        phoneNumberValue = otp;
+
+    }
 
     private void verifyUser() {
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         //Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
         Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null,
-                address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude(),ref.getText().toString()), "Bearer "+tempToken);
+                address.getAddressLine(0), "user", null, address.getLatitude(), address.getLongitude(), ref.getText().toString()), "Bearer " + tempToken);
 //        ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
 //        progressDialog.setMessage("Logging you in");
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if (response.code() == 200) {
-                    SharedPreferences sharedPreferences1=getSharedPreferences("Profile",MODE_PRIVATE);
-                    SharedPreferences.Editor editor1=sharedPreferences1.edit();
-                    editor1.putString("address",address.getAddressLine(0));
+                    SharedPreferences sharedPreferences1 = getSharedPreferences("Profile", MODE_PRIVATE);
+                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                    editor1.putString("address", address.getAddressLine(0));
                     editor1.apply();
 
                     Register register = response.body();
@@ -220,7 +232,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", register.getToken());
                     editor.apply();
-                    FirebaseMessaging.getInstance().subscribeToTopic(phoneNumber.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    FirebaseMessaging.getInstance().subscribeToTopic(phoneNumberValue).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
 
@@ -253,11 +265,11 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     }
 
     private boolean verifyPhoneNumber() {
-        if (phoneNumber.getText().toString().matches(phonePattern))
+        if (phoneNumberValue.matches(phonePattern))
             return true;
         else {
-            phoneNumber.setError("Please Enter a valid Phone Number");
-            phoneNumber.requestFocus();
+            phoneNumberOtpView.setError("Please Enter a valid Phone Number");
+            phoneNumberOtpView.requestFocus();
             return false;
         }
     }
@@ -266,7 +278,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
 
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
-        Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumber.getText().toString(), null, null, null, null, null, null, null, 0.0, 0.0,null));
+        Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumberValue, null, null, null, null, null, null, null, 0.0, 0.0, null));
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
@@ -277,7 +289,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     veri_code.setVisibility(View.VISIBLE);
                     continue_to_signup.setVisibility(View.VISIBLE);
                     get_code.setVisibility(View.GONE);
-                    phoneNumber.setVisibility(View.GONE);
+                    phoneNumberOtpView.setVisibility(View.GONE);
                 } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
@@ -305,9 +317,14 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     }
 
     // Required functions
-    public void onProviderDisabled(String arg0) {}
-    public void onProviderEnabled(String arg0) {}
-    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {}
+    public void onProviderDisabled(String arg0) {
+    }
+
+    public void onProviderEnabled(String arg0) {
+    }
+
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+    }
 
     private void enableLocation(LocationRequest locationRequest) {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
@@ -318,11 +335,11 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 try {
                     task.getResult(ApiException.class);
                 } catch (ApiException e) {
-                    switch (e.getStatusCode()){
+                    switch (e.getStatusCode()) {
                         case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                             try {
-                                ResolvableApiException resolvableApiException = (ResolvableApiException)e;
-                                resolvableApiException.startResolutionForResult(ActivityPhoneVerification.this,8080);
+                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                                resolvableApiException.startResolutionForResult(ActivityPhoneVerification.this, 8080);
                             } catch (IntentSender.SendIntentException ex) {
                                 ex.printStackTrace();
                             }
@@ -338,18 +355,17 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 8080){
-            switch (resultCode){
+        if (requestCode == 8080) {
+            switch (resultCode) {
                 case Activity.RESULT_OK:
                     break;
                 case Activity.RESULT_CANCELED:
-                    Toast.makeText(getApplicationContext(),"Cannot fetch loaction without enabling location services",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Cannot fetch loaction without enabling location services", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
-        if(requestCode == 800)
-        {
-            switch(resultCode) {
+        if (requestCode == 800) {
+            switch (resultCode) {
                 case Activity.RESULT_OK:
                     break;
                 case Activity.RESULT_CANCELED:
@@ -361,6 +377,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
         }
     }
+
     private void displayNeverAskAgainDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("We need to send SMS for performing necessary task. Please permit the permission through "
@@ -380,7 +397,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(),"App will not work unless location permission is provided from settings",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "App will not work unless location permission is provided from settings", Toast.LENGTH_SHORT).show();
                 //login.setEnabled(false);
             }
         });
@@ -388,29 +405,29 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     }
 
     private boolean isLocationEnabled() {
-        LocationManager locationManager =(LocationManager)getSystemService(LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode==4){
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 4) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 finish();
                 startActivity(new Intent(this, ActivityPhoneVerification.class));
-            }
-            else if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED){
+            } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 displayNeverAskAgainDialog();
 
             }
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
-        String isRegistered = preferences.getString("token","no");
-        if(!isRegistered.equals("no")){
+        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+        String isRegistered = preferences.getString("token", "no");
+        if (!isRegistered.equals("no")) {
             startActivity(new Intent(this, HomeActivity.class));
         }
     }

@@ -20,9 +20,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:textSize="20dp"
             android:text="Skip"
-            android:textColor="@color/LightGray" />
+            android:textColor="@color/LightGray"
+            android:textSize="20dp" />
 
         <ImageView
             android:id="@+id/logo"
@@ -38,40 +38,68 @@
             android:padding="40sp"
             android:src="@drawable/barberawhite" />
 
-        <EditText
-            android:id="@+id/phone"
-            style="@style/SignUpPage"
+<!--                <EditText-->
+<!--                    android:id="@+id/phone"-->
+<!--                    style="@style/SignUpPage"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/logo"-->
+<!--                    android:ems="10"-->
+<!--                    android:gravity="center"-->
+<!--                    android:hint="Phone Number"-->
+<!--                    android:inputType="phone"-->
+<!--                    android:paddingTop="60sp"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textColorHint="@color/white" />-->
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/logo"
-            android:ems="10"
             android:gravity="center"
-            android:hint="Phone Number"
-            android:inputType="phone"
-            android:paddingTop="60sp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
-<!--        <com.goodiebag.pinview.Pinview-->
-<!--            android:id="@+id/pinview1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:cursorVisible="false"-->
-<!--            app:forceKeyboard="true"-->
-<!--            app:hint=""-->
-<!--            android:paddingTop="60sp"-->
-<!--            app:inputType="number"-->
-<!--            app:password="false"-->
-<!--            android:layout_margin="10dp"-->
-<!--            android:layout_below="@+id/logo"-->
-<!--            app:pinHeight="20dp"-->
-<!--            app:pinLength="10"-->
-<!--            app:pinWidth="20dp"/>-->
+            android:id="@+id/phone_wrapper"
+            android:layout_below="@id/logo"
+            android:orientation="horizontal">
+            <com.mukesh.OtpView
+                android:id="@+id/phone"
+                style="@style/SignUpPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="Phone Number"
+                android:inputType="phone"
+                app:OtpLineWidth="2dp"
+                android:paddingTop="60sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:OtpItemCount="10"
+                app:OtpItemWidth="30sp"
+                app:OtpLineColor="@color/colorPrimary"
+                app:OtpViewType="line" />
+        </LinearLayout>
+
+
+        <!--        <com.goodiebag.pinview.Pinview-->
+        <!--            android:id="@+id/pinview1"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:cursorVisible="false"-->
+        <!--            app:forceKeyboard="true"-->
+        <!--            app:hint=""-->
+        <!--            android:paddingTop="60sp"-->
+        <!--            app:inputType="number"-->
+        <!--            app:password="false"-->
+        <!--            android:layout_margin="10dp"-->
+        <!--            android:layout_below="@+id/logo"-->
+        <!--            app:pinHeight="20dp"-->
+        <!--            app:pinLength="10"-->
+        <!--            app:pinWidth="20dp"/>-->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/get_code"
             android:layout_width="match_parent"
             android:layout_height="60sp"
-            android:layout_below="@id/phone"
+            android:layout_below="@id/phone_wrapper"
             android:layout_marginLeft="20sp"
             android:layout_marginTop="40sp"
             android:layout_marginRight="20sp"
@@ -97,12 +125,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/get_code"
-            android:hint="Enter OTP"
             android:gravity="center"
+            android:hint="Enter OTP"
             android:inputType="phone"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
             android:paddingTop="60sp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:visibility="gone" />
 
         <androidx.cardview.widget.CardView
