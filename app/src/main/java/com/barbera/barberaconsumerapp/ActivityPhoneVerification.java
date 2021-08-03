@@ -24,11 +24,15 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +82,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private LocationListener locationListener;
     private LocationRequest locationRequest;
     private Looper looper;
+    private ImageView logoView, logoCenterView;
+    private Handler mHandler;
+    private Runnable mRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +96,16 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         skipLogin = findViewById(R.id.skip_login);
         get_code = (CardView) findViewById(R.id.get_code);
         enterOtpTextView = (TextView) findViewById(R.id.veri_code_textview);
-//        veri_code = (EditText) findViewById(R.id.veri_code);
         otpView = (OtpView) findViewById(R.id.veri_code);
         continue_to_signup = findViewById(R.id.continue_to_signup_page);
         progressBar = findViewById(R.id.progressBarInVerificationPage);
         ref = findViewById(R.id.referral_code);
         phonePattern = "^[6789]\\d{9}$";
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
+        logoView = (ImageView) findViewById(R.id.logo);
+        logoCenterView = (ImageView) findViewById(R.id.logo_center);
+
+        handleAnimation();
 
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(500);
@@ -178,6 +188,33 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         });
 
         handlePhoneOtp();
+
+    }
+
+    private void handleAnimation() {
+
+        phoneNumberText.setVisibility(View.INVISIBLE);
+        get_code.setVisibility(View.INVISIBLE);
+        ref.setVisibility(View.INVISIBLE);
+        logoView.setVisibility(View.INVISIBLE);
+        logoCenterView.setVisibility(View.VISIBLE);
+
+        Animation animationSlideUp = AnimationUtils.loadAnimation(this, R.anim.slide_out);
+        logoCenterView.startAnimation(animationSlideUp);
+
+        mHandler = new Handler(Looper.getMainLooper());
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                logoCenterView.setVisibility(View.GONE);
+                phoneNumberText.setVisibility(View.VISIBLE);
+                get_code.setVisibility(View.VISIBLE);
+                ref.setVisibility(View.VISIBLE);
+                logoView.setVisibility(View.VISIBLE);
+            }
+        };
+
+        mHandler.postDelayed(mRunnable, 1500);
 
     }
 
@@ -477,5 +514,11 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         if (!isRegistered.equals("no")) {
             startActivity(new Intent(this, HomeActivity.class));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(mRunnable);
     }
 }
