@@ -73,7 +73,7 @@
                     android:id="@+id/edit_my_profile"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:src="@drawable/edit1" />
+                    android:src="@drawable/edit" />
 
             </LinearLayout>
 
