@@ -94,7 +94,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         phoneNumberOtpView = (OtpView) findViewById(R.id.phone);
         phoneNumberText = (TextView) findViewById(R.id.phone_number_text);
         skipLogin = findViewById(R.id.skip_login);
-        get_code = (CardView) findViewById(R.id.get_code);
+        //get_code = (CardView) findViewById(R.id.get_code);
         enterOtpTextView = (TextView) findViewById(R.id.veri_code_textview);
         otpView = (OtpView) findViewById(R.id.veri_code);
         continue_to_signup = findViewById(R.id.continue_to_signup_page);
