@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +25,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MyProfile extends AppCompatActivity {
+    private static String sharePrefIdentifier = "ProfileImage";
     private Button edit;
     private TextView name,email,address,phone;
+    private ImageView profileImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,10 @@ public class MyProfile extends AppCompatActivity {
         email=findViewById(R.id.profile_email);
         address=findViewById(R.id.profile_address);
         phone=findViewById(R.id.profile_phone);
+        profileImage=findViewById(R.id.my_profileActivity_profile_image);
+
+        //calling to set profile Image
+        setProfileImage();
 
         SharedPreferences preferences = getSharedPreferences("Token",MODE_PRIVATE);
         String token=preferences.getString("token",null);
@@ -109,5 +118,17 @@ public class MyProfile extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(MyProfile.this,ProfileActivity.class));
+    }
+
+    private void setProfileImage(){
+        Log.d("PROFILEACTIVITY","Error setprofileimage");
+        if (EditProfile.FLAG==true){
+            SharedPreferences sh = getSharedPreferences(sharePrefIdentifier,MODE_PRIVATE);
+            String uri = sh.getString("ProfileImageUri","");
+            if (uri!=null){
+                profileImage.setImageURI(Uri.parse(uri));
+            }
+            else Toast.makeText(this,"Error Profile Image is not set",Toast.LENGTH_SHORT);
+        }
     }
 }
