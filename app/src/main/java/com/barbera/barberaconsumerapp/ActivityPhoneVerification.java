@@ -69,11 +69,11 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private Address address;
     private TextView phoneNumberText;
     private OtpView phoneNumberOtpView, otpView;
-    private CardView get_code;
+    //    private CardView get_code;
     private TextView skipLogin, enterOtpTextView;
     private ProgressDialog progressDialog;
     private EditText ref;
-    private CardView continue_to_signup;
+//    private CardView continue_to_signup;
     private ProgressBar progressBar;
     private String tempToken;
     private String phonePattern;
@@ -95,9 +95,10 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         phoneNumberText = (TextView) findViewById(R.id.phone_number_text);
         skipLogin = findViewById(R.id.skip_login);
         //get_code = (CardView) findViewById(R.id.get_code);
+
         enterOtpTextView = (TextView) findViewById(R.id.veri_code_textview);
         otpView = (OtpView) findViewById(R.id.veri_code);
-        continue_to_signup = findViewById(R.id.continue_to_signup_page);
+//        continue_to_signup = findViewById(R.id.continue_to_signup_page);
         progressBar = findViewById(R.id.progressBarInVerificationPage);
         ref = findViewById(R.id.referral_code);
         phonePattern = "^[6789]\\d{9}$";
@@ -114,6 +115,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
         if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
+        }
+        else{
+
         }
 
         locationListener = new LocationListener() {
@@ -167,19 +171,19 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         // This is the Best And IMPORTANT part
         looper = null;
 
-        get_code.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchOtp();
-            }
-        });
+//        get_code.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                fetchOtp();
+//            }
+//        });
 
-        continue_to_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                autoVerifyOTP();
-            }
-        });
+//        continue_to_signup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                autoVerifyOTP();
+//            }
+//        });
         skipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,7 +198,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private void handleAnimation() {
 
         phoneNumberText.setVisibility(View.INVISIBLE);
-        get_code.setVisibility(View.INVISIBLE);
+//        get_code.setVisibility(View.INVISIBLE);
         ref.setVisibility(View.INVISIBLE);
         logoView.setVisibility(View.INVISIBLE);
         logoCenterView.setVisibility(View.VISIBLE);
@@ -208,7 +212,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             public void run() {
                 logoCenterView.setVisibility(View.GONE);
                 phoneNumberText.setVisibility(View.VISIBLE);
-                get_code.setVisibility(View.VISIBLE);
+//                get_code.setVisibility(View.VISIBLE);
                 ref.setVisibility(View.VISIBLE);
                 logoView.setVisibility(View.VISIBLE);
             }
@@ -260,7 +264,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
     private void autoVerifyOTP() {
         if (verifyUserOTP()) {
-            continue_to_signup.setEnabled(false);
+//            continue_to_signup.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
             //PhoneAuthCredential credential=PhoneAuthProvider.getCredential(verificationId,veri_code.getText().toString());
             //Toast.makeText(getApplicationContext(), "In", Toast.LENGTH_SHORT).show();
@@ -284,7 +288,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     startActivity(new Intent(ActivityPhoneVerification.this, ActivityPhoneVerification.class));
                 }
             }
-            get_code.setEnabled(false);
+//            get_code.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
             sendToastmsg("Sending OTP");
             sendfVerificationCode();
@@ -369,8 +373,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     progressBar.setVisibility(View.INVISIBLE);
                     enterOtpTextView.setVisibility(View.GONE);
                     otpView.setVisibility(View.VISIBLE);
-                    continue_to_signup.setVisibility(View.VISIBLE);
-                    get_code.setVisibility(View.GONE);
+//                    continue_to_signup.setVisibility(View.VISIBLE);
+//                    get_code.setVisibility(View.GONE);
                     phoneNumberOtpView.setVisibility(View.GONE);
                     enterOtpTextView.setVisibility(View.VISIBLE);
                     otpView.setVisibility(View.GONE);

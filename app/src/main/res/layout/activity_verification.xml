@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+
 
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ActivityPhoneVerification">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
         <TextView
             android:id="@+id/skip_login"
@@ -43,7 +45,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/logo"
-            android:gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
@@ -54,7 +58,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:paddingTop="60sp"
-                android:text="Phone Number"
+                android:text="Enter phone number"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textSize="18sp"
@@ -74,7 +78,7 @@
                 android:textColorHint="@color/white"
                 android:visibility="gone"
                 app:OtpItemCount="10"
-                app:OtpItemWidth="30sp"
+                app:OtpItemWidth="22sp"
                 app:OtpLineColor="@color/colorPrimary"
                 app:OtpLineWidth="2dp"
                 app:OtpViewType="line" />
@@ -112,29 +116,30 @@
             android:paddingRight="40dp"
             android:src="@drawable/barberawhite" />
 
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/get_code"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="60sp"-->
-<!--            android:layout_below="@id/phone_wrapper"-->
-<!--            android:layout_marginLeft="20sp"-->
-<!--            android:layout_marginTop="40sp"-->
-<!--            android:layout_marginRight="20sp"-->
-<!--            android:clickable="true"-->
-<!--            android:foreground="?android:attr/selectableItemBackground"-->
-<!--            app:cardBackgroundColor="@color/colorAccent"-->
-<!--            app:cardCornerRadius="40sp">-->
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:text="Get OTP"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="20sp"-->
-<!--                android:textStyle="normal" />-->
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:id="@+id/get_code"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="60sp"-->
+        <!--            android:layout_below="@id/phone_wrapper"-->
+        <!--            android:layout_marginLeft="20sp"-->
+        <!--            android:layout_marginTop="40sp"-->
+        <!--            android:layout_marginRight="20sp"-->
+        <!--            android:clickable="true"-->
+        <!--            android:foreground="?android:attr/selectableItemBackground"-->
+        <!--            app:cardBackgroundColor="@color/colorAccent"-->
+        <!--            app:cardCornerRadius="40sp">-->
 
-<!--        </androidx.cardview.widget.CardView>-->
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:text="Get OTP"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:textSize="20sp"-->
+        <!--                android:textStyle="normal" />-->
+
+        <!--        </androidx.cardview.widget.CardView>-->
 
         <LinearLayout
             android:id="@+id/veri_code_wrapper"
@@ -189,33 +194,33 @@
         </LinearLayout>
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/continue_to_signup_page"
-            android:layout_width="match_parent"
-            android:layout_height="60sp"
-            android:layout_below="@id/veri_code_wrapper"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:visibility="gone"
-            app:cardBackgroundColor="@color/colorAccent"
-            app:cardCornerRadius="40sp">
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/continue_to_signup_page"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="60sp"-->
+<!--            android:layout_below="@id/veri_code_wrapper"-->
+<!--            android:clickable="true"-->
+<!--            android:foreground="?android:attr/selectableItemBackground"-->
+<!--            android:visibility="gone"-->
+<!--            app:cardBackgroundColor="@color/colorAccent"-->
+<!--            app:cardCornerRadius="40sp">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Continue"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:text="Continue"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textStyle="bold" />-->
+<!--        </androidx.cardview.widget.CardView>-->
 
         <ProgressBar
             android:id="@+id/progressBarInVerificationPage"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/continue_to_signup_page"
+            android:layout_below="@id/veri_code_wrapper"
             android:layout_centerHorizontal="true"
             android:background="@color/white"
             android:paddingTop="20sp"
@@ -225,7 +230,6 @@
             android:id="@+id/referral_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/continue_to_signup_page"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
@@ -236,6 +240,5 @@
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
-
+    </ScrollView>
     </RelativeLayout>
-</ScrollView>
