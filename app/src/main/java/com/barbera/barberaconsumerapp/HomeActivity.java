@@ -80,11 +80,20 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private TextView seeMoreMen,seeMoreWomen;
     private int a=0,b=0;
     private ImageView top1,top2,top3,top4,top5;
+    private ImageView men1,men2,men3,men4,men5;
+    private TextView menText1,menText2,menText3,menText4,menText5;
+    private ImageView women1,women2,women3,women4,women5,women6,women7,women8;
+    private TextView womenText1,womenText2,womenText3,womenText4,womenText5,womenText6,womenText7,womenText8;
     private TextView topText1,topText2,topText3,topText4,topText5;
-    private LinearLayout ll1,ll2,ll3,ll4,ll5;
+    private LinearLayout ll1,ll2,ll3,ll4,ll5,third_women;
     private String cat1,cat2,cat3,cat4,cat5;
     private String typ1,typ2,typ3,typ4,typ5;
     private String url1,url2,url3,url4,url5;
+    private String catm="Mens_Section",catw="Womens_Section";
+    private String typm1,typm2,typm3,typm4,typm5;
+    private String urlm1,urlm2,urlm3,urlm4,urlm5;
+    private String typw1,typw2,typw3,typw4,typw5,typw6,typw7,typw8;
+    private String urlw1,urlw2,urlw3,urlw4,urlw5,urlw6,urlw7,urlw8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,10 +104,11 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         seeWomen=findViewById(R.id.see_more_women);
         seeMoreMen=findViewById(R.id.see_men);
         seeMoreWomen=findViewById(R.id.see_women);
+        third_women=findViewById(R.id.third_women);
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
-        menRecyclerView = findViewById(R.id.men_recycler_view);
+//        menRecyclerView = findViewById(R.id.men_recycler_view);
         weddingRecyclerView = findViewById(R.id.wedding_recycler_view);
-        womenRecyclerView = findViewById(R.id.women_recycler_view);
+//        womenRecyclerView = findViewById(R.id.women_recycler_view);
         NumberOnCartMain=(TextView)findViewById(R.id.numberOfCartMain);
         Cart=(ImageView)findViewById(R.id.cart);
         top1=findViewById(R.id.different_section_images1);
@@ -116,6 +126,32 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         ll3=findViewById(R.id.ll3);
         ll4=findViewById(R.id.ll4);
         ll5=findViewById(R.id.ll5);
+        men1=findViewById(R.id.grid_img);
+        men2=findViewById(R.id.grid_img1);
+        men3=findViewById(R.id.grid_img2);
+        men4=findViewById(R.id.grid_img3);
+        men5=findViewById(R.id.grid_img4);
+        women1=findViewById(R.id.grid_img6);
+        women2=findViewById(R.id.grid_img7);
+        women7=findViewById(R.id.grid_img12);
+        women3=findViewById(R.id.grid_img8);
+        women4=findViewById(R.id.grid_img9);
+        women5=findViewById(R.id.grid_img10);
+        women6=findViewById(R.id.grid_img11);
+        women8=findViewById(R.id.grid_img13);
+        menText1=findViewById(R.id.grid_img_text);
+        menText2=findViewById(R.id.grid_img_text1);
+        menText3=findViewById(R.id.grid_img_text2);
+        menText4=findViewById(R.id.grid_img_text3);
+        menText5=findViewById(R.id.grid_img_text4);
+        womenText1=findViewById(R.id.grid_img_text6);
+        womenText2=findViewById(R.id.grid_img_text7);
+        womenText3=findViewById(R.id.grid_img_text8);
+        womenText4=findViewById(R.id.grid_img_text9);
+        womenText5=findViewById(R.id.grid_img_text10);
+        womenText6=findViewById(R.id.grid_img_text11);
+        womenText7=findViewById(R.id.grid_img_text12);
+        womenText8=findViewById(R.id.grid_img_text13);
 
         cartAdapter=new CartAdapter(this);
         imageSlider=findViewById(R.id.imageSlider);
@@ -135,13 +171,13 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         LinearLayoutManager gridLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
         weddingRecyclerView.setLayoutManager(gridLayoutManager1);
 
-        gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this,"Womens_Section");
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
-        womenRecyclerView.setLayoutManager(gridLayoutManager);
-
-        gridAdapterMen = new GridAdapter(imgUrlMen, imgNameMen, HomeActivity.this,"Mens_Section");
-        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
-        menRecyclerView.setLayoutManager(gridLayoutManager2);
+//        gridAdapterWomen= new GridAdapter(imgUrlWomen, imgNameWomen, HomeActivity.this,"Womens_Section");
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
+//        womenRecyclerView.setLayoutManager(gridLayoutManager);
+//
+//        gridAdapterMen = new GridAdapter(imgUrlMen, imgNameMen, HomeActivity.this,"Mens_Section");
+//        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(HomeActivity.this, 3, GridLayoutManager.VERTICAL, false);
+//        menRecyclerView.setLayoutManager(gridLayoutManager2);
 
         imagebase="https://barbera-image.s3.ap-south-1.amazonaws.com/";
 
@@ -206,6 +242,136 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 startActivity(intent);
             }
         });
+        men5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Mens_Section");
+                intent.putExtra("Category",typm5);
+                intent.putExtra("ImageUrl",urlm5);
+                startActivity(intent);
+            }
+        });
+        men1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Mens_Section");
+                intent.putExtra("Category",typm1);
+                intent.putExtra("ImageUrl",urlm1);
+                startActivity(intent);
+            }
+        });
+        men2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Mens_Section");
+                intent.putExtra("Category",typm2);
+                intent.putExtra("ImageUrl",urlm2);
+                startActivity(intent);
+            }
+        });
+        men3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Mens_Section");
+                intent.putExtra("Category",typm3);
+                intent.putExtra("ImageUrl",urlm3);
+                startActivity(intent);
+            }
+        });
+        men4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Mens_Section");
+                intent.putExtra("Category",typm4);
+                intent.putExtra("ImageUrl",urlm4);
+                startActivity(intent);
+            }
+        });
+        women1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw1);
+                intent.putExtra("ImageUrl",urlw1);
+                startActivity(intent);
+            }
+        });
+        women2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw2);
+                intent.putExtra("ImageUrl",urlw2);
+                startActivity(intent);
+            }
+        });
+        women3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw3);
+                intent.putExtra("ImageUrl",urlw3);
+                startActivity(intent);
+            }
+        });
+        women4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw4);
+                intent.putExtra("ImageUrl",urlw4);
+                startActivity(intent);
+            }
+        });
+        women5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw5);
+                intent.putExtra("ImageUrl",urlw5);
+                startActivity(intent);
+            }
+        });
+        women6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw6);
+                intent.putExtra("ImageUrl",urlw6);
+                startActivity(intent);
+            }
+        });
+        women7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw7);
+                intent.putExtra("ImageUrl",urlw7);
+                startActivity(intent);
+            }
+        });
+        women8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw8);
+                intent.putExtra("ImageUrl",urlw8);
+                startActivity(intent);
+            }
+        });
 
         referMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,55 +392,57 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     startActivity(new Intent(HomeActivity.this, CartActivity.class));
             }
         });
-        seeMen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(a==0){
-                    for(String s:imgNameMen1){
-                        imgNameMen.add(s);
-                    }
-                    for(String s:imgUrlMen1){
-                        imgUrlMen.add(s);
-                    }
-                    menRecyclerView.setAdapter(gridAdapterMen);
-                    seeMoreMen.setText("See less");
-                    a=1;
-                }
-                else {
-                    for(String s:imgNameMen1){
-                        imgNameMen.remove(s);
-                    }
-                    for(String s:imgUrlMen1){
-                        imgUrlMen.remove(s);
-                    }
-                    menRecyclerView.setAdapter(gridAdapterMen);
-                    seeMoreMen.setText("See all");
-                    a=0;
-                }
-            }
-        });
+//        seeMen.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(a==0){
+//                    for(String s:imgNameMen1){
+//                        imgNameMen.add(s);
+//                    }
+//                    for(String s:imgUrlMen1){
+//                        imgUrlMen.add(s);
+//                    }
+//                    menRecyclerView.setAdapter(gridAdapterMen);
+//                    seeMoreMen.setText("See less");
+//                    a=1;
+//                }
+//                else {
+//                    for(String s:imgNameMen1){
+//                        imgNameMen.remove(s);
+//                    }
+//                    for(String s:imgUrlMen1){
+//                        imgUrlMen.remove(s);
+//                    }
+//                    menRecyclerView.setAdapter(gridAdapterMen);
+//                    seeMoreMen.setText("See all");
+//                    a=0;
+//                }
+//            }
+//        });
         seeWomen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(b==0){
-                    for(String s:imgNameWomen1){
-                        imgNameWomen.add(s);
-                    }
-                    for(String s:imgUrlWomen1){
-                        imgUrlWomen.add(s);
-                    }
-                    womenRecyclerView.setAdapter(gridAdapterWomen);
+//                    for(String s:imgNameWomen1){
+//                        imgNameWomen.add(s);
+//                    }
+//                    for(String s:imgUrlWomen1){
+//                        imgUrlWomen.add(s);
+//                    }
+//                    womenRecyclerView.setAdapter(gridAdapterWomen);
+                    third_women.setVisibility(View.VISIBLE);
                     seeMoreWomen.setText("See less");
                     b=1;
                 }
                 else {
-                    for(String s:imgNameWomen1){
-                        imgNameWomen.remove(s);
-                    }
-                    for(String s:imgUrlWomen1){
-                        imgUrlWomen.remove(s);
-                    }
-                    womenRecyclerView.setAdapter(gridAdapterWomen);
+//                    for(String s:imgNameWomen1){
+//                        imgNameWomen.remove(s);
+//                    }
+//                    for(String s:imgUrlWomen1){
+//                        imgUrlWomen.remove(s);
+//                    }
+                    //womenRecyclerView.setAdapter(gridAdapterWomen);
+                    third_women.setVisibility(View.GONE);
                     seeMoreWomen.setText("See all");
                     b=0;
                 }
@@ -544,16 +712,67 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     if(list.size()!=0){
                         for(String item:list){
                             if(z<6){
-                                imgNameWomen.add(item);
-                                item=item.replaceAll(" ","_");
-                                imgUrlWomen.add(imagebase+"Womens_Section"+item);
+                                if(z==0){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(women1);
+                                    womenText1.setText(item);
+                                    typw1=item;
+                                    urlw1=url;
+                                }
+                                else if(z==1){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(women2);
+                                    typw2=item;
+                                    urlw2=url;
+                                    womenText2.setText(item);
+                                }
+                                else if(z==2){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(women3);
+                                    typw3=item;
+                                    urlw3=url;
+                                    womenText3.setText(item);
+                                }
+                                else if(z==3){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(women4);
+                                    typw4=item;
+                                    urlw4=url;
+                                    womenText4.setText(item);
+                                }
+                                else if(z==4){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(women5);
+                                    typw5=item;
+                                    urlw5=url;
+                                    womenText5.setText(item);
+                                }
+                                else if(z==5){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(women6);
+                                    typw6=item;
+                                    urlw6=url;
+                                    womenText6.setText(item);
+                                }
                                 z++;
                             }
                             else{
+                                if(z==6){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(women7);
+                                    typw7=item;
+                                    urlw7=url;
+                                    womenText7.setText(item);
+                                }
+                                else if(z==7){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(women8);
+                                    typw8=item;
+                                    urlw8=url;
+                                    womenText8.setText(item);
+                                }
+                                z++;
                                 f=1;
-                                imgNameWomen1.add(item);
-                                item=item.replaceAll(" ","_");
-                                imgUrlWomen1.add(imagebase+"Womens_Section"+item);
                             }
                         }
                         if(f==0){
@@ -568,10 +787,9 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                             seeWomen.setVisibility(View.VISIBLE);
                         }
                     }
-                    womenRecyclerView.setAdapter(gridAdapterWomen);
+                    //womenRecyclerView.setAdapter(gridAdapterWomen);
                     //gridView.setAdapter(adapter);
                     progressBar.dismiss();
-
                 }
                 else{
                     progressBar.dismiss();
@@ -593,6 +811,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
         ProgressDialog progressBar = new ProgressDialog(this);
         progressBar.show();
+        int i=0;
         Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Mens_Section");
         call.enqueue(new Callback<TypeList>() {
             @Override
@@ -604,18 +823,49 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     if(list.size()!=0){
                         for(String item:list){
                             if(z<6){
-                                imgNameMen.add(item);
-                                item=item.replaceAll(" ","_");
-                                //Log.d("item",item);
-                                imgUrlMen.add(imagebase+"Mens_Section"+item);
+                                if(z==0){
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(men1);
+                                    menText1.setText(item);
+                                    typm1=item;
+                                    urlm1=url;
+                                }
+                                else if(z==1){
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(men2);
+                                    menText2.setText(item);
+                                    typm2=item;
+                                    urlm2=url;
+                                }
+                                else if(z==2){
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(men3);
+                                    menText3.setText(item);
+                                    typm3=item;
+                                    urlm3=url;
+                                }
+                                else if(z==3){
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(men4);
+                                    menText4.setText(item);
+                                    typm4=item;
+                                    urlm4=url;
+                                }
+                                else if(z==4){
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    Glide.with(HomeActivity.this).load(url).into(men5);
+                                    menText5.setText(item);
+                                    typm5=item;
+                                    urlm5=url;
+                                }
                                 z++;
                             }
                             else {
                                 f=1;
-                                imgNameMen1.add(item);
-                                item = item.replaceAll(" ", "_");
-                                //Log.d("item",item);
-                                imgUrlMen1.add(imagebase + "Mens_Section" + item);
+//                                imgNameMen1.add(item);
+//                                item = item.replaceAll(" ", "_");
+//                                //Log.d("item",item);
+//                                imgUrlMen1.add(imagebase + "Mens_Section" + item);
                             }
                         }
                         if(f==0){
@@ -630,7 +880,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                             seeMoreMen.setText("See all");
                         }
                     }
-                    menRecyclerView.setAdapter(gridAdapterMen);
+                    //menRecyclerView.setAdapter(gridAdapterMen);
                     //gridView.setAdapter(adapter);
                     progressBar.dismiss();
                 }

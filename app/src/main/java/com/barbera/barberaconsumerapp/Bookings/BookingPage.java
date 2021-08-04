@@ -114,7 +114,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private String couponName="";
 //    private ImageView drop;
     private RelativeLayout calendar;
-    private ImageView slotBtn;
+    private LinearLayout slotBtn;
 
     @Override
     public void extractBool(Boolean selected) {
@@ -307,7 +307,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
         Button couponApply = findViewById(R.id.booking_coupon_apply_button);
-        slotBtn=findViewById(R.id.slot_booking);
+        slotBtn=findViewById(R.id.book_a_slot);
         isCouponApplied = false;
         BookingOrders = findViewById(R.id.booking_order_summary);
         //drop=findViewById(R.id.drop_down_arrow);
@@ -1438,10 +1438,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     @Override
     protected void onRestart () {
         super.onRestart();
-       /* SharedPreferences sharedPreferences =getSharedPreferences("UserInfo",MODE_PRIVATE);
-        if(!sharedPreferences.getString("New_Address","").equals("")) {
-            address.setText(sharedPreferences.getString("New_Address", ""));
-        }*/
+        Intent intent=getIntent();
+        finish();
+        startActivity(intent);
     }
 
     private void addtoDatabase () {
