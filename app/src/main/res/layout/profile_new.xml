@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:hint="@string/user_name"
+                android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textSize="20dp"
                 android:textStyle="normal" />

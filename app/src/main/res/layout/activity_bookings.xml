@@ -72,6 +72,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="200dp"
+            app:tint="@color/white"
             android:src="@drawable/empty_cart_vector" />
 
         <TextView
@@ -81,7 +82,7 @@
             android:layout_below="@id/sad_emoji"
             android:layout_centerHorizontal="true"
             android:text="No Bookings Yet"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -94,6 +95,7 @@
             android:layout_margin="30dp"
             android:background="@color/colorAccent"
             android:text="book now"
+            android:elevation="5dp"
             android:textColor="@color/white" />
 
 
