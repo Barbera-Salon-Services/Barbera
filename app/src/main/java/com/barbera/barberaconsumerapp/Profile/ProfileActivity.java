@@ -8,13 +8,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
@@ -24,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private static String sharePrefIdentifier = "ProfileImage";
     private TextView Name;
     private TextView phone;
     private TextView email;
@@ -35,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     //private static String profile_address="";
     private Button shareAndEarn,AboutUs,contactus,logout,privacyPOlicy,couponsLayout,myProfile;
     private RelativeLayout profileMainLayout;
+    private ImageView editMyProfile,profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,8 @@ public class ProfileActivity extends AppCompatActivity {
         myProfile =  findViewById(R.id.my_profile_rel_layout);
         shareAndEarn=findViewById(R.id.refer_rel_layout);
         couponsLayout=findViewById(R.id.coupons_rel_layout);
+        editMyProfile=findViewById(R.id.edit_my_profile);
+        profileImage=findViewById(R.id.profile_image);
 
         SharedPreferences sharedPreferences=getSharedPreferences("Profile",MODE_PRIVATE);
         String nm=sharedPreferences.getString("name","");
@@ -60,10 +68,21 @@ public class ProfileActivity extends AppCompatActivity {
         if(!ph.equals("")){
             phone.setText(ph);
         }
+
+        //calling to set profile Image
+        setProfileImage();
+
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this,MyProfile.class));
+            }
+        });
+
+        editMyProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this,EditProfile.class));
             }
         });
 
@@ -180,5 +199,17 @@ public class ProfileActivity extends AppCompatActivity {
         overridePendingTransition(0,0);
         finish();
         super.onBackPressed();
+    }
+
+    private void setProfileImage(){
+        Log.d("PROFILEACTIVITY","Error setprofileimage");
+        if (EditProfile.FLAG==true){
+            SharedPreferences sh = getSharedPreferences(sharePrefIdentifier,MODE_PRIVATE);
+            String uri = sh.getString("ProfileImageUri","");
+            if (uri!=null){
+                profileImage.setImageURI(Uri.parse(uri));
+            }
+            else Toast.makeText(this,"Error Profile Image is not set",Toast.LENGTH_SHORT);
+        }
     }
 }

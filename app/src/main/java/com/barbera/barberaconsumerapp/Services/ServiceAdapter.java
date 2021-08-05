@@ -1,6 +1,7 @@
 package com.barbera.barberaconsumerapp.Services;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -116,6 +117,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                                         SharedPreferences.Editor editor=sharedPreferences.edit();
                                         editor.putInt("count",count+1);
                                         editor.apply();
+                                        //ServiceTypeAdapter.serviceAdapter.notifyDataSetChanged();
+
                                         progressDialog.dismiss();
                                         Toast.makeText(con,"Added to cart",Toast.LENGTH_SHORT).show();
                                     }

@@ -44,6 +44,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="5dp"
+                            android:layout_marginTop="5dp"
                             android:text="(Men) Simple Hair Cut"
                             android:textColor="@color/white"
                             android:textSize="16sp"
@@ -74,6 +75,7 @@
                             android:layout_height="30dp"
                             android:layout_gravity="top"
                             android:padding="3dp"
+                            android:layout_marginTop="10dp"
                             android:src="@drawable/clock_vector"
                             app:tint="@color/white" />
 
@@ -82,6 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
+                            android:layout_marginTop="10dp"
                             android:layout_marginStart="3dp"
                             android:text="Wednesday,\n29 July 2020\n2:05 am"
                             android:textColor="@color/white"
@@ -95,12 +98,21 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/otp"
+                    android:id="@+id/startotp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="3dp"
                     android:text="Start Otp: "
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/endotp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="End Otp: "
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 

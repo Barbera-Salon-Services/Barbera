@@ -266,6 +266,12 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                 if(response.code()!=200){
                     Toast.makeText(getApplicationContext(),"Could not update address",Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    SharedPreferences sharedPreferences=getSharedPreferences("Profile",MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putString("address",address.getAddressLine(0));
+                    editor.apply();
+                }
             }
 
             @Override

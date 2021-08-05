@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/CartBlack"
-    tools:context=".MainActivity">
+    android:background="@color/CartBlack">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -45,6 +44,8 @@
         android:id="@+id/progressBarOnBookingActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
         android:layout_centerInParent="true"
         android:visibility="invisible" />
 

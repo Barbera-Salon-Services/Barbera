@@ -9,10 +9,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
+import com.barbera.barberaconsumerapp.HomeActivity;
+import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.CheckedModel;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
@@ -40,7 +45,8 @@ public class ServiceType extends AppCompatActivity {
     private ServiceTypeAdapter serviceTypeAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
-    private ImageView img;
+    private ImageView img,refer,cart;
+    private TextView cartNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,9 @@ public class ServiceType extends AppCompatActivity {
         setContentView(R.layout.activity_service_type);
         img=findViewById(R.id.subtype_image);
         recyclerView=findViewById(R.id.service_recycler_view);
+        refer=findViewById(R.id.refer);
+        cart=findViewById(R.id.cart);
+        cartNo=findViewById(R.id.numberOfCartMain);
         llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -123,5 +132,40 @@ public class ServiceType extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        refer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ReferAndEarn.class));
+            }
+        });
+
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(token.equals("no")){
+                    Toast.makeText(getApplicationContext(),"You Must Log In to continue",Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), ActivityPhoneVerification.class));
+                }
+
+                else
+                    startActivity(new Intent(ServiceType.this, CartActivity.class));
+            }
+        });
+    }
+    public void loadNumberOnCart(){
+        if(token.equals("no"))
+            cartNo.setText("0");
+        else {
+            SharedPreferences sharedPreferences=getSharedPreferences("Count",MODE_PRIVATE);
+            int count=sharedPreferences.getInt("count",0);
+            cartNo.setText(""+count);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadNumberOnCart();
     }
 }

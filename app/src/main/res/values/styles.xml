@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
         <!-- <item name="android:textViewStyle">@style/Textfont</item>-->
     </style>
 
@@ -55,8 +56,10 @@
     </style>
 
     <style name="specialOfferImage">
-        <item name="cornerSizeTopLeft">40%</item>
-        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerSizeTopLeft">20%</item>
+        <item name="cornerSizeBottomLeft">10%</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
     </style>
 
     <style name="circularCorner">

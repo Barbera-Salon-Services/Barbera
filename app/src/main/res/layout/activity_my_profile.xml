@@ -13,6 +13,7 @@
     tools:context=".Profile.MyProfile">
 
     <ImageView
+        android:id="@+id/my_profileActivity_profile_image"
         android:layout_width="170dp"
         android:layout_height="161dp"
         android:layout_gravity="center"
@@ -115,6 +116,7 @@
             android:textSize="20dp"/>
 
     </LinearLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

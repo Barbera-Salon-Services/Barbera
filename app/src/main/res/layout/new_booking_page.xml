@@ -32,6 +32,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/CartBlack"
         android:layout_above="@id/confirm_booking_card"
         android:layout_below="@id/cardView">
 
@@ -157,6 +158,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@id/booking_choose_address"
                         android:hint="Enter Your Address"
+                        android:textSize="15sp"
                         android:textColor="@color/white"
                         android:background="@color/cardBkg"
                         android:textColorHint="@color/white" />
@@ -225,20 +227,19 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
-                            android:layout_toLeftOf="@id/drop_down_arrow"
                             android:layout_toRightOf="@id/disc_perc"
                             android:text="Discount Coupons"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
-                        <ImageView
-                            android:id="@+id/drop_down_arrow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="50dp"
-                            android:src="@drawable/ic_down" />
+<!--                        <ImageView-->
+<!--                            android:id="@+id/drop_down_arrow"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_alignParentRight="true"-->
+<!--                            android:layout_marginTop="10dp"-->
+<!--                            android:layout_marginRight="50dp"-->
+<!--                            android:src="@drawable/ic_down" />-->
 
                     </RelativeLayout>
 
@@ -424,7 +425,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:text="Nearest barber is 20 min away"
                             android:textColor="@color/white"
                             android:textSize="14dp" />
 
@@ -435,6 +435,8 @@
                             android:layout_gravity="center"
                             android:background="@color/cardBkg"
                             android:elevation="10dp"
+                            android:visibility="gone"
+                            android:backgroundTint="@color/CartBlack"
                             android:text="Book now"
                             android:textColor="@color/white" />
                     </LinearLayout>
@@ -487,8 +489,10 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_margin="10dp"
                             android:text="Book a slot"
                             android:textColor="@color/white"
@@ -496,15 +500,17 @@
 
                         <ImageView
                             android:id="@+id/slot_booking"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
                             android:src="@drawable/ic_down" />
                     </LinearLayout>
 
 
                     <RelativeLayout
                         android:id="@+id/Calender"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/book_a_slot">
@@ -1348,6 +1354,7 @@
         android:layout_height="wrap_content"
         android:background="@color/cardBkg"
         android:text="Confirm Booking"
+        android:visibility="gone"
         android:textColor="@color/white" />
     </androidx.cardview.widget.CardView>
 
