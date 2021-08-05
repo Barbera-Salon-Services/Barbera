@@ -52,7 +52,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -491,7 +494,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             slot13=findViewById(R.id.slot13);
         }
         array = new int[2];
-
         array[0] = 100;
         array[1] = 100;
         //    private TextView date;
@@ -714,7 +716,11 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 day6.setBackgroundColor(getResources().getColor(R.color.white));
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
-
+            }
+            try {
+                disableUnavialableSlots();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         day2.setOnClickListener(new View.OnClickListener() {
@@ -748,6 +754,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
                 }
+                enableAvialableSlots();
             }
         });
         day3.setOnClickListener(new View.OnClickListener() {
@@ -781,6 +788,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
                 }
+                enableAvialableSlots();
             }
         });
         day4.setOnClickListener(new View.OnClickListener() {
@@ -814,6 +822,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
                 }
+                enableAvialableSlots();
             }
         });
         day5.setOnClickListener(new View.OnClickListener() {
@@ -847,6 +856,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
                 }
+                enableAvialableSlots();
             }
         });
         day6.setOnClickListener(new View.OnClickListener() {
@@ -881,6 +891,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day7.setBackgroundColor(getResources().getColor(R.color.white));
 
                 }
+                enableAvialableSlots();
             }
         });
         day7.setOnClickListener(new View.OnClickListener() {
@@ -913,6 +924,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     day6.setBackgroundColor(getResources().getColor(R.color.white));
 
                 }
+                enableAvialableSlots();
             }
         });
         useCurrentAddress();
@@ -1874,4 +1886,128 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         progressDialog.dismiss();
     }
 
+    @SuppressLint("ResourceAsColor")
+    private void disableUnavialableSlots() throws IOException {
+        long currMilliSec = System.currentTimeMillis();
+        DateFormat dateFormat = new SimpleDateFormat("HH");
+        Date date = new Date(currMilliSec);
+        String hourString = dateFormat.format(date);
+        int hour = Integer.parseInt(hourString);
+
+        if(hour>=6){
+            slot1.setClickable(false);
+            slot1.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=7){
+            slot2.setClickable(false);
+            slot2.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=8){
+            slot3.setClickable(false);
+            slot3.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=9){
+            slot4.setClickable(false);
+            slot4.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=10){
+            slot5.setClickable(false);
+            slot5.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=11){
+            slot6.setClickable(false);
+            slot6.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=12){
+            slot7.setClickable(false);
+            slot7.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=13){
+            slot8.setClickable(false);
+            slot8.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=14){
+            slot9.setClickable(false);
+            slot9.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=15){
+            slot10.setClickable(false);
+            slot10.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=16){
+            slot11.setClickable(false);
+            slot11.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=17){
+            slot12.setClickable(false);
+            slot12.setCardBackgroundColor(Color.GRAY);
+        }
+        if(hour>=18){
+            slot13.setClickable(false);
+            slot13.setCardBackgroundColor(Color.GRAY);
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void enableAvialableSlots(){
+        long currMilliSec = System.currentTimeMillis();
+        DateFormat dateFormat = new SimpleDateFormat("HH");
+        Date date = new Date(currMilliSec);
+        String hourString = dateFormat.format(date);
+
+        int hour = Integer.parseInt(hourString);
+
+        if(hour>=6){
+            slot1.setClickable(true);
+            slot1.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=7){
+            slot2.setClickable(true);
+            slot2.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=8){
+            slot3.setClickable(true);
+            slot3.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=9){
+            slot4.setClickable(true);
+            slot4.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=10){
+            slot5.setClickable(true);
+            slot5.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=11){
+            slot6.setClickable(true);
+            slot6.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=12){
+            slot7.setClickable(true);
+            slot7.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=13){
+            slot8.setClickable(true);
+            slot8.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=14){
+            slot9.setClickable(true);
+            slot9.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=15){
+            slot10.setClickable(true);
+            slot10.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=16){
+            slot11.setClickable(true);
+            slot11.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=17){
+            slot12.setClickable(true);
+            slot12.setCardBackgroundColor(Color.BLACK);
+        }
+        if(hour>=18){
+            slot13.setClickable(true);
+            slot13.setCardBackgroundColor(Color.BLACK);
+        }
+    }
 }
