@@ -121,9 +121,10 @@
 
         <ImageView
             android:id="@+id/edit_profile_image"
-            android:layout_width="123dp"
+            android:layout_width="100dp"
             android:layout_height="125dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:scaleType="fitCenter"
             tools:src="@drawable/background" />
 

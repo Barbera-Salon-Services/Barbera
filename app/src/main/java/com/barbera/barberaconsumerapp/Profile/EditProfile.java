@@ -68,6 +68,12 @@ public class EditProfile extends AppCompatActivity {
         uploadProfileImage=findViewById(R.id.upload_profile_image);
         profileImage=findViewById(R.id.edit_profile_image);
 
+        SharedPreferences sh = getSharedPreferences("ProfileImage",MODE_PRIVATE);
+        String uri = sh.getString("ProfileImageUri","");
+        if (!uri.equals("")){
+            profileImage.setImageURI(Uri.parse(uri));
+        }
+
         SharedPreferences preferences = getSharedPreferences("Token",MODE_PRIVATE);
         String token=preferences.getString("token",null);
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
@@ -221,6 +227,5 @@ public class EditProfile extends AppCompatActivity {
         SharedPreferences.Editor editor =sharedPref.edit();
         editor.putString("ProfileImageUri", String.valueOf(uri));
         editor.commit();
-        FLAG=true;
     }
 }

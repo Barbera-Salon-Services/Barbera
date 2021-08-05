@@ -122,13 +122,11 @@ public class MyProfile extends AppCompatActivity {
 
     private void setProfileImage(){
         Log.d("PROFILEACTIVITY","Error setprofileimage");
-        if (EditProfile.FLAG==true){
             SharedPreferences sh = getSharedPreferences(sharePrefIdentifier,MODE_PRIVATE);
             String uri = sh.getString("ProfileImageUri","");
-            if (uri!=null){
+            if (!uri.equals("")){
                 profileImage.setImageURI(Uri.parse(uri));
             }
-            else Toast.makeText(this,"Error Profile Image is not set",Toast.LENGTH_SHORT);
-        }
+            //else Toast.makeText(this,"Error Profile Image is not set",Toast.LENGTH_SHORT);
     }
 }

@@ -179,6 +179,10 @@ public class ProfileActivity extends AppCompatActivity {
                 editor1.putString("name","");
                 editor1.putString("phone","");
                 editor1.apply();
+                SharedPreferences sh = getSharedPreferences(sharePrefIdentifier,MODE_PRIVATE);
+                SharedPreferences.Editor editor2=sh.edit();
+                editor2.putString("ProfileImageUri","");
+                editor2.apply();
                 startActivity(new Intent(ProfileActivity.this, ActivityPhoneVerification.class));
                 overridePendingTransition(0,0);
                 finish();
@@ -203,13 +207,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void setProfileImage(){
         Log.d("PROFILEACTIVITY","Error setprofileimage");
-        if (EditProfile.FLAG==true){
+
             SharedPreferences sh = getSharedPreferences(sharePrefIdentifier,MODE_PRIVATE);
             String uri = sh.getString("ProfileImageUri","");
-            if (uri!=null){
+            if (!uri.equals("")){
                 profileImage.setImageURI(Uri.parse(uri));
             }
-            else Toast.makeText(this,"Error Profile Image is not set",Toast.LENGTH_SHORT);
-        }
     }
 }
