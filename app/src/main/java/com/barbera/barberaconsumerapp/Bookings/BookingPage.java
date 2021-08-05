@@ -717,11 +717,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
             }
-            try {
                 disableUnavialableSlots();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
         });
         day2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1887,7 +1884,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     }
 
     @SuppressLint("ResourceAsColor")
-    private void disableUnavialableSlots() throws IOException {
+    private void disableUnavialableSlots(){
         long currMilliSec = System.currentTimeMillis();
         DateFormat dateFormat = new SimpleDateFormat("HH");
         Date date = new Date(currMilliSec);
