@@ -304,6 +304,21 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         totalAmount = findViewById(R.id.booking_total_amount);
         sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
+
+        couponcodeEditText.setSelection(couponcodeEditText.getText().length());
+
+        couponcodeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    couponcodeEditText.setHint("");
+                }
+                else{
+                    couponcodeEditText.setHint("Enter Coupon Code");
+                }
+            }
+        });
+
         Button couponApply = findViewById(R.id.booking_coupon_apply_button);
         isCouponApplied = false;
         BookingOrders = findViewById(R.id.booking_order_summary);

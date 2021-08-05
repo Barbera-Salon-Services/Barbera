@@ -254,6 +254,7 @@
                         android:ems="10"
                         android:hint="Enter Coupon Code"
                         android:inputType="textCapCharacters"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         android:textSize="14sp" />
