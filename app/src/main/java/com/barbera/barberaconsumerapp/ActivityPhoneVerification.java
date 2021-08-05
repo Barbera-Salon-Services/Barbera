@@ -101,6 +101,21 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 //        continue_to_signup = findViewById(R.id.continue_to_signup_page);
         progressBar = findViewById(R.id.progressBarInVerificationPage);
         ref = findViewById(R.id.referral_code);
+
+        ref.setSelection(ref.getText().length());
+
+        ref.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    ref.setHint("");
+                }
+                else{
+                    ref.setHint("Enter referral code");
+                }
+            }
+        });
+
         phonePattern = "^[6789]\\d{9}$";
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
         logoView = (ImageView) findViewById(R.id.logo);
