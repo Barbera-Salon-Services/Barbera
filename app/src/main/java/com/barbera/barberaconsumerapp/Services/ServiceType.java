@@ -71,6 +71,7 @@ public class ServiceType extends AppCompatActivity {
         CategoryIMage=intent.getStringExtra("ImageUrl");
         Glide.with(getApplicationContext()).load(CategoryIMage).into(img);
         ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Hold on for a moment...");
         progressDialog.show();
         slist=new ArrayList<>();
         serviceList=new ArrayList<>();

@@ -503,6 +503,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private void loadTabs(){
 //        tabItems=new ArrayList<>();
         ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.setMessage("Hold on for a moment...");
         progressBar.show();
         Call<SliderList> call=jsonPlaceHolderApi2.getTabs();
         call.enqueue(new Callback<SliderList>() {
@@ -580,6 +581,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private void loadImageSlider() {
 //        sliderItems=new ArrayList<>();
         ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.setMessage("Hold on for a moment...");
         progressBar.show();
         Call<SliderList> call=jsonPlaceHolderApi2.getSlider();
         call.enqueue(new Callback<SliderList>() {
@@ -655,6 +657,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         imgUrlWed.clear();
 
         ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.setMessage("Hold on for a moment...");
         progressBar.show();
         Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Wedding_Packages");
         call.enqueue(new Callback<TypeList>() {
@@ -700,6 +703,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         imgUrlWomen.clear();
 
         ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.setMessage("Hold on for a moment...");
         progressBar.show();
         Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Womens_Section");
         call.enqueue(new Callback<TypeList>() {
@@ -810,6 +814,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         imgUrlMen.clear();
 
         ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar.setMessage("Hold on for a moment...");
         progressBar.show();
         int i=0;
         Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Mens_Section");

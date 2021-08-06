@@ -226,6 +226,6 @@ public class EditProfile extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("ProfileImage",MODE_PRIVATE);
         SharedPreferences.Editor editor =sharedPref.edit();
         editor.putString("ProfileImageUri", String.valueOf(uri));
-        editor.commit();
+        editor.apply();
     }
 }

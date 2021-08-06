@@ -100,7 +100,6 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
     private void displayNeverAskAgainDialog() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("We need to send SMS for performing necessary task. Please permit the permission through "
                 + "Settings screen.\n\nSelect Permissions -> Enable permission");
@@ -271,6 +270,9 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                     SharedPreferences.Editor editor=sharedPreferences.edit();
                     editor.putString("address",address.getAddressLine(0));
                     editor.apply();
+
+                    BookingPage.houseAddress.setText(address.getAddressLine(0));
+                    finish();
                 }
             }
 
@@ -279,8 +281,7 @@ public class MapSearchActivity extends AppCompatActivity implements OnMapReadyCa
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
-        BookingPage.houseAddress.setText(address.getAddressLine(0));
-        finish();
+
     }
 
     @Override

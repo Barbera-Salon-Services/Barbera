@@ -68,9 +68,10 @@ import retrofit2.Retrofit;
 public class BookingPage extends AppCompatActivity implements CheckTermDialog.CheckTerms {
     private String userAddress;//Address string to be stored in database
     public static EditText houseAddress;
+    public static boolean inMap=false;
     private Button ConfirmBooking;
     private String email,token;
-    private TextView totalAmount;
+    private TextView totalAmount,couponInfo;
     private TextView changeLocation;
     private int region,typesel=0;
     private Boolean checkterms = false;
@@ -306,6 +307,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         totalAmount = findViewById(R.id.booking_total_amount);
         sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
+        couponInfo =findViewById(R.id.couponInfo);
 
         couponcodeEditText.setSelection(couponcodeEditText.getText().length());
 
@@ -920,6 +922,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         changeLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                inMap=true;
                 startActivity(new Intent(BookingPage.this, MapSearchActivity.class));
             }
         });
@@ -1310,10 +1313,11 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                     }
                                 }
                             }
-
+                            couponInfo.setVisibility(View.VISIBLE);
+                            couponInfo.setText("You have received a discount of Rs:"+item.getDiscount());
                         }
                         else{
-                            Toast.makeText(getApplicationContext(),"Could not apply coupon, check price cap",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"Could not apply coupon",Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -1359,7 +1363,67 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 });
     }
 
-//    private void fetchRegion () {
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        Toast.makeText(getApplicationContext(),"Destroyed",Toast.LENGTH_SHORT).show();
+//        Retrofit retrofit1= RetrofitClientInstanceBooking.getRetrofitInstance();
+//        JsonPlaceHolderApi2 jsonPlaceHolderApi21=retrofit1.create(JsonPlaceHolderApi2.class);
+//        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+//        call1.enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+//                if(response.code()==200){
+//                    //Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+//                }
+//                else{
+////                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+//            }
+//        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //Toast.makeText(getApplicationContext(),"On pause",Toast.LENGTH_SHORT).show();
+        if(!inMap){
+            //Toast.makeText(getApplicationContext(),"Destroyed",Toast.LENGTH_SHORT).show();
+        Retrofit retrofit1= RetrofitClientInstanceBooking.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi21=retrofit1.create(JsonPlaceHolderApi2.class);
+        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+        call1.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                if(response.code()==200){
+                    //Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+                }
+                else{
+//                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+        inMap=false;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Toast.makeText(getApplicationContext(),"On resume",Toast.LENGTH_SHORT).show();
+        inMap=false;
+    }
+    //    private void fetchRegion () {
 ////        ProgressDialog p =new ProgressDialog(BookingPage.this);
 ////        p.setMessage("Please Wait...");
 ////        p.show();

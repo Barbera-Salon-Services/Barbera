@@ -74,6 +74,12 @@ public class MyProfile extends AppCompatActivity {
                     if(em!=null){
                         email.setText(em);
                     }
+                    SharedPreferences sharedPreferences=getSharedPreferences("Profile",MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putString("address",address.getText().toString());
+                    editor.putString("name",name.getText().toString());
+                    editor.putString("phone",phone.getText().toString());
+                    editor.apply();
                     progressDialog.dismiss();
                 }
                 else{

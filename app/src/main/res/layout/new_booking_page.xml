@@ -272,6 +272,15 @@
                         android:elevation="10dp"
                         android:text="apply"
                         android:textColor="@color/white" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/booking_coupon_apply_button"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:id="@+id/couponInfo"
+                    android:textSize="14sp"/>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -427,6 +436,11 @@
                             android:layout_marginTop="3dp"
                             android:textColor="@color/white"
                             android:textSize="14dp" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:cardCornerRadius="20dp">
 
                         <Button
                             android:id="@+id/book_inst"
@@ -439,6 +453,7 @@
                             android:backgroundTint="@color/CartBlack"
                             android:text="Book now"
                             android:textColor="@color/white" />
+                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
 
@@ -1352,7 +1367,7 @@
         android:id="@+id/booking_confirm_booking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/cardBkg"
+        android:background="@color/CartBlack"
         android:text="Confirm Booking"
         android:visibility="gone"
         android:textColor="@color/white" />

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -61,7 +62,7 @@ public class BookingsActivity extends AppCompatActivity {
         BookinglistView=findViewById(R.id.BookingListView);
         BookinglistView.setHasFixedSize(true);
         BookinglistView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        progressBarONBookingActivity=(ProgressBar)findViewById(R.id.progressBarOnBookingActivity);
+        //progressBarONBookingActivity=(ProgressBar)findViewById(R.id.progressBarOnBookingActivity);
         emptyLayout=(RelativeLayout)findViewById(R.id.empty_booking_layout);
         Button newBooking=(Button)findViewById(R.id.add_a_booking);
         bookingActivityAdapter=new BookingActivityAdapter(bookingActivityList,getApplicationContext(),getSupportFragmentManager());
@@ -98,7 +99,10 @@ public class BookingsActivity extends AppCompatActivity {
 
         if(!checked&&!token.equals("no")){
             //bookingActivityList=new ArrayList<>();
-            progressBarONBookingActivity.setVisibility(View.VISIBLE);
+            //progressBarONBookingActivity.setVisibility(View.VISIBLE);
+            ProgressDialog progressBar = new ProgressDialog(this);
+            progressBar.setMessage("Hold on for a moment...");
+            progressBar.show();
             Call<BookingList> call=jsonPlaceHolderApi2.getBookings("Bearer "+token);
             call.enqueue(new Callback<BookingList>() {
                 @Override
@@ -109,7 +113,7 @@ public class BookingsActivity extends AppCompatActivity {
                         if(list.size()==0){
                             BookinglistView.setVisibility(View.INVISIBLE);
                             emptyLayout.setVisibility(View.VISIBLE);
-                            progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                            //progressBarONBookingActivity.setVisibility(View.INVISIBLE);
                         }
                         else {
                             //Log.d("List","IN");
@@ -187,19 +191,22 @@ public class BookingsActivity extends AppCompatActivity {
 //                                Log.d("item", item.getDate() + " " + item.getTime());
 //                            }
                             BookinglistView.setAdapter(bookingActivityAdapter);
-                            progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                            progressBar.dismiss();
+                            //progressBarONBookingActivity.setVisibility(View.INVISIBLE);
                         }
 
                     }
                     else{
-                        progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                        //progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                        progressBar.dismiss();
                         Toast.makeText(getApplicationContext(),"Could not get bookings",Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<BookingList> call, Throwable t) {
-                    progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                    //progressBarONBookingActivity.setVisibility(View.INVISIBLE);
+                    progressBar.dismiss();
                     Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
