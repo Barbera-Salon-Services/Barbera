@@ -1316,6 +1316,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
         couponApply.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(couponcodeEditText.getText())){
+                ProgressDialog progressDialog=new ProgressDialog(this);
+                progressDialog.setMessage("Hold on...");
+                progressDialog.show();
                 Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0,null,false,null),"Bearer "+token);
                 couponItemCall.enqueue(new Callback<CouponItem>() {
                     @Override
@@ -1366,16 +1369,19 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                 }
                             }
                             Log.d("price",curAmount+"");
+                            progressDialog.dismiss();
                             couponInfo.setVisibility(View.VISIBLE);
                             couponInfo.setText("You have received a discount of Rs:"+item.getDiscount());
                         }
                         else{
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),"Could not apply coupon",Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<CouponItem> call, Throwable t) {
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
