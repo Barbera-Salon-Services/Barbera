@@ -53,7 +53,7 @@ public class BarberDetailDialog extends AppCompatDialogFragment {
 
         yes.setText("Name: " +one);
         no.setText("Call:  "+two);
-        dist.setText("Time for arrival: "+String.format("%.2f",(three/40)*60)+"min");
+        dist.setText("Time before arrival: "+String.format("%.2f",(three/40)*60)+"min");
 
         call.setOnClickListener(v -> {
             startActivity(intent);
