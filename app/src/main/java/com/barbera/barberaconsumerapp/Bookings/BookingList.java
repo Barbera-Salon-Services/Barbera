@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class BookingList {
-    @SerializedName("data")
+    @SerializedName("done")
     List<BookingItem> list;
 
     public BookingList(List<BookingItem> list) {

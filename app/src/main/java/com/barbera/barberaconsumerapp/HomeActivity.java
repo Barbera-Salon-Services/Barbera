@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,7 +86,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private ImageView women1,women2,women3,women4,women5,women6,women7,women8;
     private TextView womenText1,womenText2,womenText3,womenText4,womenText5,womenText6,womenText7,womenText8;
     private TextView topText1,topText2,topText3,topText4,topText5;
-    private LinearLayout ll1,ll2,ll3,ll4,ll5,third_women;
+    private LinearLayout ll1,ll2,ll3,ll4,ll5,third_women,progress_home;
     private String cat1,cat2,cat3,cat4,cat5;
     private String typ1,typ2,typ3,typ4,typ5;
     private String url1,url2,url3,url4,url5;
@@ -94,6 +95,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private String urlm1,urlm2,urlm3,urlm4,urlm5;
     private String typw1,typw2,typw3,typw4,typw5,typw6,typw7,typw8;
     private String urlw1,urlw2,urlw3,urlw4,urlw5,urlw6,urlw7,urlw8;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         seeMoreMen=findViewById(R.id.see_men);
         seeMoreWomen=findViewById(R.id.see_women);
         third_women=findViewById(R.id.third_women);
+        scrollView=findViewById(R.id.scroll_view);
+        progress_home=findViewById(R.id.progress_home);
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
 //        menRecyclerView = findViewById(R.id.men_recycler_view);
         weddingRecyclerView = findViewById(R.id.wedding_recycler_view);
@@ -502,9 +506,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     }
     private void loadTabs(){
 //        tabItems=new ArrayList<>();
-        ProgressDialog progressBar = new ProgressDialog(this);
-        progressBar.setMessage("Hold on for a moment...");
-        progressBar.show();
+        progress_home.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(View.GONE);
         Call<SliderList> call=jsonPlaceHolderApi2.getTabs();
         call.enqueue(new Callback<SliderList>() {
             @Override
@@ -567,12 +570,10 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 else{
                     Toast.makeText(getApplicationContext(),"Could not load slider",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.dismiss();
             }
 
             @Override
             public void onFailure(Call<SliderList> call, Throwable t) {
-                progressBar.dismiss();
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
@@ -580,9 +581,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 
     private void loadImageSlider() {
 //        sliderItems=new ArrayList<>();
-        ProgressDialog progressBar = new ProgressDialog(this);
-        progressBar.setMessage("Hold on for a moment...");
-        progressBar.show();
+
         Call<SliderList> call=jsonPlaceHolderApi2.getSlider();
         call.enqueue(new Callback<SliderList>() {
             @Override
@@ -622,12 +621,10 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 else{
                     Toast.makeText(getApplicationContext(),"Could not load slider",Toast.LENGTH_SHORT).show();
                 }
-                progressBar.dismiss();
             }
 
             @Override
             public void onFailure(Call<SliderList> call, Throwable t) {
-                progressBar.dismiss();
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
@@ -656,9 +653,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         imgNameWed.clear();
         imgUrlWed.clear();
 
-        ProgressDialog progressBar = new ProgressDialog(this);
-        progressBar.setMessage("Hold on for a moment...");
-        progressBar.show();
+
         Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Wedding_Packages");
         call.enqueue(new Callback<TypeList>() {
             @Override
@@ -678,18 +673,15 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                         tabLlm.setOrientation(RecyclerView.HORIZONTAL);
                         weddingRecyclerView.setLayoutManager(tabLlm);
                     }
-                    progressBar.dismiss();
 
                 }
                 else{
-                    progressBar.dismiss();
                     Toast.makeText(getApplicationContext(),"Could not get services",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<TypeList> call, Throwable t) {
-                progressBar.dismiss();
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
@@ -702,9 +694,6 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         imgNameWomen.clear();
         imgUrlWomen.clear();
 
-        ProgressDialog progressBar = new ProgressDialog(this);
-        progressBar.setMessage("Hold on for a moment...");
-        progressBar.show();
         Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Womens_Section");
         call.enqueue(new Callback<TypeList>() {
             @Override
@@ -793,17 +782,16 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     }
                     //womenRecyclerView.setAdapter(gridAdapterWomen);
                     //gridView.setAdapter(adapter);
-                    progressBar.dismiss();
+                    progress_home.setVisibility(View.GONE);
+                    scrollView.setVisibility(View.VISIBLE);
                 }
                 else{
-                    progressBar.dismiss();
                     Toast.makeText(getApplicationContext(),"Could not get services",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<TypeList> call, Throwable t) {
-                progressBar.dismiss();
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
@@ -813,9 +801,6 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         imgNameMen.clear();
         imgUrlMen.clear();
 
-        ProgressDialog progressBar = new ProgressDialog(this);
-        progressBar.setMessage("Hold on for a moment...");
-        progressBar.show();
         int i=0;
         Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Mens_Section");
         call.enqueue(new Callback<TypeList>() {
@@ -887,17 +872,14 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     }
                     //menRecyclerView.setAdapter(gridAdapterMen);
                     //gridView.setAdapter(adapter);
-                    progressBar.dismiss();
                 }
                 else{
-                    progressBar.dismiss();
                     Toast.makeText(getApplicationContext(),"Could not get services",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<TypeList> call, Throwable t) {
-                progressBar.dismiss();
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });

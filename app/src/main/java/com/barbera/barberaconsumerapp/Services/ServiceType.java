@@ -1,6 +1,7 @@
 package com.barbera.barberaconsumerapp.Services;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,8 @@ public class ServiceType extends AppCompatActivity {
     private LinearLayoutManager llm;
     private ImageView img,refer,cart;
     private TextView cartNo;
+    private LinearLayout progress_serv;
+    private CardView image_serv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,8 @@ public class ServiceType extends AppCompatActivity {
         refer=findViewById(R.id.refer);
         cart=findViewById(R.id.cart);
         cartNo=findViewById(R.id.numberOfCartMain);
+        progress_serv=findViewById(R.id.progress_serv);
+        image_serv=findViewById(R.id.image_serv);
         llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -70,9 +76,10 @@ public class ServiceType extends AppCompatActivity {
         Category = intent.getStringExtra("Category");
         CategoryIMage=intent.getStringExtra("ImageUrl");
         Glide.with(getApplicationContext()).load(CategoryIMage).into(img);
-        ProgressDialog progressDialog=new ProgressDialog(this);
-        progressDialog.setMessage("Hold on for a moment...");
-        progressDialog.show();
+
+        progress_serv.setVisibility(View.VISIBLE);
+        image_serv.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
         slist=new ArrayList<>();
         serviceList=new ArrayList<>();
         Call<ServiceList> call=jsonPlaceHolderApi2.getAllServices(salontype,new ServiceItem(null, 0, 0, null, 0, null, Category,
@@ -119,17 +126,17 @@ public class ServiceType extends AppCompatActivity {
                     serviceTypeAdapter=new ServiceTypeAdapter(ServiceType.this,serviceList,salontype);
                     recyclerView.setLayoutManager(llm);
                     recyclerView.setAdapter(serviceTypeAdapter);
-                    progressDialog.dismiss();
+                    progress_serv.setVisibility(View.GONE);
+                    image_serv.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
                 else{
-                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Could not load services", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ServiceList> call, Throwable t) {
-                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

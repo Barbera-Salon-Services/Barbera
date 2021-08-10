@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -73,13 +74,13 @@ public class ServiceTypeAdapter extends RecyclerView.Adapter<ServiceTypeAdapter.
 
     public static class ServiceViewHolder extends RecyclerView.ViewHolder{
         private final TextView name;
-        private final ImageButton arrow;
+        private final LinearLayout arrow;
         private final RecyclerView recyclerView;
 
         public ServiceViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.subtype_name);
-            arrow=itemView.findViewById(R.id.dropdown);
+            arrow=itemView.findViewById(R.id.sub_click);
             recyclerView=itemView.findViewById(R.id.subservice_recycler_view);
 
         }
