@@ -208,6 +208,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 progressDialog.setMessage("Loading");
                 progressDialog.setCancelable(true);
                 progressDialog.show();
+                Log.d("priceLast",curAmount+"");
                 Call<InstItem> call = jsonPlaceHolderApi21.bookSlot(new ServiceIdList(sidlist, null, null, curAmount,couponName), dat, array[1] + "", "Bearer " + token);
                 call.enqueue(new Callback<InstItem>() {
                     @Override
@@ -215,7 +216,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                         if (response.code() == 200) {
                             if (response.body().isSuccess()) {
                                 if (bookingType.equals("Cart")) {
-                                    Call<Void> call1 = jsonPlaceHolderApi21.deleteCart(new ServiceIdList(sidlist, null, null, 0,couponName), "Bearer " + token);
+                                    Call<Void> call1 = jsonPlaceHolderApi21.deleteCart(new ServiceIdList(sidlist, null, null, curAmount,couponName), "Bearer " + token);
                                     call1.enqueue(new Callback<Void>() {
                                         @Override
                                         public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -237,7 +238,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                 }
                                 if(isBarberFound){
                                     Toast.makeText(BookingPage.this, "Barber found!", Toast.LENGTH_SHORT).show();
-                                    Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+                                    Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
                                     call1.enqueue(new Callback<Void>() {
                                     @Override
                                     public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -534,7 +535,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
                         call1.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -546,9 +547,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                     Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
                                     intent1.putExtra("Booking Amount", BookingTotalAmount);
                                     intent1.putExtra("Order Summary", OrderSummary);
-                                    intent1.putExtra("date",formattedDate);
-                                    intent1.putExtra("slot",slotRet);
-                                    intent1.putExtra("sidlist",(Serializable)sidlist);
+                                    finalTime=slotRet;
+                                    finalDate=formattedDate;
                                     startActivity(intent1);
                                     finish();
                                 }
@@ -567,7 +567,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
                         call1.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
@@ -955,6 +955,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 9;
             }
+            if(array[0]==1){
+                disableUnavialableSlots();
+            }
         });
 //        tim1.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -987,6 +990,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 array[1] = 7;
             } else {
                 array[1] = 10;
+            }
+            if(array[0]==1){
+                disableUnavialableSlots();
             }
         });
 //        tim2.setOnClickListener(new View.OnClickListener() {
@@ -1021,6 +1027,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 11;
             }
+            if(array[0]==1){
+                disableUnavialableSlots();
+            }
         });
 //        tim3.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1053,6 +1062,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 array[1] = 9;
             } else {
                 array[1] = 12;
+            }
+            if(array[0]==1){
+                disableUnavialableSlots();
             }
         });
 //        tim5.setOnClickListener(new View.OnClickListener() {
@@ -1089,6 +1101,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 16;
             }
+            if(array[0]==1){
+                disableUnavialableSlots();
+            }
         });
 //        tim4.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1124,6 +1139,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 17;
             }
+            if(array[0]==1){
+                disableUnavialableSlots();
+            }
         });
 //        tim6.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1158,6 +1176,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 } else {
                     array[1] = 15;
                 }
+                if(array[0]==1){
+                disableUnavialableSlots();
+            }
             });
             slot8.setOnClickListener(v -> {
                 slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));slot2.setCardBackgroundColor(Color.BLACK);
@@ -1178,6 +1199,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 } else {
                     array[1] = 16;
                 }
+                if(array[0]==1){
+                disableUnavialableSlots();
+            }
             });
             slot9.setOnClickListener(v -> {
                 slot9.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1198,6 +1222,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 } else {
                     array[1] = 17;
                 }
+                if(array[0]==1){
+                disableUnavialableSlots();
+            }
             });
             if (men && !women) {
                 slot10.setOnClickListener(v -> {
@@ -1215,6 +1242,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot12.setCardBackgroundColor(Color.BLACK);
                     slot13.setCardBackgroundColor(Color.BLACK);
                     array[1] = 15;
+                    if(array[0]==1){
+                disableUnavialableSlots();
+            }
                 });
                 slot11.setOnClickListener(v -> {
                     slot11.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1231,6 +1261,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot12.setCardBackgroundColor(Color.BLACK);
                     slot13.setCardBackgroundColor(Color.BLACK);
                     array[1] = 16;
+                    if(array[0]==1){
+                disableUnavialableSlots();
+            }
                 });
                 slot12.setOnClickListener(v -> {
                     slot12.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1247,6 +1280,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot10.setCardBackgroundColor(Color.BLACK);
                     slot13.setCardBackgroundColor(Color.BLACK);
                     array[1] = 17;
+                    if(array[0]==1){
+                disableUnavialableSlots();
+            }
                 });
                 slot13.setOnClickListener(v -> {
                     slot13.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1263,6 +1299,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot10.setCardBackgroundColor(Color.BLACK);
                     slot12.setCardBackgroundColor(Color.BLACK);
                     array[1] = 18;
+                    if(array[0]==1){
+                        disableUnavialableSlots();
+                    }
                 });
             }
         }
@@ -1293,12 +1332,14 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                     if(upper!=-1){
                                         if(model.getServicePrice()<=upper && model.getServicePrice()>=lower) {
                                             curAmount = BookingTotalAmount - item.getDiscount();
+                                            Log.d("price1",curAmount+"");
                                             break;
                                         }
                                     }
                                     else{
                                         if(model.getServicePrice()>=lower) {
                                             curAmount = BookingTotalAmount - item.getDiscount();
+                                            Log.d("price2",curAmount+"");
                                             break;
                                         }
                                     }
@@ -1311,6 +1352,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                             if(model.getServicePrice()<=upper && model.getServicePrice()>=lower){
                                                 curAmount=BookingTotalAmount-item.getDiscount();
                                             }
+                                            Log.d("price3",curAmount+"");
                                         }
                                     }
                                     else{
@@ -1318,10 +1360,12 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                             if(model.getServicePrice()>=lower){
                                                 curAmount=BookingTotalAmount-item.getDiscount();
                                             }
+                                            Log.d("price4",curAmount+"");
                                         }
                                     }
                                 }
                             }
+                            Log.d("price",curAmount+"");
                             couponInfo.setVisibility(View.VISIBLE);
                             couponInfo.setText("You have received a discount of Rs:"+item.getDiscount());
                         }

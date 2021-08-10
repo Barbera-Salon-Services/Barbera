@@ -277,8 +277,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/booking_coupon_apply_button"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
                     android:visibility="gone"
+                    android:textColor="@color/white"
                     android:id="@+id/couponInfo"
                     android:textSize="14sp"/>
 

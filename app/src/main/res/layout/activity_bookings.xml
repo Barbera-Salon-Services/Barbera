@@ -68,6 +68,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigation"
         android:layout_below="@id/cardView"
+        android:visibility="gone"
         tools:listitem="@layout/new_booking_fragement" />
 
     <RelativeLayout
