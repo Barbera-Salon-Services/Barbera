@@ -1319,7 +1319,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 ProgressDialog progressDialog=new ProgressDialog(this);
                 progressDialog.setMessage("Hold on...");
                 progressDialog.show();
-                Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new CartItemModel(null,couponcodeEditText.getText().toString(),0,null,0,0,null,false,null),"Bearer "+token);
+                Call<CouponItem> couponItemCall=jsonPlaceHolderApi2.applyCoupon(new ServiceIdList(sidlist, null, null, curAmount,couponcodeEditText.getText().toString()),"Bearer "+token);
                 couponItemCall.enqueue(new Callback<CouponItem>() {
                     @Override
                     public void onResponse(Call<CouponItem> call, retrofit2.Response<CouponItem> response) {

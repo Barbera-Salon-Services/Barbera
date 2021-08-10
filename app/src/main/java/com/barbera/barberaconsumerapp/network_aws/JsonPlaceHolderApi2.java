@@ -80,7 +80,7 @@ public interface JsonPlaceHolderApi2 {
     Call<Data> getReferral(@Header("Authorization") String token);
 
     @POST("usecoupon")
-    Call<CouponItem> applyCoupon(@Body CartItemModel cartItemModel, @Header("Authorization") String token);
+    Call<CouponItem> applyCoupon(@Body ServiceIdList cartItemModel, @Header("Authorization") String token);
 
     @GET("getusercoupons")
     Call<CouponList> getCoupon(@Header("Authorization") String token);

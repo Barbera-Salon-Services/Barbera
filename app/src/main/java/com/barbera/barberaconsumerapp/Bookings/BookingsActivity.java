@@ -112,7 +112,8 @@ public class BookingsActivity extends AppCompatActivity {
                     if(response.code()==200){
                         BookingList bookingList=response.body();
                         List<BookingItem> list=bookingList.getList();
-                        if(list.size()==0){
+                        List<BookingItem> list1=bookingList.getList1();
+                        if(list1.size()==0){
                             BookinglistView.setVisibility(View.INVISIBLE);
                             emptyLayout.setVisibility(View.VISIBLE);
                             //progressBarONBookingActivity.setVisibility(View.INVISIBLE);
@@ -123,7 +124,7 @@ public class BookingsActivity extends AppCompatActivity {
                             List<String> idList=new ArrayList<>();
                             String summary = "", date = "", slot = "", timestamp = "",id="",status="",barberName="",barberPhone="",category="",type="",startOtp="",endOtp="";
                             double dist=0;
-                            for (BookingItem item : list) {
+                            for (BookingItem item : list1) {
                                 if (i == 0) {
                                     date = item.getDate();
                                     slot = item.getSlot();
@@ -181,6 +182,73 @@ public class BookingsActivity extends AppCompatActivity {
                                         type=item.getService().getType();
                                         startOtp=item.getStartOtp();
                                         endOtp=item.getEndOtp();
+                                    }
+                                }
+                            }
+                            i = 0; amount = 0;
+                            idList=new ArrayList<>();
+                            summary = ""; date = ""; slot = ""; timestamp = "";id="";status="";barberName="";barberPhone="";category="";type="";startOtp="";endOtp="";
+                            dist=0;
+                            if(list.size()!=0){
+                                for (BookingItem item : list) {
+                                    if (i == 0) {
+                                        date = item.getDate();
+                                        slot = item.getSlot();
+                                        String name = item.getService().getName();
+                                        String gender = item.getService().getGender();
+                                        int price = item.getService().getPrice();
+                                        int quantity=item.getQuantity();
+                                        summary += "(" + gender + ") " + name + "   Rs: " + price + "  ("+quantity+")"+"\n";
+                                        amount=item.getTotalPrice();
+                                        timestamp += item.getTimestamp();
+                                        id=item.getBarberItem().getBarberid();
+                                        idList.add(item.getServiceId());
+                                        status=item.getStatus();
+                                        barberName=item.getBarberItem().getName();
+                                        barberPhone=item.getBarberItem().getPhone();
+                                        dist=item.getBarberItem().getDistance();
+                                        category=item.getService().getGender();
+                                        type=item.getService().getType();
+                                        startOtp=item.getStartOtp();
+                                        endOtp=item.getEndOtp();
+                                        i++;
+                                    } else {
+                                        if (item.getTimestamp().equals(timestamp)) {
+                                            String name = item.getService().getName();
+                                            String gender = item.getService().getGender();
+                                            int price = item.getService().getPrice();
+                                            int quantity=item.getQuantity();
+                                            summary += "(" + gender + ") " + name + "   Rs: " + price +"  ("+quantity+")"+"\n";
+                                            date = item.getDate();
+                                            slot = item.getSlot();
+                                            id=item.getBarberItem().getBarberid();
+                                            idList.add(item.getService().getId());
+                                        } else {
+                                            //Log.d("id",idList.size()+"");
+                                            bookingActivityList.add(new BookingModel(summary, amount, date, slot,id,idList,status,barberName,barberPhone,dist,category,type,startOtp,endOtp));
+                                            date = item.getDate();
+                                            slot = item.getSlot();
+                                            status=item.getStatus();
+                                            summary = "";
+                                            String name = item.getService().getName();
+                                            String gender = item.getService().getGender();
+                                            int price = item.getService().getPrice();
+                                            int quantity=item.getQuantity();
+                                            summary += "(" + gender + ") " + name + "   Rs: " + price +"  ("+quantity+")"+ "\n";
+                                            amount=item.getTotalPrice();
+                                            timestamp = "";
+                                            timestamp += item.getTimestamp();
+                                            id=item.getBarberItem().getBarberid();
+                                            idList=new ArrayList<>();
+                                            idList.add(item.getServiceId());
+                                            barberName=item.getBarberItem().getName();
+                                            barberPhone=item.getBarberItem().getPhone();
+                                            dist=item.getBarberItem().getDistance();
+                                            category=item.getService().getGender();
+                                            type=item.getService().getType();
+                                            startOtp=item.getStartOtp();
+                                            endOtp=item.getEndOtp();
+                                        }
                                     }
                                 }
                             }
