@@ -74,7 +74,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private ProgressDialog progressDialog;
     private EditText ref;
 //    private CardView continue_to_signup;
-    private ProgressBar progressBar;
     private String tempToken;
     private String phonePattern;
     private String phoneNumberValue, otpValue;
@@ -99,7 +98,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         enterOtpTextView = (TextView) findViewById(R.id.veri_code_textview);
         otpView = (OtpView) findViewById(R.id.veri_code);
 //        continue_to_signup = findViewById(R.id.continue_to_signup_page);
-        progressBar = findViewById(R.id.progressBarInVerificationPage);
+        //progressBar = findViewById(R.id.progressBarInVerificationPage);
         ref = findViewById(R.id.referral_code);
 
         ref.setSelection(ref.getText().length());
@@ -280,7 +279,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private void autoVerifyOTP() {
         if (verifyUserOTP()) {
 //            continue_to_signup.setEnabled(false);
-            progressBar.setVisibility(View.VISIBLE);
+            //progressBar.setVisibility(View.VISIBLE);
             //PhoneAuthCredential credential=PhoneAuthProvider.getCredential(verificationId,veri_code.getText().toString());
             //Toast.makeText(getApplicationContext(), "In", Toast.LENGTH_SHORT).show();
             verifyUser();
@@ -304,13 +303,16 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 }
             }
 //            get_code.setEnabled(false);
-            progressBar.setVisibility(View.VISIBLE);
+            //progressBar.setVisibility(View.VISIBLE);
             sendToastmsg("Sending OTP");
             sendfVerificationCode();
         }
     }
 
     private void verifyUser() {
+        ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
+        progressDialog.setMessage("Hold on for a moment...");
+        progressDialog.show();
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         //Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
@@ -338,18 +340,21 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
                         }
                     });
-                    progressBar.setVisibility(View.GONE);
+                    progressDialog.dismiss();
+                    //progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(ActivityPhoneVerification.this, HomeActivity.class);
                     startActivity(intent);
                 } else {
-                    progressBar.setVisibility(View.GONE);
+                    //progressBar.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -376,7 +381,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
     private void sendfVerificationCode() {
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
-
+        ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
+        progressDialog.setMessage("Hold on for a moment...");
+        progressDialog.show();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumberValue, null, null, null, null, null, null, null, 0.0, 0.0, null));
         call.enqueue(new Callback<Register>() {
@@ -385,7 +392,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 if (response.code() == 200) {
                     Register register = response.body();
                     tempToken = register.getToken();
-                    progressBar.setVisibility(View.INVISIBLE);
+                    //progressBar.setVisibility(View.INVISIBLE);
                     enterOtpTextView.setVisibility(View.GONE);
                     otpView.setVisibility(View.VISIBLE);
 //                    continue_to_signup.setVisibility(View.VISIBLE);
@@ -393,15 +400,18 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     phoneNumberOtpView.setVisibility(View.GONE);
                     enterOtpTextView.setVisibility(View.VISIBLE);
                     otpView.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                 } else {
-                    progressBar.setVisibility(View.GONE);
+                    //progressBar.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

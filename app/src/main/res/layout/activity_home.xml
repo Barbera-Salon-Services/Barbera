@@ -282,7 +282,7 @@
                 android:layout_marginTop="10dp"
                 app:delay="0"
                 app:period="2000"
-                app:placeholder="@drawable/logo"
+                app:placeholder="@color/CartBlack"
                 app:corner_radius="60"
                 android:id="@+id/imageSlider"/>
 

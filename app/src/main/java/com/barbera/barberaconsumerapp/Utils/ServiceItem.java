@@ -28,7 +28,6 @@ public class ServiceItem {
     @SerializedName("id")
     private String id;
 
-
     public ServiceItem(String name, int price, int time, String detail, int cutprice, String gender,
                        String type, boolean dod, String id, boolean trend,String subtype,String image) {
         this.name = name;

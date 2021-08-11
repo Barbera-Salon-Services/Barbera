@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,42 +142,53 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                         });
                 }}
         });
-
-        holder.bookNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(token.equals("no")){
-                    Toast.makeText(con,"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                    con.startActivity(new Intent(con, ActivityPhoneVerification.class));
+        if(serviceList.get(position).getType().equals("Makeup Packages")|| serviceList.get(position).getType().equals("Mehandi Packages")){
+            holder.bookNow.setText("Call to book");
+            holder.bookNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "+916377894199"));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    con.startActivity(intent);
                 }
-                else {
-                    int amount , Time = 0;
-                    String ordersummary = "";
-                    ordersummary+="("+ salonType+")"+serviceList.get(position).getName()+"\t\t\tRs"+serviceList.get(position).getPrice()+"\n";
-                    //Toast.makeText(view.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
+            });
+        }
+        else{
+            holder.bookNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(token.equals("no")){
+                        Toast.makeText(con,"You Must Log In to continue",Toast.LENGTH_LONG).show();
+                        con.startActivity(new Intent(con, ActivityPhoneVerification.class));
+                    }
+                    else {
+                        int amount , Time = 0;
+                        String ordersummary = "";
+                        ordersummary+="("+ salonType+")"+serviceList.get(position).getName()+"\t\t\tRs"+serviceList.get(position).getPrice()+"\n";
+                        //Toast.makeText(view.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
 //                    for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
 //                        ordersummary += "(" + ParlourActivity.salontype + ")" + ParlourActivity.checkeditemList.get(i).getName()
 //                                + "\t\t\tRs" + ParlourActivity.checkeditemList.get(i).getPrice() + "\n";
 //                    }
-                    Time=serviceList.get(position).getTime();
-                    amount=serviceList.get(position).getPrice();
-                    List<CartItemModel> list=new ArrayList<>();
-                    list.add(new CartItemModel(null,null,0,null,1,Time,serviceList.get(position).getId(),false,null));
-                    //BookingPage.BookingTotalAmount = amount;
-                    Intent intent = new Intent(con, BookingPage.class);
-                    intent.putExtra("Booking Amount", amount);
-                    intent.putExtra("BookingType", "direct");
-                    intent.putExtra("Order Summary", ordersummary);
-                    intent.putExtra("Time", Time);
-                    intent.putExtra("sidlist",(Serializable)list);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    con.startActivity(intent);
+                        Time=serviceList.get(position).getTime();
+                        amount=serviceList.get(position).getPrice();
+                        List<CartItemModel> list=new ArrayList<>();
+                        list.add(new CartItemModel(null,null,0,null,1,Time,serviceList.get(position).getId(),false,null));
+                        //BookingPage.BookingTotalAmount = amount;
+                        Intent intent = new Intent(con, BookingPage.class);
+                        intent.putExtra("Booking Amount", amount);
+                        intent.putExtra("BookingType", "direct");
+                        intent.putExtra("Order Summary", ordersummary);
+                        intent.putExtra("Time", Time);
+                        intent.putExtra("sidlist",(Serializable)list);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        con.startActivity(intent);
+                    }
+
                 }
 
-            }
-
-        });
-
+            });
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

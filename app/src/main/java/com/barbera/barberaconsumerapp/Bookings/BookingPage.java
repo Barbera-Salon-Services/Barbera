@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,7 +109,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private boolean men = false, women = false;
     private int serviceTime, slotsBooked;
     private String randomId = "Barbera" + (int) (Math.random() * 9000000);
-    private LinearLayout male_slots, female_slots, mf_slots,time_ll;
+    private LinearLayout male_slots, female_slots, mf_slots,time_ll,progress_booking;
     private RelativeLayout rl;
     private CheckBox checkBox;
     private Button bookInst;
@@ -119,6 +120,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 //    private ImageView drop;
     private RelativeLayout calendar;
     private LinearLayout slotBtn;
+    private ScrollView scrollView;
+    private DayItem blist1,blist2,blist3,blist4,blist5,blist6,blist7;
 
     @Override
     public void extractBool(Boolean selected) {
@@ -304,6 +307,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
         token = preferences.getString("token", "no");
 
+        scrollView=findViewById(R.id.booking_scroll);
         bookInst=findViewById(R.id.book_inst);
         InstText=findViewById(R.id.inst_book_text);
         houseAddress = findViewById(R.id.booking_edit_address);
@@ -312,6 +316,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         couponcodeEditText = findViewById(R.id.booking_couponCode_editText);
         couponInfo =findViewById(R.id.couponInfo);
+        progress_booking=findViewById(R.id.progress_booking);
 
         couponcodeEditText.setSelection(couponcodeEditText.getText().length());
 
@@ -423,8 +428,36 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 //                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
 //            }
 //        });
+        progress_booking.setVisibility(View.VISIBLE);
+        ConfirmBooking.setVisibility(View.GONE);
+        scrollView.setVisibility(View.GONE);
+        Call<BookedList> call= jsonPlaceHolderApi21.getSlots("Bearer "+token);
+        call.enqueue(new Callback<BookedList>() {
+            @Override
+            public void onResponse(Call<BookedList> call, retrofit2.Response<BookedList> response) {
+                if(response.code()==200){
+                    BookedItem list=response.body().getList();
+                    blist1=list.getDay1();
+                    blist2=list.getDay2();
+                    blist3=list.getDay3();
+                    blist4=list.getDay4();
+                    blist5=list.getDay5();
+                    blist6=list.getDay6();
+                    blist7=list.getDay7();
+                    progress_booking.setVisibility(View.GONE);
+                    ConfirmBooking.setVisibility(View.VISIBLE);
+                    scrollView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Could not load slots",Toast.LENGTH_SHORT).show();
+                }
+            }
 
-
+            @Override
+            public void onFailure(Call<BookedList> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
         if(bookingType.equals("trend")){
             if(OrderSummary.equals("(men)Simple Hair Cut  Rs79") || OrderSummary.equals("(men)Stylish Hair Cut  Rs99")
                 || OrderSummary.equals("(women)Hair Cut(U , V , straight)  Rs99")
@@ -719,7 +752,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 day7.setTextColor(getResources().getColor(R.color.colorAccent));
                 day7.setBackgroundColor(getResources().getColor(R.color.white));
             }
-                disableUnavialableSlots();
+                enableAvialableSlots();
+                disableUnavialableSlots(array[0]);
 
         });
         day2.setOnClickListener(new View.OnClickListener() {
@@ -754,6 +788,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
                 }
                 enableAvialableSlots();
+                disableUnavialableSlots(array[0]);
             }
         });
         day3.setOnClickListener(new View.OnClickListener() {
@@ -788,6 +823,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
                 }
                 enableAvialableSlots();
+                disableUnavialableSlots(array[0]);
             }
         });
         day4.setOnClickListener(new View.OnClickListener() {
@@ -822,6 +858,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
                 }
                 enableAvialableSlots();
+                disableUnavialableSlots(array[0]);
             }
         });
         day5.setOnClickListener(new View.OnClickListener() {
@@ -856,6 +893,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
                 }
                 enableAvialableSlots();
+                disableUnavialableSlots(array[0]);
             }
         });
         day6.setOnClickListener(new View.OnClickListener() {
@@ -891,6 +929,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
                 }
                 enableAvialableSlots();
+                disableUnavialableSlots(array[0]);
             }
         });
         day7.setOnClickListener(new View.OnClickListener() {
@@ -924,6 +963,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
                 }
                 enableAvialableSlots();
+                disableUnavialableSlots(array[0]);
             }
         });
         useCurrentAddress();
@@ -955,9 +995,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 9;
             }
-            if(array[0]==1){
-                disableUnavialableSlots();
-            }
+                disableUnavialableSlots(array[0]);
         });
 //        tim1.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -991,9 +1029,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 10;
             }
-            if(array[0]==1){
-                disableUnavialableSlots();
-            }
+                disableUnavialableSlots(array[0]);
+
         });
 //        tim2.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1027,9 +1064,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 11;
             }
-            if(array[0]==1){
-                disableUnavialableSlots();
-            }
+                disableUnavialableSlots(array[0]);
         });
 //        tim3.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1063,9 +1098,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 12;
             }
-            if(array[0]==1){
-                disableUnavialableSlots();
-            }
+                disableUnavialableSlots(array[0]);
         });
 //        tim5.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1101,9 +1134,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 16;
             }
-            if(array[0]==1){
-                disableUnavialableSlots();
-            }
+                disableUnavialableSlots(array[0]);
+
         });
 //        tim4.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1139,9 +1171,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
             } else {
                 array[1] = 17;
             }
-            if(array[0]==1){
-                disableUnavialableSlots();
-            }
+                disableUnavialableSlots(array[0]);
         });
 //        tim6.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -1176,9 +1206,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 } else {
                     array[1] = 15;
                 }
-                if(array[0]==1){
-                disableUnavialableSlots();
-            }
+                disableUnavialableSlots(array[0]);
+
             });
             slot8.setOnClickListener(v -> {
                 slot8.setCardBackgroundColor(Color.parseColor("#27AE60"));slot2.setCardBackgroundColor(Color.BLACK);
@@ -1199,9 +1228,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 } else {
                     array[1] = 16;
                 }
-                if(array[0]==1){
-                disableUnavialableSlots();
-            }
+
+                disableUnavialableSlots(array[0]);
+
             });
             slot9.setOnClickListener(v -> {
                 slot9.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1222,9 +1251,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 } else {
                     array[1] = 17;
                 }
-                if(array[0]==1){
-                disableUnavialableSlots();
-            }
+
+                disableUnavialableSlots(array[0]);
+
             });
             if (men && !women) {
                 slot10.setOnClickListener(v -> {
@@ -1242,9 +1271,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot12.setCardBackgroundColor(Color.BLACK);
                     slot13.setCardBackgroundColor(Color.BLACK);
                     array[1] = 15;
-                    if(array[0]==1){
-                disableUnavialableSlots();
-            }
+
+                disableUnavialableSlots(array[0]);
+
                 });
                 slot11.setOnClickListener(v -> {
                     slot11.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1261,9 +1290,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot12.setCardBackgroundColor(Color.BLACK);
                     slot13.setCardBackgroundColor(Color.BLACK);
                     array[1] = 16;
-                    if(array[0]==1){
-                disableUnavialableSlots();
-            }
+
+                disableUnavialableSlots(array[0]);
+
                 });
                 slot12.setOnClickListener(v -> {
                     slot12.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1280,9 +1309,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot10.setCardBackgroundColor(Color.BLACK);
                     slot13.setCardBackgroundColor(Color.BLACK);
                     array[1] = 17;
-                    if(array[0]==1){
-                disableUnavialableSlots();
-            }
+
+                disableUnavialableSlots(array[0]);
+
                 });
                 slot13.setOnClickListener(v -> {
                     slot13.setCardBackgroundColor(Color.parseColor("#27AE60"));
@@ -1299,9 +1328,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     slot10.setCardBackgroundColor(Color.BLACK);
                     slot12.setCardBackgroundColor(Color.BLACK);
                     array[1] = 18;
-                    if(array[0]==1){
-                        disableUnavialableSlots();
-                    }
+                    disableUnavialableSlots(array[0]);
+
                 });
             }
         }
@@ -1487,97 +1515,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         //Toast.makeText(getApplicationContext(),"On resume",Toast.LENGTH_SHORT).show();
         inMap=false;
     }
-    //    private void fetchRegion () {
-////        ProgressDialog p =new ProgressDialog(BookingPage.this);
-////        p.setMessage("Please Wait...");
-////        p.show();
-//        FirebaseFirestore.getInstance().collection("Users")
-//                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                .get().addOnCompleteListener(task -> {
-//            String[] x = new String[2];
-//            try {
-//                String coord = task.getResult().get("Address1").toString();
-//                x = coord.split(",");
-//                lat = Double.parseDouble(x[0]);
-//                lon = Double.parseDouble(x[1]);
-//                getRegion();
-//            } catch (Exception e) {
-//                Toast.makeText(getApplicationContext(), "Address fields not saved!", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(BookingPage.this, ChangeLocation.class));
-//            }
-////                    p.dismiss();
-//        });
-//    }
-
-//    private void getRegion () {
-//        double radius3 = 1685.09;
-//        double radius4 = 1361.44;
-//        double radius5 = 2351.31;
-//        double radius6 = 2080.72;
-//        double radius7 = 1854.92;
-//        double radius8 = 2448.73;
-//        double radius9 = 1655.59;
-//        double radius10 = 1399.92;
-//        double radius11 = 2227.10;
-//        double radius12 = 1881.67;
-//
-//        if (getdistanceinkm(new LatLng(26.956962, 75.77664)) * 1000 <= radius3) {
-//            region = 1;
-//        } else if (getdistanceinkm(new LatLng(26.939211, 75.795793)) * 1000 <= radius4) {
-//            region = 2;
-//        } else if (getdistanceinkm(new LatLng(26.896277, 75.783537)) * 1000 <= radius5) {
-//            region = 3;
-//        } else if (getdistanceinkm(new LatLng(26.858152, 75.765343)) * 1000 <= radius6) {
-//            region = 4;
-//        } else if (getdistanceinkm(new LatLng(26.822310, 75.769312)) * 1000 <= radius7) {
-//            region = 5;
-//        } else if (getdistanceinkm(new LatLng(26.823396, 75.862217)) * 1000 <= radius8) {
-//            region = 6;
-//        } else if (getdistanceinkm(new LatLng(26.900915, 75.829059)) * 1000 <= radius9) {
-//            region = 7;
-//        } else if (getdistanceinkm(new LatLng(26.880131, 75.812279)) * 1000 <= radius10) {
-//            region = 8;
-//        } else if (getdistanceinkm(new LatLng(26.814549, 75.820629)) * 1000 <= radius11) {
-//            region = 9;
-//        } else if (getdistanceinkm(new LatLng(26.850078, 75.804790)) * 1000 <= radius12) {
-//            region = 10;
-//        } else if (getdistanceinkm(new LatLng(26.930256, 75.875947)) * 1000 <= 8101.33 || getdistanceinkm(new LatLng(26.943649, 75.748845)) * 1000 <= 1718.21 || getdistanceinkm(new LatLng(26.949311, 75.714512)) * 1000 <= 1764.76) {
-//            region = 11;
-////            Toast.makeText(getApplicationContext(),"Special"+region,Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(getApplicationContext(), "You are Out of Zone Please change your location!" + region, Toast.LENGTH_SHORT).show();
-//        }
-//
-////        Toast.makeText(getApplicationContext(),"dcs"+region,Toast.LENGTH_SHORT).show();
-//    }
-//
-//    private double getdistanceinkm (LatLng latLng){
-//        double lat1 = latLng.latitude;
-//        double lon1 = latLng.longitude;
-//        double lat2 = lat;
-//        double lon2 = lon;
-//        lon1 = Math.toRadians(lon1);
-//        lon2 = Math.toRadians(lon2);
-//        lat1 = Math.toRadians(lat1);
-//        lat2 = Math.toRadians(lat2);
-//
-//        // Haversine formula
-//        double dlon = lon2 - lon1;
-//        double dlat = lat2 - lat1;
-//        double a = Math.pow(Math.sin(dlat / 2), 2)
-//                + Math.cos(lat1) * Math.cos(lat2)
-//                * Math.pow(Math.sin(dlon / 2), 2);
-//
-//        double c = 2 * Math.asin(Math.sqrt(a));
-//
-//        // Radius of earth in kilometers. Use 3956
-//        // for miles
-//        double r = 6371;
-//
-//        // calculate the result
-//        return (c * r);
-//    }
-
     @Override
     protected void onRestart () {
         super.onRestart();
@@ -1586,169 +1523,50 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         startActivity(intent);
     }
 
-    private void addtoDatabase () {
-        Map<String, Object> bookingData = new HashMap<>();
-        bookingData.put("service", OrderSummary);
-        bookingData.put("date", finalDate);
-        bookingData.put("time", finalTime);
-        bookingData.put("address", userAddress);
-        bookingData.put("total_amount", BookingTotalAmount);
-        bookingData.put("status", "pending");
-        bookingData.put("total_time", serviceTime);
-        bookingData.put("randomId", randomId);
-        if(typesel==1){
-            FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Bookings")
-                    .document().set(bookingData).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Map<String, Object> addressMap = new HashMap<>();
-                        addressMap.put("house_address", houseAddress.getText().toString());
-                        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .update(addressMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                            }
-                        });
-
-                        if (serviceTime % 60 == 0) {
-                            slotsBooked = serviceTime / 60;
-                        } else {
-                            slotsBooked = (serviceTime / 60) + 1;
-                        }
-                        if (men && !women) {
-                            Map<String, Object> date = new HashMap<>();
-                            if (array[1] >= 16) {
-                                for (int i = array[1]; i < array[1] + slotsBooked && i < 20; i++) {
-                                    date.put(i + "_m", "B");
-                                }
-                            } else {
-                                for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
-                                    date.put(i + "_m", "B");
-                                }
-                            }
-                            date.put("date", mon + " " + day + ", " + selectedYear);
-                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                                    .collection("Region").document("Region" + region).update(date)
-                                    .addOnCompleteListener(task1 -> {
-
-                                    });
-                        } else if (women && !men) {
-                            Map<String, Object> date = new HashMap<>();
-                            for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
-                                date.put(i + "_f", "B");
-                            }
-                            date.put("date", mon + " " + day + ", " + selectedYear);
-                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                                    .collection("Region").document("Region" + region).update(date)
-                                    .addOnCompleteListener(task1 -> {
-
-                                    });
-                        } else {
-                            Map<String, Object> date = new HashMap<>();
-                            if (array[1] >= 16) {
-                                for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
-                                    date.put(i + "_m", "B");
-                                }
-                                for (int i = array[1]; i < array[1] + slotsBooked && i < 18; i++) {
-                                    date.put(i + "_f", "B");
-                                }
-                            } else {
-                                for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
-                                    date.put(i + "_m", "B");
-                                }
-                                for (int i = array[1]; i < array[1] + slotsBooked && i < 13; i++) {
-                                    date.put(i + "_f", "B");
-                                }
-                            }
-                            date.put("date", mon + " " + day + ", " + selectedYear);
-                            FirebaseFirestore.getInstance().collection("DaytoDayBooking").document("Day" + array[0])
-                                    .collection("Region").document("Region" + region).update(date)
-                                    .addOnCompleteListener(task1 -> {
-
-                                    });
-                        }
-                    } else
-                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-                }
-            });
-        }
-        else if(typesel==2){
-            FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .collection("Weekly booking").document().set(bookingData)
-                    .addOnCompleteListener(task -> {
-
-                    });
-        }
-        else{
-            FirebaseFirestore.getInstance().collection("Manual booking").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .collection("Monthly booking").document().set(bookingData)
-                    .addOnCompleteListener(task -> {
-
-                    });
-        }
-
-    }
-
-//    private void extractDataFromUser () {
-//        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            Username = task.getResult().get("Name").toString();
-//                            UserPhone = task.getResult().get("Phone").toString();
-//                        }
-//                    }
-//                });
+//    private void addTosheet () {
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbynnJCsAja8_NPhqBVhc9wB2vsrw2lHRpIQIgoqCiw1_d5geLuUDzm-ibTVN1pSzrQ-oA/exec"
+//                , new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                //Toast.makeText(getApplicationContext(),"Entered on REsponse",Toast.LENGTH_SHORT).show();
+//                //Toast.makeText(BookingPage.this,response,Toast.LENGTH_LONG).show();
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+//            }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() {
 //
+//                Map<String, String> parmas = new HashMap<>();
+//                //here we pass params
+//                parmas.put("action", "addItem");
+//                parmas.put("randomId", randomId);
+//                //parmas.put("userName", Username);
+//                parmas.put("services", OrderSummary);
+//                parmas.put("servicedate", finalDate);
+//                parmas.put("servicetime", finalTime);
+//                parmas.put("total", String.valueOf(BookingTotalAmount));
+//                parmas.put("address", userAddress);
+//                //parmas.put("phone", UserPhone);
+//                parmas.put("region", String.valueOf(region));
+//                parmas.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                if (isCouponApplied)
+//                    parmas.put("covid_warrior", "Yes");
+//                else
+//                    parmas.put("covid_warrior", "No");
+//
+//                return parmas;
+//            }
+//        };
+//        int socketTimeOut = 50000;// u can change this .. here it is 50 seconds
+//        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeOut, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//        stringRequest.setRetryPolicy(retryPolicy);
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        queue.add(stringRequest);
 //    }
-
-    private void addTosheet () {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://script.google.com/macros/s/AKfycbynnJCsAja8_NPhqBVhc9wB2vsrw2lHRpIQIgoqCiw1_d5geLuUDzm-ibTVN1pSzrQ-oA/exec"
-                , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //Toast.makeText(getApplicationContext(),"Entered on REsponse",Toast.LENGTH_SHORT).show();
-                //Toast.makeText(BookingPage.this,response,Toast.LENGTH_LONG).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-
-                Map<String, String> parmas = new HashMap<>();
-                //here we pass params
-                parmas.put("action", "addItem");
-                parmas.put("randomId", randomId);
-                //parmas.put("userName", Username);
-                parmas.put("services", OrderSummary);
-                parmas.put("servicedate", finalDate);
-                parmas.put("servicetime", finalTime);
-                parmas.put("total", String.valueOf(BookingTotalAmount));
-                parmas.put("address", userAddress);
-                //parmas.put("phone", UserPhone);
-                parmas.put("region", String.valueOf(region));
-                parmas.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                if (isCouponApplied)
-                    parmas.put("covid_warrior", "Yes");
-                else
-                    parmas.put("covid_warrior", "No");
-
-                return parmas;
-            }
-        };
-        int socketTimeOut = 50000;// u can change this .. here it is 50 seconds
-        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeOut, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(retryPolicy);
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(stringRequest);
-    }
 
     private boolean checkUserData () {
         if (houseAddress.getText().toString().isEmpty()) {
@@ -1770,41 +1588,12 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         //extractDataFromUser();
     }
 
-//    private void addCouponUsage () {
-//        HashMap<String, Object> data = new HashMap<>();
-//        users.add(FirebaseAuth.getInstance().getUid());
-//        data.put("CouponLimit", --limit);
-//        data.put("users", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-//        FirebaseFirestore.getInstance().collection("AppData").document("Coupons")
-//                .update(data).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if (task.isSuccessful()) {
-//                    //Toast.makeText(getApplicationContext(),"Coupon Applied Successfully. Don't Revert this Booking, you will lose the couopon",Toast.LENGTH_LONG).show();
-//                    //isCouponApplied=true;
-//                    // progressDialog.dismiss();
-//                }
-//            }
-//        });
-//
-//        if(isReferApplied) {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("used", "Y");
-//            FirebaseFirestore.getInstance().collection("AppData").document("Earn&Refer")
-//                    .collection("EligibleCustomers")
-//                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(map).addOnCompleteListener(task -> {
-//
-//            });
-//        }
-//    }
-
     private void useCurrentAddress () {
         SharedPreferences preferences=getSharedPreferences("Profile",MODE_PRIVATE);
         String address=preferences.getString("address",null);
         //Toast.makeText(getApplicationContext(),address,Toast.LENGTH_SHORT).show();
         houseAddress.setText(address);
     }
-
 
     private void slots (Task < DocumentSnapshot > task) {
         if (men && !women) {
@@ -2003,64 +1792,442 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     }
 
     @SuppressLint("ResourceAsColor")
-    private void disableUnavialableSlots(){
-        long currMilliSec = System.currentTimeMillis();
-        DateFormat dateFormat = new SimpleDateFormat("HH");
-        Date date = new Date(currMilliSec);
-        String hourString = dateFormat.format(date);
-        int hour = Integer.parseInt(hourString);
+    private void disableUnavialableSlots(int x){
+        if(x==1){
+            if(blist1.getSl1()==0){
+                slot1.setClickable(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl2()==0){
+                slot2.setClickable(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl3()==0){
+                slot3.setClickable(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl4()==0){
+                slot4.setClickable(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl5()==0){
+                slot5.setClickable(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl6()==0){
+                slot6.setClickable(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl7()==0){
+                slot7.setClickable(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl8()==0){
+                slot8.setClickable(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl9()==0){
+                slot9.setClickable(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl10()==0){
+                slot10.setClickable(false);
+                slot10.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl11()==0){
+                slot11.setClickable(false);
+                slot11.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl12()==0){
+                slot12.setClickable(false);
+                slot12.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist1.getSl13()==0){
+                slot13.setClickable(false);
+                slot13.setCardBackgroundColor(Color.GRAY);
+            }
+            long currMilliSec = System.currentTimeMillis();
+            DateFormat dateFormat = new SimpleDateFormat("HH");
+            Date date = new Date(currMilliSec);
+            String hourString = dateFormat.format(date);
+            int hour = Integer.parseInt(hourString);
 
-        if(hour>=6){
-            slot1.setClickable(false);
-            slot1.setCardBackgroundColor(Color.GRAY);
+            if(hour>=6){
+                slot1.setClickable(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=7){
+                slot2.setClickable(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=8){
+                slot3.setClickable(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=9){
+                slot4.setClickable(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=10){
+                slot5.setClickable(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=11){
+                slot6.setClickable(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=12){
+                slot7.setClickable(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=13){
+                slot8.setClickable(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=14){
+                slot9.setClickable(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=15){
+                slot10.setClickable(false);
+                slot10.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=16){
+                slot11.setClickable(false);
+                slot11.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=17){
+                slot12.setClickable(false);
+                slot12.setCardBackgroundColor(Color.GRAY);
+            }
+            if(hour>=18){
+                slot13.setClickable(false);
+                slot13.setCardBackgroundColor(Color.GRAY);
+            }
         }
-        if(hour>=7){
-            slot2.setClickable(false);
-            slot2.setCardBackgroundColor(Color.GRAY);
+        else if(x==2){
+            if(blist2.getSl1()==0){
+                slot1.setClickable(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl2()==0){
+                slot2.setClickable(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl3()==0){
+                slot3.setClickable(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl4()==0){
+                slot4.setClickable(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl5()==0){
+                slot5.setClickable(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl6()==0){
+                slot6.setClickable(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl7()==0){
+                slot7.setClickable(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl8()==0){
+                slot8.setClickable(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl9()==0){
+                slot9.setClickable(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl10()==0){
+                slot10.setClickable(false);
+                slot10.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl11()==0){
+                slot11.setClickable(false);
+                slot11.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl12()==0){
+                slot12.setClickable(false);
+                slot12.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist2.getSl13()==0){
+                slot13.setClickable(false);
+                slot13.setCardBackgroundColor(Color.GRAY);
+            }
         }
-        if(hour>=8){
-            slot3.setClickable(false);
-            slot3.setCardBackgroundColor(Color.GRAY);
+        else if(x==3){
+            if(blist3.getSl1()==0){
+                slot1.setClickable(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl2()==0){
+                slot2.setClickable(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl3()==0){
+                slot3.setClickable(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl4()==0){
+                slot4.setClickable(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl5()==0){
+                slot5.setClickable(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl6()==0){
+                slot6.setClickable(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl7()==0){
+                slot7.setClickable(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl8()==0){
+                slot8.setClickable(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl9()==0){
+                slot9.setClickable(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl10()==0){
+                slot10.setClickable(false);
+                slot10.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl11()==0){
+                slot11.setClickable(false);
+                slot11.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl12()==0){
+                slot12.setClickable(false);
+                slot12.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist3.getSl13()==0){
+                slot13.setClickable(false);
+                slot13.setCardBackgroundColor(Color.GRAY);
+            }
         }
-        if(hour>=9){
-            slot4.setClickable(false);
-            slot4.setCardBackgroundColor(Color.GRAY);
+        else if(x==4){
+            if(blist4.getSl1()==0){
+                slot1.setClickable(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl2()==0){
+                slot2.setClickable(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl3()==0){
+                slot3.setClickable(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl4()==0){
+                slot4.setClickable(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl5()==0){
+                slot5.setClickable(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl6()==0){
+                slot6.setClickable(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl7()==0){
+                slot7.setClickable(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl8()==0){
+                slot8.setClickable(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl9()==0){
+                slot9.setClickable(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl10()==0){
+                slot10.setClickable(false);
+                slot10.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl11()==0){
+                slot11.setClickable(false);
+                slot11.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl12()==0){
+                slot12.setClickable(false);
+                slot12.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist4.getSl13()==0){
+                slot13.setClickable(false);
+                slot13.setCardBackgroundColor(Color.GRAY);
+            }
         }
-        if(hour>=10){
-            slot5.setClickable(false);
-            slot5.setCardBackgroundColor(Color.GRAY);
+        else if(x==5){
+            if(blist5.getSl1()==0){
+                slot1.setClickable(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl2()==0){
+                slot2.setClickable(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl3()==0){
+                slot3.setClickable(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl4()==0){
+                slot4.setClickable(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl5()==0){
+                slot5.setClickable(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl6()==0){
+                slot6.setClickable(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl7()==0){
+                slot7.setClickable(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl8()==0){
+                slot8.setClickable(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl9()==0){
+                slot9.setClickable(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl10()==0){
+                slot10.setClickable(false);
+                slot10.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl11()==0){
+                slot11.setClickable(false);
+                slot11.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl12()==0){
+                slot12.setClickable(false);
+                slot12.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist5.getSl13()==0){
+                slot13.setClickable(false);
+                slot13.setCardBackgroundColor(Color.GRAY);
+            }
         }
-        if(hour>=11){
-            slot6.setClickable(false);
-            slot6.setCardBackgroundColor(Color.GRAY);
+        else if(x==6){
+            if(blist6.getSl1()==0){
+                slot1.setClickable(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl2()==0){
+                slot2.setClickable(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl3()==0){
+                slot3.setClickable(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl4()==0){
+                slot4.setClickable(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl5()==0){
+                slot5.setClickable(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl6()==0){
+                slot6.setClickable(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl7()==0){
+                slot7.setClickable(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl8()==0){
+                slot8.setClickable(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl9()==0){
+                slot9.setClickable(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl10()==0){
+                slot10.setClickable(false);
+                slot10.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl11()==0){
+                slot11.setClickable(false);
+                slot11.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl12()==0){
+                slot12.setClickable(false);
+                slot12.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist6.getSl13()==0){
+                slot13.setClickable(false);
+                slot13.setCardBackgroundColor(Color.GRAY);
+            }
         }
-        if(hour>=12){
-            slot7.setClickable(false);
-            slot7.setCardBackgroundColor(Color.GRAY);
-        }
-        if(hour>=13){
-            slot8.setClickable(false);
-            slot8.setCardBackgroundColor(Color.GRAY);
-        }
-        if(hour>=14){
-            slot9.setClickable(false);
-            slot9.setCardBackgroundColor(Color.GRAY);
-        }
-        if(hour>=15){
-            slot10.setClickable(false);
-            slot10.setCardBackgroundColor(Color.GRAY);
-        }
-        if(hour>=16){
-            slot11.setClickable(false);
-            slot11.setCardBackgroundColor(Color.GRAY);
-        }
-        if(hour>=17){
-            slot12.setClickable(false);
-            slot12.setCardBackgroundColor(Color.GRAY);
-        }
-        if(hour>=18){
-            slot13.setClickable(false);
-            slot13.setCardBackgroundColor(Color.GRAY);
+        else{
+            if(blist7.getSl1()==0){
+                slot1.setClickable(false);
+                slot1.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl2()==0){
+                slot2.setClickable(false);
+                slot2.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl3()==0){
+                slot3.setClickable(false);
+                slot3.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl4()==0){
+                slot4.setClickable(false);
+                slot4.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl5()==0){
+                slot5.setClickable(false);
+                slot5.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl6()==0){
+                slot6.setClickable(false);
+                slot6.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl7()==0){
+                slot7.setClickable(false);
+                slot7.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl8()==0){
+                slot8.setClickable(false);
+                slot8.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl9()==0){
+                slot9.setClickable(false);
+                slot9.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl10()==0){
+                slot10.setClickable(false);
+                slot10.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl11()==0){
+                slot11.setClickable(false);
+                slot11.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl12()==0){
+                slot12.setClickable(false);
+                slot12.setCardBackgroundColor(Color.GRAY);
+            }
+            if(blist7.getSl13()==0){
+                slot13.setClickable(false);
+                slot13.setCardBackgroundColor(Color.GRAY);
+            }
         }
     }
 
@@ -2073,57 +2240,57 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
         int hour = Integer.parseInt(hourString);
 
-        if(hour>=6){
+
             slot1.setClickable(true);
             slot1.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=7){
+
+
             slot2.setClickable(true);
             slot2.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=8){
+
+
             slot3.setClickable(true);
             slot3.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=9){
+
+
             slot4.setClickable(true);
             slot4.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=10){
+
+
             slot5.setClickable(true);
             slot5.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=11){
+
+
             slot6.setClickable(true);
             slot6.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=12){
+
+
             slot7.setClickable(true);
             slot7.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=13){
+
+
             slot8.setClickable(true);
             slot8.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=14){
+
+
             slot9.setClickable(true);
             slot9.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=15){
+
+
             slot10.setClickable(true);
             slot10.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=16){
+
+
             slot11.setClickable(true);
             slot11.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=17){
+
+
             slot12.setClickable(true);
             slot12.setCardBackgroundColor(Color.BLACK);
-        }
-        if(hour>=18){
+
+
             slot13.setClickable(true);
             slot13.setCardBackgroundColor(Color.BLACK);
-        }
+
     }
 }
