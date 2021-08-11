@@ -31,7 +31,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/CartBlack"
         android:layout_above="@id/confirm_booking_card"
         android:layout_below="@id/cardView">
@@ -309,6 +309,7 @@
 
                 <RelativeLayout
                     android:paddingTop="5dp"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/cardBkg">
@@ -317,6 +318,7 @@
                         android:id="@+id/min_time_rl"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:paddingStart="20dp">
 
                         <ImageView
@@ -332,7 +334,7 @@
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@id/clock"
                             android:paddingStart="10dp"
-                            android:text="Minimum time avialability"
+                            android:text="Minimum time availability"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
@@ -428,6 +430,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/selection"
                         android:layout_margin="15dp"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
 
@@ -527,7 +530,7 @@
 
                     <RelativeLayout
                         android:id="@+id/Calender"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/book_a_slot">
@@ -1370,8 +1373,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/CartBlack"
+        android:textSize="20dp"
         android:text="Confirm Booking"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textColor="@color/white" />
     </androidx.cardview.widget.CardView>
 

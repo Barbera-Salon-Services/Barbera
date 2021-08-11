@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,14 +78,32 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime()+":00");
         String x=bookingModel.getEndOtp();
         String y=bookingModel.getStartOtp();
-        if(x==null){
-            x="";
+
+        if(y!=null){
+            if(x!=null){
+                holder.endotp.setText("End otp: "+x);
+                holder.start.setVisibility(View.INVISIBLE);
+                holder.end.setVisibility(View.INVISIBLE);
+                holder.cancelBooking.setVisibility(View.INVISIBLE);
+                holder.status.setVisibility(View.VISIBLE);
+            }
+            else{
+                holder.endotp.setText("End otp: ");
+                holder.start.setVisibility(View.INVISIBLE);
+                holder.end.setVisibility(View.VISIBLE);
+                holder.cancelBooking.setVisibility(View.INVISIBLE);
+                holder.status.setVisibility(View.INVISIBLE);
+            }
+            holder.startotp.setText("Start otp: "+y);
         }
-        if(y==null){
-            y="";
+        else{
+            holder.startotp.setText("Start otp: ");
+            holder.start.setVisibility(View.VISIBLE);
+            holder.end.setVisibility(View.INVISIBLE);
+            holder.cancelBooking.setVisibility(View.VISIBLE);
+            holder.status.setVisibility(View.INVISIBLE);
         }
-        holder.endotp.setText("End otp: "+x);
-        holder.startotp.setText("Start otp: "+y);
+
         String a=bookingModel.getCategory().replaceAll(" ","_");
         String b=bookingModel.getType().replaceAll(" ","_");
         Glide.with(context).load("https://barbera-image.s3.ap-south-1.amazonaws.com/"+a+b)
@@ -92,24 +111,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         //extractNameAndContact(holder);
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
-
-        if(bookingModel.getStatus().equals("done")){
-            holder.start.setVisibility(View.INVISIBLE);
-            holder.end.setVisibility(View.INVISIBLE);
-            holder.cancelBooking.setVisibility(View.INVISIBLE);
-            holder.status.setVisibility(View.VISIBLE);
-        }
-        if(bookingModel.getStatus().equals("ongoing")){
-            holder.start.setVisibility(View.INVISIBLE);
-            holder.end.setVisibility(View.VISIBLE);
-            holder.cancelBooking.setVisibility(View.INVISIBLE);
-        }
-        if(bookingModel.getStatus().equals("pending")){
-            holder.start.setVisibility(View.VISIBLE);
-            holder.end.setVisibility(View.INVISIBLE);
-            holder.cancelBooking.setVisibility(View.VISIBLE);
-            holder.status.setVisibility(View.INVISIBLE);
-        }
+        //Log.d("status",bookingModel.getStatus());
 
         holder.barber.setOnClickListener(v -> {
             BarberDetailDialog bb = new BarberDetailDialog(bookingModel.getBarberName(), bookingModel.getBarberPhone(),bookingModel.getBarberDist());

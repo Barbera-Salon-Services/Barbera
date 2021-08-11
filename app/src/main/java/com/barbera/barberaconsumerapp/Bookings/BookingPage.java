@@ -352,21 +352,21 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 //            }
 //        });
         final int[] b = {0};
-        slotBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(b[0] ==0){
-                    calendar.setVisibility(View.VISIBLE);
-                    ConfirmBooking.setVisibility(View.VISIBLE);
-                    b[0] =1;
-                }
-                else{
-                    calendar.setVisibility(View.GONE);
-                    ConfirmBooking.setVisibility(View.GONE);
-                    b[0]=0;
-                }
-            }
-        });
+//        slotBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(b[0] ==0){
+//                    calendar.setVisibility(View.VISIBLE);
+//                    ConfirmBooking.setVisibility(View.VISIBLE);
+//                    b[0] =1;
+//                }
+//                else{
+//                    calendar.setVisibility(View.GONE);
+//                    ConfirmBooking.setVisibility(View.GONE);
+//                    b[0]=0;
+//                }
+//            }
+//        });
         male_slots = (LinearLayout) findViewById(R.id.dt);
 //        time_ll=findViewById(R.id.llt);
 //        tim1=findViewById(R.id.t6);
@@ -392,37 +392,37 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         Log.d("Order", OrderSummary + "  " + serviceTime);
         curAmount=BookingTotalAmount;
 
-        Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null,curAmount,couponName),"Bearer "+token);
-        call.enqueue(new Callback<InstItem>() {
-            @Override
-            public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
-                if(response.code()==200){
-                    InstItem instItem=response.body();
-                    barberIdRet=instItem.getId();
-                    slotRet=instItem.getSlot();
-                    if(!instItem.isSuccess()){
-                        isBarberFound=false;
-                        InstText.setText("No barber nearby");
-                        bookInst.setVisibility(View.GONE);
-                    }
-                    else{
-                        isBarberFound=true;
-                        bookInst.setVisibility(View.VISIBLE);
-                        InstText.setText("Nearest barber is "+instItem.getTime()+"min away.");
-                    }
-                }
-                else{
-                    InstText.setText("No bookings available now");
-                    bookInst.setVisibility(View.GONE);
-                    //Toast.makeText(getApplicationContext(),"Could not get instant booking",Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<InstItem> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<InstItem> call= jsonPlaceHolderApi21.bookInst(new ServiceIdList(sidlist,null,null,curAmount,couponName),"Bearer "+token);
+//        call.enqueue(new Callback<InstItem>() {
+//            @Override
+//            public void onResponse(Call<InstItem> call, retrofit2.Response<InstItem> response) {
+//                if(response.code()==200){
+//                    InstItem instItem=response.body();
+//                    barberIdRet=instItem.getId();
+//                    slotRet=instItem.getSlot();
+//                    if(!instItem.isSuccess()){
+//                        isBarberFound=false;
+//                        InstText.setText("No barber nearby");
+//                        bookInst.setVisibility(View.GONE);
+//                    }
+//                    else{
+//                        isBarberFound=true;
+//                        bookInst.setVisibility(View.VISIBLE);
+//                        InstText.setText("Nearest barber is "+instItem.getTime()+"min away.");
+//                    }
+//                }
+//                else{
+//                    InstText.setText("No bookings available now");
+//                    bookInst.setVisibility(View.GONE);
+//                    //Toast.makeText(getApplicationContext(),"Could not get instant booking",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<InstItem> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
         if(bookingType.equals("trend")){
@@ -526,70 +526,70 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         totalAmount.setText("Total Amount Rs " + BookingTotalAmount);
         BookingOrders.setText(OrderSummary);
 
-        bookInst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder=new AlertDialog.Builder(BookingPage.this);
-                builder.setMessage("Are you sure to book?");
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @SuppressLint("ResourceAsColor")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
-                        call1.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                if(response.code()==200){
-                                    Date c = Calendar.getInstance().getTime();
-                                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                    String formattedDate = df.format(c);
-
-                                    Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
-                                    intent1.putExtra("Booking Amount", BookingTotalAmount);
-                                    intent1.putExtra("Order Summary", OrderSummary);
-                                    finalTime=slotRet;
-                                    finalDate=formattedDate;
-                                    startActivity(intent1);
-                                    finish();
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Could not confirm booking",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
-                        call1.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                if(response.code()==200){
-
-                                }
-                                else{
-                                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                AlertDialog dialog=builder.create();
-                dialog.show();
-            }
-        });
+//        bookInst.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final AlertDialog.Builder builder=new AlertDialog.Builder(BookingPage.this);
+//                builder.setMessage("Are you sure to book?");
+//                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//                    @SuppressLint("ResourceAsColor")
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Call<Void> call1=jsonPlaceHolderApi21.confirmBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
+//                        call1.enqueue(new Callback<Void>() {
+//                            @Override
+//                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+//                                if(response.code()==200){
+//                                    Date c = Calendar.getInstance().getTime();
+//                                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//                                    String formattedDate = df.format(c);
+//
+//                                    Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
+//                                    intent1.putExtra("Booking Amount", BookingTotalAmount);
+//                                    intent1.putExtra("Order Summary", OrderSummary);
+//                                    finalTime=slotRet;
+//                                    finalDate=formattedDate;
+//                                    startActivity(intent1);
+//                                    finish();
+//                                }
+//                                else{
+//                                    Toast.makeText(getApplicationContext(),"Could not confirm booking",Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<Void> call, Throwable t) {
+//                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                });
+//                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
+//                        call1.enqueue(new Callback<Void>() {
+//                            @Override
+//                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+//                                if(response.code()==200){
+//
+//                                }
+//                                else{
+//                                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<Void> call, Throwable t) {
+//                                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                });
+//                AlertDialog dialog=builder.create();
+//                dialog.show();
+//            }
+//        });
 
         Calendar calendar = Calendar.getInstance();
         selectedYear = calendar.get(Calendar.YEAR);
@@ -1330,45 +1330,50 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                             lower=item.getLowerLimit();
                             couponName=couponcodeEditText.getText().toString();
                             Toast.makeText(getApplicationContext(),"Coupon applied!",Toast.LENGTH_LONG).show();
-                            if(couponServiceId.equals("all")){
-                                for(CartItemModel model:sidlist){
-                                    if(upper!=-1){
-                                        if(model.getServicePrice()<=upper && model.getServicePrice()>=lower) {
-                                            curAmount = BookingTotalAmount - item.getDiscount();
-                                            Log.d("price1",curAmount+"");
-                                            break;
-                                        }
-                                    }
-                                    else{
-                                        if(model.getServicePrice()>=lower) {
-                                            curAmount = BookingTotalAmount - item.getDiscount();
-                                            Log.d("price2",curAmount+"");
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            else{
-                                for(CartItemModel model:sidlist){
-                                    if(upper!=-1){
-                                        if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
-                                            if(model.getServicePrice()<=upper && model.getServicePrice()>=lower){
-                                                curAmount=BookingTotalAmount-item.getDiscount();
-                                            }
-                                            Log.d("price3",curAmount+"");
-                                        }
-                                    }
-                                    else{
-                                        if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
-                                            if(model.getServicePrice()>=lower){
-                                                curAmount=BookingTotalAmount-item.getDiscount();
-                                            }
-                                            Log.d("price4",curAmount+"");
-                                        }
-                                    }
-                                }
-                            }
-                            Log.d("price",curAmount+"");
+//                            if(couponServiceId.equals("all")){
+//                                for(CartItemModel model:sidlist){
+//                                    if(upper!=-1){
+//                                        Log.d("price",model.getServicePrice()+"");
+//                                        if(model.getServicePrice()<=upper && model.getServicePrice()>=lower) {
+//                                            curAmount = BookingTotalAmount - item.getDiscount();
+//                                            Log.d("price1",curAmount+"");
+//                                            break;
+//                                        }
+//                                    }
+//                                    else{
+//                                        if(model.getServicePrice()>=lower) {
+//                                            curAmount = BookingTotalAmount - item.getDiscount();
+//                                            Log.d("price2",curAmount+"");
+//                                            break;
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                            else{
+//                                for(CartItemModel model:sidlist){
+//                                    if(upper!=-1){
+//                                        Log.d("price",model.getServicePrice()+"");
+//                                        if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
+//                                            Log.d("id same",model.getServicePrice()+"");
+//                                            if(model.getServicePrice()<=upper && model.getServicePrice()>=lower){
+//                                                Log.d("price range",model.getServicePrice()+"");
+//                                                curAmount=BookingTotalAmount-item.getDiscount();
+//                                                Log.d("price3",curAmount+"");
+//                                            }
+//                                        }
+//                                    }
+//                                    else{
+//                                        if(sidlist.get(sidlist.indexOf(model)).getId().equals(couponServiceId)){
+//                                            if(model.getServicePrice()>=lower){
+//                                                curAmount=BookingTotalAmount-item.getDiscount();
+//                                            }
+//                                            Log.d("price4",curAmount+"");
+//                                        }
+//                                    }
+//                                }
+//                            }
+                            curAmount=BookingTotalAmount-item.getDiscount();
+                            //Log.d("price",curAmount+"");
                             progressDialog.dismiss();
                             couponInfo.setVisibility(View.VISIBLE);
                             couponInfo.setText("You have received a discount of Rs:"+item.getDiscount());
@@ -1447,34 +1452,34 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 //        });
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //Toast.makeText(getApplicationContext(),"On pause",Toast.LENGTH_SHORT).show();
-        if(!inMap){
-            //Toast.makeText(getApplicationContext(),"Destroyed",Toast.LENGTH_SHORT).show();
-        Retrofit retrofit1= RetrofitClientInstanceBooking.getRetrofitInstance();
-        JsonPlaceHolderApi2 jsonPlaceHolderApi21=retrofit1.create(JsonPlaceHolderApi2.class);
-        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
-        call1.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                if(response.code()==200){
-                    //Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
-                }
-                else{
-//                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
-        inMap=false;
-        }
-    }
+ //   @Override
+//    protected void onPause() {
+//        super.onPause();
+//        //Toast.makeText(getApplicationContext(),"On pause",Toast.LENGTH_SHORT).show();
+//        if(!inMap){
+//            //Toast.makeText(getApplicationContext(),"Destroyed",Toast.LENGTH_SHORT).show();
+//        Retrofit retrofit1= RetrofitClientInstanceBooking.getRetrofitInstance();
+//        JsonPlaceHolderApi2 jsonPlaceHolderApi21=retrofit1.create(JsonPlaceHolderApi2.class);
+//        Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,0,couponName),"Bearer "+token);
+//        call1.enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+//                if(response.code()==200){
+//                    //Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+//                }
+//                else{
+////                    Toast.makeText(getApplicationContext(),"Could not cancel booking",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        inMap=false;
+//        }
+//    }
 
     @Override
     protected void onResume() {

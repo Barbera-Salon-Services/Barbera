@@ -42,6 +42,7 @@ public class BookingItem {
         this.serviceId=serviceId;
         this.totalPrice=totalPrice;
         this.startOtp=startOtp;
+        this.endOtp=endOtp;
     }
 
     public String getStartOtp() {
