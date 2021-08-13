@@ -144,6 +144,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         });
         if(serviceList.get(position).getType().equals("Makeup Packages")|| serviceList.get(position).getType().equals("Mehandi Packages")){
             holder.bookNow.setText("Call to book");
+            holder.cart.setVisibility(View.GONE);
             holder.bookNow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -154,6 +155,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             });
         }
         else{
+            holder.cart.setVisibility(View.VISIBLE);
             holder.bookNow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

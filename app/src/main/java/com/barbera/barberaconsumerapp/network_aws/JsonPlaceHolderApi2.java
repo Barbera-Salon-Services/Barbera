@@ -113,6 +113,6 @@ public interface JsonPlaceHolderApi2 {
     @POST("bookcancel")
     Call<Void> cancelBooking(@Body BookingModel bookingModel,@Header("Authorization") String token);
 
-    @GET("slots")
-    Call<BookedList> getSlots(@Header("Authorization") String token);
+    @POST("slots")
+    Call<BookedList> getSlots(@Body ServiceIdList serviceIdList,@Header("Authorization") String token);
 }

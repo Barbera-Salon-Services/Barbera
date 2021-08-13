@@ -78,6 +78,9 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         holder.dateTime.setText(bookingModel.getDate()+"\n"+bookingModel.getTime()+":00");
         String x=bookingModel.getEndOtp();
         String y=bookingModel.getStartOtp();
+        if(bookingModel.getStatus().equals("done")){
+            holder.status.setVisibility(View.VISIBLE);
+        }
 
         if(y!=null){
             if(x!=null){
@@ -85,7 +88,7 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
                 holder.start.setVisibility(View.INVISIBLE);
                 holder.end.setVisibility(View.INVISIBLE);
                 holder.cancelBooking.setVisibility(View.INVISIBLE);
-                holder.status.setVisibility(View.VISIBLE);
+                holder.status.setVisibility(View.INVISIBLE);
             }
             else{
                 holder.endotp.setText("End otp: ");

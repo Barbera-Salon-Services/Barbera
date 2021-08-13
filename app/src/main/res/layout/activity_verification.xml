@@ -7,7 +7,6 @@
     android:background="@color/CartBlack"
         android:layout_height="match_parent"
         tools:context=".ActivityPhoneVerification">
-
         <TextView
             android:id="@+id/skip_login"
             android:layout_width="wrap_content"

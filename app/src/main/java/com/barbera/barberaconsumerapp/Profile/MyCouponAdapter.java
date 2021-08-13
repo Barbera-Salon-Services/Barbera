@@ -57,6 +57,7 @@ public class MyCouponAdapter extends RecyclerView.Adapter<MyCouponAdapter.Coupon
         });
         holder.discount.setText("Coupon discount:Rs "+item.getDiscount());
         holder.name.setText("Coupon name: "+item.getName());
+        holder.terms.setText(item.getTerms());
     }
 
 
@@ -66,7 +67,7 @@ public class MyCouponAdapter extends RecyclerView.Adapter<MyCouponAdapter.Coupon
     }
 
     public class CouponViewHolder extends RecyclerView.ViewHolder {
-        private TextView name,discount,upper,lower;
+        private TextView name,discount,upper,lower,terms;
         private ImageView copy;
 
         public CouponViewHolder(@NonNull @NotNull View itemView) {
@@ -76,6 +77,7 @@ public class MyCouponAdapter extends RecyclerView.Adapter<MyCouponAdapter.Coupon
             copy=itemView.findViewById(R.id.copy_coupon);
 //            upper=itemView.findViewById(R.id.couponUpperPrice);
 //            lower=itemView.findViewById(R.id.couponLowerPrice);
+            terms=itemView.findViewById(R.id.coupon_terms);
         }
     }
 

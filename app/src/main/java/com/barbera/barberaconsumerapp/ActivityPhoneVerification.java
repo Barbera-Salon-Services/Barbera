@@ -327,6 +327,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     SharedPreferences sharedPreferences1 = getSharedPreferences("Profile", MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = sharedPreferences1.edit();
                     editor1.putString("address", address.getAddressLine(0));
+                    editor1.putString("phone",phoneNumberValue);
                     editor1.apply();
 
                     Register register = response.body();

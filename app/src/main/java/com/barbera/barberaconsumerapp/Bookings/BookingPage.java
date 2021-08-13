@@ -239,26 +239,26 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                                         }
                                     });
                                 }
-                                if(isBarberFound){
-                                    Toast.makeText(BookingPage.this, "Barber found!", Toast.LENGTH_SHORT).show();
-                                    Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
-                                    call1.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                        if(response.code()==200){
-
-                                        }
-                                        else{
-                                            Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
-                                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                }
+//                                if(isBarberFound){
+//                                    Toast.makeText(BookingPage.this, "Barber found!", Toast.LENGTH_SHORT).show();
+//                                    Call<Void> call1=jsonPlaceHolderApi21.revertBooking(new ServiceIdList(sidlist,barberIdRet,slotRet,curAmount,couponName),"Bearer "+token);
+//                                    call1.enqueue(new Callback<Void>() {
+//                                    @Override
+//                                    public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+//                                        if(response.code()==200){
+//
+//                                        }
+//                                        else{
+//                                            Toast.makeText(getApplicationContext(),"Could not book slot",Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure(Call<Void> call, Throwable t) {
+//                                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                                }
 
                                 progressDialog.dismiss();
                                 Intent intent1 = new Intent(BookingPage.this, CongratulationsPage.class);
@@ -431,7 +431,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         progress_booking.setVisibility(View.VISIBLE);
         ConfirmBooking.setVisibility(View.GONE);
         scrollView.setVisibility(View.GONE);
-        Call<BookedList> call= jsonPlaceHolderApi21.getSlots("Bearer "+token);
+        Call<BookedList> call= jsonPlaceHolderApi21.getSlots(new ServiceIdList(sidlist, null, null, curAmount,couponName),"Bearer "+token);
         call.enqueue(new Callback<BookedList>() {
             @Override
             public void onResponse(Call<BookedList> call, retrofit2.Response<BookedList> response) {
