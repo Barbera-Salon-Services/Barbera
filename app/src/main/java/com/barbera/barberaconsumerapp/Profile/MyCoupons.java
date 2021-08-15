@@ -33,7 +33,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MyCoupons extends AppCompatActivity {
-    public static List<GetCouponItem> couponItemModelList=new ArrayList<>();
+    public List<GetCouponItem> couponItemModelList=new ArrayList<>();
     public static MyCouponAdapter myCouponAdapter;
     private ProgressBar couponbar;
     private RelativeLayout emptyCouponLayout;
