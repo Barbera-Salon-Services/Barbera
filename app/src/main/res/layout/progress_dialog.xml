@@ -16,11 +16,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#000"
             android:gravity="center">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/cart_loader"/>
+                android:src="@drawable/cart_loader" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

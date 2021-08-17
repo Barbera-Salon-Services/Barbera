@@ -109,8 +109,8 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
 
         String a=bookingModel.getCategory().replaceAll(" ","_");
         String b=bookingModel.getType().replaceAll(" ","_");
-        Glide.with(context).load("https://barbera-image.s3.ap-south-1.amazonaws.com/"+a+b)
-                .apply(new RequestOptions().placeholder(R.drawable.logo)).into(holder.img);
+//        Glide.with(context).load("https://barbera-image.s3.ap-south-1.amazonaws.com/"+a+b)
+//                .apply(new RequestOptions().placeholder(R.drawable.logo)).into(holder.img);
         //extractNameAndContact(holder);
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
@@ -286,7 +286,6 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
         private TextView barber;
         private final TextView status;
         private final TextView startotp,endotp;
-        private ImageView img;
         public BookingItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -300,7 +299,6 @@ public class BookingActivityAdapter extends RecyclerView.Adapter<BookingActivity
             barber = itemView.findViewById(R.id.barberDetails);
             startotp = itemView.findViewById(R.id.startotp);
             endotp=itemView.findViewById(R.id.endotp);
-            img=itemView.findViewById(R.id.bookingImg);
         }
     }
 

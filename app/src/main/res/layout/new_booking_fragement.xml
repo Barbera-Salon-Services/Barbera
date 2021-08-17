@@ -43,8 +43,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginEnd="5dp"
                             android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
                             android:text="(Men) Simple Hair Cut"
                             android:textColor="@color/white"
                             android:textSize="16sp"
@@ -74,8 +74,8 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="top"
-                            android:padding="3dp"
                             android:layout_marginTop="10dp"
+                            android:padding="3dp"
                             android:src="@drawable/clock_vector"
                             app:tint="@color/white" />
 
@@ -84,8 +84,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
-                            android:layout_marginTop="10dp"
                             android:layout_marginStart="3dp"
+                            android:layout_marginTop="10dp"
                             android:text="Wednesday,\n29 July 2020\n2:05 am"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
@@ -106,6 +106,7 @@
                     android:text="Start Otp: "
                     android:textColor="@color/white"
                     android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/endotp"
                     android:layout_width="wrap_content"
@@ -128,8 +129,8 @@
                         android:layout_gravity="center"
                         android:layout_weight="5"
                         android:backgroundTint="#8C353535"
-                        android:text="generate otp"
                         android:elevation="5dp"
+                        android:text="generate otp"
                         android:textAlignment="viewStart"
                         android:textColor="@color/white"
                         android:textSize="11sp"
@@ -147,8 +148,8 @@
                         android:layout_gravity="center"
                         android:layout_weight="3"
                         android:backgroundTint="#8C353535"
-                        android:text="End otp"
                         android:elevation="5dp"
+                        android:text="End otp"
                         android:textColor="@color/white"
                         android:textSize="11sp"
                         android:visibility="visible" />
@@ -178,12 +179,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginTop="7dp"
-                            android:gravity="center"
                             android:layout_marginStart="10dp"
-                            android:textAlignment="viewStart"
-                            android:text="Professional Details"
+                            android:layout_marginTop="7dp"
                             android:elevation="5dp"
+                            android:gravity="center"
+                            android:text="Professional Details"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/white"
                             android:textSize="13sp"
                             tools:ignore="RtlCompat" />
@@ -210,8 +211,8 @@
                         android:layout_gravity="end"
                         android:layout_weight="5"
                         android:background="#8C353535"
-                        android:text="Cancel"
                         android:elevation="5dp"
+                        android:text="Cancel"
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:visibility="visible" />
@@ -236,22 +237,6 @@
                     android:visibility="invisible" />
 
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/bookingImg"
-                    android:layout_weight="1"
-                    android:background="@color/CartBlack"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/ic_launcher"
-                    app:shapeAppearanceOverlay="@style/specialOfferImage" />
-            </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
