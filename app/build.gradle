@@ -9,8 +9,8 @@ android {
         applicationId "com.barbera.barberaconsumerapp"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 16
-        versionName "2.6.20"
+        versionCode 17
+        versionName "3.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
