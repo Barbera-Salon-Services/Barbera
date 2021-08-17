@@ -23,16 +23,14 @@
         <activity android:name=".Service50.Service_50" />
         <activity android:name=".Offers" />
         <activity android:name=".LighteningDeals.LighteningDeal" />
-        <activity android:name=".ChangeLocation" />
         <activity android:name=".Rating" />
         <activity android:name=".SubCategoryActivity" />
-        <activity android:name=".WeddingPreActivity" />
         <activity android:name=".Services.WeddingActivity" />
         <activity android:name=".Profile.AboutUsActivity" />
         <activity android:name=".MapSearchActivity" />
-        <activity
-            android:name=".MapsActivity"
-            android:label="Map" />
+<!--        <activity-->
+<!--            android:name=".MapsActivity"-->
+<!--            android:label="Map" />-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -56,16 +54,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SecondScreen"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Profile.MyCoupons"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Profile.AboutPrivacyActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MehendiMakeupActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Profile.ContactUsActivity"
@@ -102,23 +94,21 @@
         <activity
             android:name=".ActivityPhoneVerification"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SignUpActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--        <activity-->
+<!--            android:name=".SignUpActivity"-->
+<!--            android:screenOrientation="portrait">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <data
-                    android:host="barbera.page.link"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data-->
+<!--                    android:host="barbera.page.link"-->
+<!--                    android:scheme="https" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"

@@ -92,30 +92,31 @@ public class ServiceType extends AppCompatActivity {
                     List<ServiceItem> serviceItemList=list.getServices();
                     int i=0;
                     String sub="";
-                    for(ServiceItem serviceItem:serviceItemList){
-                        if(i==0){
-                            sub=serviceItem.getSubtype();
-                            slist.add(serviceItem);
-                            i++;
-                        }
-                        else{
-                            if(serviceItem.getSubtype().equals(sub)){
+                    if(serviceItemList.size()!=0){
+                        for(ServiceItem serviceItem:serviceItemList){
+                            if(i==0){
+                                sub=serviceItem.getSubtype();
                                 slist.add(serviceItem);
+                                i++;
                             }
                             else{
-                                serviceList.add(new ServiceOuterItem(sub,slist));
-                                slist=new ArrayList<>();
+                                if(serviceItem.getSubtype().equals(sub)){
+                                    slist.add(serviceItem);
+                                }
+                                else{
+                                    serviceList.add(new ServiceOuterItem(sub,slist));
+                                    slist=new ArrayList<>();
 //                                for(ServiceOuterItem item:serviceList){
 //                                    for(ServiceItem s:item.getServiceItemList()){
 //                                        Log.d("kjhg",s.getName());
 //                                    }
 //                                }
-                                slist.add(serviceItem);
-                                sub=serviceItem.getSubtype();
+                                    slist.add(serviceItem);
+                                    sub=serviceItem.getSubtype();
+                                }
                             }
                         }
-                    }
-                    serviceList.add(new ServiceOuterItem(sub,slist));
+                        serviceList.add(new ServiceOuterItem(sub,slist));
 //                    for(ServiceOuterItem item:serviceList){
 //                        Log.d("sdsd",item.getSubtype());
 //                        for(ServiceItem serviceItem:item.getServiceItemList()){
@@ -123,20 +124,27 @@ public class ServiceType extends AppCompatActivity {
 //                        }
 //
 //                    }
-                    serviceTypeAdapter=new ServiceTypeAdapter(ServiceType.this,serviceList,salontype);
-                    recyclerView.setLayoutManager(llm);
-                    recyclerView.setAdapter(serviceTypeAdapter);
-                    progress_serv.setVisibility(View.GONE);
-                    image_serv.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                        serviceTypeAdapter=new ServiceTypeAdapter(ServiceType.this,serviceList,salontype);
+                        recyclerView.setLayoutManager(llm);
+                        recyclerView.setAdapter(serviceTypeAdapter);
+                        progress_serv.setVisibility(View.GONE);
+                        image_serv.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        progress_serv.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "No services present", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else{
+                    progress_serv.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Could not load services", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ServiceList> call, Throwable t) {
+                progress_serv.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

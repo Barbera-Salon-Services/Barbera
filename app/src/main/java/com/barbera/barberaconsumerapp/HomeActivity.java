@@ -44,6 +44,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,8 +84,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private ImageView top1,top2,top3,top4,top5;
     private ImageView men1,men2,men3,men4,men5,men6,men7;
     private TextView menText1,menText2,menText3,menText4,menText5,menText6,menText7;
-    private ImageView women1,women2,women3,women4,women5,women6,women7,women8;
-    private TextView womenText1,womenText2,womenText3,womenText4,womenText5,womenText6,womenText7,womenText8;
+    private ImageView women1,women2,women3,women4,women5,women6,women7,women8,women9;
+    private TextView womenText1,womenText2,womenText3,womenText4,womenText5,womenText6,womenText7,womenText8,womenText9;
     private TextView topText1,topText2,topText3,topText4,topText5;
     private LinearLayout ll1,ll2,ll3,ll4,ll5,third_women,progress_home,third_men;
     private String cat1,cat2,cat3,cat4,cat5;
@@ -93,8 +94,8 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private String catm="Mens_Section",catw="Womens_Section";
     private String typm1,typm2,typm3,typm4,typm5,typm6,typm7;
     private String urlm1,urlm2,urlm3,urlm4,urlm5,urlm6,urlm7;
-    private String typw1,typw2,typw3,typw4,typw5,typw6,typw7,typw8;
-    private String urlw1,urlw2,urlw3,urlw4,urlw5,urlw6,urlw7,urlw8;
+    private String typw1,typw2,typw3,typw4,typw5,typw6,typw7,typw8,typw9;
+    private String urlw1,urlw2,urlw3,urlw4,urlw5,urlw6,urlw7,urlw8,urlw9;
     private ScrollView scrollView;
 
     @Override
@@ -146,6 +147,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         women5=findViewById(R.id.grid_img10);
         women6=findViewById(R.id.grid_img11);
         women8=findViewById(R.id.grid_img13);
+        women9=findViewById(R.id.grid_img14);
         menText1=findViewById(R.id.grid_img_text);
         menText2=findViewById(R.id.grid_img_text1);
         menText3=findViewById(R.id.grid_img_text2);
@@ -161,6 +163,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         womenText6=findViewById(R.id.grid_img_text11);
         womenText7=findViewById(R.id.grid_img_text12);
         womenText8=findViewById(R.id.grid_img_text13);
+        womenText9=findViewById(R.id.grid_img_text14);
 
         cartAdapter=new CartAdapter(this);
         imageSlider=findViewById(R.id.imageSlider);
@@ -401,6 +404,16 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 startActivity(intent);
             }
         });
+        women9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeActivity.this,ServiceType.class);
+                intent.putExtra("SalonType","Womens_Section");
+                intent.putExtra("Category",typw9);
+                intent.putExtra("ImageUrl",urlw9);
+                startActivity(intent);
+            }
+        });
 
         referMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -545,48 +558,48 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 //                        tabItems.add(item);
                         if(i==0){
                             ll1.setVisibility(View.VISIBLE);
-                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top1);
+                            Glide.with(HomeActivity.this).load(item.getUrl()+"?"+new Date().getTime()).into(top1);
                             String[] x=item.getName().split(",");
                             topText1.setText(x[1]);
                             cat1=x[1];
                             typ1=x[0].replaceAll(" ","_");
-                            url1=item.getUrl();
+                            url1=item.getUrl()+"?"+new Date().getTime();
                         }
                         else if(i==1){
                             ll2.setVisibility(View.VISIBLE);
-                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top2);
+                            Glide.with(HomeActivity.this).load(item.getUrl()+"?"+new Date().getTime()).into(top2);
                             String[] x=item.getName().split(",");
                             topText2.setText(x[1]);
                             cat2=x[1];
                             typ2=x[0].replaceAll(" ","_");
-                            url2=item.getUrl();
+                            url2=item.getUrl()+"?"+new Date().getTime();
                         }
                         else if(i==2){
                             ll3.setVisibility(View.VISIBLE);
-                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top3);
+                            Glide.with(HomeActivity.this).load(item.getUrl()+"?"+new Date().getTime()).into(top3);
                             String[] x=item.getName().split(",");
                             topText3.setText(x[1]);
                             cat3=x[1];
                             typ3=x[0].replaceAll(" ","_");
-                            url3=item.getUrl();
+                            url3=item.getUrl()+"?"+new Date().getTime();
                         }
                         else if(i==3){
                             ll4.setVisibility(View.VISIBLE);
-                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top4);
+                            Glide.with(HomeActivity.this).load(item.getUrl()+"?"+new Date().getTime()).into(top4);
                             String[] x=item.getName().split(",");
                             topText4.setText(x[1]);
                             cat4=x[1];
                             typ4=x[0].replaceAll(" ","_");
-                            url4=item.getUrl();
+                            url4=item.getUrl()+"?"+new Date().getTime();
                         }
                         else{
                             ll5.setVisibility(View.VISIBLE);
-                            Glide.with(HomeActivity.this).load(item.getUrl()).into(top5);
+                            Glide.with(HomeActivity.this).load(item.getUrl()+"?"+new Date().getTime()).into(top5);
                             String[] x=item.getName().split(",");
                             topText5.setText(x[1]);
                             cat5=x[1];
                             typ5=x[0].replaceAll(" ","_");
-                            url5=item.getUrl();
+                            url5=item.getUrl()+"?"+new Date().getTime();
                         }
                         i++;
                     }
@@ -620,10 +633,10 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                     HashMap<Integer,String> url=new HashMap<>();
                     HashMap<Integer, Boolean> click=new HashMap<>();
                     for(SliderItem item:list){
-                        sliderItems.add(new SlideModel(item.getUrl(),null));
+                        sliderItems.add(new SlideModel(item.getUrl()+"?"+new Date().getTime(),null));
                         cat.put(i,item.getCategory().replaceAll(" ","_"));
                         typ.put(i,item.getTypes().replaceAll(" ","_"));
-                        url.put(i,item.getUrl());
+                        url.put(i,item.getUrl()+"?"+new Date().getTime());
                         click.put(i,item.isClickable());
                         //Log.d("dd",item.isClickable()+"");
                         i++;
@@ -691,7 +704,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                         for(String item:list){
                             imgNameWed.add(item);
                             item=item.replaceAll(" ","_");
-                            imgUrlWed.add(imagebase+"Wedding_Packages"+item);
+                            imgUrlWed.add(imagebase+"Wedding_Packages"+item+"?"+new Date().getTime());
                         }
                         weddingRecyclerView.setAdapter(gridAdapterWed);
                         LinearLayoutManager tabLlm=new LinearLayoutManager(getApplicationContext());
@@ -731,42 +744,42 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                         for(String item:list){
                             if(z<6){
                                 if(z==0){
-                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(women1);
                                     womenText1.setText(item);
                                     typw1=item;
                                     urlw1=url;
                                 }
                                 else if(z==1){
-                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(women2);
                                     typw2=item;
                                     urlw2=url;
                                     womenText2.setText(item);
                                 }
                                 else if(z==2){
-                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(women3);
                                     typw3=item;
                                     urlw3=url;
                                     womenText3.setText(item);
                                 }
                                 else if(z==3){
-                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(women4);
                                     typw4=item;
                                     urlw4=url;
                                     womenText4.setText(item);
                                 }
                                 else if(z==4){
-                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(women5);
                                     typw5=item;
                                     urlw5=url;
                                     womenText5.setText(item);
                                 }
                                 else if(z==5){
-                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(women6);
                                     typw6=item;
                                     urlw6=url;
@@ -776,18 +789,25 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                             }
                             else{
                                 if(z==6){
-                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(women7);
                                     typw7=item;
                                     urlw7=url;
                                     womenText7.setText(item);
                                 }
                                 else if(z==7){
-                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(women8);
                                     typw8=item;
                                     urlw8=url;
                                     womenText8.setText(item);
+                                }
+                                else if(z==8){
+                                    String url=imagebase+"Womens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
+                                    Glide.with(HomeActivity.this).load(url).into(women9);
+                                    typw9=item;
+                                    urlw9=url;
+                                    womenText9.setText(item);
                                 }
                                 z++;
                                 f=1;
@@ -825,8 +845,6 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private void addMenGrid() {
         imgNameMen.clear();
         imgUrlMen.clear();
-
-        int i=0;
         Call<TypeList> call=jsonPlaceHolderApi2.getTypes("Mens_Section");
         call.enqueue(new Callback<TypeList>() {
             @Override
@@ -839,44 +857,50 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                         for(String item:list){
                             if(z<6){
                                 if(z==0){
-                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(men1);
                                     menText1.setText(item);
+                                    Log.d("url",url);
                                     typm1=item;
                                     urlm1=url;
                                 }
                                 else if(z==1){
-                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(men2);
                                     menText2.setText(item);
+                                    Log.d("url",url);
                                     typm2=item;
                                     urlm2=url;
                                 }
                                 else if(z==2){
-                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(men3);
                                     menText3.setText(item);
+                                    Log.d("url",url);
                                     typm3=item;
                                     urlm3=url;
                                 }
                                 else if(z==3){
-                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(men4);
+                                    Log.d("url",url);
                                     menText4.setText(item);
                                     typm4=item;
                                     urlm4=url;
                                 }
                                 else if(z==4){
-                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
+                                    Log.d("url",url);
                                     Glide.with(HomeActivity.this).load(url).into(men5);
                                     menText5.setText(item);
                                     typm5=item;
                                     urlm5=url;
                                 }
                                 else if(z==5){
-                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(men6);
                                     menText6.setText(item);
+                                    Log.d("url",url);
                                     typm6=item;
                                     urlm6=url;
                                 }
@@ -885,8 +909,9 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                             else {
                                 f=1;
                                 if(z==6){
-                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_");
+                                    String url=imagebase+"Mens_Section"+item.replaceAll(" ","_")+"?"+new Date().getTime();
                                     Glide.with(HomeActivity.this).load(url).into(men7);
+                                    Log.d("url",url);
                                     typm7=item;
                                     urlm7=url;
                                     menText7.setText(item);

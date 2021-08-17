@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:src="@drawable/logo_small1"
+        android:src="@drawable/barberawhite"
         app:shapeAppearanceOverlay="@style/circularCorner" />
 
     <TextView
