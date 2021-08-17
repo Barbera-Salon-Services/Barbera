@@ -9,6 +9,11 @@
     android:background="@color/CartBlack"
     android:orientation="vertical"
     tools:context=".Services.ServiceType">
+    <include
+        layout="@layout/progress_dialog"
+        android:id="@+id/progress_dialog_view"
+        android:visibility="gone"
+        />
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"

@@ -1,8 +1,6 @@
 package com.barbera.barberaconsumerapp.Services;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
 import com.barbera.barberaconsumerapp.Bookings.BookingPage;
-import com.barbera.barberaconsumerapp.Profile.AboutUsActivity;
 import com.barbera.barberaconsumerapp.R;
 import com.barbera.barberaconsumerapp.Utils.CartItemModel;
 import com.barbera.barberaconsumerapp.Utils.ServiceItem;
@@ -43,17 +41,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static java.lang.Integer.parseInt;
-
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
     private List<ServiceItem> serviceList;
     private Context con;
     private String salonType;
+    RelativeLayout progressDialogView;
 
-    public ServiceAdapter(Context context,List<ServiceItem> serviceList,String salonType) {
-        con=context;
+    public ServiceAdapter(Context context, List<ServiceItem> serviceList, String salonType, RelativeLayout progressDialogView) {
+        con = context;
         this.serviceList = serviceList;
-        this.salonType=salonType;
+        this.salonType = salonType;
+        this.progressDialogView = progressDialogView;
     }
 
 
@@ -61,7 +59,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     @NotNull
     @Override
     public ServiceAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.new_service_piece, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_service_piece, null);
         return new ViewHolder(view);
     }
 
@@ -76,73 +74,73 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
         /*  Glide.with(view.getContext()).load(serviceList.get(position).getImageId())
            .apply(new RequestOptions().placeholder(R.drawable.logo)).into(logo);*/
-        Log.d("gr",serviceList.size()+"");
+        Log.d("gr", serviceList.size() + "");
 
         final String amount = "Rs " + serviceList.get(position).getPrice();
-        String CutAmount="Rs " +serviceList.get(position).getCutprice();
+        String CutAmount = "Rs " + serviceList.get(position).getCutprice();
         holder.title.setText(serviceList.get(position).getName());
         holder.price.setText(amount);
         holder.cutPrice.setText(CutAmount);
         holder.cutPrice.setPaintFlags(holder.cutPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        if(serviceList.get(position).getDetail()!=null){
-            String x= serviceList.get(position).getDetail().replaceAll("/n","\n");
+        if (serviceList.get(position).getDetail() != null) {
+            String x = serviceList.get(position).getDetail().replaceAll("/n", "\n");
             holder.details.setText(x);
         }
-        holder.time.setText(serviceList.get(position).getTime()+" Min");
-        final ServiceItem adapterList=serviceList.get(position);
+        holder.time.setText(serviceList.get(position).getTime() + " Min");
+        final ServiceItem adapterList = serviceList.get(position);
 
         holder.cart.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
-                if(token.equals("no")){
-                    Toast.makeText(con,"You Must Log In to continue",Toast.LENGTH_LONG).show();
-                    con.startActivity(new Intent(con,ActivityPhoneVerification.class));
+                if (token.equals("no")) {
+                    Toast.makeText(con, "You Must Log In to continue", Toast.LENGTH_LONG).show();
+                    con.startActivity(new Intent(con, ActivityPhoneVerification.class));
+                } else {
+                    // final ProgressDialog progressDialog = new ProgressDialog(con);
+                    progressDialogView.setVisibility(View.VISIBLE);
+//                    progressDialog.show();
+//                    progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                    progressDialog.setContentView(R.layout.progress_dialog);
+//                    progressDialog.setCancelable(false);
+                    List<String> idList = new ArrayList<>();
+                    idList.add(serviceList.get(position).getId());
+                    Call<SuccessReturn> call = jsonPlaceHolderApi2.addToCart(new Success(idList), "Bearer " + token);
+                    call.enqueue(new Callback<SuccessReturn>() {
+                        @Override
+                        public void onResponse(Call<SuccessReturn> call, Response<SuccessReturn> response) {
+                            if (response.code() == 200) {
+                                SuccessReturn success = response.body();
+                                if (success.isSuccess()) {
+                                    SharedPreferences sharedPreferences = con.getSharedPreferences("Count", con.MODE_PRIVATE);
+                                    int count = sharedPreferences.getInt("count", 0);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putInt("count", count + 1);
+                                    editor.apply();
+                                    //ServiceTypeAdapter.serviceAdapter.notifyDataSetChanged();
+                                    progressDialogView.setVisibility(View.GONE);
+//                                    progressDialog.dismiss();
+                                    Toast.makeText(con, "Added to cart", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    progressDialogView.setVisibility(View.GONE);
+                                    Toast.makeText(con, success.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                progressDialogView.setVisibility(View.GONE);
+                                Toast.makeText(con, "Already added to cart", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SuccessReturn> call, Throwable t) {
+                            progressDialogView.setVisibility(View.GONE);
+                            Toast.makeText(con, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-                else {
-                        final ProgressDialog progressDialog = new ProgressDialog(con);
-                        progressDialog.show();
-                        progressDialog.setContentView(R.layout.progress_dialog);
-                        progressDialog.setCancelable(false);
-                        List<String> idList = new ArrayList<>();
-                        idList.add(serviceList.get(position).getId());
-                        Call<SuccessReturn> call=jsonPlaceHolderApi2.addToCart(new Success(idList),"Bearer "+token);
-                        call.enqueue(new Callback<SuccessReturn>() {
-                            @Override
-                            public void onResponse(Call<SuccessReturn> call, Response<SuccessReturn> response) {
-                                if(response.code()==200){
-                                    SuccessReturn success=response.body();
-                                    if(success.isSuccess()){
-                                        SharedPreferences sharedPreferences=con.getSharedPreferences("Count",con.MODE_PRIVATE);
-                                        int count=sharedPreferences.getInt("count",0);
-                                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                                        editor.putInt("count",count+1);
-                                        editor.apply();
-                                        //ServiceTypeAdapter.serviceAdapter.notifyDataSetChanged();
-
-                                        progressDialog.dismiss();
-                                        Toast.makeText(con,"Added to cart",Toast.LENGTH_SHORT).show();
-                                    }
-                                    else{
-                                        progressDialog.dismiss();
-                                        Toast.makeText(con,success.getMessage(),Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                else{
-                                    progressDialog.dismiss();
-                                    Toast.makeText(con,"Could not add to cart",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<SuccessReturn> call, Throwable t) {
-                                progressDialog.dismiss();
-                                Toast.makeText(con,t.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                }}
+            }
         });
-        if(serviceList.get(position).getType().equals("Makeup Packages")|| serviceList.get(position).getType().equals("Mehandi Packages")){
+        if (serviceList.get(position).getType().equals("Makeup Packages") || serviceList.get(position).getType().equals("Mehandi Packages")) {
             holder.bookNow.setText("Call to book");
             holder.cart.setVisibility(View.GONE);
             holder.bookNow.setOnClickListener(new View.OnClickListener() {
@@ -153,36 +151,34 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                     con.startActivity(intent);
                 }
             });
-        }
-        else{
+        } else {
             holder.cart.setVisibility(View.VISIBLE);
             holder.bookNow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(token.equals("no")){
-                        Toast.makeText(con,"You Must Log In to continue",Toast.LENGTH_LONG).show();
+                    if (token.equals("no")) {
+                        Toast.makeText(con, "You Must Log In to continue", Toast.LENGTH_LONG).show();
                         con.startActivity(new Intent(con, ActivityPhoneVerification.class));
-                    }
-                    else {
-                        int amount , Time = 0;
+                    } else {
+                        int amount, Time = 0;
                         String ordersummary = "";
-                        ordersummary+="("+ salonType+")"+serviceList.get(position).getName()+"\t\t\tRs"+serviceList.get(position).getPrice()+"\n";
+                        ordersummary += "(" + salonType + ")" + serviceList.get(position).getName() + "\t\t\tRs" + serviceList.get(position).getPrice() + "\n";
                         //Toast.makeText(view.getContext(),"scascsnsvni", Toast.LENGTH_SHORT).show();
 //                    for (int i = 0; i < ParlourActivity.checkeditemList.size(); i++) {
 //                        ordersummary += "(" + ParlourActivity.salontype + ")" + ParlourActivity.checkeditemList.get(i).getName()
 //                                + "\t\t\tRs" + ParlourActivity.checkeditemList.get(i).getPrice() + "\n";
 //                    }
-                        Time=serviceList.get(position).getTime();
-                        amount=serviceList.get(position).getPrice();
-                        List<CartItemModel> list=new ArrayList<>();
-                        list.add(new CartItemModel(null,null,0,null,1,Time,serviceList.get(position).getId(),false,null));
+                        Time = serviceList.get(position).getTime();
+                        amount = serviceList.get(position).getPrice();
+                        List<CartItemModel> list = new ArrayList<>();
+                        list.add(new CartItemModel(null, null, 0, null, 1, Time, serviceList.get(position).getId(), false, null));
                         //BookingPage.BookingTotalAmount = amount;
                         Intent intent = new Intent(con, BookingPage.class);
                         intent.putExtra("Booking Amount", amount);
                         intent.putExtra("BookingType", "direct");
                         intent.putExtra("Order Summary", ordersummary);
                         intent.putExtra("Time", Time);
-                        intent.putExtra("sidlist",(Serializable)list);
+                        intent.putExtra("sidlist", (Serializable) list);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         con.startActivity(intent);
                     }
@@ -193,21 +189,21 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView logo,timeImage;
-        private TextView title,price,cutPrice,time,details;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView logo, timeImage;
+        private TextView title, price, cutPrice, time, details;
         private CheckBox checkBox;
-        private Button bookNow,cart;
+        private Button bookNow, cart;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.service_fragement_title);
             price = itemView.findViewById(R.id.service_fragement_price);
-            cutPrice=itemView.findViewById(R.id.service_fragement_cut_price);
-            bookNow=itemView.findViewById(R.id.book_button);
-            cart=itemView.findViewById(R.id.cart_button);
-            time=itemView.findViewById(R.id.service_fragement_time);
-            timeImage=itemView.findViewById(R.id.timer);
+            cutPrice = itemView.findViewById(R.id.service_fragement_cut_price);
+            bookNow = itemView.findViewById(R.id.book_button);
+            cart = itemView.findViewById(R.id.cart_button);
+            time = itemView.findViewById(R.id.service_fragement_time);
+            timeImage = itemView.findViewById(R.id.timer);
             details = itemView.findViewById(R.id.details);
         }
     }

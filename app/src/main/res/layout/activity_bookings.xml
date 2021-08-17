@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_gravity="center"
+            android:id="@+id/hold_on"
             android:textSize="20sp"
             android:text="Hold on for a moment..."/>
     </LinearLayout>
@@ -86,8 +87,8 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="200dp"
-            app:tint="@color/white"
-            android:src="@drawable/empty_cart_vector" />
+            android:src="@drawable/empty_cart_vector"
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/empty_text"
@@ -106,10 +107,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/empty_text"
             android:layout_centerHorizontal="true"
-            android:layout_margin="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
             android:background="@color/colorAccent"
-            android:text="book now"
             android:elevation="5dp"
+            android:text="book now"
             android:textColor="@color/white" />
 
 
