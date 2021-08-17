@@ -1,7 +1,6 @@
 package com.barbera.barberaconsumerapp.Services;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,11 +45,13 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     private List<ServiceItem> serviceList;
     private Context con;
     private String salonType;
+    RelativeLayout progressDialogView;
 
-    public ServiceAdapter(Context context, List<ServiceItem> serviceList, String salonType) {
+    public ServiceAdapter(Context context, List<ServiceItem> serviceList, String salonType, RelativeLayout progressDialogView) {
         con = context;
         this.serviceList = serviceList;
         this.salonType = salonType;
+        this.progressDialogView = progressDialogView;
     }
 
 
@@ -95,11 +97,12 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                     Toast.makeText(con, "You Must Log In to continue", Toast.LENGTH_LONG).show();
                     con.startActivity(new Intent(con, ActivityPhoneVerification.class));
                 } else {
-                    final ProgressDialog progressDialog = new ProgressDialog(con);
-                    progressDialog.show();
-                    progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    progressDialog.setContentView(R.layout.progress_dialog);
-                    progressDialog.setCancelable(false);
+                    // final ProgressDialog progressDialog = new ProgressDialog(con);
+                    progressDialogView.setVisibility(View.VISIBLE);
+//                    progressDialog.show();
+//                    progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                    progressDialog.setContentView(R.layout.progress_dialog);
+//                    progressDialog.setCancelable(false);
                     List<String> idList = new ArrayList<>();
                     idList.add(serviceList.get(position).getId());
                     Call<SuccessReturn> call = jsonPlaceHolderApi2.addToCart(new Success(idList), "Bearer " + token);
@@ -115,22 +118,22 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                                     editor.putInt("count", count + 1);
                                     editor.apply();
                                     //ServiceTypeAdapter.serviceAdapter.notifyDataSetChanged();
-
-                                    progressDialog.dismiss();
+                                    progressDialogView.setVisibility(View.GONE);
+//                                    progressDialog.dismiss();
                                     Toast.makeText(con, "Added to cart", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    progressDialog.dismiss();
+                                    progressDialogView.setVisibility(View.GONE);
                                     Toast.makeText(con, success.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                progressDialog.dismiss();
+                                progressDialogView.setVisibility(View.GONE);
                                 Toast.makeText(con, "Already added to cart", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<SuccessReturn> call, Throwable t) {
-                            progressDialog.dismiss();
+                            progressDialogView.setVisibility(View.GONE);
                             Toast.makeText(con, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
