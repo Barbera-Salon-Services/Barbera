@@ -89,7 +89,7 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private String mon1, mon2, mon3, mon4, mon5, mon6, mon7, mon, day;
     private SharedPreferences sharedPreferences;
     private int array[];
-    private String OrderSummary = "",time="";
+    private String OrderSummary = "",time="",gender;
     public static String finalDate;
     public static String finalTime;
     private String barberIdRet,slotRet;
@@ -108,7 +108,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
     private TextView text;
     private boolean men = false, women = false;
     private int serviceTime, slotsBooked;
-    private String randomId = "Barbera" + (int) (Math.random() * 9000000);
     private LinearLayout male_slots, female_slots, mf_slots,time_ll,progress_booking;
     private RelativeLayout rl;
     private CheckBox checkBox;
@@ -443,6 +442,13 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                     blist5=list.getDay5();
                     blist6=list.getDay6();
                     blist7=list.getDay7();
+                    gender=response.body().getGender();
+                    if(gender.equals("female")){
+                        slot1.setVisibility(View.GONE);
+                        slot2.setVisibility(View.GONE);
+                        slot3.setVisibility(View.GONE);
+                        slot13.setVisibility(View.GONE);
+                    }
                     progress_booking.setVisibility(View.GONE);
                     ConfirmBooking.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(View.VISIBLE);
