@@ -203,7 +203,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 //addTosheet();
 //                    progressDialog.dismiss();
                 //Toast.makeText(getApplicationContext(), "sd", Toast.LENGTH_SHORT).show();
-                BookingsActivity.checked = false;
                 Retrofit retrofit1= RetrofitClientInstanceBooking.getRetrofitInstance();
                 JsonPlaceHolderApi2 jsonPlaceHolderApi21=retrofit1.create(JsonPlaceHolderApi2.class);
 

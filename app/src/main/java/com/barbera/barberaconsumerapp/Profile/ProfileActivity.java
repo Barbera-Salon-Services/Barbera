@@ -168,7 +168,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                BookingsActivity.bookingActivityList.clear();
-                BookingsActivity.checked=false;
                 //FirebaseAuth.getInstance().signOut();
                 SharedPreferences preferences =getSharedPreferences("Token",MODE_PRIVATE);
                 SharedPreferences.Editor editor=preferences.edit();

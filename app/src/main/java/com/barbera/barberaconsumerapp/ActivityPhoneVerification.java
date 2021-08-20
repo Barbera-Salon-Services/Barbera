@@ -93,150 +93,102 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         phoneNumberOtpView = (OtpView) findViewById(R.id.phone);
         phoneNumberText = (TextView) findViewById(R.id.phone_number_text);
         skipLogin = findViewById(R.id.skip_login);
-        //get_code = (CardView) findViewById(R.id.get_code);
 
         enterOtpTextView = (TextView) findViewById(R.id.veri_code_textview);
         otpView = (OtpView) findViewById(R.id.veri_code);
-//        continue_to_signup = findViewById(R.id.continue_to_signup_page);
-        //progressBar = findViewById(R.id.progressBarInVerificationPage);
-        ref = findViewById(R.id.referral_code);
-
-        ref.setSelection(ref.getText().length());
-
-        ref.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b){
-                    ref.setHint("");
-                }
-                else{
-                    ref.setHint("Enter referral code");
-                }
-            }
-        });
+//        ref = findViewById(R.id.referral_code);
+//
+//        ref.setSelection(ref.getText().length());
+//
+//        ref.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean b) {
+//                if(b){
+//                    ref.setHint("");
+//                }
+//                else{
+//                    ref.setHint("Enter referral code");
+//                }
+//            }
+//        });
 
         phonePattern = "^[6789]\\d{9}$";
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
         logoView = (ImageView) findViewById(R.id.logo);
         logoCenterView = (ImageView) findViewById(R.id.logo_center);
 
-        handleAnimation();
-
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(500);
-        locationRequest.setFastestInterval(500);
-        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
-
         if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
         }
-        else{
-
-        }
-
-        locationListener = new LocationListener() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onLocationChanged(Location location) {
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                List<Address> addressList = null;
-                Log.d("Location", "Not null");
-                try {
-                    addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                address = addressList.get(0);
-                Log.d("address", address.toString());
-                Log.d("Location Changes", location.toString());
+            public void run() {
+                Log.d("in","location req");
+                locationRequest = LocationRequest.create();
+                locationRequest.setInterval(500);
+                locationRequest.setFastestInterval(500);
+                locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+
+                locationListener = new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                        List<Address> addressList = null;
+                        Log.d("Location", "Not null");
+                        try {
+                            addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        address = addressList.get(0);
+                        Log.d("address", address.toString());
+                        Log.d("Location Changes", location.toString());
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                        Log.d("Status Changed", String.valueOf(status));
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+                        Log.d("Provider Enabled", provider);
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+                        Log.d("Provider Disabled", provider);
+                    }
+                };
+
+                // Now first make a criteria with your requirements
+                // this is done to save the battery life of the device
+                // there are various other other criteria you can search for..
+                criteria = new Criteria();
+                criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+                criteria.setPowerRequirement(Criteria.POWER_LOW);
+                criteria.setAltitudeRequired(false);
+                criteria.setBearingRequired(false);
+                criteria.setSpeedRequired(false);
+                criteria.setCostAllowed(true);
+                criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
+                criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
+
+                // Now create a location manager
+                locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+                // This is the Best And IMPORTANT part
+                looper = null;
             }
+        }, 200);
 
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-                Log.d("Status Changed", String.valueOf(status));
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-                Log.d("Provider Enabled", provider);
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                Log.d("Provider Disabled", provider);
-            }
-        };
-
-        // Now first make a criteria with your requirements
-        // this is done to save the battery life of the device
-        // there are various other other criteria you can search for..
-        criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setSpeedRequired(false);
-        criteria.setCostAllowed(true);
-        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
-        criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
-
-        // Now create a location manager
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        // This is the Best And IMPORTANT part
-        looper = null;
-
-//        get_code.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fetchOtp();
-//            }
-//        });
-
-//        continue_to_signup.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                autoVerifyOTP();
-//            }
-//        });
         skipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             }
         });
-
-        handlePhoneOtp();
-
-    }
-
-    private void handleAnimation() {
-
-        phoneNumberText.setVisibility(View.INVISIBLE);
-//        get_code.setVisibility(View.INVISIBLE);
-        ref.setVisibility(View.INVISIBLE);
-        logoView.setVisibility(View.INVISIBLE);
-        logoCenterView.setVisibility(View.VISIBLE);
-
-        Animation animationSlideUp = AnimationUtils.loadAnimation(this, R.anim.slide_out);
-        logoCenterView.startAnimation(animationSlideUp);
-
-        mHandler = new Handler(Looper.getMainLooper());
-        mRunnable = new Runnable() {
-            @Override
-            public void run() {
-                logoCenterView.setVisibility(View.GONE);
-                phoneNumberText.setVisibility(View.VISIBLE);
-//                get_code.setVisibility(View.VISIBLE);
-                ref.setVisibility(View.VISIBLE);
-                logoView.setVisibility(View.VISIBLE);
-            }
-        };
-
-        mHandler.postDelayed(mRunnable, 1500);
-
-    }
-
-    private void handlePhoneOtp() {
         phoneNumberOtpView.setOtpCompletionListener(this);
         otpView.setOtpCompletionListener(this);
         phoneNumberText.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +202,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             }
         });
-
         enterOtpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,7 +213,41 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             }
         });
+        handleAnimation();
+    }
 
+    private void handleAnimation() {
+        phoneNumberText.setVisibility(View.INVISIBLE);
+//        ref.setVisibility(View.INVISIBLE);
+        logoView.setVisibility(View.INVISIBLE);
+        logoCenterView.setVisibility(View.VISIBLE);
+
+        Animation animationSlideUp = AnimationUtils.loadAnimation(this, R.anim.slide_out);
+        logoCenterView.startAnimation(animationSlideUp);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                logoCenterView.setVisibility(View.GONE);
+                phoneNumberText.setVisibility(View.VISIBLE);
+//                ref.setVisibility(View.VISIBLE);
+                logoView.setVisibility(View.VISIBLE);
+
+            }
+        }, 1500);
+//        mHandler = new Handler(Looper.getMainLooper());
+//        mRunnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                logoCenterView.setVisibility(View.GONE);
+//                phoneNumberText.setVisibility(View.VISIBLE);
+////                ref.setVisibility(View.VISIBLE);
+//                logoView.setVisibility(View.VISIBLE);
+//            }
+//        };
+//        mHandler.postDelayed(mRunnable, 1500);
     }
 
     @Override
@@ -282,26 +267,33 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             //progressBar.setVisibility(View.VISIBLE);
             //PhoneAuthCredential credential=PhoneAuthProvider.getCredential(verificationId,veri_code.getText().toString());
             //Toast.makeText(getApplicationContext(), "In", Toast.LENGTH_SHORT).show();
-            verifyUser();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    verifyUser();
+                }
+            }, 1500);
+
         }
     }
 
     private void fetchOtp() {
         if (verifyPhoneNumber()) {
-            Log.d("onclick", "In");
-            if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
-            } else {
-                Log.d("permission", "given");
-                if (isLocationEnabled()) {
-                    Log.d("Enabled", "Yes");
-                    locationManager.requestSingleUpdate(criteria, locationListener, looper);
-                } else {
-                    enableLocation(locationRequest);
-                    finish();
-                    startActivity(new Intent(ActivityPhoneVerification.this, ActivityPhoneVerification.class));
-                }
-            }
+//            Log.d("onclick", "In");
+//            if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
+//            } else {
+//                Log.d("permission", "given");
+//                if (isLocationEnabled()) {
+//                    Log.d("Enabled", "Yes");
+//                    locationManager.requestSingleUpdate(criteria, locationListener, looper);
+//                } else {
+//                    enableLocation(locationRequest);
+//                    finish();
+//                    startActivity(new Intent(ActivityPhoneVerification.this, ActivityPhoneVerification.class));
+//                }
+//            }
 //            get_code.setEnabled(false);
             //progressBar.setVisibility(View.VISIBLE);
             sendToastmsg("Sending OTP");
@@ -382,9 +374,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
     private void sendfVerificationCode() {
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
-        ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
-        progressDialog.setMessage("Hold on for a moment...");
-        progressDialog.show();
+//        ProgressDialog progressDialog=new ProgressDialog(ActivityPhoneVerification.this);
+//        progressDialog.setMessage("Hold on for a moment...");
+//        progressDialog.show();
         JsonPlaceHolderApi2 jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi2.class);
         Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumberValue, null, null, null, null, null, null, null, 0.0, 0.0, null));
         call.enqueue(new Callback<Register>() {
@@ -393,26 +385,19 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 if (response.code() == 200) {
                     Register register = response.body();
                     tempToken = register.getToken();
-                    //progressBar.setVisibility(View.INVISIBLE);
-                    enterOtpTextView.setVisibility(View.GONE);
-                    otpView.setVisibility(View.VISIBLE);
-//                    continue_to_signup.setVisibility(View.VISIBLE);
-//                    get_code.setVisibility(View.GONE);
                     phoneNumberOtpView.setVisibility(View.GONE);
                     enterOtpTextView.setVisibility(View.VISIBLE);
                     otpView.setVisibility(View.GONE);
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                 } else {
-                    //progressBar.setVisibility(View.GONE);
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
-                //progressBar.setVisibility(View.GONE);
-                progressDialog.dismiss();
+                //progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -546,9 +531,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacks(mRunnable);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        mHandler.removeCallbacks(mRunnable);
+//    }
 }

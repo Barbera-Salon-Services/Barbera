@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.ActivityPhoneVerification;
 import com.barbera.barberaconsumerapp.HomeActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.R;
@@ -42,7 +43,6 @@ public class BookingsActivity extends AppCompatActivity {
     private RecyclerView BookinglistView;
     private ProgressBar progressBarONBookingActivity;
     private static RelativeLayout emptyLayout;
-    public static boolean checked=false;
     private String token;
     private SharedPreferences sharedPreferences;
     public static BookingActivityAdapter bookingActivityAdapter;
@@ -100,7 +100,7 @@ public class BookingsActivity extends AppCompatActivity {
             }
         });
 
-        if(!checked&&!token.equals("no")){
+        if(!token.equals("no")){
             //bookingActivityList=new ArrayList<>();
             //progressBarONBookingActivity.setVisibility(View.VISIBLE);
             progress_book.setVisibility(View.VISIBLE);
@@ -114,6 +114,7 @@ public class BookingsActivity extends AppCompatActivity {
                         List<BookingItem> list=bookingList.getList();
                         List<BookingItem> list1=bookingList.getList1();
                         if(list1.size()==0){
+                            progress_book.setVisibility(View.GONE);
                             BookinglistView.setVisibility(View.INVISIBLE);
                             emptyLayout.setVisibility(View.VISIBLE);
                         }
@@ -215,15 +216,10 @@ public class BookingsActivity extends AppCompatActivity {
             });
 
         }
-        if(checked&&bookingActivityList.size()!=0){
-            BookinglistView.setVisibility(View.VISIBLE);
-            BookinglistView.setAdapter(bookingActivityAdapter);
+        else{
+            Toast.makeText(getApplicationContext(),"You must login to continue",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(), ActivityPhoneVerification.class));
         }
-        else if(checked&&bookingActivityList.size()==0){
-            BookinglistView.setVisibility(View.INVISIBLE);
-            emptyLayout.setVisibility(View.VISIBLE);
-        }
-
     }
 
     @Override
