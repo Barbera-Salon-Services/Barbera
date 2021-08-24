@@ -113,7 +113,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
         logoView = (ImageView) findViewById(R.id.logo);
         logoCenterView = (ImageView) findViewById(R.id.logo_center);
-//
+
 //        if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
 //        }

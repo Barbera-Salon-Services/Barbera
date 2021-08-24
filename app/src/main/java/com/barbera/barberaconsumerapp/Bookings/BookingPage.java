@@ -2245,7 +2245,6 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 
         int hour = Integer.parseInt(hourString);
 
-
             slot1.setClickable(true);
             slot1.setCardBackgroundColor(Color.BLACK);
 
