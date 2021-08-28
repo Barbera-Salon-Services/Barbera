@@ -5,7 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +18,14 @@
 
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Services.ServiceType"/>
+
+        <receiver android:name=".sms.SmsReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".Services.ServiceType" />
         <activity android:name=".SpecialOffers" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".Bookings.ViewBarberAcitivity" />
@@ -29,9 +39,9 @@
         <activity android:name=".Services.WeddingActivity" />
         <activity android:name=".Profile.AboutUsActivity" />
         <activity android:name=".MapSearchActivity" />
-<!--        <activity-->
-<!--            android:name=".MapsActivity"-->
-<!--            android:label="Map" />-->
+        <!--        <activity-->
+        <!--            android:name=".MapsActivity"-->
+        <!--            android:label="Map" />-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -96,20 +106,20 @@
             android:name=".ActivityPhoneVerification"
             android:screenOrientation="portrait" />
 
-<!--        <activity-->
-<!--            android:name=".SignUpActivity"-->
-<!--            android:screenOrientation="portrait">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
+        <!--        <activity-->
+        <!--            android:name=".SignUpActivity"-->
+        <!--            android:screenOrientation="portrait">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.VIEW" />-->
 
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+        <!--                <category android:name="android.intent.category.DEFAULT" />-->
+        <!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-<!--                <data-->
-<!--                    android:host="barbera.page.link"-->
-<!--                    android:scheme="https" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <!--                <data-->
+        <!--                    android:host="barbera.page.link"-->
+        <!--                    android:scheme="https" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -139,6 +149,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>

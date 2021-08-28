@@ -38,6 +38,7 @@ import androidx.core.app.ActivityCompat;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.Register;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
+import com.barbera.barberaconsumerapp.sms.SmsReceiver;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -114,9 +115,6 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         logoView = (ImageView) findViewById(R.id.logo);
         logoCenterView = (ImageView) findViewById(R.id.logo_center);
 
-//        if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
-//        }
 
         skipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,8 +144,11 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 otpView.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                // Try reading sms
+//                autoReadOTP();
             }
         });
+        new SmsReceiver().setEditText(otpView);
         handleAnimation();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -259,7 +260,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
     // method to check for permissions
     private boolean checkPermissions() {
-        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED;
 
     }
 
@@ -267,7 +268,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECEIVE_SMS}, PERMISSION_ID);
     }
 
     // method to check
