@@ -75,4 +75,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
+    implementation 'com.github.mmoamenn:LuckyWheel_Android:0.3.0'
 }
