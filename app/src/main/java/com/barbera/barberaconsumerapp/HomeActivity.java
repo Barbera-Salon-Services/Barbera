@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -51,6 +53,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import eu.dkaratzas.android.inapp.update.Constants;
 import eu.dkaratzas.android.inapp.update.InAppUpdateManager;
 import eu.dkaratzas.android.inapp.update.InAppUpdateStatus;
@@ -86,6 +89,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private Handler wheelHandler;
     private Runnable wheelRunable;
     private int a = 0, b = 0;
+    private ImageView anim;
     private ImageView top1, top2, top3, top4, top5;
     private ImageView men1, men2, men3, men4, men5, men6, men7;
     private TextView menText1, menText2, menText3, menText4, menText5, menText6, menText7;
@@ -103,9 +107,19 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private String urlw1, urlw2, urlw3, urlw4, urlw5, urlw6, urlw7, urlw8, urlw9;
     private ScrollView scrollView;
 
-    // Lucky wheel
-    private LuckyWheel lw;
-    List<WheelItem> wheelItems;
+    Animation rotateAnimation;
+    CircleImageView centerImage;
+    //    ImageView imageView;
+    View circularView;
+    List<Integer> images;
+    Handler rotateHandler, imageHandler;
+    Runnable rotateRunnable, imageRunnable;
+    int time = 7000;
+    int indexCLicked = 0;
+    private static final String TAG = "Atreyee";
+//    // Lucky wheel
+//    private LuckyWheel lw;
+//    List<WheelItem> wheelItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +134,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         third_men = findViewById(R.id.third_men);
         scrollView = findViewById(R.id.scroll_view);
         progress_home = findViewById(R.id.progress_home);
+        //anim = findViewById(R.id.anim_img);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 //        menRecyclerView = findViewById(R.id.men_recycler_view);
         weddingRecyclerView = findViewById(R.id.wedding_recycler_view);
@@ -174,11 +189,40 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         womenText8 = findViewById(R.id.grid_img_text13);
         womenText9 = findViewById(R.id.grid_img_text14);
 
-        generateWheelItems();
+        circularView = (View) findViewById(R.id.circularLayout);
 
-        lw = findViewById(R.id.lwv);
-        lw.addWheelItems(wheelItems);
-        lw.setTarget(1);
+//        imageView = (ImageView) findViewById(R.id.imageView);
+        centerImage = (CircleImageView) findViewById(R.id.centerImage);
+//        images = {R.drawable.icon1};
+        images = new ArrayList<Integer>();
+        images.add(R.drawable.lemonade);
+        images.add(R.drawable.orange);
+        images.add(R.drawable.instagram);
+        images.add(R.drawable.call);
+        images.add(R.drawable.mail);
+        images.add(R.drawable.web1);
+        images.add(R.drawable.green);
+        images.add(R.drawable.twitter);
+
+        // Initialise the handler
+        imageHandler = new Handler();
+        rotateHandler = new Handler();
+
+        centerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Clicked for id: " + indexCLicked, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Clicked for id:" + indexCLicked);
+            }
+        });
+
+        startAnimation();
+
+        //generateWheelItems();
+
+//        lw = findViewById(R.id.lwv);
+//        lw.addWheelItems(wheelItems);
+//        lw.setTarget(1);
 
         cartAdapter = new CartAdapter(this);
         imageSlider = findViewById(R.id.imageSlider);
@@ -219,12 +263,12 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         addWeddingGrid();
         addWomenGrid();
 
-        lw.setLuckyWheelReachTheTarget(new OnLuckyWheelReachTheTarget() {
-            @Override
-            public void onReachTarget() {
-                Toast.makeText(HomeActivity.this, "Target Reached", Toast.LENGTH_LONG).show();
-            }
-        });
+//        lw.setLuckyWheelReachTheTarget(new OnLuckyWheelReachTheTarget() {
+//            @Override
+//            public void onReachTarget() {
+//                Toast.makeText(HomeActivity.this, "Target Reached", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         top1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -546,10 +590,10 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 return false;
             }
         });
-
-        // Rotate the wheel
-
-        handleWheelAnimation();
+//
+//        // Rotate the wheel
+//
+//        handleWheelAnimation(55);
         //app update code
 
         inAppUpdateManager = InAppUpdateManager.Builder(this, 101)
@@ -562,35 +606,90 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         inAppUpdateManager.checkForAppUpdate();
     }
 
-    private void handleWheelAnimation() {
-        int delayTime = 8000;
-        lw.rotateWheelTo(10);
-        wheelHandler = new Handler();
-        wheelRunable = new Runnable() {
-            @Override
-            public void run() {
-                lw.rotateWheelTo(10);
-                wheelHandler.postDelayed(this, delayTime);
-            }
-        };
-        wheelHandler.postDelayed(wheelRunable, delayTime);
+//    private void handleWheelAnimation(int x) {
+//        if(x==110){
+//            x=165;
+//        }
+//        else if(x==165){
+//            x=220;
+//        }
+//        else if(x==220){
+//            x=275;
+//        }
+//        else if(x==275){
+//            x=330;
+//        }
+//        int delayTime = 800;
+//        lw.rotateWheelTo(10);
+//        wheelHandler = new Handler();
+//        wheelRunable = new Runnable() {
+//            @Override
+//            public void run() {
+//                lw.rotateWheelTo(10);
+//                wheelHandler.postDelayed(this, delayTime);
+//            }
+//        };
+//        wheelHandler.postDelayed(wheelRunable, delayTime);
+//
+//    }
+//
+//    private void generateWheelItems() {
+//        wheelItems = new ArrayList<>();
+//        wheelItems.add(new WheelItem(Color.parseColor("#fc6c6c"), BitmapFactory.decodeResource(getResources(),
+//                R.drawable.chat), "100 $"));
+//        wheelItems.add(new WheelItem(Color.parseColor("#00E6FF"), BitmapFactory.decodeResource(getResources(),
+//                R.drawable.coupon), "0 $"));
+//        wheelItems.add(new WheelItem(Color.parseColor("#F00E6F"), BitmapFactory.decodeResource(getResources(),
+//                R.drawable.ice_cream), "30 $"));
+//        wheelItems.add(new WheelItem(Color.parseColor("#00E6FF"), BitmapFactory.decodeResource(getResources(),
+//                R.drawable.lemonade), "6000 $"));
+//        wheelItems.add(new WheelItem(Color.parseColor("#fc6c6c"), BitmapFactory.decodeResource(getResources(),
+//                R.drawable.orange), "9 $"));
+//        wheelItems.add(new WheelItem(Color.parseColor("#00E6FF"), BitmapFactory.decodeResource(getResources(),
+//                R.drawable.shop), "20 $"));
+//    }
 
+    private void startAnimation() {
+        rotateAnimation();
+        imageAnimation();
     }
 
-    private void generateWheelItems() {
-        wheelItems = new ArrayList<>();
-        wheelItems.add(new WheelItem(Color.parseColor("#fc6c6c"), BitmapFactory.decodeResource(getResources(),
-                R.drawable.chat), "100 $"));
-        wheelItems.add(new WheelItem(Color.parseColor("#00E6FF"), BitmapFactory.decodeResource(getResources(),
-                R.drawable.coupon), "0 $"));
-        wheelItems.add(new WheelItem(Color.parseColor("#F00E6F"), BitmapFactory.decodeResource(getResources(),
-                R.drawable.ice_cream), "30 $"));
-        wheelItems.add(new WheelItem(Color.parseColor("#00E6FF"), BitmapFactory.decodeResource(getResources(),
-                R.drawable.lemonade), "6000 $"));
-        wheelItems.add(new WheelItem(Color.parseColor("#fc6c6c"), BitmapFactory.decodeResource(getResources(),
-                R.drawable.orange), "9 $"));
-        wheelItems.add(new WheelItem(Color.parseColor("#00E6FF"), BitmapFactory.decodeResource(getResources(),
-                R.drawable.shop), "20 $"));
+    private void rotateAnimation() {
+        rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        rotateRunnable = new Runnable() {
+            @Override
+            public void run() {
+                circularView.startAnimation(rotateAnimation);
+                rotateHandler.postDelayed(this, time);
+            }
+        };
+
+        rotateHandler.postDelayed(rotateRunnable, 1);
+    }
+
+    private void imageAnimation() {
+        imageRunnable = new Runnable() {
+            int i = 0;
+
+            @Override
+            public void run() {
+                centerImage.setImageResource(images.get(i));
+                indexCLicked = i;
+                i++;
+                if (i >= images.size()) {
+                    i = 0;
+                }
+                imageHandler.postDelayed(this, time / images.size());
+            }
+        };
+        imageHandler.postDelayed(imageRunnable, 10);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        rotateHandler.removeCallbacks(rotateRunnable);
+        imageHandler.removeCallbacks(imageRunnable);
     }
 
     private void loadTabs() {
@@ -1023,9 +1122,9 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         finish();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        wheelHandler.removeCallbacks(wheelRunable);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        wheelHandler.removeCallbacks(wheelRunable);
+//    }
 }

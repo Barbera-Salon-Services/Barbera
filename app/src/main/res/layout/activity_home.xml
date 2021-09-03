@@ -300,14 +300,20 @@
                 app:period="2000"
                 app:placeholder="@color/CartBlack" />
 
-            <com.bluehomestudio.luckywheel.LuckyWheel
-                android:id="@+id/lwv"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal"
-                LuckyWheel:background_color="@color/colorPrimary" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <include
+                android:id="@+id/circularLayout"
+                layout="@layout/background_layout" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/centerImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="100dp"
+                android:src="@drawable/call" />
+            </RelativeLayout>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/men_salon_cardview"
