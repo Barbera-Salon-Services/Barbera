@@ -2,8 +2,6 @@ package com.barbera.barberaconsumerapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -41,9 +39,6 @@ import com.barbera.barberaconsumerapp.Utils.TypeList;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceOffers;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
-import com.bluehomestudio.luckywheel.LuckyWheel;
-import com.bluehomestudio.luckywheel.OnLuckyWheelReachTheTarget;
-import com.bluehomestudio.luckywheel.WheelItem;
 import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
@@ -92,7 +87,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private Handler wheelHandler;
     private Runnable wheelRunable;
     private int a = 0, b = 0;
-    private ImageView anim1,anim2,anim3,anim4,anim5,anim6,anim7,anim8;
+    private CircleImageView anim1, anim2, anim3, anim4, anim5, anim6, anim7, anim8;
     private ImageView top1, top2, top3, top4, top5;
     private ImageView men1, men2, men3, men4, men5, men6, men7;
     private TextView menText1, menText2, menText3, menText4, menText5, menText6, menText7;
@@ -146,12 +141,11 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         Cart = (ImageView) findViewById(R.id.cart);
 
 
-
         //accessing top image
 
-        anim1=findViewById(R.id.top);
-        Glide.with(HomeActivity.this).load(R.drawable.bar + "?" + new Date().getTime()).into(anim1);
-
+        anim1 = findViewById(R.id.top);
+        // Glide.with(HomeActivity.this).load(R.drawable.bar + "?" + new Date().getTime()).into(anim1);
+        anim1.setImageResource(R.drawable.bar);
 
 
         top1 = findViewById(R.id.different_section_images1);
@@ -219,7 +213,6 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
                 Log.d(TAG, "Clicked for id:" + indexCLicked);
             }
         });
-
 
 
         //generateWheelItems();
@@ -611,7 +604,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         inAppUpdateManager.checkForAppUpdate();
     }
 
-//    private void handleWheelAnimation(int x) {
+    //    private void handleWheelAnimation(int x) {
 //        if(x==110){
 //            x=165;
 //        }
@@ -653,22 +646,21 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 //        wheelItems.add(new WheelItem(Color.parseColor("#00E6FF"), BitmapFactory.decodeResource(getResources(),
 //                R.drawable.shop), "20 $"));
 //    }
-    private void loadAnimation(){
+    private void loadAnimation() {
         images = new ArrayList<Offer>();
         Retrofit retrofit1 = RetrofitClientInstanceOffers.getRetrofitInstance();
-        JsonPlaceHolderApi2 jsonPlaceHolderApi22=retrofit1.create(JsonPlaceHolderApi2.class);
-        Call<OfferList> call=jsonPlaceHolderApi22.getAllOffer("Bearer "+isRegistered);
+        JsonPlaceHolderApi2 jsonPlaceHolderApi22 = retrofit1.create(JsonPlaceHolderApi2.class);
+        Call<OfferList> call = jsonPlaceHolderApi22.getAllOffer("Bearer " + isRegistered);
         call.enqueue(new Callback<OfferList>() {
             @Override
             public void onResponse(Call<OfferList> call, Response<OfferList> response) {
-                if(response.code()==200){
-                    List<Offer> list=response.body().getList();
-                    for(Offer offer:list){
+                if (response.code() == 200) {
+                    List<Offer> list = response.body().getList();
+                    for (Offer offer : list) {
                         images.add(offer);
                     }
                     startAnimation();
-                }
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Could not load animation", Toast.LENGTH_SHORT).show();
                 }
             }
