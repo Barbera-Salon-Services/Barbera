@@ -5,16 +5,12 @@ import java.util.List;
 public class WeddingModel {
     private String PackageName;
     private String PackageContent;
-    private String PackagePrice;
-    private String type;
-    public List<String> sittings;
+    private int PackagePrice;
 
-    public WeddingModel(String packageName, String packageContent, String packagePrice,String itype,List<String> stringList) {
+    public WeddingModel(String packageName, String packageContent, int packagePrice) {
         PackageName = packageName;
         PackageContent = packageContent;
         PackagePrice = packagePrice;
-        type=itype;
-        sittings=stringList;
     }
 
     public String getPackageName() {
@@ -25,10 +21,7 @@ public class WeddingModel {
         return PackageContent;
     }
 
-    public String getPackagePrice() {
+    public int getPackagePrice() {
         return PackagePrice;
-    }
-    public String getType(){
-        return type;
     }
 }

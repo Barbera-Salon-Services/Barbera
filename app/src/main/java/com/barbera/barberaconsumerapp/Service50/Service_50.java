@@ -6,7 +6,7 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.barbera.barberaconsumerapp.BookingPage;
+import com.barbera.barberaconsumerapp.Bookings.BookingPage;
 import com.barbera.barberaconsumerapp.R;
 
 public class Service_50 extends AppCompatActivity {

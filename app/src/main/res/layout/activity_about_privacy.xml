@@ -1,66 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#F9F9F1"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewINaboutUs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/CartBlack">
-        <TextView
-            android:id="@+id/heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            tools:text="About Us"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20sp" />
-    </androidx.cardview.widget.CardView>
-
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_below="@id/cardViewINaboutUs">
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutUsActivity">
+    android:background="#000000">
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/img_privacy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/log"
         android:layout_centerHorizontal="true"
-        android:layout_margin="40dp"/>
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="40dp"
-        android:layout_below="@id/logo"
-        tools:text="@string/aboutUs"
-        android:textSize="18sp"/>
+        android:src="@drawable/user_priv_circled"/>
 
-    <ImageView
-        android:id="@+id/stay_home_stay_safe"
+    <TextView
+        android:id="@+id/user_privacy_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:src="@drawable/stay_home__stay_safe__"
-        android:layout_below="@id/content"
+        android:layout_below="@+id/img_privacy"
         android:layout_centerHorizontal="true"
-        android:paddingTop="20sp"/>
+        android:layout_marginTop="10dp"
+        android:text="User Privacy Policy"
+        android:textColor="@color/white"
+        android:textSize="23sp"
+        android:textStyle="bold" />
 
-</RelativeLayout>
-</ScrollView>
+    <!--    <TextView-->
+    <!--        android:id="@+id/doorstep_salon"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@+id/user_privacy_name"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:text="Doorstep Salon"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="18sp" />-->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_below="@+id/user_privacy_name"
+        android:layout_margin="10dp"
+        android:padding="20dp"
+        app:cardBackgroundColor="@color/cardBkg"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/user_policy_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/user_privacy_content"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemIconTint="#99FFFFFF"
+        app:itemTextColor="#99FFFFFF"
+        app:menu="@menu/menu_navigation" />
 </RelativeLayout>

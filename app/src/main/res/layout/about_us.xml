@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/CartBlack">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_privacy"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo"
+        app:shapeAppearanceOverlay="@style/circularCorner" />
+
+    <TextView
+        android:id="@+id/barbera_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_privacy"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Barbera"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/doorstep_salon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/barbera_name"
+        android:layout_centerHorizontal="true"
+        android:text="Doorstep Salon"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_below="@+id/doorstep_salon"
+        android:layout_margin="10dp"
+        android:alpha="0.9"
+        android:padding="20dp"
+        app:cardBackgroundColor="@color/cardBkg"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/user_policy_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/about_us_content"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="10dp"
+        app:itemIconTint="#99FFFFFF"
+        app:itemTextColor="#99FFFFFF"
+        app:menu="@menu/menu_navigation" />
+</RelativeLayout>

@@ -48,7 +48,7 @@ public class SubCategoryAdapter extends BaseAdapter {
         TextView title = view.findViewById(R.id.service_fragement_title);
         TextView price = view.findViewById(R.id.service_fragement_price);
         TextView cutPrice=view.findViewById(R.id.service_fragement_cut_price);
-        final CheckBox checkBox=view.findViewById(R.id.service_fragement_check_box);
+//        final CheckBox checkBox=view.findViewById(R.id.service_fragement_check_box);
         TextView time=view.findViewById(R.id.service_fragement_time);
         ImageView timeImage=view.findViewById(R.id.timer);
         View line=view.findViewById(R.id.line);
@@ -57,7 +57,7 @@ public class SubCategoryAdapter extends BaseAdapter {
 
         price.setVisibility(View.GONE);
         cutPrice.setVisibility(View.GONE);
-        checkBox.setVisibility(View.GONE);
+//        checkBox.setVisibility(View.GONE);
         time.setVisibility(View.GONE);
         timeImage.setVisibility(View.GONE);
         line.setVisibility(View.GONE);

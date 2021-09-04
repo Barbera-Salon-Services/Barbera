@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyCoupons">
+    tools:context=".Profile.MyCoupons">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewINMyCoupons"
@@ -65,6 +65,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/coupons_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/cardViewINMyCoupons"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/referral_coupon"
+        android:layout_margin="20dp"
+        android:background="@color/CartBlack"
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        android:layout_below="@id/coupons_recycler_view"/>
+
 </RelativeLayout>

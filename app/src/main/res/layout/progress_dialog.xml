@@ -4,44 +4,23 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
-    android:gravity="center"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/progressDialog"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp">
+        android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#000"
             android:gravity="center">
+
             <ImageView
-                android:id="@+id/dialog_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/logo"
-                android:layout_centerHorizontal="true" />
-            <ProgressBar
-                android:id="@+id/barONDialog"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/dialog_text_progress_dialog"
-                android:outlineSpotShadowColor="@color/colorAccent"/>
-            <TextView
-                android:id="@+id/dialog_text_progress_dialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Adding Service To Cart..."
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/colorAccent"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_below="@id/dialog_logo"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cart_loader" />
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

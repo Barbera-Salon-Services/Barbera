@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CartActivity">
-
+    android:background="@color/background"
+    tools:context=".Services.CartActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="20dp"
-        app:cardBackgroundColor="@color/CartBlack">
+        app:cardBackgroundColor="@color/CartBlack"
+        app:cardElevation="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:text="My Cart"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-         <!--   <ProgressBar
-                android:id="@+id/progressBarOnMyCart"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@color/white"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20sp"
-                android:visibility="invisible" />-->
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="27dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="25dp"
+                android:src="@drawable/ic_add_to_cart" />
+
+            <!--   <ProgressBar
+                   android:id="@+id/progressBarOnMyCart"
+                   style="?android:attr/progressBarStyle"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                   android:background="@color/white"
+                   android:layout_centerVertical="true"
+                   android:layout_marginRight="20sp"
+                   android:visibility="invisible" />-->
 
         </RelativeLayout>
 
@@ -47,32 +54,77 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_above="@+id/cart_total_amount_layout"-->
+    <!--        android:text="Save cart"-->
+    <!--        android:id="@+id/save_cart"/>-->
 
     <RelativeLayout
         android:id="@+id/cart_total_amount_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true">
-        <TextView
-            android:id="@+id/total_cart_amount"
+
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Rs 111"
-            android:textStyle="bold"
-            android:textColor="@color/colorAccent"
-            android:padding="15dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="20sp"
-            android:layout_centerVertical="true" />
-        <Button
-            android:id="@+id/continue_from_cart_button"
-            android:layout_width="200sp"
-            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="10dp"
+            app:cardBackgroundColor="@color/blackGray"
+            app:cardCornerRadius="30dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/total_cart_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/Total_cart_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@color/colorAccent"
-            android:textColor="@color/white"
-            android:text="Continue"/>
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="@color/blackGray"
+            app:cardCornerRadius="30dp">
+
+            <Button
+                android:id="@+id/continue_from_cart_button"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@color/Transparent"
+                android:shadowRadius="20"
+                android:text="Continue"
+                android:textColor="@color/white" />
+        </androidx.cardview.widget.CardView>
+
 
     </RelativeLayout>
 
@@ -80,45 +132,49 @@
         android:id="@+id/cart_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cardView"
-        android:layout_above="@id/cart_total_amount_layout"/>
+        android:layout_above="@id/cart_total_amount_layout"
+        android:layout_below="@id/cardView" />
 
     <RelativeLayout
         android:id="@+id/empty_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cardView"
         android:layout_above="@id/cart_total_amount_layout"
+        android:layout_below="@id/cardView"
         android:visibility="invisible">
 
         <ImageView
             android:id="@+id/sad_emoji"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/empty_cart_vector"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="200dp"/>
+            android:layout_marginTop="200dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/empty_cart" />
+
         <TextView
             android:id="@+id/empty_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nothing In Cart"
             android:layout_below="@id/sad_emoji"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:textSize="25sp"/>
+            android:text="Your Cart is\n  Empty :/"
+            android:textColor="@color/white"
+            android:textSize="22.5sp"
+            android:textStyle="normal" />
+
         <Button
             android:id="@+id/add_a_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add now"
-            android:background="@color/colorAccent"
-            android:textColor="@color/white"
+            android:layout_marginTop="80dp"
             android:layout_below="@id/empty_text"
             android:layout_centerHorizontal="true"
-            android:layout_margin="30dp"/>
-
+            android:text="Let's get styled"
+            android:textColor="@color/white"
+            android:background="@color/CartBlack"
+            android:textSize="17.5dp"
+            android:textStyle="normal" />
 
     </RelativeLayout>
 

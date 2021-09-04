@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.barbera.barberaconsumerapp"
         minSdkVersion 23
-        targetSdkVersion 29
-        versionCode 16
-        versionName "2.6.20"
+        targetSdkVersion 30
+        versionCode 23
+        versionName "3.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,7 +28,18 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    def room_version = "2.3.0"
+    def lifecycle_version = "2.3.1"
+    def uploadServiceVersion = "3.5.2"
 
+    implementation "net.gotev:uploadservice:$uploadServiceVersion"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
@@ -60,4 +71,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
 
+    // Circular images
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
+    implementation 'com.github.mmoamenn:LuckyWheel_Android:0.3.0'
 }

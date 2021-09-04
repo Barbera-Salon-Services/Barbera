@@ -29,12 +29,12 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(dbQueries.slideModelList.size()==0)
-         dbQueries.loadslideModelList();
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-            whetherNewOrOldUser();
-        }
-        else
+//        if(dbQueries.slideModelList.size()==0)
+//         dbQueries.loadslideModelList();
+//        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+//            whetherNewOrOldUser();
+//        }
+//        else
             sendToSecondActivity();
     }
 
@@ -43,34 +43,10 @@ public class SplashActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this,SecondScreen.class));
+                startActivity(new Intent(SplashActivity.this,ActivityPhoneVerification.class));
                 finish();
             }
-        },5000);
+        },3000);
     }
-    private void whetherNewOrOldUser() {
 
-        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()){
-                    CartActivity.updateCartItemModelList();
-                    sendToMainActivity();
-                }
-                else
-                    sendToSignUPActivity();
-            }
-        });
-    }
-    private void sendToSignUPActivity() {
-        Intent intent=new Intent(SplashActivity.this,SignUpActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    private void sendToMainActivity(){
-        Intent intent=new Intent(SplashActivity.this,MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }

@@ -14,9 +14,9 @@ import java.util.List;
 
 public class CategoryAdapter extends BaseAdapter {
 
-    private List<CategoryDesign> list;
+    private List<String> list;
 
-    public CategoryAdapter(List<CategoryDesign> list) {
+    public CategoryAdapter(List<String> list) {
         this.list = list;
     }
 
@@ -52,9 +52,9 @@ public class CategoryAdapter extends BaseAdapter {
         ImageView img=view.findViewById(R.id.category_image);
         TextView text=view.findViewById(R.id.category_text);
 
-        Glide.with(view.getContext()).load(list.get(position).getCategoryIcon())
+        Glide.with(view.getContext()).load(list.get(position))
                 .apply(new RequestOptions().placeholder(R.drawable.logo)).into(img);
-        text.setText(list.get(position).getCategoryName());
+        text.setText(list.get(position));
         return view;
     }
 }

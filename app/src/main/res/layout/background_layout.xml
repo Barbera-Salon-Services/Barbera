@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="350dp"
+        android:layout_height="350dp">
+
+        <RelativeLayout
+            android:id="@+id/rlBig"
+            android:layout_width="250dp"
+            android:layout_height="260dp"
+
+            android:layout_centerInParent="true">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/bigImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:visibility="invisible" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/northwest"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/orange" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/southeast"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/twitter" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/southwest"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/call" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/northeast"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/web1" />
+
+        </RelativeLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/right"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="-15dp"
+            android:layout_toRightOf="@+id/rlBig"
+            android:background="@drawable/green" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/left"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-15dp"
+            android:layout_toLeftOf="@+id/rlBig"
+            android:background="@drawable/instagram" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/top"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/rlBig"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-15dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/bottom"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/rlBig"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-10dp"
+            android:background="@drawable/mail" />
+    </RelativeLayout>
+</LinearLayout>

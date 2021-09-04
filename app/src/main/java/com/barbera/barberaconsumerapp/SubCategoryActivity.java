@@ -1,13 +1,12 @@
 package com.barbera.barberaconsumerapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,17 +14,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.barbera.barberaconsumerapp.Utils.ServiceItem;
+import com.barbera.barberaconsumerapp.Utils.TypeList;
+import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
+import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceService;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class SubCategoryActivity extends AppCompatActivity {
     private ListView sublistview;
@@ -37,7 +39,7 @@ public class SubCategoryActivity extends AppCompatActivity {
     private String collecton;
     private List<String> subCategoryList=new ArrayList<>();
     private SubCategoryAdapter subCategoryAdapter;
-    private String serViceType;
+    private String serViceType,token;
     private String subCategoryImage;
 
     @Override
@@ -62,6 +64,10 @@ public class SubCategoryActivity extends AppCompatActivity {
         cartAndBookLayout.setVisibility(View.GONE);
         cart.setVisibility(View.GONE);
 
+        Retrofit retrofit = RetrofitClientInstanceService.getRetrofitInstance();
+        JsonPlaceHolderApi2 jsonPlaceHolderApi2=retrofit.create(JsonPlaceHolderApi2.class);
+        SharedPreferences preferences=getSharedPreferences("Token",MODE_PRIVATE);
+        token = preferences.getString("token","no");
 
       /* cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,19 +89,33 @@ public class SubCategoryActivity extends AppCompatActivity {
 
         if(subCategoryList.size()==0){
             progressBarOnSubCategory.setVisibility(View.VISIBLE);
-            FirebaseFirestore.getInstance().collection(collecton).document(Category).collection("SubCategories").get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot documentSnapshot:task.getResult()) {
-                                    subCategoryList.add(documentSnapshot.getId());
-                                }
-                                sublistview.setAdapter(subCategoryAdapter);
-                                progressBarOnSubCategory.setVisibility(View.INVISIBLE);
+            Call<TypeList> call=jsonPlaceHolderApi2.getSubTypes(salontype,new ServiceItem(null,0,0,null,0,null,Category,
+                    false,null,false,null,null));
+            call.enqueue(new Callback<TypeList>() {
+                @Override
+                public void onResponse(Call<TypeList> call, Response<TypeList> response) {
+                    if(response.code()==200){
+                        TypeList serviceList=response.body();
+                        List<String> list=serviceList.getTypeList();
+                            for(String item:list){
+                                subCategoryList.add(item);
                             }
-                        }
-                    });
+                            sublistview.setAdapter(subCategoryAdapter);
+                            progressBarOnSubCategory.setVisibility(View.INVISIBLE);
+
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Could not load services",Toast.LENGTH_SHORT).show();
+                        progressBarOnSubCategory.setVisibility(View.INVISIBLE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TypeList> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    progressBarOnSubCategory.setVisibility(View.INVISIBLE);
+                }
+            });
         }
         sublistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -110,8 +130,5 @@ public class SubCategoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 }

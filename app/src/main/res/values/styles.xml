@@ -5,7 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-       <!-- <item name="android:textViewStyle">@style/Textfont</item>-->
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+        <!-- <item name="android:textViewStyle">@style/Textfont</item>-->
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -36,5 +37,45 @@
         <item name="android:fontFamily">serif-monospace</item>
     </style>
 
+    <style name="ProfilePageButton">
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="background">@color/Transparent</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="profilePageCardView">
+        <item name="cardBackgroundColor">#00D9D8D6</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">70dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="specialOfferImage">
+        <item name="cornerSizeTopLeft">20%</item>
+        <item name="cornerSizeBottomLeft">10%</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+    </style>
+
+    <style name="circularCorner">
+        <item name="cornerSize">20%</item>
+    </style>
+
+    <style name="cardview"
+        parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSizeBottomLeft">30dp</item>
+        <item name="cornerSizeTopLeft">90dp</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+    </style>
+
+    <style name="roundEdges">
+        <item name="cornerSize">15%</item>
+    </style>
 
 </resources>

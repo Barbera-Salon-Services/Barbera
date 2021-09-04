@@ -1,39 +1,18 @@
 package com.barbera.barberaconsumerapp.Utils;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.barbera.barberaconsumerapp.BookingPage;
-import com.barbera.barberaconsumerapp.CartActivity;
-import com.barbera.barberaconsumerapp.CheckedModel;
-import com.barbera.barberaconsumerapp.ParlourActivity;
 import com.barbera.barberaconsumerapp.R;
-import com.barbera.barberaconsumerapp.SecondScreen;
 import com.barbera.barberaconsumerapp.Service;
-import com.barbera.barberaconsumerapp.dbQueries;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
 
@@ -80,7 +59,7 @@ public class MehendiAdapter extends BaseAdapter{
             TextView price = view.findViewById(R.id.service_fragement_price);
             TextView cutPrice=view.findViewById(R.id.service_fragement_cut_price);
             TextView detail = view.findViewById(R.id.details);
-            final CheckBox checkBox=view.findViewById(R.id.service_fragement_check_box);
+//            final CheckBox checkBox=view.findViewById(R.id.service_fragement_check_box);
             TextView time=view.findViewById(R.id.service_fragement_time);
             ImageView timeImage=view.findViewById(R.id.timer);
             View line=view.findViewById(R.id.line);

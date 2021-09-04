@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9F9F1"
-    tools:context=".ReferAndEarn">
+    tools:context=".Profile.ReferAndEarn">
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewINMyCoupons"
         android:layout_width="match_parent"
