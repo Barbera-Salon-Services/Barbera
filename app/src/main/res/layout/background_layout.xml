@@ -27,32 +27,28 @@
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/orange" />
+                android:layout_marginTop="10dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/southeast"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/twitter" />
+                android:layout_alignParentRight="true" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/southwest"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/call" />
+                android:layout_alignParentBottom="true" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/northeast"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/web1" />
+                android:layout_alignParentBottom="true"/>
 
         </RelativeLayout>
 
@@ -62,8 +58,7 @@
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="-15dp"
-            android:layout_toRightOf="@+id/rlBig"
-            android:background="@drawable/green" />
+            android:layout_toRightOf="@+id/rlBig"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/left"
@@ -71,8 +66,7 @@
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="-15dp"
-            android:layout_toLeftOf="@+id/rlBig"
-            android:background="@drawable/instagram" />
+            android:layout_toLeftOf="@+id/rlBig"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/top"
@@ -88,7 +82,6 @@
             android:layout_height="50dp"
             android:layout_below="@+id/rlBig"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-10dp"
-            android:background="@drawable/mail" />
+            android:layout_marginTop="-10dp" />
     </RelativeLayout>
 </LinearLayout>

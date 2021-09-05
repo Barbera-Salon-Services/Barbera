@@ -2,6 +2,8 @@ package com.barbera.barberaconsumerapp.Utils;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Offer {
     @SerializedName("serviceId")
     private String serviceId;
@@ -19,8 +21,10 @@ public class Offer {
     private String start;
     @SerializedName("end")
     private String end;
+    @SerializedName("service")
+    private ServiceItem serviceItem;
 
-    public Offer(String serviceId, String name, int discount, int user_limit, String terms, String image, String start, String end) {
+    public Offer(String serviceId, String name, int discount, int user_limit, String terms, String image, String start, String end,ServiceItem serviceItem) {
         this.serviceId = serviceId;
         this.name = name;
         this.discount = discount;
@@ -29,6 +33,11 @@ public class Offer {
         this.image = image;
         this.start = start;
         this.end = end;
+        this.serviceItem=serviceItem;
+    }
+
+    public ServiceItem getServiceItem() {
+        return serviceItem;
     }
 
     public String getServiceId() {

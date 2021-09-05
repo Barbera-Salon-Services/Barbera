@@ -21,6 +21,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barbera.barberaconsumerapp.Bookings.BarberDetailDialog;
 import com.barbera.barberaconsumerapp.Bookings.BookingsActivity;
 import com.barbera.barberaconsumerapp.Profile.ProfileActivity;
 import com.barbera.barberaconsumerapp.Profile.ReferAndEarn;
@@ -28,6 +29,7 @@ import com.barbera.barberaconsumerapp.Services.CartActivity;
 import com.barbera.barberaconsumerapp.Services.CartAdapter;
 import com.barbera.barberaconsumerapp.Services.GridAdapter;
 import com.barbera.barberaconsumerapp.Services.HomeActivityTopImageViewAdapter;
+import com.barbera.barberaconsumerapp.Services.OfferDetailDialog;
 import com.barbera.barberaconsumerapp.Services.ServiceType;
 import com.barbera.barberaconsumerapp.Services.SliderAdapter;
 import com.barbera.barberaconsumerapp.Services.WeddingPackageAdapter;
@@ -93,7 +95,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     private TextView menText1, menText2, menText3, menText4, menText5, menText6, menText7;
     private ImageView women1, women2, women3, women4, women5, women6, women7, women8, women9;
     private TextView womenText1, womenText2, womenText3, womenText4, womenText5, womenText6, womenText7, womenText8, womenText9;
-    private TextView topText1, topText2, topText3, topText4, topText5;
+    private TextView topText1, topText2, topText3, topText4, topText5,animText;
     private LinearLayout ll1, ll2, ll3, ll4, ll5, third_women, progress_home, third_men;
     private String cat1, cat2, cat3, cat4, cat5;
     private String typ1, typ2, typ3, typ4, typ5;
@@ -140,13 +142,15 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         NumberOnCartMain = (TextView) findViewById(R.id.numberOfCartMain);
         Cart = (ImageView) findViewById(R.id.cart);
 
-
-        //accessing top image
-
         anim1 = findViewById(R.id.top);
-        // Glide.with(HomeActivity.this).load(R.drawable.bar + "?" + new Date().getTime()).into(anim1);
-        anim1.setImageResource(R.drawable.bar);
-
+        anim2=findViewById(R.id.northwest);
+        anim3=findViewById(R.id.left);
+        anim4=findViewById(R.id.southwest);
+        anim5=findViewById(R.id.bottom);
+        anim6=findViewById(R.id.northeast);
+        anim7=findViewById(R.id.right);
+        anim8=findViewById(R.id.southeast);
+        animText=findViewById(R.id.anim_text);
 
         top1 = findViewById(R.id.different_section_images1);
         top2 = findViewById(R.id.different_section_images2);
@@ -209,8 +213,10 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
         centerImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Clicked for id: " + images.get(indexCLicked).getName(), Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Clicked for id:" + indexCLicked);
+                OfferDetailDialog off = new OfferDetailDialog(images.get(indexCLicked).getName(),images.get(indexCLicked).getTerms(),images.get(indexCLicked).getImage(),
+                        images.get(indexCLicked).getServiceId(),50,"Mens section",10/*images.get(indexCLicked).getServiceItem().getPrice(),images.get(indexCLicked).getServiceItem().getType(),images.get(indexCLicked).getServiceItem().getTime()*/);
+                off.show(getSupportFragmentManager(),"true");
+                off.setCancelable(true);
             }
         });
 
@@ -656,8 +662,34 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
             public void onResponse(Call<OfferList> call, Response<OfferList> response) {
                 if (response.code() == 200) {
                     List<Offer> list = response.body().getList();
+                    int ind=0;
                     for (Offer offer : list) {
                         images.add(offer);
+                        if(ind==0){
+                            Glide.with(HomeActivity.this).load(offer.getImage()+"?" + new Date().getTime()).into(anim1);
+                        }
+                        else if(ind==1){
+                            Glide.with(HomeActivity.this).load(offer.getImage()+"?" + new Date().getTime()).into(anim2);
+                        }
+                        else if(ind==2){
+                            Glide.with(HomeActivity.this).load(offer.getImage()+"?" + new Date().getTime()).into(anim3);
+                        }
+                        else if(ind==3){
+                            Glide.with(HomeActivity.this).load(offer.getImage()+"?" + new Date().getTime()).into(anim4);
+                        }
+                        else if(ind==4){
+                            Glide.with(HomeActivity.this).load(offer.getImage()+"?" + new Date().getTime()).into(anim5);
+                        }
+                        else if(ind==5){
+                            Glide.with(HomeActivity.this).load(offer.getImage()+"?" + new Date().getTime()).into(anim6);
+                        }
+                        else if(ind==6){
+                            Glide.with(HomeActivity.this).load(offer.getImage()+"?" + new Date().getTime()).into(anim7);
+                        }
+                        else if(ind==7){
+                            Glide.with(HomeActivity.this).load(offer.getImage()+"?" + new Date().getTime()).into(anim8);
+                        }
+                        ind++;
                     }
                     startAnimation();
                 } else {
@@ -698,6 +730,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
             public void run() {
                 //centerImage.setImageResource(Integer.parseInt(images.get(i).getImage()));
                 Glide.with(HomeActivity.this).load(images.get(i).getImage() + "?" + new Date().getTime()).into(centerImage);
+                animText.setText(images.get(i).getName());
                 indexCLicked = i;
                 i++;
                 if (i >= images.size()) {

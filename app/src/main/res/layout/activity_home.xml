@@ -315,17 +315,15 @@
                     android:layout_marginStart="100dp"
                     android:layout_marginTop="100dp"
                     android:layout_marginEnd="100dp"
-                    android:layout_marginBottom="100dp"
-                    android:src="@drawable/call" />
+                    android:layout_marginBottom="100dp" />
 
                 <TextView
                     android:id="@+id/anim_text"
-                    android:layout_width="50dp"
+                    android:layout_width="150dp"
                     android:layout_height="50dp"
+                    android:layout_marginStart="100dp"
                     android:layout_marginTop="250dp"
-                    android:layout_marginStart="150dp"
-                    android:layout_marginEnd="150dp"
-                    android:text="dsndnoef"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </RelativeLayout>

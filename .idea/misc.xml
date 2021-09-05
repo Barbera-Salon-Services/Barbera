@@ -5,10 +5,11 @@
       <map>
         <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/background_layout.xml" value="0.15489130434782608" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/barber_detail_dialog.xml" value="0.1" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/new_service_piece.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/offer_details.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2859375" />
         <entry key="app/src/main/res/layout/activity_verification.xml" value="0.1322463768115942" />
-        <entry key="app/src/main/res/layout/background_layout.xml" value="0.36096014492753625" />
       </map>
     </option>
   </component>
