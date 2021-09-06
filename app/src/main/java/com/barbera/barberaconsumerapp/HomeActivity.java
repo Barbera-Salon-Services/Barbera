@@ -114,7 +114,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
     List<Offer> images;
     Handler rotateHandler, imageHandler;
     Runnable rotateRunnable, imageRunnable;
-    int time = 7000;
+    int time = 32000;
     int indexCLicked = 0;
     private static final String TAG = "Atreyee";
 //    // Lucky wheel

@@ -48,12 +48,12 @@ public class OfferDetailDialog extends AppCompatDialogFragment {
         builder.setView(view).setTitle("Offer details");
 
         offer_details=view.findViewById(R.id.offerDetails);
-        offer_name=view.findViewById(R.id.offerName);
+        //offer_name=view.findViewById(R.id.offerName);
         image=view.findViewById(R.id.offerImage);
         book=view.findViewById(R.id.offer_book);
 
         Glide.with(OfferDetailDialog.this).load(img+"?" + new Date().getTime()).into(image);
-        offer_name.setText(name);
+        //offer_name.setText(name);
         det=det.replaceAll("/n","\n");
         offer_details.setText(det);
 
