@@ -82,7 +82,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:padding="10dp"
-                        android:text="Confirmation mail is sent to your Email Id"
                         android:textColor="@color/white"
                         android:textSize="17sp"
                         android:paddingBottom="40dp"

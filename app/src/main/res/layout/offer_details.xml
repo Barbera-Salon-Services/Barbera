@@ -13,7 +13,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FFD700"
+        android:backgroundTint="#e47b94"
         app:cardCornerRadius="10dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:backgroundTint="#EEBC1D"
+                        android:backgroundTint="#801B23"
                         android:layout_margin="10dp"
                         app:cardCornerRadius="50dp">
             <TextView
@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:backgroundTint="#EEBC1D"
+                        android:backgroundTint="#801B23"
                         android:layout_margin="10dp"
                         app:cardCornerRadius="50dp">
                     <TextView

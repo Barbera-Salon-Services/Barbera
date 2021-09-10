@@ -171,7 +171,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                         Time = serviceList.get(position).getTime();
                         amount = serviceList.get(position).getPrice();
                         List<CartItemModel> list = new ArrayList<>();
-                        list.add(new CartItemModel(null, null, 0, null, 1, Time, serviceList.get(position).getId(), false, null));
+                        list.add(new CartItemModel(null, null, 0, null, 1, Time, serviceList.get(position).getId(), false, null,""));
                         //BookingPage.BookingTotalAmount = amount;
                         Intent intent = new Intent(con, BookingPage.class);
                         intent.putExtra("Booking Amount", amount);

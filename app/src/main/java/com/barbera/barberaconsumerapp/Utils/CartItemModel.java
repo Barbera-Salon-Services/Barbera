@@ -24,9 +24,11 @@ public class CartItemModel implements Serializable {
     private String id;
     @SerializedName("flow")
     private boolean flow;
+    @SerializedName("offerName")
+    private String offerName;
 
     public CartItemModel(String imageId, String serviceName, int servicePrice, String category,
-                         int quantity, int time,String id,boolean flow,String type) {
+                         int quantity, int time,String id,boolean flow,String type,String offerName) {
         ImageId = imageId;
         ServiceName = serviceName;
         ServicePrice =  servicePrice;
@@ -36,6 +38,11 @@ public class CartItemModel implements Serializable {
         this.id=id;
         this.flow=flow;
         this.type=type;
+        this.offerName=offerName;
+    }
+
+    public String getOfferName() {
+        return offerName;
     }
 
     public String getCategory() {

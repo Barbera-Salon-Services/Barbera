@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/activity_congratulations_page.xml" value="0.12" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/activity_edit_profile.xml" value="0.1" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/activity_my_coupons.xml" value="0.1" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/background_layout.xml" value="0.15489130434782608" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/barber_detail_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/cart_item_layout.xml" value="0.17889492753623187" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/new_service_piece.xml" value="0.1" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/Barbera/app/src/main/res/layout/offer_details.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2859375" />

@@ -94,7 +94,7 @@ public class CartActivity extends AppCompatActivity {
                         for(CartItemModel itemModel:list) {
                             //Log.d("yo",itemModel.getType());
                             dbQueries.cartItemModelList.add(new CartItemModel(null,itemModel.getServiceName(),itemModel.getServicePrice(),
-                                    itemModel.getCategory(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId(),false,itemModel.getType()));
+                                    itemModel.getCategory(),itemModel.getQuantity(),itemModel.getTime(),itemModel.getId(),false,itemModel.getType(),itemModel.getOfferName()));
                             totalAmount+=(itemModel.getQuantity()*itemModel.getServicePrice());
                             quantity+=itemModel.getQuantity();
                         }

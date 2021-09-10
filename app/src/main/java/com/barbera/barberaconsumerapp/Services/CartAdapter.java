@@ -122,7 +122,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             increaseIncart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,true,null),"Bearer "+token);
+                    Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,true,null,null),"Bearer "+token);
                     call.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
@@ -155,8 +155,8 @@ public class CartAdapter extends RecyclerView.Adapter {
 //                    dbQueries.cartItemModelList.get(position).setQuantity(dbQueries.cartItemModelList.get(position).getQuantity()-1);
 //                    updateQuantity(position);
 
-                    if (dbQueries.cartItemModelList.get(position).getQuantity() == 1) {
-                        Call<SuccessReturn> call = jsonPlaceHolderApi2.deleteFromCart(id,"Bearer "+token);
+                    if (dbQueries.cartItemModelList.get(position).getQuantity() <= 1) {
+                        Call<SuccessReturn> call = jsonPlaceHolderApi2.deleteFromCart(id.replaceAll(" ","_"),"Bearer "+token);
                         call.enqueue(new Callback<SuccessReturn>() {
                             @Override
                             public void onResponse(Call<SuccessReturn> call, Response<SuccessReturn> response) {
@@ -182,7 +182,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                             }
                         });
                     } else {
-                        Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,false,null),"Bearer "+token);
+                        Call<Void> call=jsonPlaceHolderApi2.updateQuantity(new CartItemModel(null,null,0,null,0,0,id,false,null,null),"Bearer "+token);
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -218,7 +218,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                         int time=0,amount=0;
                         List<CartItemModel> list=new ArrayList<>();
                         for (int i = 0; i < dbQueries.cartItemModelList.size(); i++) {
-                            list.add(new CartItemModel(null,null,dbQueries.cartItemModelList.get(i).getServicePrice(),null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId(),false,null));
+                            list.add(new CartItemModel(null,null,dbQueries.cartItemModelList.get(i).getServicePrice(),null,dbQueries.cartItemModelList.get(i).getQuantity(),0,dbQueries.cartItemModelList.get(i).getId().split(",")[0],false,null,dbQueries.cartItemModelList.get(i).getOfferName()));
                             OrderSummary += "(" + dbQueries.cartItemModelList.get(i).getType() + ")" +
                                     dbQueries.cartItemModelList.get(i).getServiceName()
                                     + "(" + dbQueries.cartItemModelList.get(i).getQuantity() + ")" + "\t\t\t\t" + "Rs" +

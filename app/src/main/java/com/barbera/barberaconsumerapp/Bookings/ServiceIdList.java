@@ -17,6 +17,7 @@ public class ServiceIdList {
     @SerializedName("couponName")
     private String couponName;
 
+
     public ServiceIdList(List<CartItemModel> list, String id,String slot,int totalPrice,String couponName) {
         this.list = list;
         this.id = id;

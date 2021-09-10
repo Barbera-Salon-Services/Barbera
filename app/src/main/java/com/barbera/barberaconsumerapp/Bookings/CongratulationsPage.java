@@ -21,11 +21,15 @@ public class CongratulationsPage extends AppCompatActivity {
         Intent intent=getIntent();
         int totalAmount=intent.getIntExtra("Booking Amount",0);
         String summary=intent.getStringExtra("Order Summary");
+        String date=intent.getStringExtra("date");
+
         CardView backtohome=(CardView) findViewById(R.id.backtoHome);
         TextView finalSummary=(TextView)findViewById(R.id.finalSummary);
         TextView finalAmount=(TextView)findViewById(R.id.finalPageAmount);
         TextView finalDateTime=(TextView)findViewById(R.id.finalPagedate);
+        TextView confirmation=findViewById(R.id.accepted);
 
+        confirmation.setText("A barber will reach your doorstep on "+date);
         finalDateTime.setText(BookingPage.finalDate+"\t\t\t\t\t"+BookingPage.finalTime);
 
         finalAmount.setText("Total Rs "+totalAmount);
