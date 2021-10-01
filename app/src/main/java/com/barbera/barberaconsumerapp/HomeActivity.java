@@ -215,7 +215,7 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
             public void onClick(View v) {
                 OfferDetailDialog off = new OfferDetailDialog(images.get(indexCLicked).getName(),images.get(indexCLicked).getTerms(),images.get(indexCLicked).getImage(),
                         images.get(indexCLicked).getServiceId(),images.get(indexCLicked).getServiceItem().getPrice(),images.get(indexCLicked).getServiceItem().getType(),
-                        images.get(indexCLicked).getServiceItem().getTime(),images.get(indexCLicked).getDiscount());
+                        images.get(indexCLicked).getServiceItem().getTime(),images.get(indexCLicked).getDiscount(),images.get(indexCLicked).getStart(),images.get(indexCLicked).getEnd());
                 off.show(getSupportFragmentManager(),"true");
                 off.setCancelable(true);
             }

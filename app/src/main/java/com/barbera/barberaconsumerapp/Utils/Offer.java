@@ -18,13 +18,13 @@ public class Offer {
     @SerializedName("image")
     private String image;
     @SerializedName("start")
-    private String start;
+    private int start;
     @SerializedName("end")
-    private String end;
+    private int end;
     @SerializedName("service")
     private ServiceItem serviceItem;
 
-    public Offer(String serviceId, String name, int discount, int user_limit, String terms, String image, String start, String end,ServiceItem serviceItem) {
+    public Offer(String serviceId, String name, int discount, int user_limit, String terms, String image, int start, int end,ServiceItem serviceItem) {
         this.serviceId = serviceId;
         this.name = name;
         this.discount = discount;
@@ -64,11 +64,11 @@ public class Offer {
         return image;
     }
 
-    public String getStart() {
+    public int getStart() {
         return start;
     }
 
-    public String getEnd() {
+    public int getEnd() {
         return end;
     }
 }

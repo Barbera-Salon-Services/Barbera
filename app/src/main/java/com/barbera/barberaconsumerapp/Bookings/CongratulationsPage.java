@@ -28,8 +28,24 @@ public class CongratulationsPage extends AppCompatActivity {
         TextView finalAmount=(TextView)findViewById(R.id.finalPageAmount);
         TextView finalDateTime=(TextView)findViewById(R.id.finalPagedate);
         TextView confirmation=findViewById(R.id.accepted);
+        String x=BookingPage.finalTime;
+        int y=Integer.parseInt(x.split(":")[0]);
+        String a,b;
+        if(y>=12){
+            a="pm";
+        }
+        else{
+            a="am";
+        }
+        y++;
+        if(y>=12){
+            b="pm";
+        }
+        else{
+            b="am";
+        }
 
-        confirmation.setText("A barber will reach your doorstep on "+date);
+        confirmation.setText("The service person will reach at your place on "+date+" between "+BookingPage.finalTime+a+" to "+y+":00"+b);
         finalDateTime.setText(BookingPage.finalDate+"\t\t\t\t\t"+BookingPage.finalTime);
 
         finalAmount.setText("Total Rs "+totalAmount);

@@ -52,6 +52,7 @@
                 tools:text="4" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/refer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -299,11 +300,17 @@
                 app:delay="0"
                 app:period="2000"
                 app:placeholder="@color/CartBlack" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/offers_title"
+                android:text="Special Offers"
+                android:textColor="@color/white"
+                android:textSize="25dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <include
                     android:id="@+id/circularLayout"
                     layout="@layout/background_layout" />
