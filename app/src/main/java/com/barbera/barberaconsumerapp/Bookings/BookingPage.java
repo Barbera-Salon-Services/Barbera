@@ -392,6 +392,11 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
         OrderSummary = intent.getStringExtra("Order Summary");
         serviceTime = intent.getIntExtra("Time",0);
         sidlist = (List<CartItemModel>) intent.getSerializableExtra("sidlist");
+        HashMap<String, Integer> mp=new HashMap<>(),mp1=new HashMap<>();
+        for(CartItemModel cartItemModel:sidlist){
+            mp.put(cartItemModel.getId(),cartItemModel.getQuantity());
+            mp1.put(cartItemModel.getId(),cartItemModel.getServicePrice());
+        }
         Log.d("Order", OrderSummary + "  " + serviceTime);
         curAmount=BookingTotalAmount;
 
@@ -1405,7 +1410,8 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 //                                    }
 //                                }
 //                            }
-                            curAmount=BookingTotalAmount-item.getDiscount();
+                            curAmount=BookingTotalAmount-(mp.get(couponServiceId)*mp1.get(couponServiceId)*item.getDiscount())/100;
+                            Log.d("details",mp.get(couponServiceId)+" "+mp1.get(couponServiceId)+" "+item.getDiscount());
                             //Log.d("price",curAmount+"");
                             progressDialog.dismiss();
                             couponInfo.setVisibility(View.VISIBLE);

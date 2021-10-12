@@ -77,6 +77,7 @@ public class OfferDetailDialog extends AppCompatDialogFragment {
         Calendar cal=Calendar.getInstance();
         int dt= cal.get(Calendar.DAY_OF_WEEK);
         dt--;
+        if(dt==0) dt=7;
         //Toast.makeText(getContext(), dt+" "+start+" "+end, Toast.LENGTH_SHORT).show();
         if(!(dt<=end && dt>=start)){
             //Toast.makeText(getContext(),"Start:"+start+" end:"+end+" cur:"+dt,Toast.LENGTH_SHORT).show();
@@ -112,9 +113,9 @@ public class OfferDetailDialog extends AppCompatDialogFragment {
                     String ordersummary = "";
                     ordersummary += "(" + type + ")" + name + "\t\t\tRs" + price + "\n";
                     List<CartItemModel> list = new ArrayList<>();
-                    list.add(new CartItemModel(null, null, 0, null, 1, time, id, false, null,name));
+                    list.add(new CartItemModel(null, null, price, null, 1, time, id, false, null,name));
                     Intent intent = new Intent(getActivity(), BookingPage.class);
-                    intent.putExtra("Booking Amount", (price*(100-discount))/100);
+                    intent.putExtra("Booking Amount", price-(discount*price)/100);
                     intent.putExtra("BookingType", "direct");
                     intent.putExtra("Order Summary", ordersummary);
                     intent.putExtra("Time", time);
