@@ -38,13 +38,17 @@ import androidx.core.app.ActivityCompat;
 import com.barbera.barberaconsumerapp.network_aws.JsonPlaceHolderApi2;
 import com.barbera.barberaconsumerapp.network_aws.Register;
 import com.barbera.barberaconsumerapp.network_aws.RetrofitClientInstanceUser;
+import com.barbera.barberaconsumerapp.sms.MySMSBroadcastReceiver;
 import com.barbera.barberaconsumerapp.sms.SmsReceiver;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -148,7 +152,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 //                autoReadOTP();
             }
         });
-        new SmsReceiver().setEditText(otpView);
+        //new SmsReceiver().setEditText(otpView);
+        new MySMSBroadcastReceiver().setEditText(otpView);
         handleAnimation();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -399,6 +404,26 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     phoneNumberOtpView.setVisibility(View.GONE);
                     enterOtpTextView.setVisibility(View.VISIBLE);
                     otpView.setVisibility(View.GONE);
+                    SmsRetrieverClient client = SmsRetriever.getClient(ActivityPhoneVerification.this);
+
+                    Task<Void> task = client.startSmsRetriever();
+
+                    task.addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Successfully started retriever, expect broadcast intent
+                            // ...
+                        }
+                    });
+
+                    task.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Failed to start retriever, inspect Exception for more details
+                            // ...
+                            Toast.makeText(getApplicationContext(),"Could not read sms, please fill manually",Toast.LENGTH_SHORT);
+                        }
+                    });
                     //progressDialog.dismiss();
                 } else {
                     //progressDialog.dismiss();

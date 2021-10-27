@@ -9,8 +9,8 @@ android {
         applicationId "com.barbera.barberaconsumerapp"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 24
-        versionName "3.0.3"
+        versionCode 25
+        versionName "3.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -76,4 +76,8 @@ dependencies {
 
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
     implementation 'com.github.mmoamenn:LuckyWheel_Android:0.3.0'
+
+    //sms retriever
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
 }
