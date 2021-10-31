@@ -152,8 +152,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 //                autoReadOTP();
             }
         });
-        //new SmsReceiver().setEditText(otpView);
-        new MySMSBroadcastReceiver().setEditText(otpView);
+        new SmsReceiver().setEditText(otpView);
+        //new MySMSBroadcastReceiver().setEditText(otpView);
         handleAnimation();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -413,6 +413,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                         public void onSuccess(Void aVoid) {
                             // Successfully started retriever, expect broadcast intent
                             // ...
+                            Toast.makeText(getApplicationContext(), "Message read", Toast.LENGTH_SHORT).show();
                         }
                     });
 

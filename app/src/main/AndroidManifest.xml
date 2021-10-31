@@ -20,11 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-<!--        <receiver android:name=".sms.SmsReceiver">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.provider.Telephony.SMS_RECEIVED" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
+        <receiver android:name=".sms.SmsReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
 
         <receiver android:name=".sms.MySMSBroadcastReceiver" android:exported="true"
             android:permission="com.google.android.gms.auth.api.phone.permission.SEND">

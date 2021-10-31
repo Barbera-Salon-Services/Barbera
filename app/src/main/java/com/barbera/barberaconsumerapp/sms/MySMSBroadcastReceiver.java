@@ -28,7 +28,7 @@ public class MySMSBroadcastReceiver extends BroadcastReceiver {
                     // Get SMS message contents
                     String message = (String) extras.get(SmsRetriever.EXTRA_SMS_MESSAGE);
                     String[] splited = message.split("\\s");
-                    Log.d("ATM", "OTP is: " + splited[0]);
+                    Log.d("Kush", "OTP is: " + splited[0]);
                     editText.setText(splited[0]);
                     // Extract one-time code from the message and complete verification
                     // by sending the code back to your server.
