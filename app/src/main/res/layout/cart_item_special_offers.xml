@@ -168,11 +168,11 @@
                         android:id="@+id/book_now_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="17sp"
                         android:layout_marginStart="12dp"
                         android:text="Book Now"
                         android:textAlignment="center"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"

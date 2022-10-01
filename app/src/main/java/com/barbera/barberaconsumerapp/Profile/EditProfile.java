@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.barbera.barberaconsumerapp.FilePath;
@@ -46,7 +47,8 @@ import retrofit2.Retrofit;
 public class EditProfile extends AppCompatActivity {
     public static boolean FLAG = false;//to call the setimage() function only after shareprefImage() is called
     private static final String TAG = "EditProfile";
-    private EditText editName,editPhone,editEmail,editAddress;
+    private EditText editName,editPhone,editEmail;
+    private TextView editAddress;
     private Button save,uploadProfileImage;
     private static int PICK_IMAGE_REQUEST = 21;
     private static int STORAGE_PERMISSION_CODE = 211;
@@ -174,12 +176,12 @@ public class EditProfile extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode==211){
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this,"Permission granted",Toast.LENGTH_SHORT).show();
-            }
-            else{
-                Toast.makeText(this,"Permission not granted",Toast.LENGTH_SHORT).show();
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 211) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
             }
         }
     }

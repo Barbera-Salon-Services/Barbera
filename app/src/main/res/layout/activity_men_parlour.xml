@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F9F1"
-    tools:context=".MainActivity">
+    android:background="#F9F9F1">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -64,6 +63,5 @@
         android:layout_below="@id/cardView"
         android:paddingBottom="5dp"
         android:scrollbars="none"
-        tools:context=".ParlourActivity">
-    </GridView>
+        tools:context=".ParlourActivity"/>
 </RelativeLayout>

@@ -600,7 +600,6 @@ public class HomeActivity extends AppCompatActivity implements InAppUpdateManage
 //
 //        handleWheelAnimation(55);
         //app update code
-
         inAppUpdateManager = InAppUpdateManager.Builder(this, 101)
                 .resumeUpdates(true)
                 .mode(Constants.UpdateMode.IMMEDIATE)

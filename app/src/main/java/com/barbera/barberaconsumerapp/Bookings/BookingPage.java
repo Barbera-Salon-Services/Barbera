@@ -196,11 +196,9 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
                 finalTime = array[1] + ":00";
                 userAddress = houseAddress.getText().toString();
                 // Toast.makeText(getApplicationContext(),userAddress,Toast.LENGTH_SHORT).show();
-
-
                 //addtoDatabase();
                 //addTosheet();
-//                    progressDialog.dismiss();
+                //progressDialog.dismiss();
                 //Toast.makeText(getApplicationContext(), "sd", Toast.LENGTH_SHORT).show();
                 Retrofit retrofit1= RetrofitClientInstanceBooking.getRetrofitInstance();
                 JsonPlaceHolderApi2 jsonPlaceHolderApi21=retrofit1.create(JsonPlaceHolderApi2.class);
@@ -1410,12 +1408,32 @@ public class BookingPage extends AppCompatActivity implements CheckTermDialog.Ch
 //                                    }
 //                                }
 //                            }
-                            curAmount=BookingTotalAmount-(mp.get(couponServiceId)*mp1.get(couponServiceId)*item.getDiscount())/100;
-                            Log.d("details",mp.get(couponServiceId)+" "+mp1.get(couponServiceId)+" "+item.getDiscount());
+                            int x=0;
+                            if(couponServiceId.equals("all")){
+                                x= (BookingTotalAmount*item.getDiscount())/100;
+                                if(upper<x){
+                                    x=upper;
+                                }
+                                curAmount=BookingTotalAmount-x;
+                            }
+                            else {
+                                String [] str = couponServiceId.split(",");
+                                //Log.d("hih",couponServiceId);
+                                for(int i=0;i<str.length;i++){
+                                    if(mp.containsKey(str[i])){
+                                        x+= (mp.get(str[i]) * mp1.get(str[i]) * item.getDiscount()) / 100;
+                                    }
+                                }
+                                if(upper<x){
+                                    x=upper;
+                                }
+                                curAmount=BookingTotalAmount-x;
+                            }
+                            //Log.d("details",mp.get(couponServiceId)+" "+mp1.get(couponServiceId)+" "+item.getDiscount());
                             //Log.d("price",curAmount+"");
                             progressDialog.dismiss();
                             couponInfo.setVisibility(View.VISIBLE);
-                            couponInfo.setText("You have received a discount of Rs:"+item.getDiscount());
+                            couponInfo.setText("You have been given a Rs."+x+" discount.\nTotal price: "+curAmount);
                         }
                         else{
                             progressDialog.dismiss();
